@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verduurzaming + ESG Rapport — MB Adviesgroep</title>
+<title>Duurzaamheids- & ESG-dossier — MB Adviesgroep</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@400;600;700&display=swap" rel="stylesheet">
 <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
@@ -5311,6 +5311,29 @@ select.finput {
 @media(max-width:720px){.green-metrics,.green-two,.green-sdg-grid{grid-template-columns:1fr;}}
 @media print{#esgSdgSection{page-break-before:always!important;break-before:page!important;page-break-inside:avoid!important;break-inside:avoid!important;padding-top:16mm!important}.green-page{margin-bottom:8pt!important}.green-hero{border-radius:0!important;padding:13pt 15pt!important;margin-bottom:7pt!important}.green-title{font-size:15pt!important}.green-lead{font-size:8.3pt!important;line-height:1.45!important}.green-metrics{grid-template-columns:repeat(4,1fr)!important;gap:5pt!important;margin-top:8pt!important}.green-metrics>div{padding:6pt!important}.green-metrics strong{font-size:12pt!important}.green-metrics em{font-size:6.7pt!important}.green-two{grid-template-columns:1fr 1fr!important;gap:6pt!important;margin-bottom:6pt!important}.green-card{padding:8pt 9pt!important}.green-card-title{font-size:8.5pt!important;margin-bottom:4pt!important}.green-card p,.green-card li{font-size:7.5pt!important;line-height:1.38!important}.green-sdg-grid{grid-template-columns:repeat(4,1fr)!important;gap:5pt!important}.green-sdg{padding:5pt!important}.green-sdg span{width:17pt!important;height:17pt!important;font-size:8pt!important;margin-bottom:3pt!important}.green-sdg strong{font-size:7pt!important}.green-sdg p{font-size:6.6pt!important}.green-risk{padding:4pt 0!important}.green-risk strong{font-size:7.3pt!important}.green-risk span{font-size:7pt!important}.green-haak{font-size:7.2pt!important;padding:5pt 6pt!important;margin-top:5pt!important}}
 
+
+
+/* V6 — Groene paragraaf volledige A4 + stevigere ESG-opbouw */
+.green-full-a4{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:34px 38px 78px;margin:0 0 28px;min-height:980px;position:relative;overflow:hidden;page-break-inside:avoid;break-inside:avoid;}
+.green-full-a4:after{content:'';position:absolute;left:0;right:0;bottom:0;height:62px;background:var(--blue-deep);border-top:3px solid var(--orange)}
+.green-full-kicker{font-size:10px;letter-spacing:2.1px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;font-family:var(--f-head)}
+.green-full-title{font-size:28px;line-height:1.12;color:var(--blue-deep);font-family:var(--f-head);font-weight:800;letter-spacing:-.55px;margin-bottom:8px}
+.green-full-sub{font-size:12.5px;color:var(--ink-3);line-height:1.55;margin-bottom:18px;max-width:650px}
+.green-full-rule{width:52px;height:2px;background:var(--blue-deep);margin:10px 0 18px}
+.green-full-hero{background:linear-gradient(135deg,#123f3a 0%,#1B597B 55%,#2A7A50 100%);color:#fff;border-radius:16px;padding:20px 22px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 7px 24px rgba(19,68,96,.18)}
+.green-full-hero:before{content:'';position:absolute;right:-70px;top:-70px;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.08)}
+.green-full-hero h3{font-size:18px;font-family:var(--f-head);font-weight:800;margin-bottom:8px;position:relative;z-index:1}.green-full-hero p{font-size:11.5px;line-height:1.58;color:rgba(255,255,255,.83);position:relative;z-index:1}
+.green-full-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;position:relative;z-index:1}.green-full-kpis div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px}.green-full-kpis span{display:block;font-size:7.5px;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.56);font-weight:800;margin-bottom:4px}.green-full-kpis strong{font-size:18px;font-family:var(--f-head);font-weight:800;color:#fff}.green-full-kpis small{display:block;font-size:9px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.25}
+.green-full-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;margin-bottom:12px}.green-full-card{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:14px 16px;box-shadow:0 5px 18px rgba(19,68,96,.10)}.green-full-card h4{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid #d5e6ee}.green-full-card p{font-size:10.2px;line-height:1.48;color:var(--ink-2)}.green-full-card ul{margin:6px 0 0 14px}.green-full-card li{font-size:9.6px;line-height:1.35;margin:3px 0;color:var(--ink-2)}
+.green-full-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.green-full-mini{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:12px 13px}.green-full-mini h4{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:7px}.green-full-mini p,.green-full-mini li{font-size:9.2px;line-height:1.35;color:var(--ink-2)}.green-full-mini ul{margin-left:13px}
+.green-full-closing{margin-top:12px;background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));border-radius:12px;color:#fff;padding:13px 15px;font-size:10.5px;line-height:1.4;border-bottom:3px solid var(--orange)}
+.green-full-foot{position:absolute;left:28px;right:28px;bottom:18px;z-index:2;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;color:#fff;font-size:9px;line-height:1.35}.green-full-foot .mid{text-align:center;color:rgba(255,255,255,.6);font-style:italic}.green-full-foot .right{text-align:right;font-weight:700}
+@media print{.green-full-a4{height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:14mm 11mm 22mm!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important}.green-full-a4:after{height:16mm!important}.green-full-kicker{font-size:7pt!important;margin-bottom:4pt!important}.green-full-title{font-size:18pt!important;margin-bottom:4pt!important}.green-full-sub{font-size:8.3pt!important;margin-bottom:7pt!important}.green-full-rule{margin:5pt 0 7pt!important}.green-full-hero{padding:10pt 12pt!important;margin-bottom:7pt!important;border-radius:8pt!important}.green-full-hero h3{font-size:12pt!important;margin-bottom:4pt!important}.green-full-hero p{font-size:7.2pt!important;line-height:1.38!important}.green-full-kpis{gap:5pt!important;margin-top:7pt!important}.green-full-kpis div{padding:5pt!important}.green-full-kpis span{font-size:5.2pt!important}.green-full-kpis strong{font-size:10.5pt!important}.green-full-kpis small{font-size:5.6pt!important}.green-full-grid{gap:6pt!important;margin-bottom:6pt!important}.green-full-card{padding:7pt 8pt!important;border-radius:6pt!important;box-shadow:none!important}.green-full-card h4{font-size:6.1pt!important;margin-bottom:4pt!important;padding-bottom:3pt!important}.green-full-card p{font-size:6.4pt!important;line-height:1.28!important}.green-full-card li{font-size:6pt!important;line-height:1.24!important;margin:2pt 0!important}.green-full-bottom{gap:5pt!important}.green-full-mini{padding:6pt!important;border-radius:6pt!important}.green-full-mini h4{font-size:5.7pt!important;margin-bottom:3pt!important}.green-full-mini p,.green-full-mini li{font-size:5.7pt!important;line-height:1.22!important}.green-full-closing{font-size:6.8pt!important;line-height:1.3!important;padding:7pt!important;margin-top:6pt!important}.green-full-foot{bottom:4mm!important;left:8mm!important;right:8mm!important;font-size:7.2pt!important}.esg-invest-table td{font-size:6.4pt!important;padding:3.5pt!important}.esg-mini-kpi strong{font-size:15pt!important}.esg-full-page .esg-grid-3 .esg-mini-kpi{min-height:auto!important}}
+
+
+/* v8: rechter inhoudsopgave definitief verwijderd */
+.toc-rail, #tocRail { display:none!important; visibility:hidden!important; pointer-events:none!important; }
+
 </style>
 <style>
 /* ═══════════════════════════════════════════════════════
@@ -5928,6 +5951,25 @@ select.finput {
 .green-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.green-tags span{font-size:10px;font-weight:700;color:var(--blue);background:var(--blue-faint);border-radius:999px;padding:4px 8px;font-family:var(--f-head)}
 .green-proof-list{margin-top:4px!important}.green-proof-list li{padding:4px 0;border-bottom:1px solid var(--rule);list-style:none;margin-left:-14px}
 @media print{#esgSdgSection{page-break-before:always!important;break-before:page!important;padding-top:12mm!important}.green-page-v3{min-height:235mm!important;page-break-inside:avoid!important;break-inside:avoid!important}.green-hero-v3{border-radius:6pt!important;padding:12pt 14pt!important;margin-bottom:7pt!important}.green-logo-row{margin-bottom:7pt!important}.green-logo-row img{width:20pt!important;height:20pt!important}.green-logo-row strong{font-size:8pt!important}.green-logo-row span{font-size:6.2pt!important}.green-main-grid,.green-bottom-grid{grid-template-columns:1.25fr .75fr!important;gap:6pt!important;margin-bottom:6pt!important}.green-bottom-grid{grid-template-columns:1fr 1fr!important}.green-tags span{font-size:6.3pt!important;padding:2pt 5pt!important}.green-fin-row{font-size:7.2pt!important;padding:3pt 0!important}.green-fin-row strong{font-size:8.2pt!important}.green-note{font-size:6.6pt!important}.green-proof-list li{font-size:7pt!important;padding:2pt 0!important}.green-card-large p{font-size:7.2pt!important;line-height:1.36!important}.green-page-v3 .green-haak{font-size:7pt!important}}
+
+
+
+/* V6 — Groene paragraaf volledige A4 + stevigere ESG-opbouw */
+.green-full-a4{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:34px 38px 78px;margin:0 0 28px;min-height:980px;position:relative;overflow:hidden;page-break-inside:avoid;break-inside:avoid;}
+.green-full-a4:after{content:'';position:absolute;left:0;right:0;bottom:0;height:62px;background:var(--blue-deep);border-top:3px solid var(--orange)}
+.green-full-kicker{font-size:10px;letter-spacing:2.1px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;font-family:var(--f-head)}
+.green-full-title{font-size:28px;line-height:1.12;color:var(--blue-deep);font-family:var(--f-head);font-weight:800;letter-spacing:-.55px;margin-bottom:8px}
+.green-full-sub{font-size:12.5px;color:var(--ink-3);line-height:1.55;margin-bottom:18px;max-width:650px}
+.green-full-rule{width:52px;height:2px;background:var(--blue-deep);margin:10px 0 18px}
+.green-full-hero{background:linear-gradient(135deg,#123f3a 0%,#1B597B 55%,#2A7A50 100%);color:#fff;border-radius:16px;padding:20px 22px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 7px 24px rgba(19,68,96,.18)}
+.green-full-hero:before{content:'';position:absolute;right:-70px;top:-70px;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.08)}
+.green-full-hero h3{font-size:18px;font-family:var(--f-head);font-weight:800;margin-bottom:8px;position:relative;z-index:1}.green-full-hero p{font-size:11.5px;line-height:1.58;color:rgba(255,255,255,.83);position:relative;z-index:1}
+.green-full-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;position:relative;z-index:1}.green-full-kpis div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px}.green-full-kpis span{display:block;font-size:7.5px;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.56);font-weight:800;margin-bottom:4px}.green-full-kpis strong{font-size:18px;font-family:var(--f-head);font-weight:800;color:#fff}.green-full-kpis small{display:block;font-size:9px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.25}
+.green-full-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;margin-bottom:12px}.green-full-card{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:14px 16px;box-shadow:0 5px 18px rgba(19,68,96,.10)}.green-full-card h4{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid #d5e6ee}.green-full-card p{font-size:10.2px;line-height:1.48;color:var(--ink-2)}.green-full-card ul{margin:6px 0 0 14px}.green-full-card li{font-size:9.6px;line-height:1.35;margin:3px 0;color:var(--ink-2)}
+.green-full-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.green-full-mini{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:12px 13px}.green-full-mini h4{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:7px}.green-full-mini p,.green-full-mini li{font-size:9.2px;line-height:1.35;color:var(--ink-2)}.green-full-mini ul{margin-left:13px}
+.green-full-closing{margin-top:12px;background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));border-radius:12px;color:#fff;padding:13px 15px;font-size:10.5px;line-height:1.4;border-bottom:3px solid var(--orange)}
+.green-full-foot{position:absolute;left:28px;right:28px;bottom:18px;z-index:2;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;color:#fff;font-size:9px;line-height:1.35}.green-full-foot .mid{text-align:center;color:rgba(255,255,255,.6);font-style:italic}.green-full-foot .right{text-align:right;font-weight:700}
+@media print{.green-full-a4{height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:14mm 11mm 22mm!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important}.green-full-a4:after{height:16mm!important}.green-full-kicker{font-size:7pt!important;margin-bottom:4pt!important}.green-full-title{font-size:18pt!important;margin-bottom:4pt!important}.green-full-sub{font-size:8.3pt!important;margin-bottom:7pt!important}.green-full-rule{margin:5pt 0 7pt!important}.green-full-hero{padding:10pt 12pt!important;margin-bottom:7pt!important;border-radius:8pt!important}.green-full-hero h3{font-size:12pt!important;margin-bottom:4pt!important}.green-full-hero p{font-size:7.2pt!important;line-height:1.38!important}.green-full-kpis{gap:5pt!important;margin-top:7pt!important}.green-full-kpis div{padding:5pt!important}.green-full-kpis span{font-size:5.2pt!important}.green-full-kpis strong{font-size:10.5pt!important}.green-full-kpis small{font-size:5.6pt!important}.green-full-grid{gap:6pt!important;margin-bottom:6pt!important}.green-full-card{padding:7pt 8pt!important;border-radius:6pt!important;box-shadow:none!important}.green-full-card h4{font-size:6.1pt!important;margin-bottom:4pt!important;padding-bottom:3pt!important}.green-full-card p{font-size:6.4pt!important;line-height:1.28!important}.green-full-card li{font-size:6pt!important;line-height:1.24!important;margin:2pt 0!important}.green-full-bottom{gap:5pt!important}.green-full-mini{padding:6pt!important;border-radius:6pt!important}.green-full-mini h4{font-size:5.7pt!important;margin-bottom:3pt!important}.green-full-mini p,.green-full-mini li{font-size:5.7pt!important;line-height:1.22!important}.green-full-closing{font-size:6.8pt!important;line-height:1.3!important;padding:7pt!important;margin-top:6pt!important}.green-full-foot{bottom:4mm!important;left:8mm!important;right:8mm!important;font-size:7.2pt!important}.esg-invest-table td{font-size:6.4pt!important;padding:3.5pt!important}.esg-mini-kpi strong{font-size:15pt!important}.esg-full-page .esg-grid-3 .esg-mini-kpi{min-height:auto!important}}
 
 </style>
 
@@ -7044,6 +7086,25 @@ select.finput {
   }
 }
 
+
+
+/* V6 — Groene paragraaf volledige A4 + stevigere ESG-opbouw */
+.green-full-a4{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:34px 38px 78px;margin:0 0 28px;min-height:980px;position:relative;overflow:hidden;page-break-inside:avoid;break-inside:avoid;}
+.green-full-a4:after{content:'';position:absolute;left:0;right:0;bottom:0;height:62px;background:var(--blue-deep);border-top:3px solid var(--orange)}
+.green-full-kicker{font-size:10px;letter-spacing:2.1px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;font-family:var(--f-head)}
+.green-full-title{font-size:28px;line-height:1.12;color:var(--blue-deep);font-family:var(--f-head);font-weight:800;letter-spacing:-.55px;margin-bottom:8px}
+.green-full-sub{font-size:12.5px;color:var(--ink-3);line-height:1.55;margin-bottom:18px;max-width:650px}
+.green-full-rule{width:52px;height:2px;background:var(--blue-deep);margin:10px 0 18px}
+.green-full-hero{background:linear-gradient(135deg,#123f3a 0%,#1B597B 55%,#2A7A50 100%);color:#fff;border-radius:16px;padding:20px 22px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 7px 24px rgba(19,68,96,.18)}
+.green-full-hero:before{content:'';position:absolute;right:-70px;top:-70px;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.08)}
+.green-full-hero h3{font-size:18px;font-family:var(--f-head);font-weight:800;margin-bottom:8px;position:relative;z-index:1}.green-full-hero p{font-size:11.5px;line-height:1.58;color:rgba(255,255,255,.83);position:relative;z-index:1}
+.green-full-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;position:relative;z-index:1}.green-full-kpis div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px}.green-full-kpis span{display:block;font-size:7.5px;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.56);font-weight:800;margin-bottom:4px}.green-full-kpis strong{font-size:18px;font-family:var(--f-head);font-weight:800;color:#fff}.green-full-kpis small{display:block;font-size:9px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.25}
+.green-full-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;margin-bottom:12px}.green-full-card{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:14px 16px;box-shadow:0 5px 18px rgba(19,68,96,.10)}.green-full-card h4{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid #d5e6ee}.green-full-card p{font-size:10.2px;line-height:1.48;color:var(--ink-2)}.green-full-card ul{margin:6px 0 0 14px}.green-full-card li{font-size:9.6px;line-height:1.35;margin:3px 0;color:var(--ink-2)}
+.green-full-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.green-full-mini{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:12px 13px}.green-full-mini h4{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:7px}.green-full-mini p,.green-full-mini li{font-size:9.2px;line-height:1.35;color:var(--ink-2)}.green-full-mini ul{margin-left:13px}
+.green-full-closing{margin-top:12px;background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));border-radius:12px;color:#fff;padding:13px 15px;font-size:10.5px;line-height:1.4;border-bottom:3px solid var(--orange)}
+.green-full-foot{position:absolute;left:28px;right:28px;bottom:18px;z-index:2;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;color:#fff;font-size:9px;line-height:1.35}.green-full-foot .mid{text-align:center;color:rgba(255,255,255,.6);font-style:italic}.green-full-foot .right{text-align:right;font-weight:700}
+@media print{.green-full-a4{height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:14mm 11mm 22mm!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important}.green-full-a4:after{height:16mm!important}.green-full-kicker{font-size:7pt!important;margin-bottom:4pt!important}.green-full-title{font-size:18pt!important;margin-bottom:4pt!important}.green-full-sub{font-size:8.3pt!important;margin-bottom:7pt!important}.green-full-rule{margin:5pt 0 7pt!important}.green-full-hero{padding:10pt 12pt!important;margin-bottom:7pt!important;border-radius:8pt!important}.green-full-hero h3{font-size:12pt!important;margin-bottom:4pt!important}.green-full-hero p{font-size:7.2pt!important;line-height:1.38!important}.green-full-kpis{gap:5pt!important;margin-top:7pt!important}.green-full-kpis div{padding:5pt!important}.green-full-kpis span{font-size:5.2pt!important}.green-full-kpis strong{font-size:10.5pt!important}.green-full-kpis small{font-size:5.6pt!important}.green-full-grid{gap:6pt!important;margin-bottom:6pt!important}.green-full-card{padding:7pt 8pt!important;border-radius:6pt!important;box-shadow:none!important}.green-full-card h4{font-size:6.1pt!important;margin-bottom:4pt!important;padding-bottom:3pt!important}.green-full-card p{font-size:6.4pt!important;line-height:1.28!important}.green-full-card li{font-size:6pt!important;line-height:1.24!important;margin:2pt 0!important}.green-full-bottom{gap:5pt!important}.green-full-mini{padding:6pt!important;border-radius:6pt!important}.green-full-mini h4{font-size:5.7pt!important;margin-bottom:3pt!important}.green-full-mini p,.green-full-mini li{font-size:5.7pt!important;line-height:1.22!important}.green-full-closing{font-size:6.8pt!important;line-height:1.3!important;padding:7pt!important;margin-top:6pt!important}.green-full-foot{bottom:4mm!important;left:8mm!important;right:8mm!important;font-size:7.2pt!important}.esg-invest-table td{font-size:6.4pt!important;padding:3.5pt!important}.esg-mini-kpi strong{font-size:15pt!important}.esg-full-page .esg-grid-3 .esg-mini-kpi{min-height:auto!important}}
+
 </style>
 
 
@@ -7079,6 +7140,25 @@ select.finput {
   .green-a4-hero{padding:10pt 12pt!important;border-radius:6pt!important}.green-logo-row{margin-bottom:5pt!important}.green-logo-row img{width:18pt!important;height:18pt!important}.green-logo-row strong{font-size:8pt!important}.green-logo-row span{font-size:6pt!important}.green-a4-kicker{font-size:6.5pt!important;margin-bottom:3pt!important}.green-a4-hero h2{font-size:15pt!important;margin-bottom:5pt!important}.green-a4-hero p{font-size:7.5pt!important;line-height:1.38!important}.green-scorebar{height:3pt!important;margin-top:6pt!important}.green-a4-metrics{gap:5pt!important;margin-top:7pt!important}.green-a4-metrics>div{padding:5pt!important;border-radius:4pt!important}.green-a4-metrics span{font-size:5.8pt!important;margin-bottom:2pt!important}.green-a4-metrics strong{font-size:12pt!important;overflow:visible!important;text-overflow:clip!important}.green-a4-metrics small{font-size:7pt!important}.green-a4-metrics em{font-size:5.8pt!important;margin-top:2pt!important}.green-a4-grid{gap:5pt!important}.green-a4-card{padding:7pt!important;border-radius:5pt!important;box-shadow:none!important}.green-a4-card h3{font-size:6.8pt!important;margin-bottom:4pt!important}.green-a4-card p{font-size:6.7pt!important;line-height:1.34!important;margin-bottom:3pt!important}.green-fin-row{font-size:6.5pt!important;padding:2.2pt 0!important}.green-fin-row strong{font-size:7.4pt!important}.green-tags{gap:3pt!important;margin-top:4pt!important}.green-tags span{font-size:5.7pt!important;padding:1.5pt 4pt!important}.green-note{font-size:6pt!important;margin-top:4pt!important}.green-sdg-mini-grid{gap:4pt!important}.green-sdg-mini-grid>div{padding:4pt!important;border-radius:4pt!important}.green-sdg-mini-grid b{width:14pt!important;height:14pt!important;font-size:7pt!important}.green-sdg-mini-grid strong{font-size:6.4pt!important}.green-sdg-mini-grid p{font-size:5.9pt!important;line-height:1.25!important}.green-risk{padding:2.5pt 0!important}.green-risk strong{font-size:6.3pt!important}.green-risk span{font-size:6pt!important;line-height:1.25!important}.green-proof-list{margin-top:3pt!important}.green-proof-list li{font-size:6pt!important;padding:1.4pt 0!important}.green-close{border-radius:5pt!important;padding:7pt 9pt!important}.green-close strong{font-size:6pt!important;margin-bottom:3pt!important}.green-close span{font-size:7pt!important;line-height:1.35!important}
   .sdg-page-head span{font-size:6.4pt!important}.sdg-page-head h2{font-size:15.5pt!important;margin:3pt 0 4pt!important}.sdg-page-head p{font-size:7pt!important;margin-bottom:7pt!important}.sdg-legend{gap:4pt!important;margin-bottom:6pt!important}.sdg-legend span{font-size:5.8pt!important;padding:2pt 5pt!important}.sdg-legend b{width:11pt!important;height:11pt!important;font-size:6pt!important}.sdg-measure-grid{gap:5pt!important}.sdg-m-card{padding:5.5pt!important;border-radius:5pt!important;box-shadow:none!important}.sdg-m-top{padding-bottom:3pt!important;margin-bottom:3pt!important}.sdg-m-top>span{font-size:5.5pt!important}.sdg-m-top strong{font-size:7.2pt!important}.sdg-m-top em{font-size:5.8pt!important}.sdg-m-list{gap:2.6pt!important}.sdg-m-row{gap:4pt!important}.sdg-m-row b{width:13pt!important;height:13pt!important;font-size:6pt!important}.sdg-m-row strong{font-size:6.3pt!important}.sdg-m-row p{font-size:5.8pt!important;line-height:1.22!important;margin-top:.5pt!important}
 }
+
+
+/* V6 — Groene paragraaf volledige A4 + stevigere ESG-opbouw */
+.green-full-a4{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:34px 38px 78px;margin:0 0 28px;min-height:980px;position:relative;overflow:hidden;page-break-inside:avoid;break-inside:avoid;}
+.green-full-a4:after{content:'';position:absolute;left:0;right:0;bottom:0;height:62px;background:var(--blue-deep);border-top:3px solid var(--orange)}
+.green-full-kicker{font-size:10px;letter-spacing:2.1px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;font-family:var(--f-head)}
+.green-full-title{font-size:28px;line-height:1.12;color:var(--blue-deep);font-family:var(--f-head);font-weight:800;letter-spacing:-.55px;margin-bottom:8px}
+.green-full-sub{font-size:12.5px;color:var(--ink-3);line-height:1.55;margin-bottom:18px;max-width:650px}
+.green-full-rule{width:52px;height:2px;background:var(--blue-deep);margin:10px 0 18px}
+.green-full-hero{background:linear-gradient(135deg,#123f3a 0%,#1B597B 55%,#2A7A50 100%);color:#fff;border-radius:16px;padding:20px 22px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 7px 24px rgba(19,68,96,.18)}
+.green-full-hero:before{content:'';position:absolute;right:-70px;top:-70px;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.08)}
+.green-full-hero h3{font-size:18px;font-family:var(--f-head);font-weight:800;margin-bottom:8px;position:relative;z-index:1}.green-full-hero p{font-size:11.5px;line-height:1.58;color:rgba(255,255,255,.83);position:relative;z-index:1}
+.green-full-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;position:relative;z-index:1}.green-full-kpis div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px}.green-full-kpis span{display:block;font-size:7.5px;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.56);font-weight:800;margin-bottom:4px}.green-full-kpis strong{font-size:18px;font-family:var(--f-head);font-weight:800;color:#fff}.green-full-kpis small{display:block;font-size:9px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.25}
+.green-full-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;margin-bottom:12px}.green-full-card{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:14px 16px;box-shadow:0 5px 18px rgba(19,68,96,.10)}.green-full-card h4{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid #d5e6ee}.green-full-card p{font-size:10.2px;line-height:1.48;color:var(--ink-2)}.green-full-card ul{margin:6px 0 0 14px}.green-full-card li{font-size:9.6px;line-height:1.35;margin:3px 0;color:var(--ink-2)}
+.green-full-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.green-full-mini{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:12px 13px}.green-full-mini h4{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:7px}.green-full-mini p,.green-full-mini li{font-size:9.2px;line-height:1.35;color:var(--ink-2)}.green-full-mini ul{margin-left:13px}
+.green-full-closing{margin-top:12px;background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));border-radius:12px;color:#fff;padding:13px 15px;font-size:10.5px;line-height:1.4;border-bottom:3px solid var(--orange)}
+.green-full-foot{position:absolute;left:28px;right:28px;bottom:18px;z-index:2;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;color:#fff;font-size:9px;line-height:1.35}.green-full-foot .mid{text-align:center;color:rgba(255,255,255,.6);font-style:italic}.green-full-foot .right{text-align:right;font-weight:700}
+@media print{.green-full-a4{height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:14mm 11mm 22mm!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important}.green-full-a4:after{height:16mm!important}.green-full-kicker{font-size:7pt!important;margin-bottom:4pt!important}.green-full-title{font-size:18pt!important;margin-bottom:4pt!important}.green-full-sub{font-size:8.3pt!important;margin-bottom:7pt!important}.green-full-rule{margin:5pt 0 7pt!important}.green-full-hero{padding:10pt 12pt!important;margin-bottom:7pt!important;border-radius:8pt!important}.green-full-hero h3{font-size:12pt!important;margin-bottom:4pt!important}.green-full-hero p{font-size:7.2pt!important;line-height:1.38!important}.green-full-kpis{gap:5pt!important;margin-top:7pt!important}.green-full-kpis div{padding:5pt!important}.green-full-kpis span{font-size:5.2pt!important}.green-full-kpis strong{font-size:10.5pt!important}.green-full-kpis small{font-size:5.6pt!important}.green-full-grid{gap:6pt!important;margin-bottom:6pt!important}.green-full-card{padding:7pt 8pt!important;border-radius:6pt!important;box-shadow:none!important}.green-full-card h4{font-size:6.1pt!important;margin-bottom:4pt!important;padding-bottom:3pt!important}.green-full-card p{font-size:6.4pt!important;line-height:1.28!important}.green-full-card li{font-size:6pt!important;line-height:1.24!important;margin:2pt 0!important}.green-full-bottom{gap:5pt!important}.green-full-mini{padding:6pt!important;border-radius:6pt!important}.green-full-mini h4{font-size:5.7pt!important;margin-bottom:3pt!important}.green-full-mini p,.green-full-mini li{font-size:5.7pt!important;line-height:1.22!important}.green-full-closing{font-size:6.8pt!important;line-height:1.3!important;padding:7pt!important;margin-top:6pt!important}.green-full-foot{bottom:4mm!important;left:8mm!important;right:8mm!important;font-size:7.2pt!important}.esg-invest-table td{font-size:6.4pt!important;padding:3.5pt!important}.esg-mini-kpi strong{font-size:15pt!important}.esg-full-page .esg-grid-3 .esg-mini-kpi{min-height:auto!important}}
+
 </style>
 
 
@@ -7115,8 +7195,117 @@ select.finput {
 .esg-invest-table{width:100%;border-collapse:collapse}.esg-invest-table th{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-4);text-align:left;border-bottom:1px solid var(--rule);padding:0 8px 8px}.esg-invest-table td{font-size:10.8px;border-bottom:1px solid var(--blue-faint);padding:8px}.esg-invest-table tr:last-child td{border-bottom:0;font-weight:800;color:var(--blue-deep)}.esg-invest-table td:nth-child(n+2),.esg-invest-table th:nth-child(n+2){text-align:right}.esg-mini-kpi{background:#fff;border:1px solid #d3e4ec;border-radius:15px;box-shadow:0 4px 14px rgba(19,68,96,.08);padding:16px 18px}.esg-mini-kpi span{font-size:9px;letter-spacing:1.6px;color:var(--orange);font-weight:800;text-transform:uppercase}.esg-mini-kpi strong{display:block;font-size:28px;color:var(--blue-deep);font-family:var(--f-head);line-height:1.1;margin-top:6px}.esg-mini-kpi p{font-size:10px;color:var(--ink-3);line-height:1.4;margin-top:4px}
 .esg-close-hero{background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));color:#fff;border-radius:16px;padding:24px 26px;border-bottom:3px solid var(--orange);margin-bottom:14px}.esg-close-hero h3{font-size:18px;line-height:1.25;margin:0 0 9px}.esg-close-hero p{font-size:11.8px;line-height:1.6;color:rgba(255,255,255,.85)}.esg-close-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.esg-close-kpis div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px}.esg-close-kpis span{display:block;font-size:7.5px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.65);font-weight:800}.esg-close-kpis strong{display:block;font-size:17px;color:#fff;margin-top:5px}.esg-assurance{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.esg-assurance div{background:var(--blue-faint);border:1px solid #d3e4ec;border-radius:10px;padding:11px 12px}.esg-assurance div.active{background:var(--blue-deep);color:#fff;border-color:var(--orange);box-shadow:inset 0 0 0 2px var(--orange)}.esg-assurance strong{font-size:10px}.esg-assurance p{font-size:8.5px;line-height:1.3;margin-top:4px;color:inherit;opacity:.8}
 @media print{#esgSdgSection{page-break-before:always!important;break-before:page!important}.esg-full-page{height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:14mm 11mm 22mm!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important}.esg-full-page:last-child{page-break-after:auto!important;break-after:auto!important}.esg-full-page:after{height:16mm!important}.esg-full-foot{bottom:4mm!important;left:8mm!important;right:8mm!important;font-size:7.2pt!important}.esg-kicker{font-size:7pt!important;margin-bottom:4pt!important}.esg-title{font-size:18pt!important;margin-bottom:4pt!important}.esg-sub{font-size:8.5pt!important;margin-bottom:8pt!important}.esg-thin{margin:5pt 0 8pt!important}.esg-card{padding:8pt 9pt!important;border-radius:6pt!important;margin-bottom:7pt!important;box-shadow:none!important}.esg-card-h{font-size:6.2pt!important;padding-bottom:4pt!important;margin-bottom:5pt!important}.esg-kpis{margin-bottom:7pt!important}.esg-kpis>div{padding:8pt!important}.esg-kpis strong{font-size:14pt!important}.esg-kpis small{font-size:6.5pt!important}.esg-score-card{padding:10pt!important}.esg-score-card .num{font-size:34pt!important}.esg-score-card p{font-size:6.8pt!important}.esg-side-list{padding:6pt 8pt!important;box-shadow:none!important}.esg-side-list div{font-size:7pt!important;padding:3.3pt 0!important}.esg-radar{height:150pt!important}.esg-label-row span{width:22pt!important;height:13pt!important;font-size:6pt!important}.esg-management{padding:8pt!important}.esg-management h3{font-size:9.5pt!important}.esg-management p{font-size:7.3pt!important}.esg-management li{font-size:6.5pt!important}.esg-dim{min-height:86pt!important;padding:6pt!important}.esg-dim strong{font-size:14pt!important}.esg-dim span{font-size:5.4pt!important}.esg-dim p{font-size:5.4pt!important}.esg-risk-table>div{font-size:6.4pt!important;padding:5pt!important}.esg-risk-table .head{font-size:5.3pt!important}.esg-list li{font-size:6.7pt!important}.esg-sdg-legend span{font-size:5.8pt!important;padding:2pt 4pt!important}.esg-sdg-legend b,.esg-sdg-num{width:11pt!important;height:11pt!important;font-size:5.8pt!important}.esg-sdg-grid{gap:5pt!important}.esg-sdg-card{padding:5.5pt!important;border-radius:5pt!important;box-shadow:none!important}.esg-sdg-top{padding-bottom:3pt!important;margin-bottom:3pt!important}.esg-sdg-top strong{font-size:7.3pt!important}.esg-sdg-top span,.esg-sdg-top em{font-size:5.7pt!important}.esg-sdg-row{gap:4pt!important;margin:2.8pt 0!important}.esg-sdg-row strong{font-size:6.2pt!important}.esg-sdg-row p{font-size:5.6pt!important;line-height:1.2!important}.esg-framework-card h3{font-size:7.3pt!important}.esg-framework-card em{font-size:5.5pt!important;margin-bottom:4pt!important}.esg-framework-card p{font-size:6.7pt!important}.esg-framework-card li{font-size:5.9pt!important}.esg-conclusion-bar{font-size:7.2pt!important;padding:7pt!important}.esg-invest-table th{font-size:5.4pt!important;padding-bottom:4pt!important}.esg-invest-table td{font-size:6.9pt!important;padding:4.2pt!important}.esg-mini-kpi{padding:8pt!important;box-shadow:none!important}.esg-mini-kpi strong{font-size:17pt!important}.esg-mini-kpi p{font-size:6.4pt!important}.esg-close-hero{padding:12pt!important}.esg-close-hero h3{font-size:11.5pt!important}.esg-close-hero p{font-size:7.5pt!important}.esg-close-kpis div{padding:6pt!important}.esg-close-kpis strong{font-size:10pt!important}.esg-assurance div{padding:6pt!important}.esg-assurance strong{font-size:6.8pt!important}.esg-assurance p{font-size:5.5pt!important}}
+
+
+/* V6 — Groene paragraaf volledige A4 + stevigere ESG-opbouw */
+.green-full-a4{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:34px 38px 78px;margin:0 0 28px;min-height:980px;position:relative;overflow:hidden;page-break-inside:avoid;break-inside:avoid;}
+.green-full-a4:after{content:'';position:absolute;left:0;right:0;bottom:0;height:62px;background:var(--blue-deep);border-top:3px solid var(--orange)}
+.green-full-kicker{font-size:10px;letter-spacing:2.1px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;font-family:var(--f-head)}
+.green-full-title{font-size:28px;line-height:1.12;color:var(--blue-deep);font-family:var(--f-head);font-weight:800;letter-spacing:-.55px;margin-bottom:8px}
+.green-full-sub{font-size:12.5px;color:var(--ink-3);line-height:1.55;margin-bottom:18px;max-width:650px}
+.green-full-rule{width:52px;height:2px;background:var(--blue-deep);margin:10px 0 18px}
+.green-full-hero{background:linear-gradient(135deg,#123f3a 0%,#1B597B 55%,#2A7A50 100%);color:#fff;border-radius:16px;padding:20px 22px;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 7px 24px rgba(19,68,96,.18)}
+.green-full-hero:before{content:'';position:absolute;right:-70px;top:-70px;width:210px;height:210px;border-radius:50%;background:rgba(255,255,255,.08)}
+.green-full-hero h3{font-size:18px;font-family:var(--f-head);font-weight:800;margin-bottom:8px;position:relative;z-index:1}.green-full-hero p{font-size:11.5px;line-height:1.58;color:rgba(255,255,255,.83);position:relative;z-index:1}
+.green-full-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;position:relative;z-index:1}.green-full-kpis div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px}.green-full-kpis span{display:block;font-size:7.5px;letter-spacing:1.3px;text-transform:uppercase;color:rgba(255,255,255,.56);font-weight:800;margin-bottom:4px}.green-full-kpis strong{font-size:18px;font-family:var(--f-head);font-weight:800;color:#fff}.green-full-kpis small{display:block;font-size:9px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.25}
+.green-full-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;margin-bottom:12px}.green-full-card{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:14px 16px;box-shadow:0 5px 18px rgba(19,68,96,.10)}.green-full-card h4{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid #d5e6ee}.green-full-card p{font-size:10.2px;line-height:1.48;color:var(--ink-2)}.green-full-card ul{margin:6px 0 0 14px}.green-full-card li{font-size:9.6px;line-height:1.35;margin:3px 0;color:var(--ink-2)}
+.green-full-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.green-full-mini{background:#F1F9FD;border:1px solid #C7DDE9;border-radius:14px;padding:12px 13px}.green-full-mini h4{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);font-weight:800;margin-bottom:7px}.green-full-mini p,.green-full-mini li{font-size:9.2px;line-height:1.35;color:var(--ink-2)}.green-full-mini ul{margin-left:13px}
+.green-full-closing{margin-top:12px;background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));border-radius:12px;color:#fff;padding:13px 15px;font-size:10.5px;line-height:1.4;border-bottom:3px solid var(--orange)}
+.green-full-foot{position:absolute;left:28px;right:28px;bottom:18px;z-index:2;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;color:#fff;font-size:9px;line-height:1.35}.green-full-foot .mid{text-align:center;color:rgba(255,255,255,.6);font-style:italic}.green-full-foot .right{text-align:right;font-weight:700}
+@media print{.green-full-a4{height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;border:none!important;border-radius:0!important;box-shadow:none!important;padding:14mm 11mm 22mm!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important}.green-full-a4:after{height:16mm!important}.green-full-kicker{font-size:7pt!important;margin-bottom:4pt!important}.green-full-title{font-size:18pt!important;margin-bottom:4pt!important}.green-full-sub{font-size:8.3pt!important;margin-bottom:7pt!important}.green-full-rule{margin:5pt 0 7pt!important}.green-full-hero{padding:10pt 12pt!important;margin-bottom:7pt!important;border-radius:8pt!important}.green-full-hero h3{font-size:12pt!important;margin-bottom:4pt!important}.green-full-hero p{font-size:7.2pt!important;line-height:1.38!important}.green-full-kpis{gap:5pt!important;margin-top:7pt!important}.green-full-kpis div{padding:5pt!important}.green-full-kpis span{font-size:5.2pt!important}.green-full-kpis strong{font-size:10.5pt!important}.green-full-kpis small{font-size:5.6pt!important}.green-full-grid{gap:6pt!important;margin-bottom:6pt!important}.green-full-card{padding:7pt 8pt!important;border-radius:6pt!important;box-shadow:none!important}.green-full-card h4{font-size:6.1pt!important;margin-bottom:4pt!important;padding-bottom:3pt!important}.green-full-card p{font-size:6.4pt!important;line-height:1.28!important}.green-full-card li{font-size:6pt!important;line-height:1.24!important;margin:2pt 0!important}.green-full-bottom{gap:5pt!important}.green-full-mini{padding:6pt!important;border-radius:6pt!important}.green-full-mini h4{font-size:5.7pt!important;margin-bottom:3pt!important}.green-full-mini p,.green-full-mini li{font-size:5.7pt!important;line-height:1.22!important}.green-full-closing{font-size:6.8pt!important;line-height:1.3!important;padding:7pt!important;margin-top:6pt!important}.green-full-foot{bottom:4mm!important;left:8mm!important;right:8mm!important;font-size:7.2pt!important}.esg-invest-table td{font-size:6.4pt!important;padding:3.5pt!important}.esg-mini-kpi strong{font-size:15pt!important}.esg-full-page .esg-grid-3 .esg-mini-kpi{min-height:auto!important}}
+
 </style>
 
+
+<style id="v7-final-polish">
+/* v7 final polish: geen rechterknoppen, geen lege kaarten, strakkere ESG-pagina's */
+.action-row.action-row-single{display:flex!important;justify-content:flex-start!important;margin:0 0 26px!important;}
+.action-row.action-row-single .btn-orange{width:auto!important;min-width:210px!important;padding:0 24px!important;}
+.btn-ghost,.ai-fab,.ai-panel,.toc-rail{display:none!important;}
+.result .body{position:relative;}
+.rpt-hdr .rpt-pretitle{color:#ff8a55!important;}
+
+/* Groene paragraaf: full A4, rustiger en bankwaardiger */
+.green-full-a4{background:#fff!important;border:1px solid #d7e5ec!important;border-radius:18px!important;box-shadow:0 14px 42px rgba(13,34,51,.10)!important;padding:38px 42px 82px!important;margin:0 0 30px!important;min-height:1010px!important;}
+.green-full-a4:before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#2A7A50,#1B597B,#D9622F);}
+.green-full-kicker{letter-spacing:2.4px!important;color:#D9622F!important;}
+.green-full-title{font-size:30px!important;line-height:1.08!important;color:#123f5b!important;margin-bottom:10px!important;}
+.green-full-sub{font-size:13px!important;line-height:1.62!important;color:#4c5a62!important;max-width:690px!important;margin-bottom:14px!important;}
+.green-full-hero{background:linear-gradient(135deg,#0d372f 0%,#155a78 58%,#2A7A50 100%)!important;border-radius:18px!important;padding:22px 24px!important;margin-bottom:16px!important;}
+.green-full-hero h3{font-size:19px!important;letter-spacing:-.25px!important;}
+.green-full-hero p{font-size:11.8px!important;line-height:1.65!important;color:rgba(255,255,255,.88)!important;}
+.green-full-kpis{grid-template-columns:repeat(4,1fr)!important;gap:10px!important;}
+.green-full-kpis div{background:rgba(255,255,255,.14)!important;border-color:rgba(255,255,255,.22)!important;}
+.green-full-kpis strong{font-size:18px!important;}
+.green-full-grid{grid-template-columns:1fr 1fr!important;gap:14px!important;margin-bottom:14px!important;}
+.green-full-card,.green-full-mini{background:linear-gradient(180deg,#F4FAFD 0%,#EDF7FC 100%)!important;border:1px solid #cce0ea!important;box-shadow:0 6px 18px rgba(19,68,96,.08)!important;}
+.green-full-card h4,.green-full-mini h4{color:#D9622F!important;letter-spacing:1.7px!important;}
+.green-full-card p,.green-full-card li{font-size:10.4px!important;line-height:1.52!important;}
+.green-full-mini p,.green-full-mini li{font-size:9.5px!important;line-height:1.42!important;}
+.green-full-closing{background:linear-gradient(135deg,#123f5b,#1B597B)!important;border-bottom:3px solid #D9622F!important;border-radius:13px!important;font-size:10.8px!important;line-height:1.48!important;}
+
+/* ESG pagina's: dichter bij de originele ESG-tool, minder rommelig */
+.esg-full-page{background:#fff!important;border:1px solid #d7e5ec!important;border-radius:18px!important;box-shadow:0 12px 36px rgba(13,34,51,.08)!important;padding:34px 42px 84px!important;margin:0 0 30px!important;min-height:1000px!important;position:relative!important;overflow:hidden!important;}
+.esg-full-page:before{content:'';position:absolute;left:0;top:0;right:0;height:4px;background:linear-gradient(90deg,#D9622F,#1B597B,#2A7A50);}
+.esg-kicker{font-size:10px!important;letter-spacing:2.2px!important;color:#D9622F!important;font-weight:800!important;text-transform:uppercase!important;}
+.esg-title{font-size:28px!important;line-height:1.1!important;color:#123f5b!important;margin-bottom:7px!important;}
+.esg-sub{font-size:12.4px!important;line-height:1.55!important;color:#64717a!important;margin-bottom:14px!important;}
+.esg-thin{width:52px!important;height:2px!important;background:#123f5b!important;margin:12px 0 18px!important;}
+.esg-card,.esg-mini-kpi,.esg-management,.esg-close-hero{border-radius:15px!important;border:1px solid #cfe0e9!important;box-shadow:0 6px 18px rgba(19,68,96,.08)!important;}
+.esg-card{background:linear-gradient(180deg,#fff 0%,#F6FBFE 100%)!important;}
+.esg-card-h{font-size:10px!important;letter-spacing:1.7px!important;text-transform:uppercase!important;color:#D9622F!important;font-weight:800!important;border-bottom:1px solid #dce9f0!important;padding-bottom:7px!important;}
+.esg-invest-table{width:100%!important;border-collapse:collapse!important;}
+.esg-invest-table th{font-size:8.5px!important;letter-spacing:1.4px!important;color:#6f7d86!important;padding:8px 7px!important;border-bottom:1px solid #dce9f0!important;text-align:left!important;}
+.esg-invest-table td{font-size:10.5px!important;line-height:1.25!important;padding:8px 7px!important;border-bottom:1px solid #edf3f7!important;}
+.esg-invest-table tr:last-child td{font-weight:800!important;color:#123f5b!important;background:#f1f8fc!important;}
+.esg-mini-kpi{background:#fff!important;padding:18px!important;}
+.esg-mini-kpi strong{font-size:28px!important;}
+.esg-sdg-grid{gap:10px!important;}
+.esg-sdg-card{background:linear-gradient(180deg,#fff 0%,#F5FBFE 100%)!important;border:1px solid #d2e4ec!important;border-radius:14px!important;box-shadow:0 5px 14px rgba(19,68,96,.07)!important;}
+.esg-conclusion-bar{background:linear-gradient(135deg,#123f5b,#1B597B)!important;color:#fff!important;border-radius:12px!important;padding:13px 16px!important;border-bottom:3px solid #D9622F!important;}
+
+/* Analysepagina: voorkom opgeblazen/ongelijke blokken */
+.esg-full-page .esg-grid-3{gap:12px!important;}
+.esg-full-page .esg-card svg{max-height:160px!important;}
+
+@media print{
+  .action-row,.btn-ghost,.ai-fab,.ai-panel,.toc-rail{display:none!important;}
+  .green-full-a4,.esg-full-page{width:210mm!important;height:297mm!important;min-height:297mm!important;max-height:297mm!important;margin:0!important;border:none!important;border-radius:0!important;box-shadow:none!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important;}
+  .green-full-a4{padding:13mm 12mm 20mm!important;}
+  .green-full-title{font-size:17pt!important;}
+  .green-full-sub{font-size:8.2pt!important;line-height:1.42!important;}
+  .green-full-hero{padding:10pt 12pt!important;margin-bottom:6pt!important;border-radius:7pt!important;}
+  .green-full-hero h3{font-size:11.2pt!important;}
+  .green-full-hero p{font-size:6.9pt!important;line-height:1.32!important;}
+  .green-full-kpis div{padding:4.5pt!important;}
+  .green-full-kpis strong{font-size:9.8pt!important;}
+  .green-full-grid{gap:5.5pt!important;margin-bottom:5.5pt!important;}
+  .green-full-card{padding:6.2pt 7pt!important;}
+  .green-full-card h4{font-size:5.9pt!important;margin-bottom:3pt!important;}
+  .green-full-card p,.green-full-card li{font-size:5.85pt!important;line-height:1.22!important;}
+  .green-full-bottom{gap:5pt!important;}
+  .green-full-mini{padding:5.5pt!important;}
+  .green-full-mini h4{font-size:5.5pt!important;}
+  .green-full-mini p,.green-full-mini li{font-size:5.45pt!important;line-height:1.16!important;}
+  .green-full-closing{font-size:6.4pt!important;line-height:1.22!important;padding:6pt!important;margin-top:5pt!important;}
+  .green-full-foot{bottom:4mm!important;font-size:6.8pt!important;}
+  .esg-full-page{padding:12mm 12mm 18mm!important;}
+  .esg-title{font-size:16.5pt!important;}
+  .esg-sub{font-size:7.8pt!important;line-height:1.35!important;margin-bottom:7pt!important;}
+  .esg-thin{margin:4pt 0 7pt!important;}
+  .esg-card{padding:7pt!important;}
+  .esg-card-h{font-size:5.8pt!important;padding-bottom:3pt!important;margin-bottom:5pt!important;}
+  .esg-invest-table th{font-size:5.6pt!important;padding:3.5pt 4pt!important;}
+  .esg-invest-table td{font-size:6.1pt!important;padding:3.5pt 4pt!important;line-height:1.12!important;}
+  .esg-mini-kpi{padding:8pt!important;}
+  .esg-mini-kpi strong{font-size:15pt!important;}
+  .esg-full-page .esg-card svg{max-height:112pt!important;}
+  .esg-sdg-card{padding:5pt!important;}
+  .esg-sdg-top strong{font-size:6.5pt!important;}
+  .esg-sdg-row p{font-size:5.2pt!important;line-height:1.12!important;}
+  .esg-full-foot{bottom:4mm!important;font-size:6.4pt!important;}
+}
+</style>
 </head>
 <body>
 
@@ -7312,20 +7501,15 @@ select.finput {
     </div>
 
     <!-- TOC RAIL (sticky inhoudsopgave, screen-only) -->
-    <nav class="toc-rail" id="tocRail" aria-label="Inhoudsopgave"></nav>
 
     <!-- RESULT -->
     <div class="result" id="result">
       <div class="print-cover-page" id="printCover"></div>
       <div class="body">
-        <div class="action-row">
+        <div class="action-row action-row-single">
           <button class="btn-orange" onclick="printRapport()">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4V1h8v3"/><path d="M4 7h10a1 1 0 011 1v5H3V8a1 1 0 011-1z"/><path d="M5 13v4h8v-4"/></svg>
             Opslaan als PDF
-          </button>
-          <button class="btn-ghost" onclick="resetTool()">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9a6 6 0 1 0 .5-2.5"/><path d="M3 3v4h4"/></svg>
-            Nieuw rapport
           </button>
         </div>
         <div class="rpt-hdr" id="rptHdr"></div>
@@ -8412,6 +8596,32 @@ async function generate() {
   }
 }
 
+function cleanupReportUiV7() {
+  // Geen rechter zwevende knoppen/panelen meer: deze werkten niet betrouwbaar en voegen niets toe aan het rapport.
+  document.querySelectorAll('.ai-fab, .ai-panel, .toc-rail, .btn-ghost').forEach(el => {
+    if (el) el.remove ? el.remove() : (el.style.display = 'none');
+  });
+
+  // Oude duurzaamheidstool-secties die geen plek meer hebben in de gecombineerde opzet.
+  const hideIds = [
+    'geenActieSection','scenarioSection','subsidiesSection','nettoSection','maandlastenSection',
+    'nettoInfoSection','phasesSection','aandachtSection','vervolgSection','adviseurSection','bronSection'
+  ];
+  hideIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.innerHTML = ''; el.style.display = 'none'; }
+  });
+
+  // Verberg restcontainers die door oude print-CSS anders als lege pagina kunnen eindigen.
+  document.querySelectorAll('#result .body > [id]').forEach(el => {
+    const hasMedia = el.querySelector && el.querySelector('svg,img,canvas,table,.green-full-a4,.esg-full-page');
+    const txt = (el.textContent || '').replace(/\s+/g,'').trim();
+    if (!txt && !hasMedia && el.id !== 'esgSdgSection') {
+      el.style.display = 'none';
+    }
+  });
+}
+
 function resetTool() {
   document.getElementById('result').classList.remove('on');
   document.getElementById('loadingState').classList.remove('on');
@@ -8668,11 +8878,11 @@ function renderReport(r) {
     <div class="rpt-hdr-top">
       <div class="rpt-logo">
         <img src="${LOGO_IMG}" alt="MB">
-        <div><div class="rpt-logo-name">MB Adviesgroep</div><div class="rpt-logo-sub">Verduurzamingsadvies</div></div>
+        <div><div class="rpt-logo-name">MB Adviesgroep</div><div class="rpt-logo-sub">Duurzaamheids- &amp; ESG-advies</div></div>
       </div>
       <div class="rpt-date">${today}</div>
     </div>
-    <div class="rpt-pretitle">Verduurzamingsadvies</div>
+    <div class="rpt-pretitle">Duurzaamheids- &amp; ESG-dossier</div>
     <div class="rpt-title">${r.pand_naam || 'Pand'}</div>
     <div class="rpt-address">${[r.pand_adres, r.bouwjaar?'Bouwjaar '+r.bouwjaar:'', r.oppervlakte?r.oppervlakte:''].filter(Boolean).join(' &middot; ')}</div>
     ${labelHtml}`;
@@ -9072,9 +9282,10 @@ function renderReport(r) {
   document.getElementById('phasesSection').innerHTML = phases
     ? secHead('Aanbevolen aanpak: gefaseerd &amp; slim') + `<div class="phases-grid">${phases}</div>` + actiesHtml : '';
 
-  // v3 compacte rapportopbouw:
-  // 1. Cover, energieprestatie en energielabel; 2. maatregelen; 3. één gevulde groene ESG/SDG-paragraaf.
-  // Grafieken, subsidies, netto investering, maandlasten, fasering, aandachtspunten en vervolgstappen worden bewust niet meer getoond.
+  // v7 definitieve rapportopbouw:
+  // 1. Duurzaamheidstool: cover, energieprestatie, energielabel en maatregelen.
+  // 2. Daarna: volledige ESG/SDG-tool-opbouw, inclusief groene paragraaf, SDG per maatregel, SFDR/Pillar 3/Taxonomie en vervolg.
+  // Losse subsidies/maandlasten/fasering uit de oude duurzaamheidstool worden niet getoond om lege pagina's te voorkomen.
   ['geenActieSection','scenarioSection','maatregelenChartSection','chartSection','subsidiesSection','nettoSection','maandlastenSection','nettoInfoSection','phasesSection','aandachtSection','vervolgSection','adviseurSection','bronSection'].forEach(id=>{
     const e=document.getElementById(id);
     if(e){ e.innerHTML=''; e.style.display='none'; }
@@ -9082,7 +9293,10 @@ function renderReport(r) {
   const esgEl=document.getElementById('esgSdgSection');
   if(esgEl) esgEl.style.display='block';
   renderEsgSdgSection(r);
-  renderTocRail();
+  cleanupReportUiV7();
+  // De oude rechterknoppen/inhoudsopgave worden in v7 bewust niet meer getoond.
+  // Sticky inhoudsopgave verwijderd: de oude rechter navigatie werkte niet goed en hoort niet meer in deze tool.
+  cleanupReportUiV7();
 }
 
 
@@ -9108,12 +9322,18 @@ function calcEsgScore(r){
   const inv=(r.maatregelen||[]).reduce((s,m)=>s+parseEuro(m.investering),0);
   const bes=(r.maatregelen||[]).reduce((s,m)=>s+parseEuro(m.besparing),0);
   const tvt=bes>0?inv/bes:25;
-  // Bankwaardige score: labelverbetering en CO2 tellen zwaar, maar een lange TVT drukt de score.
-  let tvtPts = tvt<=7 ? 9 : tvt<=10 ? 7 : tvt<=15 ? 5 : tvt<=20 ? 3 : tvt<=30 ? 1 : -3;
-  let score = 50 + Math.min(18,labelGain*4.5) + Math.min(14,co2*0.18) + Math.min(6,(r.maatregelen||[]).length*0.75) + tvtPts;
+  // Conservatieve bank-score zoals de ESG/SDG-tool: goede labelstap telt mee,
+  // maar bewijsniveau, TVT en oplevering houden de score realistisch.
+  let tvtPts = tvt<=7 ? 5 : tvt<=10 ? 4 : tvt<=15 ? 2 : tvt<=20 ? 0 : -4;
+  let score = 45
+    + Math.min(14,labelGain*3.5)
+    + Math.min(13,co2*0.16)
+    + Math.min(4,(r.maatregelen||[]).length*0.5)
+    + tvtPts;
+  if(labelScore(r.streef_label)>=7) score += 2; // A-label of beter
   if(tvt>18) score-=2;
   if(r.huidig_label_indicatief) score-=4;
-  return Math.max(45,Math.min(90,Math.round(score)));
+  return Math.max(58,Math.min(84,Math.round(score)));
 }
 function esgOordeel(score){
   if(score>=82) return 'Sterk financierbaar ESG-dossier';
@@ -9211,7 +9431,7 @@ function renderEsgSdgSection(r){
   const labelGain=Math.max(0,labelScore(r.streef_label)-labelScore(r.huidig_label));
   const computedScore = calcEsgScore(r);
   const rawScore = parseInt(gp.esg_score || bank.score || computedScore, 10);
-  const score = (!rawScore || rawScore < 40 || rawScore > 95) ? computedScore : rawScore;
+  const score = computedScore; // AI-score niet blind overnemen; tool rekent conservatief en consistent
   const oordeel = gp.oordeel || bank.oordeel || esgOordeel(score);
   const assurance = 3;
   const dataQuality = measures.length >= 5 ? 85 : 75;
@@ -9233,6 +9453,7 @@ function renderEsgSdgSection(r){
 
   function foot(){return `<div class="esg-full-foot"><div><b>MB Adviesgroep</b><br>Verduurzamings- & vastgoedadvies</div><div class="mid">ESG Bridge · SFDR Art. 8 · EU Taxonomie 7.2 · ESRS-conform</div><div class="right">info@mbadviesgroep.nl<br>mbadviesgroep.nl</div></div>`;}
   function page(title,kicker,sub,body){return `<section class="esg-full-page"><div class="esg-kicker">${kicker}</div><h2 class="esg-title">${title}</h2>${sub?`<p class="esg-sub">${sub}</p>`:''}<div class="esg-thin"></div>${body}${foot()}</section>`;}
+  function greenFoot(){return `<div class="green-full-foot"><div><b>MB Adviesgroep</b><br>Verduurzamings- & vastgoedadvies</div><div class="mid">Groene paragraaf · ESG/SDG · financieringsadvies</div><div class="right">info@mbadviesgroep.nl<br>mbadviesgroep.nl</div></div>`;}
   function radarSvg(){
     const cx=120, cy=105, max=72, pts=radar.map((x,i)=>{const a=(-90+i*72)*Math.PI/180;const rr=max*(x[1]/100);return [cx+Math.cos(a)*rr,cy+Math.sin(a)*rr];});
     const poly=pts.map(p=>p.join(',')).join(' ');
@@ -9281,6 +9502,18 @@ function renderEsgSdgSection(r){
   const management = `Het maatregelenpakket voor ${htmlEsc(r.pand_naam||'het object')} bestaat uit ${measures.length} hoofdmaatregelen met een totale bruto investering van ${fmtEuro(inv)} en een geraamde jaarlijkse besparing van ${fmtEuro(bes)}. Het labeltraject ${htmlEsc(labelTraject)} en de indicatieve CO₂-reductie van ${htmlEsc(co2txt)} maken het dossier onder voorwaarden bruikbaar voor groene financiering, mits de uitvoering en bewijsstukken worden vastgelegd.`;
 
   const pages=[];
+  pages.push(`<section class="green-full-a4">
+    <div class="green-full-kicker">Groene paragraaf · ESG / SDG / financiering</div>
+    <h2 class="green-full-title">Waarom dit pakket onder voorwaarden groen financierbaar kan zijn</h2>
+    <p class="green-full-sub">Deze pagina vertaalt de technische verduurzamingsmaatregelen naar een bankwaardige duurzaamheidsduiding. De kern is niet alleen de besparing, maar vooral de combinatie van labelverbetering, CO₂-reductie, bewijsbaarheid en aansluiting op ESG-rapportagekaders.</p>
+    <div class="green-full-rule"></div>
+    <div class="green-full-hero"><h3>Bankwaardige duurzaamheidsduiding voor ${htmlEsc(r.pand_naam||'het object')}</h3><p>Het maatregelenpakket bestaat uit <b>${measures.length} hoofdmaatregelen</b> met een indicatieve bruto investering van <b>${fmtEuro(inv)}</b> en een geraamde jaarlijkse besparing van <b>${fmtEuro(bes)}</b>. Het labeltraject <b>${htmlEsc(labelTraject)}</b>, de indicatieve CO₂-reductie van <b>${htmlEsc(co2txt)}</b> en de combinatie van isolatie, installatietechniek en opwek maken het dossier onder voorwaarden bruikbaar voor groene financiering. Definitieve kwalificatie volgt pas na uitvoering, nieuw energielabel en bewijsstukken.</p><div class="green-full-kpis"><div><span>ESG-score</span><strong>${score}/100</strong><small>${htmlEsc(oordeel)}</small></div><div><span>Labeltraject</span><strong>${htmlEsc(labelTraject)}</strong><small>na uitvoering te bevestigen</small></div><div><span>CO₂-reductie</span><strong>${htmlEsc(co2txt)}</strong><small>${co2ton?co2ton.toFixed(1).replace('.',',')+' ton/jr':''}</small></div><div><span>Besparing</span><strong>${fmtEuro(bes)}</strong><small>≈ ${fmtEuro(maandBes)} per maand</small></div></div></div>
+    <div class="green-full-grid"><div class="green-full-card"><h4>Financieringshaak</h4><p>Voor bank, hypotheekverstrekker of duurzaamheidslening is vooral relevant dat de investering objectief wordt onderbouwd met maatregelen, offertes, oplevering en meetbare effecten. De bruto investering, jaarlijkse besparing, labelstap en CO₂-reductie vormen samen de kern van de green-loan toets.</p><ul><li>Bruto investering: ${fmtEuro(inv)}.</li><li>Jaarlijkse besparing: ${fmtEuro(bes)}.</li><li>Indicatieve terugverdientijd: ${tvtTxt}; subsidies kunnen dit verbeteren.</li><li>Bewijsniveau huidig: niveau ${assurance}/4 — na oplevering doorgroeien naar niveau 4.</li></ul></div><div class="green-full-card"><h4>SFDR · Pillar 3 · EU Taxonomie 7.2</h4><p>Het dossier kan onder voorwaarden aansluiten op SFDR Artikel 8, Pillar 3-portefeuillerapportage en EU Taxonomie 7.2 voor renovatie van bestaande gebouwen.</p><ul><li><b>SFDR Artikel 8:</b> duurzame kenmerken door lagere energievraag en CO₂-reductie.</li><li><b>Pillar 3:</b> bruikbaar door energielabel, investering, besparing en CO₂-indicatoren.</li><li><b>EU Taxonomie 7.2:</b> potentieel eligible/aligned na uitvoering, DNSH en sociale waarborgen.</li></ul></div></div>
+    <div class="green-full-bottom"><div class="green-full-mini"><h4>SDG-impact</h4><p>De maatregelen dragen vooral bij aan SDG 7, 11, 12 en 13, met aanvullende impact op gezondheid/comfort en innovatie bij warmtepomp, zonnepanelen en slimme regeling.</p></div><div class="green-full-mini"><h4>Risico’s & voorwaarden</h4><ul><li>Nieuw energielabel na uitvoering.</li><li>Offertes en facturen per maatregel.</li><li>Subsidievoorwaarden vooraf toetsen.</li><li>Meterdata en opleverrapport vastleggen.</li></ul></div><div class="green-full-mini"><h4>MB/Credion-advies</h4><p>MB Adviesgroep/Credion kan het technische pakket vertalen naar een financieringsdossier, subsidieplanning en bewijsset richting bank of hypotheekverstrekker.</p></div></div>
+    <div class="green-full-closing"><b>Conclusie:</b> ${htmlEsc(r.pand_naam||'Het object')} is indicatief geschikt als groen-financieringsdossier, mits uitvoering, bewijsstukken, DNSH/sociale waarborgen en een nieuw geregistreerd energielabel worden aangeleverd.</div>
+    ${greenFoot()}
+  </section>`);
+
   pages.push(page('ESG-beoordeling — in één oogopslag','ESG-samenvatting & leeswijzer','Het object lijkt indicatief geschikt als groen-financieringsdossier, onder voorbehoud van oplevering, bewijsstukken, DNSH en sociale waarborgen.',`
     <div class="esg-kpis"><div><span>ESG-score (0–100)</span><strong>${score}<small>/100</small></strong><small>${htmlEsc(oordeel)}</small></div><div><span>Bewijsniveau (1–4)</span><strong>Niveau ${assurance}<small>/4</small></strong><small>Bronrapport gevalideerd</small></div><div><span>Rapportagegereedheid</span><strong style="color:var(--green)">Voorwaardelijk</strong><small>Onder voorbehoud van bewijsstukken</small></div></div>
     <div class="esg-grid-2" style="margin-bottom:14px"><div class="esg-score-card"><div class="esg-card-h">Score-onderbouwing</div><div class="num">${score}<small>/100</small></div><div class="esg-score-bar"><span style="width:${score}%"></span></div><strong>${htmlEsc(oordeel)}</strong><p>Score gewogen op transitierisico, datakwaliteit, bewijsniveau en rapportagegereedheid.</p></div><div class="esg-side-list"><div><span>ESG-score (gewogen)</span><b>${score} / 100</b></div><div><span>Bewijsniveau</span><b>Niveau ${assurance} / 4</b></div><div><span>Datakwaliteit</span><b>Gevalideerd</b></div><div><span>Beleidsrisico energie</span><b>Middel</b></div><div><span>Klimaatrisico (fysiek)</span><b>Middel</b></div><div><span>Rapportagegereedheid</span><b>Voorwaardelijk</b></div></div></div>
@@ -10181,7 +10414,7 @@ function renderPrintCover(r, today) {
         </div>
         <div class="pc-content">
           <div class="pc-eyebrow-wrap">
-            <span class="pc-eyebrow">Verduurzamingsrapport</span>
+            <span class="pc-eyebrow">Duurzaamheids- &amp; ESG-dossier</span>
             <span class="pc-accent-line"></span>
           </div>
           <div class="pc-pand-title">${r.pand_naam || 'Vastgoedobject'}</div>
@@ -10190,8 +10423,8 @@ function renderPrintCover(r, today) {
           </div>
           <div class="pc-cover-badges">
             <span class="pc-cover-badge pc-cover-badge-dark">Duurzaamheidsadvies</span>
-            <span class="pc-cover-badge">Verduurzamingsrapport</span>
-            <span class="pc-cover-badge">Maatregelen · subsidies · planning</span>
+            <span class="pc-cover-badge">ESG Bridge</span>
+            <span class="pc-cover-badge">SFDR Art. 8 · EU Taxonomie 7.2</span>
           </div>
         </div>
         <div class="pc-bottom-bar">
@@ -10807,45 +11040,8 @@ function renderScenarioSection(r) {
   setTimeout(()=>applyScenario('budget'), 80);
 }
 
-// Sticky inhoudsopgave
-function renderTocRail() {
-  const rail = document.getElementById('tocRail');
-  if (!rail) return;
-  const items = [
-    { id:'kpiPanel', label:'Overzicht' },
-    { id:'measuresSection', label:'Maatregelen' },
-    { id:'scenarioSection', label:'Scenario\'s' },
-    { id:'chartSection', label:'Besparing' },
-    { id:'subsidiesSection', label:'Subsidies' },
-    { id:'nettoSection', label:'Netto investering' },
-    { id:'maandlastenSection', label:'Maandlasten' },
-    { id:'phasesSection', label:'Aanpak' },
-    { id:'vervolgSection', label:'Vervolgstappen' },
-  ];
-  rail.innerHTML = items.map(i =>
-    `<a class="toc-link" data-tgt="${i.id}" href="#${i.id}"><span class="toc-dot"></span><span>${i.label}</span></a>`
-  ).join('');
-  rail.classList.add('on');
-  // Smooth scroll
-  rail.querySelectorAll('.toc-link').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const tgt = document.getElementById(a.dataset.tgt);
-      if (tgt) window.scrollTo({ top: tgt.getBoundingClientRect().top + window.scrollY - 32, behavior: 'smooth' });
-    });
-  });
-  // Active highlight
-  if (window._tocObserver) window._tocObserver.disconnect();
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        rail.querySelectorAll('.toc-link').forEach(l => l.classList.toggle('active', l.dataset.tgt === en.target.id));
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px' });
-  items.forEach(i => { const e = document.getElementById(i.id); if (e) obs.observe(e); });
-  window._tocObserver = obs;
-}
+// Sticky inhoudsopgave verwijderd.
+function renderTocRail() { return; }
 
 function renderAdviseurSection() {
   const el = document.getElementById('adviseurSection');
@@ -10941,6 +11137,32 @@ function restoreChartsAfterPrint() {
 window.addEventListener('beforeprint', prepareChartsForPrint);
 window.addEventListener('afterprint', restoreChartsAfterPrint);
 
+function cleanupReportUiV7() {
+  // Geen rechter zwevende knoppen/panelen meer: deze werkten niet betrouwbaar en voegen niets toe aan het rapport.
+  document.querySelectorAll('.ai-fab, .ai-panel, .toc-rail, .btn-ghost').forEach(el => {
+    if (el) el.remove ? el.remove() : (el.style.display = 'none');
+  });
+
+  // Oude duurzaamheidstool-secties die geen plek meer hebben in de gecombineerde opzet.
+  const hideIds = [
+    'geenActieSection','scenarioSection','subsidiesSection','nettoSection','maandlastenSection',
+    'nettoInfoSection','phasesSection','aandachtSection','vervolgSection','adviseurSection','bronSection'
+  ];
+  hideIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.innerHTML = ''; el.style.display = 'none'; }
+  });
+
+  // Verberg restcontainers die door oude print-CSS anders als lege pagina kunnen eindigen.
+  document.querySelectorAll('#result .body > [id]').forEach(el => {
+    const hasMedia = el.querySelector && el.querySelector('svg,img,canvas,table,.green-full-a4,.esg-full-page');
+    const txt = (el.textContent || '').replace(/\s+/g,'').trim();
+    if (!txt && !hasMedia && el.id !== 'esgSdgSection') {
+      el.style.display = 'none';
+    }
+  });
+}
+
 function resetTool() {
   document.getElementById('result').classList.remove('on');
   document.getElementById('loadingState').classList.remove('on');
@@ -10956,7 +11178,7 @@ function printRapport() {
   const titleEl = hdr ? hdr.querySelector('.rpt-title') : null;
   const pandNaam = titleEl ? titleEl.textContent.trim() : 'Verduurzamingsrapport';
   const orig = document.title;
-  document.title = 'Verduurzamingsrapport — ' + pandNaam;
+  document.title = 'Duurzaamheids- en ESG-dossier — ' + pandNaam;
 
   // Zet de bestaande rapportsecties terug in de originele flow vóór PDF/print.
   // Zo blijft de inhoud/output exact gelijk aan de oorspronkelijke Duurzaamheidstool.
