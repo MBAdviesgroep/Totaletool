@@ -7046,6 +7046,41 @@ select.finput {
 
 </style>
 
+
+<style>
+/* V4: strakkere ESG/SDG-pagina's, geen lege printpagina's */
+#geenActieSection:empty,#scenarioSection:empty,#maatregelenChartSection:empty,#chartSection:empty,#subsidiesSection:empty,#nettoSection:empty,#maandlastenSection:empty,#nettoInfoSection:empty,#phasesSection:empty,#aandachtSection:empty,#vervolgSection:empty,#adviseurSection:empty,#bronSection:empty{display:none!important;}
+.green-a4-page,.sdg-measure-page{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:28px 32px;margin:0 0 28px;position:relative;overflow:hidden;}
+.green-a4-page{min-height:980px;display:flex;flex-direction:column;gap:14px;}
+.green-a4-hero{background:linear-gradient(135deg,#0d3348 0%,#1B597B 55%,#226b55 100%);color:white;border-radius:var(--r-lg);padding:24px 26px;position:relative;overflow:hidden;}
+.green-a4-hero:after{content:'';position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+.green-a4-kicker{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#F2A07A;margin-bottom:8px;position:relative;z-index:1;}
+.green-a4-hero h2{font-size:27px;line-height:1.08;margin:0 0 10px;font-family:var(--f-head);letter-spacing:-.7px;position:relative;z-index:1;}
+.green-a4-hero p{font-size:13.2px;line-height:1.62;color:rgba(255,255,255,.86);margin:0;position:relative;z-index:1;}
+.green-a4-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;position:relative;z-index:1;}
+.green-a4-metrics>div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:12px 13px;min-width:0;}
+.green-a4-metrics span{display:block;font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:800;margin-bottom:6px;}
+.green-a4-metrics strong{display:block;color:#fff;font-size:21px;line-height:1.02;font-family:var(--f-head);font-weight:800;white-space:nowrap;letter-spacing:-.5px;}
+.green-a4-metrics small{font-size:12px;opacity:.7;margin-left:2px}.green-a4-metrics em{display:block;font-size:10px;color:rgba(255,255,255,.65);font-style:normal;margin-top:5px;line-height:1.25;}
+.green-a4-grid{display:grid;grid-template-columns:1.22fr .78fr;gap:14px;}.green-a4-second{grid-template-columns:1fr 1fr;flex:1;}
+.green-a4-card{background:#fff;border:1px solid var(--rule);border-radius:16px;padding:17px 18px;box-shadow:var(--shadow-sm);}
+.green-a4-card h3{font-size:13px;letter-spacing:1.3px;text-transform:uppercase;color:var(--orange);font-family:var(--f-head);margin:0 0 10px;font-weight:800;}
+.green-a4-card p{font-size:12.4px;line-height:1.58;color:var(--ink-2);margin:0 0 8px;}
+.green-sdg-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}.green-sdg-mini-grid>div{background:var(--blue-faint);border:1px solid var(--blue-faint2);border-radius:12px;padding:9px 10px;}
+.green-sdg-mini-grid b,.sdg-m-row b,.sdg-legend b{display:inline-flex;align-items:center;justify-content:center;color:#fff;border-radius:7px;font-family:var(--f-head);font-weight:800;}
+.green-sdg-mini-grid b{width:25px;height:25px;font-size:12px;margin-bottom:5px;}.green-sdg-mini-grid strong{display:block;font-size:11.2px;color:var(--blue-deep);line-height:1.2;margin-bottom:4px;}.green-sdg-mini-grid p{font-size:10.2px;line-height:1.38;color:var(--ink-3);margin:0;}
+.green-close{margin-top:auto;background:linear-gradient(135deg,#0d3348,#1B597B);color:white;border-radius:14px;padding:16px 20px;border-bottom:3px solid var(--orange);}
+.green-close strong{display:block;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:#F2A07A;margin-bottom:6px}.green-close span{font-size:13px;line-height:1.5;color:rgba(255,255,255,.9)}
+.sdg-measure-page{min-height:980px;}.sdg-page-head span{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--orange)}.sdg-page-head h2{font-size:28px;line-height:1.1;color:var(--blue-deep);margin:6px 0 8px}.sdg-page-head p{font-size:13px;color:var(--ink-3);line-height:1.55;margin:0 0 18px}.sdg-legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}.sdg-legend span{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--rule);border-radius:999px;font-size:10.5px;font-weight:700;color:var(--ink-2);background:#fff}.sdg-legend b{width:18px;height:18px;font-size:9px}.sdg-measure-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.sdg-m-card{border:1px solid var(--rule);border-radius:15px;background:#fff;box-shadow:var(--shadow-sm);padding:13px 14px;}.sdg-m-top{border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:8px}.sdg-m-top>span{font-size:9px;font-weight:800;color:var(--orange);letter-spacing:.7px}.sdg-m-top strong{display:block;font-size:13px;color:var(--blue-deep);line-height:1.2;margin:2px 0}.sdg-m-top em{font-size:10.5px;color:var(--green);font-style:normal;font-weight:700}.sdg-m-list{display:flex;flex-direction:column;gap:6px}.sdg-m-row{display:flex;gap:8px;align-items:flex-start}.sdg-m-row b{width:24px;height:24px;flex-shrink:0;font-size:10px}.sdg-m-row strong{font-size:10.7px;color:var(--ink);display:block;line-height:1.15}.sdg-m-row p{font-size:10.2px;line-height:1.32;color:var(--ink-3);margin:2px 0 0;}
+@media print{
+  #esgSdgSection{page-break-before:always!important;break-before:page!important;padding-top:0!important;margin-top:0!important;}
+  .green-a4-page,.sdg-measure-page{border:none!important;box-shadow:none!important;border-radius:0!important;margin:0!important;padding:8mm 9mm 20mm!important;min-height:247mm!important;page-break-inside:avoid!important;break-inside:avoid!important;overflow:hidden!important;}
+  .sdg-measure-page{page-break-before:always!important;break-before:page!important;}
+  .green-a4-hero{padding:10pt 12pt!important;border-radius:6pt!important}.green-logo-row{margin-bottom:5pt!important}.green-logo-row img{width:18pt!important;height:18pt!important}.green-logo-row strong{font-size:8pt!important}.green-logo-row span{font-size:6pt!important}.green-a4-kicker{font-size:6.5pt!important;margin-bottom:3pt!important}.green-a4-hero h2{font-size:15pt!important;margin-bottom:5pt!important}.green-a4-hero p{font-size:7.5pt!important;line-height:1.38!important}.green-scorebar{height:3pt!important;margin-top:6pt!important}.green-a4-metrics{gap:5pt!important;margin-top:7pt!important}.green-a4-metrics>div{padding:5pt!important;border-radius:4pt!important}.green-a4-metrics span{font-size:5.8pt!important;margin-bottom:2pt!important}.green-a4-metrics strong{font-size:12pt!important;overflow:visible!important;text-overflow:clip!important}.green-a4-metrics small{font-size:7pt!important}.green-a4-metrics em{font-size:5.8pt!important;margin-top:2pt!important}.green-a4-grid{gap:5pt!important}.green-a4-card{padding:7pt!important;border-radius:5pt!important;box-shadow:none!important}.green-a4-card h3{font-size:6.8pt!important;margin-bottom:4pt!important}.green-a4-card p{font-size:6.7pt!important;line-height:1.34!important;margin-bottom:3pt!important}.green-fin-row{font-size:6.5pt!important;padding:2.2pt 0!important}.green-fin-row strong{font-size:7.4pt!important}.green-tags{gap:3pt!important;margin-top:4pt!important}.green-tags span{font-size:5.7pt!important;padding:1.5pt 4pt!important}.green-note{font-size:6pt!important;margin-top:4pt!important}.green-sdg-mini-grid{gap:4pt!important}.green-sdg-mini-grid>div{padding:4pt!important;border-radius:4pt!important}.green-sdg-mini-grid b{width:14pt!important;height:14pt!important;font-size:7pt!important}.green-sdg-mini-grid strong{font-size:6.4pt!important}.green-sdg-mini-grid p{font-size:5.9pt!important;line-height:1.25!important}.green-risk{padding:2.5pt 0!important}.green-risk strong{font-size:6.3pt!important}.green-risk span{font-size:6pt!important;line-height:1.25!important}.green-proof-list{margin-top:3pt!important}.green-proof-list li{font-size:6pt!important;padding:1.4pt 0!important}.green-close{border-radius:5pt!important;padding:7pt 9pt!important}.green-close strong{font-size:6pt!important;margin-bottom:3pt!important}.green-close span{font-size:7pt!important;line-height:1.35!important}
+  .sdg-page-head span{font-size:6.4pt!important}.sdg-page-head h2{font-size:15.5pt!important;margin:3pt 0 4pt!important}.sdg-page-head p{font-size:7pt!important;margin-bottom:7pt!important}.sdg-legend{gap:4pt!important;margin-bottom:6pt!important}.sdg-legend span{font-size:5.8pt!important;padding:2pt 5pt!important}.sdg-legend b{width:11pt!important;height:11pt!important;font-size:6pt!important}.sdg-measure-grid{gap:5pt!important}.sdg-m-card{padding:5.5pt!important;border-radius:5pt!important;box-shadow:none!important}.sdg-m-top{padding-bottom:3pt!important;margin-bottom:3pt!important}.sdg-m-top>span{font-size:5.5pt!important}.sdg-m-top strong{font-size:7.2pt!important}.sdg-m-top em{font-size:5.8pt!important}.sdg-m-list{gap:2.6pt!important}.sdg-m-row{gap:4pt!important}.sdg-m-row b{width:13pt!important;height:13pt!important;font-size:6pt!important}.sdg-m-row strong{font-size:6.3pt!important}.sdg-m-row p{font-size:5.8pt!important;line-height:1.22!important;margin-top:.5pt!important}
+}
+</style>
+
 </head>
 <body>
 
@@ -9005,8 +9040,11 @@ function renderReport(r) {
   // 1. Cover, energieprestatie en energielabel; 2. maatregelen; 3. één gevulde groene ESG/SDG-paragraaf.
   // Grafieken, subsidies, netto investering, maandlasten, fasering, aandachtspunten en vervolgstappen worden bewust niet meer getoond.
   ['geenActieSection','scenarioSection','maatregelenChartSection','chartSection','subsidiesSection','nettoSection','maandlastenSection','nettoInfoSection','phasesSection','aandachtSection','vervolgSection','adviseurSection','bronSection'].forEach(id=>{
-    const e=document.getElementById(id); if(e) e.innerHTML='';
+    const e=document.getElementById(id);
+    if(e){ e.innerHTML=''; e.style.display='none'; }
   });
+  const esgEl=document.getElementById('esgSdgSection');
+  if(esgEl) esgEl.style.display='block';
   renderEsgSdgSection(r);
   renderTocRail();
 }
@@ -9033,14 +9071,13 @@ function calcEsgScore(r){
   const co2=numPct(r.co2_reductie_pct);
   const inv=(r.maatregelen||[]).reduce((s,m)=>s+parseEuro(m.investering),0);
   const bes=(r.maatregelen||[]).reduce((s,m)=>s+parseEuro(m.besparing),0);
-  const tvt=bes>0?inv/bes:20;
-  let score=54;
-  score += Math.min(18,labelGain*4);
-  score += Math.min(18,co2*0.30);
-  score += Math.min(8,(r.maatregelen||[]).length*1.5);
-  score += tvt<=7?10:tvt<=10?7:tvt<=15?4:1;
-  if(r.huidig_label_indicatief) score-=5;
-  return Math.max(35,Math.min(95,Math.round(score)));
+  const tvt=bes>0?inv/bes:25;
+  // Bankwaardige score: labelverbetering en CO2 tellen zwaar, maar een lange TVT drukt de score.
+  let tvtPts = tvt<=7 ? 9 : tvt<=10 ? 7 : tvt<=15 ? 5 : tvt<=20 ? 3 : tvt<=30 ? 1 : -3;
+  let score = 50 + Math.min(18,labelGain*4.5) + Math.min(14,co2*0.18) + Math.min(6,(r.maatregelen||[]).length*0.75) + tvtPts;
+  if(tvt>18) score-=2;
+  if(r.huidig_label_indicatief) score-=4;
+  return Math.max(45,Math.min(90,Math.round(score)));
 }
 function esgOordeel(score){
   if(score>=82) return 'Sterk financierbaar ESG-dossier';
@@ -9053,11 +9090,77 @@ function measureNamesBy(keys,r){
   const hits=ms.filter(n=>keys.some(k=>n.toLowerCase().includes(k)));
   return hits.length?hits.slice(0,3).join(', '):'het voorgestelde maatregelenpakket';
 }
+function sdgColor(n){
+  const map={'3':'#4C9F38','7':'#FCC30B','9':'#FD6925','11':'#FD9D24','12':'#BF8B2E','13':'#3F7E44','17':'#19486A'};
+  return map[String(n)] || '#1B597B';
+}
+function sdgName(n){
+  const map={'3':'Goede gezondheid','7':'Duurzame energie','9':'Innovatie','11':'Duurzame steden','12':'Verantwoorde consumptie','13':'Klimaatactie','17':'Partnerschap'};
+  return map[String(n)] || ('SDG '+n);
+}
+function maatregelSdgSet(m,r){
+  const name=String(m.naam||'').toLowerCase();
+  const bes=parseEuro(m.besparing); const co2=parseCO2kg(m.co2);
+  const besTxt=bes?fmtEuro(bes)+'/jr':'meetbare besparing';
+  const co2Txt=co2?Math.round(co2).toLocaleString('nl-NL')+' kg CO₂/jr':'CO₂-reductie';
+  if(/zonne|pv|paneel/.test(name)) return [
+    ['7',`Verhoogt de eigen duurzame elektriciteitsopwekking en verlaagt de energielasten met circa ${besTxt}.`],
+    ['9',`Past bewezen duurzame technologie toe in bestaande bouw en maakt monitoring van opwek mogelijk.`],
+    ['13',`Vervangt netstroom door lokale opwek en draagt bij aan circa ${co2Txt}.`]
+  ];
+  if(/warmtepomp|hybride/.test(name)) return [
+    ['7',`Verlaagt de warmtevraag uit aardgas en verbetert de energie-efficiëntie met circa ${besTxt}.`],
+    ['9',`Verduurzaamt de installatie met hybride techniek die past bij gefaseerde renovatie.`],
+    ['13',`Reduceert fossiel gasverbruik en draagt bij aan circa ${co2Txt}.`]
+  ];
+  if(/thermostaat|monitor|regeling|zone/.test(name)) return [
+    ['7',`Stuurt verwarming slimmer aan en voorkomt onnodig energieverbruik.`],
+    ['9',`Gebruikt slimme regeltechniek voor beter meetbaar energiebeheer.`],
+    ['12',`Vermindert verspilling door alleen te verwarmen waar en wanneer dat nodig is.`]
+  ];
+  if(/isolatie|glas|hr\+|kier|radiator|leiding|dak|gevel|vloer|deur/.test(name)) return [
+    ['3',`Verbetert comfort door minder tocht, koudeval of vochtgevoelige plekken.`],
+    ['7',`Verlaagt de energievraag van het gebouw met circa ${besTxt}.`],
+    ['11',`Maakt bestaande woningvoorraad toekomstbestendiger en comfortabeler.`],
+    ['12',`Beperkt energieverspilling door warmteverlies structureel te reduceren.`],
+    ['13',`Draagt bij aan circa ${co2Txt} reductie binnen het maatregelenpakket.`]
+  ];
+  return [
+    ['7',`Draagt bij aan lagere energievraag en betere energieprestatie.`],
+    ['11',`Verbetert de kwaliteit en toekomstbestendigheid van het bestaande object.`],
+    ['13',`Ondersteunt de CO₂-reductie van het totale pakket.`]
+  ];
+}
+function renderSdgPerMaatregel(r){
+  const ms=(r.maatregelen||[]).filter(m=>m && m.naam).slice(0,10);
+  if(!ms.length) return '';
+  return `
+    <section class="sdg-measure-page">
+      <div class="sdg-page-head">
+        <div><span>SDG · DUURZAAMHEIDSDOELEN</span><h2>Welke maatregel draagt bij aan welk doel?</h2><p>Per maatregel zijn de bijbehorende VN-duurzaamheidsdoelen gekoppeld aan het concrete effect uit het verduurzamingspakket.</p></div>
+      </div>
+      <div class="sdg-legend">${['3','7','9','11','12','13'].map(n=>`<span><b style="background:${sdgColor(n)}">${n}</b>${sdgName(n)}</span>`).join('')}</div>
+      <div class="sdg-measure-grid">
+        ${ms.map((m,i)=>{
+          const set = Array.isArray(m.sdg_koppelingen)&&m.sdg_koppelingen.length
+            ? m.sdg_koppelingen.slice(0,5).map(x=>[x.sdg_nr||x.sdg||x.nr, x.uitleg||x.toelichting||''])
+            : maatregelSdgSet(m,r);
+          return `<article class="sdg-m-card">
+            <div class="sdg-m-top"><span>M${i+1}</span><strong>${htmlEsc(m.naam)}</strong><em>${parseEuro(m.besparing)?fmtEuro(parseEuro(m.besparing))+'/jr':''}${parseCO2kg(m.co2)?' · '+Math.round(parseCO2kg(m.co2)).toLocaleString('nl-NL')+' kg CO₂/jr':''}</em></div>
+            <div class="sdg-m-list">${set.map(([nr,u])=>`<div class="sdg-m-row"><b style="background:${sdgColor(nr)}">${htmlEsc(nr)}</b><div><strong>${htmlEsc(sdgName(nr))}</strong><p>${htmlEsc(u)}</p></div></div>`).join('')}</div>
+          </article>`;
+        }).join('')}
+      </div>
+    </section>`;
+}
 function renderEsgSdgSection(r){
   const el=document.getElementById('esgSdgSection'); if(!el) return;
+  el.style.display='block';
   const gp = r.groene_paragraaf || {};
   const bank = r.esg_banklaag || {};
-  const score = parseInt(gp.esg_score || bank.score || calcEsgScore(r), 10) || calcEsgScore(r);
+  const computedScore = calcEsgScore(r);
+  const rawScore = parseInt(gp.esg_score || bank.score || computedScore, 10);
+  const score = (!rawScore || rawScore < 40 || rawScore > 95) ? computedScore : rawScore;
   const oordeel = gp.oordeel || bank.oordeel || esgOordeel(score);
   const inv=(r.maatregelen||[]).reduce((s,m)=>s+parseEuro(m.investering),0);
   const bes=(r.maatregelen||[]).reduce((s,m)=>s+parseEuro(m.besparing),0);
@@ -9069,91 +9172,65 @@ function renderEsgSdgSection(r){
   const tvt = bes>0 && inv>0 ? (inv/bes).toFixed(1).replace('.',',') : '';
 
   const conclusie = gp.conclusie || bank.samenvatting || (inv>0
-    ? `Het maatregelenpakket voor ${r.pand_naam || 'dit object'} laat een concreet pad zien van ${labelTraject} met een bruto investeringsindicatie van ${fmtEuro(inv)} en een jaarlijkse energiebesparing van circa ${fmtEuro(bes)}. Daarmee kan het object onder voorwaarden worden gepositioneerd als groen-financierbaar dossier. De definitieve beoordeling hangt af van offertes, uitvoering, nieuw energielabel, facturen en meetbare verbruiksdata na oplevering.`
+    ? `Het maatregelenpakket voor ${r.pand_naam || 'dit object'} laat een concreet pad zien van ${labelTraject} met een bruto investeringsindicatie van ${fmtEuro(inv)} en een jaarlijkse energiebesparing van circa ${fmtEuro(bes)}. De combinatie van labelverbetering, lagere energielasten en CO₂-reductie maakt dit object onder voorwaarden geschikt als groen-financierbaar dossier. Definitieve kwalificatie vraagt om offertes, uitvoering, nieuw energielabel, facturen en meetbare verbruiksdata na oplevering.`
     : `Het object kan pas definitief groen-financierbaar worden beoordeeld zodra investering, besparing, labelverbetering en bewijsstukken per maatregel zijn onderbouwd.`);
 
-  const sfdr = gp.sfdr || `Het dossier kan onder voorwaarden bijdragen aan duurzame kenmerken zoals bedoeld in SFDR Artikel 8. De onderbouwing zit in de aantoonbare labelverbetering ${labelTraject}, de energiebesparing van circa ${fmtEuro(bes)} per jaar en de indicatieve CO₂-reductie van ${co2txt}. Definitieve classificatie vraagt om bewijsstukken na uitvoering.`;
-  const tax = gp.taxonomie || `Voor EU Taxonomie 7.2 is dit indicatief relevant als renovatie van bestaand vastgoed. De maatregelen zijn vooral sterk als na uitvoering aantoonbaar is dat het energielabel verbetert, de energievraag daalt en DNSH/sociale waarborgen zijn bevestigd. Zonder nieuw geregistreerd label blijft het oordeel voorwaardelijk.`;
-  const pillar = gp.pillar3 || `Voor bancaire rapportage zijn het labeltraject, de investering, de jaarlijkse besparing, de energie-intensiteit en de CO₂-reductie bruikbaar. Deze indicatoren kunnen worden gebruikt voor portefeuillemonitoring, green-loan beoordeling en onderbouwing richting financier.`;
-  const haak = gp.mb_credion_haak || bank.mb_credion_haak || `MB Adviesgroep/Credion kan dit dossier financierbaar maken door offertes per maatregel, subsidie-/RVO-toets, labelbewijzen, facturen en monitoringgegevens te bundelen in één bankwaardig aanvraagdossier.`;
+  const sfdr = gp.sfdr || `Het dossier kan onder voorwaarden bijdragen aan duurzame kenmerken zoals bedoeld in SFDR Artikel 8. De onderbouwing zit in het labeltraject ${labelTraject}, een jaarlijkse besparing van circa ${fmtEuro(bes)} en een indicatieve CO₂-reductie van ${co2txt}. Definitieve classificatie blijft afhankelijk van oplevering en bewijsstukken.`;
+  const tax = gp.taxonomie || `Voor EU Taxonomie 7.2 is dit indicatief relevant als renovatie van bestaand vastgoed. De maatregelen zijn vooral sterk als na uitvoering aantoonbaar is dat het energielabel verbetert, de energievraag daalt en DNSH/sociale waarborgen zijn bevestigd.`;
+  const pillar = gp.pillar3 || `Voor bancaire Pillar 3-rapportage zijn het energielabel, de investering, de besparing, energieverbruiken en de CO₂-reductie bruikbaar. Deze indicatoren ondersteunen portefeuillemonitoring en green-loan beoordeling.`;
+  const haak = gp.mb_credion_haak || bank.mb_credion_haak || `MB Adviesgroep/Credion kan dit dossier vertalen naar een financierbare aanvraag door offertes, subsidie-/RVO-toets, labelbewijzen, facturen en monitoringgegevens te bundelen in één bankwaardig dossier.`;
 
   let sdgs = Array.isArray(gp.sdg_koppelingen) && gp.sdg_koppelingen.length ? gp.sdg_koppelingen : (Array.isArray(r.sdg_koppeling) && r.sdg_koppeling.length ? r.sdg_koppeling : null);
   if(!sdgs){
     sdgs=[
-      {sdg:'7', naam:'Betaalbare en duurzame energie', uitleg:`Maatregelen zoals ${measureNamesBy(['zonne','warmtepomp','isolatie','thermostaat'],r)} verlagen de energievraag en vergroten het aandeel duurzame energie.`},
-      {sdg:'11', naam:'Duurzame steden en gemeenschappen', uitleg:`De verbetering van ${labelTraject} maakt het bestaande vastgoed toekomstbestendiger, comfortabeler en beter verkoop-/verhuurbaar.`},
-      {sdg:'12', naam:'Verantwoorde consumptie en productie', uitleg:`Door gericht te investeren in bestaande bouw wordt energieverspilling teruggedrongen en wordt materiaalgebruik doelgerichter ingezet.`},
-      {sdg:'13', naam:'Klimaatactie', uitleg:`De indicatieve CO₂-reductie van ${co2txt} draagt bij aan beperking van fossiel energiegebruik.`}
+      {sdg:'7', naam:'Betaalbare en duurzame energie', uitleg:`Het pakket verlaagt het energieverbruik via ${measureNamesBy(['zonne','warmtepomp','isolatie','thermostaat'],r)} en bespaart circa ${fmtEuro(bes)} per jaar.`},
+      {sdg:'11', naam:'Duurzame steden en gemeenschappen', uitleg:`De verbetering van ${labelTraject} maakt bestaande woningvoorraad toekomstbestendiger, comfortabeler en beter verkoopbaar.`},
+      {sdg:'12', naam:'Verantwoorde consumptie en productie', uitleg:`Gerichte renovatie voorkomt energieverspilling en benut bestaande bouw in plaats van vervanging.`},
+      {sdg:'13', naam:'Klimaatactie', uitleg:`De indicatieve CO₂-reductie van ${co2txt} ondersteunt klimaatdoelen voor de gebouwde omgeving.`}
     ];
   }
-  sdgs = sdgs.slice(0,5).map(s=>({sdg: s.sdg || s.sdg_nr || s.nr || '', naam: s.naam || s.label || '', uitleg: s.uitleg || s.toelichting || ''}));
+  sdgs = sdgs.slice(0,4).map(s=>({sdg: s.sdg || s.sdg_nr || s.nr || '', naam: s.naam || s.label || sdgName(s.sdg || s.sdg_nr || s.nr), uitleg: s.uitleg || s.toelichting || ''}));
 
   let risicoPunten = Array.isArray(gp.risicos_en_voorwaarden) && gp.risicos_en_voorwaarden.length ? gp.risicos_en_voorwaarden : null;
   if(!risicoPunten && Array.isArray(bank.risicos)) risicoPunten = bank.risicos.map(x=>({punt:x.risico || x.risk, actie:x.maatregel || x.action || ''}));
   if(!risicoPunten) risicoPunten = [
-    {punt:'Offertes en technische haalbaarheid', actie:'Vraag gesplitste offertes per maatregel op en laat dak, installaties, netcapaciteit en uitvoeringsplanning vooraf controleren.'},
-    {punt:'Nieuw energielabel na uitvoering', actie:'Laat na oplevering een erkend adviseur het nieuwe energielabel registreren en voeg dit toe aan het financieringsdossier.'},
+    {punt:'Offertes per maatregel', actie:'Vraag gesplitste offertes op zodat investering, subsidie en financiering per maatregel toetsbaar zijn.'},
+    {punt:'Nieuw energielabel na uitvoering', actie:'Laat na oplevering een erkend adviseur het nieuwe label registreren en voeg dit toe aan het dossier.'},
     {punt:'Subsidie- en bewijsrisico', actie:'Controleer RVO-voorwaarden vóór opdrachtverstrekking en bewaar facturen, meldcodes, foto’s en opleverrapporten.'},
-    {punt:'Monitoring tijdens looptijd', actie:'Leg gas, elektra en eventuele zonne-opwek jaarlijks vast om de besparing en CO₂-reductie aantoonbaar te maken.'}
+    {punt:'Monitoring tijdens looptijd', actie:'Leg gas, elektra en eventuele zonne-opwek jaarlijks vast om de besparing aantoonbaar te maken.'}
   ];
   risicoPunten = risicoPunten.slice(0,4);
 
   const bewijs = Array.isArray(gp.benodigde_bewijsstukken) && gp.benodigde_bewijsstukken.length ? gp.benodigde_bewijsstukken : (bank.belangrijkste_bewijsstukken || ['Offertes per maatregel','Energielabel vóór en na uitvoering','Facturen en betaalbewijzen','Opleverrapportage/installatiespecificaties','Meterdata gas, elektra en opwek']);
-
   const scoreWidth=Math.max(8,Math.min(100,score));
-  el.innerHTML = secHead('Groene paragraaf &amp; ESG-financieringsadvies') + `
-    <div class="green-page green-page-v3">
-      <div class="green-hero-v3">
-        <div class="green-logo-row">
-          <img src="${LOGO_IMG}" alt="MB"><div><strong>MB Adviesgroep</strong><span>Groene paragraaf · ESG / SDG / financiering</span></div>
-        </div>
-        <div class="green-kicker">Bankwaardige duurzaamheidsduiding</div>
-        <div class="green-title">Waarom dit pakket onder voorwaarden groen financierbaar kan zijn</div>
-        <div class="green-lead">${htmlEsc(conclusie)}</div>
+
+  el.innerHTML = `
+    <section class="green-a4-page">
+      <div class="green-a4-hero">
+        <div class="green-logo-row"><img src="${LOGO_IMG}" alt="MB"><div><strong>MB Adviesgroep</strong><span>Groene paragraaf · ESG / SDG / financiering</span></div></div>
+        <div class="green-a4-kicker">Bankwaardige duurzaamheidsduiding</div>
+        <h2>Waarom dit pakket onder voorwaarden groen financierbaar kan zijn</h2>
+        <p>${htmlEsc(conclusie)}</p>
         <div class="green-scorebar"><span style="width:${scoreWidth}%"></span></div>
-        <div class="green-metrics green-metrics-v3">
+        <div class="green-a4-metrics">
           <div><span>ESG-score</span><strong>${score}<small>/100</small></strong><em>${htmlEsc(oordeel)}</em></div>
-          <div><span>Labeltraject</span><strong>${htmlEsc(labelTraject)}</strong><em>nieuw label na uitvoering</em></div>
+          <div><span>Labeltraject</span><strong>${htmlEsc(labelTraject)}</strong><em>na uitvoering te bevestigen</em></div>
           <div><span>CO₂-reductie</span><strong>${htmlEsc(co2txt)}</strong><em>indicatief bronrapport</em></div>
           <div><span>Besparing</span><strong>${fmtEuro(bes||0)}</strong><em>≈ ${fmtEuro(maandBes||0)} per maand</em></div>
         </div>
       </div>
-
-      <div class="green-main-grid">
-        <div class="green-card green-card-large">
-          <div class="green-card-title">SFDR · Pillar 3 · EU Taxonomie 7.2</div>
-          <p><strong>SFDR Artikel 8:</strong> ${htmlEsc(sfdr)}</p>
-          <p><strong>Pillar 3 / bankrapportage:</strong> ${htmlEsc(pillar)}</p>
-          <p><strong>EU Taxonomie 7.2:</strong> ${htmlEsc(tax)}</p>
-          <div class="green-tags"><span>In aanmerking</span><span>Potentieel aligned</span><span>DNSH vereist</span><span>Bewijsstukken nodig</span></div>
-        </div>
-        <div class="green-card green-card-small">
-          <div class="green-card-title">Financieringshaak</div>
-          <div class="green-fin-row"><span>Bruto investering</span><strong>${fmtEuro(inv||0)}</strong></div>
-          <div class="green-fin-row"><span>Huidige energiekosten</span><strong>${huidigKosten?fmtEuro(huidigKosten):'—'}</strong></div>
-          <div class="green-fin-row"><span>Besparing per jaar</span><strong>${fmtEuro(bes||0)}</strong></div>
-          ${tvt ? `<div class="green-fin-row"><span>Indicatieve TVT</span><strong>${tvt} jaar</strong></div>` : ''}
-          <p class="green-note">Dit is geen apart financieringshoofdstuk, maar de groene onderbouwing waarmee bank, hypotheekverstrekker of duurzaamheidslening het dossier kan beoordelen.</p>
-        </div>
+      <div class="green-a4-grid">
+        <div class="green-a4-card green-a4-wide"><h3>SFDR · Pillar 3 · EU Taxonomie 7.2</h3><p><b>SFDR Artikel 8:</b> ${htmlEsc(sfdr)}</p><p><b>Pillar 3:</b> ${htmlEsc(pillar)}</p><p><b>EU Taxonomie 7.2:</b> ${htmlEsc(tax)}</p><div class="green-tags"><span>In aanmerking</span><span>Potentieel aligned</span><span>DNSH vereist</span><span>Nieuw label nodig</span></div></div>
+        <div class="green-a4-card"><h3>Financieringshaak</h3><div class="green-fin-row"><span>Bruto investering</span><strong>${fmtEuro(inv||0)}</strong></div><div class="green-fin-row"><span>Huidige kosten</span><strong>${huidigKosten?fmtEuro(huidigKosten):'—'}</strong></div><div class="green-fin-row"><span>Besparing / jaar</span><strong>${fmtEuro(bes||0)}</strong></div>${tvt ? `<div class="green-fin-row"><span>Indicatieve TVT</span><strong>${tvt} jaar</strong></div>` : ''}<p class="green-note">Groene onderbouwing voor bank, hypotheekverstrekker of duurzaamheidslening.</p></div>
       </div>
-
-      <div class="green-card green-sdg-card">
-        <div class="green-card-title">SDG-impact uit het maatregelenpakket</div>
-        <div class="green-sdg-grid green-sdg-grid-v3">${sdgs.map(s=>`<div class="green-sdg"><span>${htmlEsc(s.sdg)}</span><strong>${htmlEsc(s.naam)}</strong><p>${htmlEsc(s.uitleg)}</p></div>`).join('')}</div>
+      <div class="green-a4-grid green-a4-second">
+        <div class="green-a4-card"><h3>SDG-impact in hoofdlijnen</h3><div class="green-sdg-mini-grid">${sdgs.map(s=>`<div><b style="background:${sdgColor(s.sdg)}">${htmlEsc(s.sdg)}</b><strong>${htmlEsc(s.naam)}</strong><p>${htmlEsc(s.uitleg)}</p></div>`).join('')}</div></div>
+        <div class="green-a4-card"><h3>Risico’s, voorwaarden & bewijs</h3>${risicoPunten.map(x=>`<div class="green-risk"><strong>${htmlEsc(x.punt||x.risk||'Voorwaarde')}</strong><span>${htmlEsc(x.actie||x.action||x.maatregel||'Nader uit te werken.')}</span></div>`).join('')}<ul class="green-proof-list">${bewijs.slice(0,5).map(b=>`<li>${htmlEsc(b)}</li>`).join('')}</ul></div>
       </div>
-
-      <div class="green-main-grid green-bottom-grid">
-        <div class="green-card">
-          <div class="green-card-title">Risico’s, voorwaarden & monitoring</div>
-          ${risicoPunten.map(x=>`<div class="green-risk"><strong>${htmlEsc(x.punt||x.risk||'Voorwaarde')}</strong><span>${htmlEsc(x.actie||x.action||x.maatregel||'Nader uit te werken.')}</span></div>`).join('')}
-        </div>
-        <div class="green-card">
-          <div class="green-card-title">Benodigde bewijsstukken</div>
-          <ul class="green-proof-list">${bewijs.slice(0,6).map(b=>`<li>${htmlEsc(b)}</li>`).join('')}</ul>
-          <div class="green-haak">${htmlEsc(haak)}</div>
-        </div>
-      </div>
-    </div>`;
+      <div class="green-close"><strong>Conclusie voor financiering</strong><span>${htmlEsc(haak)}</span></div>
+    </section>
+    ${renderSdgPerMaatregel(r)}
+  `;
 }
 function renderBronSection(r) {
   const el = document.getElementById('bronSection');

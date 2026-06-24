@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 const ESG_SDG_FINANCE_EXTENSION = `
 
 ═══════════════════════════════════════════════════════════════
-V3 RAPPORTOPBOUW — GEEN APART ESG-RAPPORT, WEL ÉÉN STERKE GROENE PARAGRAAF
+V4 RAPPORTOPBOUW — DUURZAAMHEIDSKERN + A4 GROENE PARAGRAAF + SDG PER MAATREGEL
 ═══════════════════════════════════════════════════════════════
 Maak ÉÉN compact MB Adviesgroep-rapport. Gebruik NIET de volledige ESG/SDG-tool als losse output met 8 pagina's.
 
@@ -11,15 +11,17 @@ GEWENSTE OPBOUW IN DE FRONTEND:
 1. Voorblad.
 2. Energieprestatie uit de duurzaamheidstool: energielabelbalk, huidig label, streeflabel, energiekosten, besparing, CO₂-reductie, terugverdientijd, uitgangspunten.
 3. Geadviseerde maatregelen uit de duurzaamheidstool: alle maatregelen met investering, besparing, CO₂ en TVT, plus compacte toelichting.
-4. Daarna één volledig gevulde pagina: "Groene paragraaf & ESG-financieringsadvies".
+4. Daarna één volledige A4-pagina: "Groene paragraaf & ESG-financieringsadvies" in de stijl van het ESG/SDG-dossier, met duidelijke afsluitende conclusie onderaan.
+5. Daarna een SDG-pagina per maatregel/maatregelenoverzicht: per maatregel de meest relevante SDG-koppelingen, zoals in de ESG/SDG-tool.
 
-BELANGRIJK: genereer GEEN uitgebreide aparte ESG-pagina's zoals score-radar, risicomatrix, SDG-pagina per maatregel, SFDR-pagina, cashflowgrafiek of vervolgpagina. De frontend toont alleen de groene paragraaf als ESG/SDG-laag.
+BELANGRIJK: genereer GEEN losse score-radar, risicomatrix, cashflowgrafiek of vervolgpagina. De frontend toont WEL een groene A4-paragraaf en WEL een SDG-pagina per maatregel. De opbouw en toon moeten lijken op het ESG/SDG-rapport, maar compact en netjes per A4 afgesloten.
 
 VERWIJDERDE/NIET-BEDOELDE ONDERDELEN:
 - Geen cumulatieve besparingsgrafiek.
 - Geen scenariovergelijker.
 - Geen losse financierings-/maandlastenpagina.
 - Geen aparte subsidies/fiscale regelingenpagina.
+- Wel een SDG-pagina per maatregel, met maatregel-specifieke SDG-koppelingen.
 - Geen apart volledig ESG-dossier van 8 pagina's.
 - Geen grafiekpagina na de groene paragraaf.
 
@@ -47,9 +49,18 @@ Vul deze velden zorgvuldig:
       {"punt":"Specifiek risico of voorwaarde uit dit dossier", "actie":"Concrete beheersmaatregel of bewijsstuk"}
     ],
     "benodigde_bewijsstukken": ["offertes per maatregel", "energielabel vóór/na", "facturen", "opleverrapport", "meterdata"],
-    "mb_credion_haak": "1-2 sterke commerciële advieszinnen waarom MB Adviesgroep/Credion waarde toevoegt bij financiering en bewijsvoering."
+    "mb_credion_haak": "1-2 sterke commerciële advieszinnen waarom MB Adviesgroep/Credion waarde toevoegt bij financiering en bewijsvoering.",
+    "afsluitende_conclusie": "Korte slotconclusie voor onderaan de groene A4-pagina: indicatief wel/niet groen financierbaar en welke bewijsstukken nog nodig zijn."
   }
 }
+
+MAATREGELEN EN SDG-KOPPELINGEN:
+Geef waar mogelijk per maatregel ook een veld "sdg_koppelingen" terug met 2-5 relevante SDGs. Gebruik geen generieke kopieertekst: de uitleg moet passen bij het type maatregel.
+- Isolatie/glas/kierdichting: SDG 3, 7, 11, 12, 13.
+- Warmtepomp/installatie: SDG 7, 9, 13 en eventueel 3.
+- Zonnepanelen/opwek: SDG 7, 9, 13 en eventueel 11.
+- Slimme thermostaat/monitoring: SDG 7, 9, 12.
+Gebruik bij voorkeur concrete besparing en CO2-cijfers per maatregel.
 
 REGELS:
 - De duurzaamheidstool blijft leidend voor technische cijfers, energielabel en maatregelen.
