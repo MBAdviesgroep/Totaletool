@@ -5911,6 +5911,24 @@ select.finput {
   .bron-desc strong { color: #1A1A1A !important; font-weight: 600 !important; }
 
 }
+/* v3 compacte rapportopbouw: alleen duurzaamheid-kern + volledige groene paragraaf */
+.green-page-v3{min-height:930px;margin-bottom:0!important;}
+.green-hero-v3{background:linear-gradient(135deg,#0d3348 0%,#1B597B 48%,#226b55 100%);border-radius:var(--r-lg);padding:24px 26px;color:#fff;box-shadow:var(--shadow-md);margin-bottom:14px;position:relative;overflow:hidden;}
+.green-hero-v3:before{content:'';position:absolute;right:-80px;top:-80px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.07)}
+.green-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;position:relative;z-index:1}
+.green-logo-row img{width:34px;height:34px;border-radius:50%;background:#fff;object-fit:contain;padding:2px;flex-shrink:0}
+.green-logo-row strong{display:block;font-size:13px;color:#fff;font-family:var(--f-head)}
+.green-logo-row span{display:block;font-size:10px;color:rgba(255,255,255,.58);font-family:var(--f-head)}
+.green-scorebar{height:4px;border-radius:99px;background:rgba(255,255,255,.16);overflow:hidden;margin-top:12px;position:relative;z-index:1}
+.green-scorebar span{display:block;height:100%;background:var(--orange);border-radius:99px}
+.green-main-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;margin-bottom:14px;}
+.green-bottom-grid{grid-template-columns:1fr 1fr;}
+.green-card-large p{font-size:12.3px;line-height:1.58;margin-bottom:8px}.green-card-small .green-card-title{margin-bottom:12px}
+.green-fin-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--rule);font-size:12px}.green-fin-row span{color:var(--ink-3)}.green-fin-row strong{color:var(--blue-deep);font-family:var(--f-head);font-size:14px}.green-note{font-size:11.2px!important;color:var(--ink-3)!important;line-height:1.55!important;margin-top:10px!important}
+.green-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.green-tags span{font-size:10px;font-weight:700;color:var(--blue);background:var(--blue-faint);border-radius:999px;padding:4px 8px;font-family:var(--f-head)}
+.green-proof-list{margin-top:4px!important}.green-proof-list li{padding:4px 0;border-bottom:1px solid var(--rule);list-style:none;margin-left:-14px}
+@media print{#esgSdgSection{page-break-before:always!important;break-before:page!important;padding-top:12mm!important}.green-page-v3{min-height:235mm!important;page-break-inside:avoid!important;break-inside:avoid!important}.green-hero-v3{border-radius:6pt!important;padding:12pt 14pt!important;margin-bottom:7pt!important}.green-logo-row{margin-bottom:7pt!important}.green-logo-row img{width:20pt!important;height:20pt!important}.green-logo-row strong{font-size:8pt!important}.green-logo-row span{font-size:6.2pt!important}.green-main-grid,.green-bottom-grid{grid-template-columns:1.25fr .75fr!important;gap:6pt!important;margin-bottom:6pt!important}.green-bottom-grid{grid-template-columns:1fr 1fr!important}.green-tags span{font-size:6.3pt!important;padding:2pt 5pt!important}.green-fin-row{font-size:7.2pt!important;padding:3pt 0!important}.green-fin-row strong{font-size:8.2pt!important}.green-note{font-size:6.6pt!important}.green-proof-list li{font-size:7pt!important;padding:2pt 0!important}.green-card-large p{font-size:7.2pt!important;line-height:1.36!important}.green-page-v3 .green-haak{font-size:7pt!important}}
+
 </style>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -8548,32 +8566,8 @@ function normalizeSustainabilityConsistency(r){
 }
 
 function renderReport(r) {
-  // SANITY-FILTER: gooi maatregelen met absurde TVT (>25 jaar) eruit voordat de tabel wordt gerenderd.
-  // Dit vangt rekenfouten en verkeerde kosten-toewijzingen op (bijv. rietdak-vervanging als isolatie-investering).
-  if (r && Array.isArray(r.maatregelen)) {
-    const _origCount = r.maatregelen.length;
-    r.maatregelen = r.maatregelen.filter(m => {
-      const inv = parseEuro(m.investering);
-      const besp = parseEuro(m.besparing);
-      // TVT uit string of berekend
-      let tvt = parseTVT(m.tvt);
-      if ((!tvt || tvt <= 0) && inv > 0 && besp > 0) tvt = inv / besp;
-      // Filter: TVT > 25 jaar = onrealistisch, maatregel weglaten
-      if (tvt > 25) {
-        console.warn('[sanity] Maatregel weggelaten ivm TVT >25j:', m.naam, '(' + tvt.toFixed(1) + 'j)');
-        return false;
-      }
-      // Filter: investering >€100k voor losse maatregel = vrijwel altijd verwarring met onderhoudskost
-      if (inv > 100000) {
-        console.warn('[sanity] Maatregel weggelaten ivm investering >€100k:', m.naam, '(€' + inv + ')');
-        return false;
-      }
-      return true;
-    });
-    if (r.maatregelen.length < _origCount) {
-      console.info('[sanity] ' + (_origCount - r.maatregelen.length) + ' maatregelen verwijderd na plausibiliteits-check');
-    }
-  }
+  // v3: toon alle maatregelen uit het bronrapport. Geen TVT-filter meer;
+  // de gebruiker wil juist de eerste duurzaamheidspagina's volledig behouden.
   r = normalizeSustainabilityConsistency(r);
   _rptData = r;
   _chartInstance = null; // reset grafiek bij nieuw rapport
@@ -9007,15 +9001,12 @@ function renderReport(r) {
   document.getElementById('phasesSection').innerHTML = phases
     ? secHead('Aanbevolen aanpak: gefaseerd &amp; slim') + `<div class="phases-grid">${phases}</div>` + actiesHtml : '';
 
-  // Vervolgstappen + adviseur
-  renderVervolgSection(r);
-  renderAdviseurSection();
-  renderBronSection(r);
-
-  // Nieuwe modules
-  renderGeenActieSection(r);
-  renderMaandlastenSection(r);
-  renderScenarioSection(r);
+  // v3 compacte rapportopbouw:
+  // 1. Cover, energieprestatie en energielabel; 2. maatregelen; 3. één gevulde groene ESG/SDG-paragraaf.
+  // Grafieken, subsidies, netto investering, maandlasten, fasering, aandachtspunten en vervolgstappen worden bewust niet meer getoond.
+  ['geenActieSection','scenarioSection','maatregelenChartSection','chartSection','subsidiesSection','nettoSection','maandlastenSection','nettoInfoSection','phasesSection','aandachtSection','vervolgSection','adviseurSection','bronSection'].forEach(id=>{
+    const e=document.getElementById(id); if(e) e.innerHTML='';
+  });
   renderEsgSdgSection(r);
   renderTocRail();
 }
@@ -9074,91 +9065,91 @@ function renderEsgSdgSection(r){
   const co2=(r.co2_reductie_pct||'').toString().trim();
   const co2txt=co2 ? (/%/.test(co2)?co2:co2+'%') : 'nader te bepalen';
   const labelTraject=[r.huidig_label,r.streef_label].filter(Boolean).join(' → ') || 'labelverbetering';
-  const aanvrager=(r.__aanvrager_type||'ondernemer');
-  const route1=aanvrager==='particulier'?'Hypotheekverhoging / duurzaamheidsdepot':'Zakelijke vastgoedfinanciering';
-  const route2=aanvrager==='vve'?'SVVE / VvE Energiebespaarlening':'Duurzaamheidslening of groene lening';
-  const route3=aanvrager==='ondernemer'?'Eigen middelen + EIA/KIA waar mogelijk':'Eigen middelen + directe subsidies';
+  const huidigKosten=parseEuro(r.huidige_kosten)||0;
+  const tvt = bes>0 && inv>0 ? (inv/bes).toFixed(1).replace('.',',') : '';
 
   const conclusie = gp.conclusie || bank.samenvatting || (inv>0
-    ? `Het maatregelenpakket laat een concreet pad zien van ${htmlEsc(labelTraject)} met een bruto investeringsindicatie van ${fmtEuro(inv)} en een jaarlijkse energiebesparing van circa ${fmtEuro(bes)}. Daarmee kan het object onder voorwaarden worden gepositioneerd als groen-financierbaar dossier. De definitieve beoordeling hangt af van offertes, uitvoering, nieuw energielabel, facturen en meetbare verbruiksdata na oplevering.`
+    ? `Het maatregelenpakket voor ${r.pand_naam || 'dit object'} laat een concreet pad zien van ${labelTraject} met een bruto investeringsindicatie van ${fmtEuro(inv)} en een jaarlijkse energiebesparing van circa ${fmtEuro(bes)}. Daarmee kan het object onder voorwaarden worden gepositioneerd als groen-financierbaar dossier. De definitieve beoordeling hangt af van offertes, uitvoering, nieuw energielabel, facturen en meetbare verbruiksdata na oplevering.`
     : `Het object kan pas definitief groen-financierbaar worden beoordeeld zodra investering, besparing, labelverbetering en bewijsstukken per maatregel zijn onderbouwd.`);
 
-  const sfdr = gp.sfdr || `Het pakket kan onder voorwaarden bijdragen aan duurzame kenmerken zoals bedoeld in SFDR Artikel 8, omdat het stuurt op energiereductie, CO₂-reductie en een beter energielabel. Definitieve onderbouwing vereist uitvoering, bewijsstukken en meetdata.`;
-  const tax = gp.taxonomie || `Voor EU Taxonomie 7.2 is dit indicatief relevant als renovatie van bestaand vastgoed, mits de energiereductie en labelverbetering na uitvoering aantoonbaar zijn. DNSH, sociale waarborgen en oplevering van het nieuwe energielabel blijven voorwaarden.`;
-  const pillar = gp.pillar3 || `Voor bankrapportage is vooral het labeltraject ${htmlEsc(labelTraject)}, de investering, de jaarlijkse besparing en de CO₂-reductie relevant. Deze gegevens maken het dossier bruikbaar voor beoordeling van duurzame vastgoedexposure.`;
-  const haak = gp.mb_credion_haak || bank.mb_credion_haak || `MB Adviesgroep/Credion kan helpen om de maatregelen te vertalen naar een financierbaar dossier met offertes, subsidie-/fiscale toets, bewijsstukken en een passende financieringsroute.`;
+  const sfdr = gp.sfdr || `Het dossier kan onder voorwaarden bijdragen aan duurzame kenmerken zoals bedoeld in SFDR Artikel 8. De onderbouwing zit in de aantoonbare labelverbetering ${labelTraject}, de energiebesparing van circa ${fmtEuro(bes)} per jaar en de indicatieve CO₂-reductie van ${co2txt}. Definitieve classificatie vraagt om bewijsstukken na uitvoering.`;
+  const tax = gp.taxonomie || `Voor EU Taxonomie 7.2 is dit indicatief relevant als renovatie van bestaand vastgoed. De maatregelen zijn vooral sterk als na uitvoering aantoonbaar is dat het energielabel verbetert, de energievraag daalt en DNSH/sociale waarborgen zijn bevestigd. Zonder nieuw geregistreerd label blijft het oordeel voorwaardelijk.`;
+  const pillar = gp.pillar3 || `Voor bancaire rapportage zijn het labeltraject, de investering, de jaarlijkse besparing, de energie-intensiteit en de CO₂-reductie bruikbaar. Deze indicatoren kunnen worden gebruikt voor portefeuillemonitoring, green-loan beoordeling en onderbouwing richting financier.`;
+  const haak = gp.mb_credion_haak || bank.mb_credion_haak || `MB Adviesgroep/Credion kan dit dossier financierbaar maken door offertes per maatregel, subsidie-/RVO-toets, labelbewijzen, facturen en monitoringgegevens te bundelen in één bankwaardig aanvraagdossier.`;
 
   let sdgs = Array.isArray(gp.sdg_koppelingen) && gp.sdg_koppelingen.length ? gp.sdg_koppelingen : (Array.isArray(r.sdg_koppeling) && r.sdg_koppeling.length ? r.sdg_koppeling : null);
   if(!sdgs){
     sdgs=[
-      {sdg:'7', naam:'Betaalbare en duurzame energie', uitleg:`Directe koppeling met ${measureNamesBy(['zonne','warmtepomp','isolatie','led'],r)} en lagere energievraag.`},
-      {sdg:'11', naam:'Duurzame steden en gemeenschappen', uitleg:`Een toekomstbestendiger object met beter energielabel (${labelTraject}).`},
-      {sdg:'12', naam:'Verantwoorde consumptie en productie', uitleg:`Gefaseerde aanpak voorkomt onnodige investeringen en stuurt op meetbaar rendement.`},
-      {sdg:'13', naam:'Klimaatactie', uitleg:`Indicatieve CO₂-reductie van ${co2txt} na uitvoering van de maatregelen.`}
+      {sdg:'7', naam:'Betaalbare en duurzame energie', uitleg:`Maatregelen zoals ${measureNamesBy(['zonne','warmtepomp','isolatie','thermostaat'],r)} verlagen de energievraag en vergroten het aandeel duurzame energie.`},
+      {sdg:'11', naam:'Duurzame steden en gemeenschappen', uitleg:`De verbetering van ${labelTraject} maakt het bestaande vastgoed toekomstbestendiger, comfortabeler en beter verkoop-/verhuurbaar.`},
+      {sdg:'12', naam:'Verantwoorde consumptie en productie', uitleg:`Door gericht te investeren in bestaande bouw wordt energieverspilling teruggedrongen en wordt materiaalgebruik doelgerichter ingezet.`},
+      {sdg:'13', naam:'Klimaatactie', uitleg:`De indicatieve CO₂-reductie van ${co2txt} draagt bij aan beperking van fossiel energiegebruik.`}
     ];
   }
-  sdgs = sdgs.slice(0,6).map(s=>({
-    sdg: s.sdg || s.sdg_nr || s.nr || '',
-    naam: s.naam || s.label || '',
-    uitleg: s.uitleg || s.toelichting || ''
-  }));
+  sdgs = sdgs.slice(0,5).map(s=>({sdg: s.sdg || s.sdg_nr || s.nr || '', naam: s.naam || s.label || '', uitleg: s.uitleg || s.toelichting || ''}));
 
   let risicoPunten = Array.isArray(gp.risicos_en_voorwaarden) && gp.risicos_en_voorwaarden.length ? gp.risicos_en_voorwaarden : null;
-  if(!risicoPunten && Array.isArray(bank.risicos)) risicoPunten = bank.risicos.map(x=>({punt:x.risico, actie:x.maatregel || x.action || ''}));
+  if(!risicoPunten && Array.isArray(bank.risicos)) risicoPunten = bank.risicos.map(x=>({punt:x.risico || x.risk, actie:x.maatregel || x.action || ''}));
   if(!risicoPunten) risicoPunten = [
-    {punt:'Offertes per maatregel ontbreken of zijn nog indicatief.', actie:'Vraag gesplitste offertes op, zodat investering, subsidie en financiering toetsbaar zijn.'},
-    {punt:'Labelverbetering is pas definitief na uitvoering.', actie:'Laat na oplevering een nieuw energielabel registreren en voeg dit toe aan het financieringsdossier.'},
-    {punt:'Technische haalbaarheid kan per maatregel verschillen.', actie:'Controleer dak, installaties, netcapaciteit, vergunningen en planning vóór opdrachtverlening.'}
+    {punt:'Offertes en technische haalbaarheid', actie:'Vraag gesplitste offertes per maatregel op en laat dak, installaties, netcapaciteit en uitvoeringsplanning vooraf controleren.'},
+    {punt:'Nieuw energielabel na uitvoering', actie:'Laat na oplevering een erkend adviseur het nieuwe energielabel registreren en voeg dit toe aan het financieringsdossier.'},
+    {punt:'Subsidie- en bewijsrisico', actie:'Controleer RVO-voorwaarden vóór opdrachtverstrekking en bewaar facturen, meldcodes, foto’s en opleverrapporten.'},
+    {punt:'Monitoring tijdens looptijd', actie:'Leg gas, elektra en eventuele zonne-opwek jaarlijks vast om de besparing en CO₂-reductie aantoonbaar te maken.'}
   ];
-  risicoPunten = risicoPunten.slice(0,5);
+  risicoPunten = risicoPunten.slice(0,4);
 
   const bewijs = Array.isArray(gp.benodigde_bewijsstukken) && gp.benodigde_bewijsstukken.length ? gp.benodigde_bewijsstukken : (bank.belangrijkste_bewijsstukken || ['Offertes per maatregel','Energielabel vóór en na uitvoering','Facturen en betaalbewijzen','Opleverrapportage/installatiespecificaties','Meterdata gas, elektra en opwek']);
 
-  el.innerHTML = secHead('Groene paragraaf &amp; financieringsadvies') + `
-    <div class="green-page">
-      <div class="green-hero">
-        <div class="green-kicker">Groene paragraaf · ESG / SDG / financiering</div>
-        <div class="green-title">Waarom dit verduurzamingspakket bankwaardig kan zijn</div>
+  const scoreWidth=Math.max(8,Math.min(100,score));
+  el.innerHTML = secHead('Groene paragraaf &amp; ESG-financieringsadvies') + `
+    <div class="green-page green-page-v3">
+      <div class="green-hero-v3">
+        <div class="green-logo-row">
+          <img src="${LOGO_IMG}" alt="MB"><div><strong>MB Adviesgroep</strong><span>Groene paragraaf · ESG / SDG / financiering</span></div>
+        </div>
+        <div class="green-kicker">Bankwaardige duurzaamheidsduiding</div>
+        <div class="green-title">Waarom dit pakket onder voorwaarden groen financierbaar kan zijn</div>
         <div class="green-lead">${htmlEsc(conclusie)}</div>
-        <div class="green-metrics">
+        <div class="green-scorebar"><span style="width:${scoreWidth}%"></span></div>
+        <div class="green-metrics green-metrics-v3">
           <div><span>ESG-score</span><strong>${score}<small>/100</small></strong><em>${htmlEsc(oordeel)}</em></div>
-          <div><span>Labeltraject</span><strong>${htmlEsc(labelTraject)}</strong><em>na uitvoering te bevestigen</em></div>
-          <div><span>CO₂-reductie</span><strong>${htmlEsc(co2txt)}</strong><em>indicatief, o.b.v. bronrapport</em></div>
+          <div><span>Labeltraject</span><strong>${htmlEsc(labelTraject)}</strong><em>nieuw label na uitvoering</em></div>
+          <div><span>CO₂-reductie</span><strong>${htmlEsc(co2txt)}</strong><em>indicatief bronrapport</em></div>
           <div><span>Besparing</span><strong>${fmtEuro(bes||0)}</strong><em>≈ ${fmtEuro(maandBes||0)} per maand</em></div>
         </div>
       </div>
 
-      <div class="green-two">
-        <div class="green-card">
-          <div class="green-card-title">Financierbaarheid</div>
-          <p>De bruto investeringsbehoefte bedraagt indicatief <strong>${fmtEuro(inv||0)}</strong>. Voor financiering is vooral de verhouding tussen investering, jaarlijkse besparing, terugverdientijd, labelverbetering en waarde-/verhuurbaarheid relevant.</p>
-          <ul>
-            <li><strong>Route 1:</strong> ${htmlEsc(route1)}</li>
-            <li><strong>Route 2:</strong> ${htmlEsc(route2)}</li>
-            <li><strong>Route 3:</strong> ${htmlEsc(route3)}</li>
-          </ul>
-        </div>
-        <div class="green-card">
-          <div class="green-card-title">SFDR · Taxonomie · Pillar 3</div>
-          <p><strong>SFDR:</strong> ${htmlEsc(sfdr)}</p>
+      <div class="green-main-grid">
+        <div class="green-card green-card-large">
+          <div class="green-card-title">SFDR · Pillar 3 · EU Taxonomie 7.2</div>
+          <p><strong>SFDR Artikel 8:</strong> ${htmlEsc(sfdr)}</p>
+          <p><strong>Pillar 3 / bankrapportage:</strong> ${htmlEsc(pillar)}</p>
           <p><strong>EU Taxonomie 7.2:</strong> ${htmlEsc(tax)}</p>
-          <p><strong>Pillar 3:</strong> ${htmlEsc(pillar)}</p>
+          <div class="green-tags"><span>In aanmerking</span><span>Potentieel aligned</span><span>DNSH vereist</span><span>Bewijsstukken nodig</span></div>
+        </div>
+        <div class="green-card green-card-small">
+          <div class="green-card-title">Financieringshaak</div>
+          <div class="green-fin-row"><span>Bruto investering</span><strong>${fmtEuro(inv||0)}</strong></div>
+          <div class="green-fin-row"><span>Huidige energiekosten</span><strong>${huidigKosten?fmtEuro(huidigKosten):'—'}</strong></div>
+          <div class="green-fin-row"><span>Besparing per jaar</span><strong>${fmtEuro(bes||0)}</strong></div>
+          ${tvt ? `<div class="green-fin-row"><span>Indicatieve TVT</span><strong>${tvt} jaar</strong></div>` : ''}
+          <p class="green-note">Dit is geen apart financieringshoofdstuk, maar de groene onderbouwing waarmee bank, hypotheekverstrekker of duurzaamheidslening het dossier kan beoordelen.</p>
         </div>
       </div>
 
       <div class="green-card green-sdg-card">
-        <div class="green-card-title">SDG-koppeling per impactthema</div>
-        <div class="green-sdg-grid">${sdgs.map(s=>`<div class="green-sdg"><span>${htmlEsc(s.sdg)}</span><strong>${htmlEsc(s.naam)}</strong><p>${htmlEsc(s.uitleg)}</p></div>`).join('')}</div>
+        <div class="green-card-title">SDG-impact uit het maatregelenpakket</div>
+        <div class="green-sdg-grid green-sdg-grid-v3">${sdgs.map(s=>`<div class="green-sdg"><span>${htmlEsc(s.sdg)}</span><strong>${htmlEsc(s.naam)}</strong><p>${htmlEsc(s.uitleg)}</p></div>`).join('')}</div>
       </div>
 
-      <div class="green-two">
+      <div class="green-main-grid green-bottom-grid">
         <div class="green-card">
-          <div class="green-card-title">Risico’s & voorwaarden</div>
+          <div class="green-card-title">Risico’s, voorwaarden & monitoring</div>
           ${risicoPunten.map(x=>`<div class="green-risk"><strong>${htmlEsc(x.punt||x.risk||'Voorwaarde')}</strong><span>${htmlEsc(x.actie||x.action||x.maatregel||'Nader uit te werken.')}</span></div>`).join('')}
         </div>
         <div class="green-card">
           <div class="green-card-title">Benodigde bewijsstukken</div>
-          <ul>${bewijs.slice(0,6).map(b=>`<li>${htmlEsc(b)}</li>`).join('')}</ul>
+          <ul class="green-proof-list">${bewijs.slice(0,6).map(b=>`<li>${htmlEsc(b)}</li>`).join('')}</ul>
           <div class="green-haak">${htmlEsc(haak)}</div>
         </div>
       </div>

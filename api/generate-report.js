@@ -3,67 +3,61 @@ import OpenAI from 'openai';
 const ESG_SDG_FINANCE_EXTENSION = `
 
 ═══════════════════════════════════════════════════════════════
-GEÏNTEGREERD RAPPORT — BESTE VAN DUURZAAMHEID + BESTE VAN ESG/SDG
+V3 RAPPORTOPBOUW — GEEN APART ESG-RAPPORT, WEL ÉÉN STERKE GROENE PARAGRAAF
 ═══════════════════════════════════════════════════════════════
-Maak ÉÉN compact MB Adviesgroep-rapport. Geen twee rapporten achter elkaar.
+Maak ÉÉN compact MB Adviesgroep-rapport. Gebruik NIET de volledige ESG/SDG-tool als losse output met 8 pagina's.
 
-GEWENSTE RAPPORTVOLGORDE:
-1. Energieprestatie & energielabel — kort, visueel en begrijpelijk.
-   Gebruik de sterke kern uit het verduurzamingsrapport: object, adres, bouwjaar, BVO/VVO/VVO, huidig label, streeflabel, huidige energiekosten, jaarlijkse besparing, CO₂-reductie en terugverdientijd.
-2. Geadviseerde maatregelen — exact en concreet.
-   Neem ALLE maatregelen op uit de bron. Per maatregel: naam, investering, besparing per jaar, CO₂-impact, TVT en compacte toelichting.
-3. Groene paragraaf — de echte bankwaardige duurzaamheidsduiding.
-   Dit is GEEN volledig apart ESG-dossier, maar één sterke pagina/paragraaf na de maatregelen. Hierin staat waarom het pakket groen-financierbaar kan zijn en welke ESG/SDG/Taxonomie/SFDR-haak er is.
-4. Financiële uitwerking — subsidies/fiscale regelingen, netto investering en maandlasten.
-5. Fasering, aandachtspunten en vervolgstappen.
+GEWENSTE OPBOUW IN DE FRONTEND:
+1. Voorblad.
+2. Energieprestatie uit de duurzaamheidstool: energielabelbalk, huidig label, streeflabel, energiekosten, besparing, CO₂-reductie, terugverdientijd, uitgangspunten.
+3. Geadviseerde maatregelen uit de duurzaamheidstool: alle maatregelen met investering, besparing, CO₂ en TVT, plus compacte toelichting.
+4. Daarna één volledig gevulde pagina: "Groene paragraaf & ESG-financieringsadvies".
 
-WAT KOMT IN DE GROENE PARAGRAAF?
-- Conclusie in gewone taal: is dit dossier indicatief geschikt voor groene financiering?
-- ESG-score/oordeel op basis van labelverbetering, CO₂-reductie, TVT, capex, datakwaliteit en bewijsniveau.
-- SDG-koppeling: vooral SDG 7, 11, 12 en 13; SDG 9 alleen bij techniek zoals warmtepomp/zonnepanelen; SDG 3 alleen bij comfort/binnenklimaat.
-- SFDR Artikel 8: alleen voorzichtig formuleren als “kan onder voorwaarden bijdragen aan”.
-- EU Taxonomie 7.2: alleen “potentieel/indicatief passend” tenzij DNSH, sociale waarborgen en nieuw label zijn bewezen.
-- Pillar 3/bankrapportage: waarom label, energie-intensiteit en CO₂-reductie bruikbaar zijn voor bankrapportage.
-- Risico’s en voorwaarden: specifiek voor het pand en maatregelen, geen generieke risico’s.
-- MB/Credion-haak: hoe MB Adviesgroep/Credion kan helpen met financiering, bewijsstukken, offertes en subsidie/fiscale toets.
+BELANGRIJK: genereer GEEN uitgebreide aparte ESG-pagina's zoals score-radar, risicomatrix, SDG-pagina per maatregel, SFDR-pagina, cashflowgrafiek of vervolgpagina. De frontend toont alleen de groene paragraaf als ESG/SDG-laag.
 
-BELANGRIJKE REGELS:
-- Duurzaamheidstool is leidend voor technische cijfers, maatregelen, investering, besparing, subsidies, fasering en maandlasten.
-- ESG/SDG-tool is leidend voor schrijfkwaliteit, bankperspectief, financierbaarheid, risico’s, bewijsstukken en groene paragraaf.
-- Gebruik exacte bedragen/cijfers uit de bron als die aanwezig zijn.
-- Geen generieke teksten: koppel alles aan dit specifieke pand en deze specifieke maatregelen.
-- Geen onjuiste aannames: noem geen monument, vergunning, Natura 2000, asbestvrij of OECD/ILO-bevestigd tenzij expliciet uit de documenten blijkt.
-- Fiscale regelingen (EIA/MIA/KIA) zijn fiscale voordelen via aangifte; noem ze niet als directe subsidie/factuurkorting.
-- Financieringsstuk moet adviesmatig zijn: investeringsbehoefte, financieringsroutes, bewijsstukken, voorwaarden en commerciële MB/Credion-haak.
+VERWIJDERDE/NIET-BEDOELDE ONDERDELEN:
+- Geen cumulatieve besparingsgrafiek.
+- Geen scenariovergelijker.
+- Geen losse financierings-/maandlastenpagina.
+- Geen aparte subsidies/fiscale regelingenpagina.
+- Geen apart volledig ESG-dossier van 8 pagina's.
+- Geen grafiekpagina na de groene paragraaf.
 
-VOEG AAN DE JSON EXTRA VELDEN TOE NAAST HET BESTAANDE SCHEMA:
+WAT MOET WEL IN DE GROENE_PARAGRAAF JSON?
+Schrijf de groene_paragraaf in de stijl van het ESG/SDG-dossier: bankwaardig, strak, concreet, met SFDR, Pillar 3, EU Taxonomie 7.2, SDG-impact, risico’s, voorwaarden, bewijsstukken en MB/Credion-haak.
+Gebruik concrete cijfers uit het verduurzamingsrapport: labeltraject, investering, besparing, CO₂-reductie, energieverbruik, gas/stroom waar beschikbaar.
+
+Vul deze velden zorgvuldig:
 {
   "groene_paragraaf": {
-    "titel": "Groene paragraaf — financierbaarheid & duurzaamheidsimpact",
-    "conclusie": "4-6 zinnen in gewone taal over waarom dit object onder voorwaarden groen financierbaar kan zijn, met concrete cijfers.",
+    "titel": "Groene paragraaf — ESG-financieringsadvies",
+    "conclusie": "6-8 zinnen in gewone taal, bankwaardig. Leg uit waarom dit object onder voorwaarden groen financierbaar kan zijn, met exacte cijfers uit het rapport.",
     "esg_score": 0,
-    "oordeel": "Sterk / Goed / Voorwaardelijk / Aanvullende onderbouwing nodig",
-    "sfdr": "2-3 zinnen: voorzichtig, onder voorwaarden, met concrete cijfers.",
-    "taxonomie": "2-3 zinnen: EU Taxonomie 7.2 potentieel/indicatief, met voorwaarden DNSH, sociale waarborgen en nieuw label.",
-    "pillar3": "2-3 zinnen: bruikbaarheid voor bankrapportage, labeltraject, CO2 en energie-intensiteit.",
+    "oordeel": "Sterk financierbaar ESG-dossier / Goed financierbaar met bewijsstukken / Voorwaardelijk financierbaar / Aanvullende onderbouwing nodig",
+    "sfdr": "2-3 zinnen in ESG-dossier-stijl: kan onder voorwaarden bijdragen aan SFDR Artikel 8. Concrete cijfers noemen.",
+    "taxonomie": "2-3 zinnen: EU Taxonomie 7.2 potentieel/indicatief passend, met voorwaarden DNSH, sociale waarborgen, nieuw label en oplevering.",
+    "pillar3": "2-3 zinnen: bruikbaarheid voor bankrapportage: labeltraject, CO₂, energie-intensiteit, investering en besparing.",
     "sdg_koppelingen": [
-      {"sdg":"7", "naam":"Betaalbare en duurzame energie", "uitleg":"concrete uitleg met cijfers/maatregelen"},
-      {"sdg":"11", "naam":"Duurzame steden en gemeenschappen", "uitleg":"concrete uitleg"},
-      {"sdg":"12", "naam":"Verantwoorde consumptie en productie", "uitleg":"concrete uitleg"},
-      {"sdg":"13", "naam":"Klimaatactie", "uitleg":"concrete uitleg met CO2-reductie"}
+      {"sdg":"7", "naam":"Betaalbare en duurzame energie", "uitleg":"Concrete uitleg met maatregelen en cijfers."},
+      {"sdg":"11", "naam":"Duurzame steden en gemeenschappen", "uitleg":"Concrete uitleg met vastgoedwaarde, comfort en toekomstbestendigheid."},
+      {"sdg":"12", "naam":"Verantwoorde consumptie en productie", "uitleg":"Concrete uitleg over efficiënt energie- en materiaalgebruik."},
+      {"sdg":"13", "naam":"Klimaatactie", "uitleg":"Concrete uitleg met CO₂-reductie."}
     ],
     "risicos_en_voorwaarden": [
-      {"punt":"specifiek risico of voorwaarde", "actie":"concrete beheersmaatregel of bewijsstuk"}
+      {"punt":"Specifiek risico of voorwaarde uit dit dossier", "actie":"Concrete beheersmaatregel of bewijsstuk"}
     ],
     "benodigde_bewijsstukken": ["offertes per maatregel", "energielabel vóór/na", "facturen", "opleverrapport", "meterdata"],
-    "mb_credion_haak": "1-2 commerciële advieszinnen waarom MB Adviesgroep/Credion hier waarde toevoegt."
+    "mb_credion_haak": "1-2 sterke commerciële advieszinnen waarom MB Adviesgroep/Credion waarde toevoegt bij financiering en bewijsvoering."
   }
 }
 
-Als het bestaande schema al velden zoals samenvatting, aandachtspunten, fases of subsidies bevat, vul die óók volledig en netjes. De groene_paragraaf is aanvullend en moet na de maatregelen renderbaar zijn.
-
-Retourneer uitsluitend valide JSON, zonder markdown of tekst buiten JSON.
-`;
+REGELS:
+- De duurzaamheidstool blijft leidend voor technische cijfers, energielabel en maatregelen.
+- De ESG/SDG-tool is leidend voor schrijfkwaliteit en bankduiding in de groene paragraaf.
+- Noem geen monument, Natura 2000, asbestvrij of OECD/ILO tenzij expliciet in bron vermeld.
+- Formuleer voorzichtig: "indicatief", "onder voorwaarden", "na uitvoering te bevestigen".
+- Gebruik uitsluitend valide JSON terug, zonder markdown.
+`
 
 function buildPrompt({ system_prompt, notities, brochureCount }) {
   const base = system_prompt || 'Maak een professioneel MB Adviesgroep verduurzamingsrapport in JSON.';
