@@ -1,18 +1,11 @@
-# MB Verduurzaming + ESG Tool v4
+# MB Verduurzaming + ESG/SDG Tool v5
 
-Deze versie combineert de beste onderdelen van het verduurzamingsrapport en het ESG/SDG-dossier:
+Deze versie combineert:
+- de eerste sterke pagina's uit de verduurzamingstool: cover, energieprestatie, energielabelbalk, kerncijfers en maatregelen;
+- daarna het uitgebreide ESG/SDG-dossier in dezelfde opbouw als de ESGSDG-tool: ESG-score, leeswijzer, risicomatrix, SDG per maatregel, SFDR/Pillar 3/EU Taxonomie, investering/cashflow en conclusie/vervolgstappen.
 
-1. Voorblad.
-2. Energieprestatie met energielabelbalk en kerncijfers.
-3. Geadviseerde maatregelen met investering, besparing, CO2 en TVT.
-4. Volledige A4 "Groene paragraaf & ESG-financieringsadvies" met afsluitende conclusie.
-5. SDG-pagina per maatregel.
+Vercel Environment Variables:
+- OPENAI_API_KEY
+- BLOB_READ_WRITE_TOKEN of BLOB2_READ_WRITE_TOKEN
 
-Verwijderd uit de printoutput: losse cashflowgrafieken, maandlastenpagina, subsidiespagina, scenario's en lege pagina's.
-
-## Environment variables
-
-- `OPENAI_API_KEY`
-- `BLOB_READ_WRITE_TOKEN` of `BLOB2_READ_WRITE_TOKEN`
-
-Na uploaden naar GitHub/Vercel altijd redeployen.
+Na uploaden naar GitHub: redeploy in Vercel.
