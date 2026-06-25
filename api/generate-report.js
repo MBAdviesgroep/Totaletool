@@ -23,6 +23,8 @@ RAPPORTOPBOUW (de frontend toont deze 11 A4-pagina's)
 KERNREGELS
 - Het verduurzamingsrapport is LEIDEND voor alle cijfers: energielabel-traject, energiekosten, investering (capex), jaarlijkse besparing, terugverdientijd, break-even, CO₂-reductie en de maatregelen. Neem deze EXACT over en houd ze door het hele dossier consistent (verander €-bedragen, CO₂ of het labeltraject nooit tussen pagina's).
 - Verzin GEEN nieuwe maatregelen als het rapport al maatregelen bevat. Reken alleen af als een waarde ontbreekt; markeer afgeleide waarden met de bijbehorende *_afgeleid:true vlag.
+- CONSISTENTIE (hard): gebruik EXACT ÉÉN waarde voor de jaarlijkse besparing in het hele dossier. De jaarlijkse besparing is NOOIT hoger dan de huidige energiekosten (energiekosten_huidig ≥ bes_jaar). De terugverdientijd = capex_totaal ÷ bes_jaar en capex_totaal = som van de maatregel-capex. Laat geen enkel bedrag (besparing, kosten, investering, CO₂, TVT) tussen pagina's of in de groene paragraaf afwijken.
+- Investeringsbedragen per maatregel moeten realistisch zijn (marktconform, incl. btw bij particulier / excl. btw bij zakelijk) — geen onrealistisch lage schijnbedragen.
 - Formuleer groene financiering altijd voorzichtig: "indicatief", "onder voorwaarden", "na uitvoering te bevestigen".
 - Noem geen monument, Natura 2000, asbestvrij, OECD/ILO etc. als feit tenzij dit expliciet in de bron staat; formuleer anders als "te bevestigen".
 
@@ -46,6 +48,9 @@ LEVER PRECIES DIT JSON-OBJECT (vul alle velden; gebruik getallen zonder valutate
   "rentekorting_bps": 25, "looptijd_jr": 15,
 
   "uitgangspunten": ["4–6 korte uitgangspunten in gewone taal, met concrete cijfers uit de bron"],
+
+  "subsidies": [ {"naam":"bijv. ISDE / EIA / Nationaal Warmtefonds / SVOH / gemeentelijke regeling", "voor":"voor welke maatregel(en) deze geldt", "bedrag":"indicatief bedrag of bandbreedte", "voorwaarden":"korte voorwaarden/aandachtspunten", "uitleg":"1 korte zin"} ],
+  "subsidie_conclusie": "1–2 zinnen: welke regelingen het meest relevant zijn voor dit object/deze klant (stem af op particulier vs. zakelijk).",
 
   "maatregelen": [
     { "naam": "", "capex": 0, "bes": 0, "co2": 0, "tvt": 0,
