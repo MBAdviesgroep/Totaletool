@@ -181,6 +181,26 @@ body{font-family:'DM Sans','Segoe UI',system-ui,sans-serif;background:var(--page
 .btn-primary:hover:not(:disabled){background:#0d3354;transform:translateY(-1.5px);box-shadow:0 10px 28px rgba(14,42,61,.2);}
 .btn-primary:disabled{opacity:.36;cursor:not-allowed;}
 
+/* Type aanvrager — keuzekaarten */
+.aanvrager-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.aanvrager-opt{position:relative;border:1.5px solid var(--rule);border-radius:13px;padding:14px 13px 12px;cursor:pointer;background:#fff;transition:all .18s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;gap:6px;}
+.aanvrager-opt:hover{border-color:var(--blue);background:var(--blue-faint);}
+.aanvrager-opt input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0;}
+.aanvrager-opt:has(input:checked){border-color:var(--blue-deep);background:var(--blue-faint);box-shadow:inset 0 0 0 1px var(--blue-deep);}
+.aanvrager-head{display:flex;align-items:center;gap:8px;color:var(--blue);}
+.aanvrager-opt:has(input:checked) .aanvrager-head{color:var(--blue-deep);}
+.aanvrager-title{font-size:13px;font-weight:700;color:var(--blue-deep);letter-spacing:-.1px;}
+.aanvrager-desc{font-size:10.5px;color:var(--ink-3);line-height:1.45;}
+.aanvrager-check{position:absolute;top:11px;right:11px;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--rule-2);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .18s ease;}
+.aanvrager-opt:has(input:checked) .aanvrager-check{background:var(--blue-deep);border-color:var(--blue-deep);}
+.aanvrager-check svg{opacity:0;transition:opacity .15s ease;}
+.aanvrager-opt:has(input:checked) .aanvrager-check svg{opacity:1;}
+
+/* Subsidiepagina — compacter zodat alle regelingen op één A4 passen */
+.page-subs .page-title{font-size:22px;margin-bottom:4px;}
+.page-subs .page-title-sub{font-size:11.5px;line-height:1.45;margin-bottom:10px;}
+.page-subs .page-thin-rule{margin:6px 0 12px;}
+
 .bullets{
   display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;
   margin-top:20px;padding-top:20px;border-top:1px solid var(--rule);
@@ -1323,6 +1343,41 @@ body.report-mode .rpt-mode{display:block;}
         </div>
       </div>
 
+      <div class="sec-head" style="margin-top:24px;">
+        <div class="sec-label">Stap 2 · Type aanvrager</div>
+        <div class="sec-line"></div>
+      </div>
+      <p style="font-size:12px;color:var(--ink-3);line-height:1.55;margin-bottom:12px;">Bepaalt <strong style="color:var(--ink-2);">uitsluitend</strong> welke subsidies en regelingen in het dossier verschijnen. De rest van het rapport blijft ongewijzigd.</p>
+      <div class="aanvrager-opts" id="aanvragerOpts">
+        <label class="aanvrager-opt">
+          <input type="radio" name="aanvrager" value="particulier" checked>
+          <span class="aanvrager-check"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 5 9 10 3.5"/></svg></span>
+          <div class="aanvrager-head">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-2a6 6 0 0 1 12 0v2"/><circle cx="9" cy="8" r="4"/></svg>
+            <span class="aanvrager-title">Particulier</span>
+          </div>
+          <div class="aanvrager-desc">Eigen woning · ISDE, Warmtefonds, 0%-btw zon</div>
+        </label>
+        <label class="aanvrager-opt">
+          <input type="radio" name="aanvrager" value="ondernemer">
+          <span class="aanvrager-check"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 5 9 10 3.5"/></svg></span>
+          <div class="aanvrager-head">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/></svg>
+            <span class="aanvrager-title">Ondernemer</span>
+          </div>
+          <div class="aanvrager-desc">Zakelijk pand · EIA, KIA, MIA/Vamil, ISDE</div>
+        </label>
+        <label class="aanvrager-opt">
+          <input type="radio" name="aanvrager" value="vve">
+          <span class="aanvrager-check"><svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 5 9 10 3.5"/></svg></span>
+          <div class="aanvrager-head">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
+            <span class="aanvrager-title">VvE</span>
+          </div>
+          <div class="aanvrager-desc">Vereniging van Eigenaren · SVVE, ISDE</div>
+        </label>
+      </div>
+
       <div style="margin-top:16px;">
         <label style="display:block;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;">Instructies &amp; wensen <span style="font-weight:400;text-transform:none;color:var(--ink-3);">(optioneel maar krachtig)</span></label>
         <textarea id="extraNotes" rows="3" placeholder="Bijv. 'geen warmtepomp gewenst', 'zonnepanelen hebben prioriteit', 'minimaal 8 maatregelen'…" style="width:100%;border:1px solid var(--rule);border-radius:10px;padding:11px 13px;font:inherit;font-size:13px;line-height:1.5;color:var(--ink);background:#fff;resize:vertical;outline:none;"></textarea>
@@ -1673,6 +1728,7 @@ async function startGenerate(){
     currentData = enrichSdgMappings(currentData);
 
     // Consistentiecheck: ESG-dossier moet 1-op-1 aansluiten op het verduurzamingsrapport.
+    currentData.aanvrager_type = getAanvragerType();
     currentData = alignReportConsistency(currentData);
     currentData = reconcileNumbers(currentData);
     currentData = sanitizeNarratives(currentData);
@@ -2195,7 +2251,7 @@ function pageSubsidies(d){
   ]).slice(0,6);
   const concl=esc(d.subsidie_conclusie||'Voor dit object zijn de ISDE en het Nationaal Warmtefonds doorgaans het meest kansrijk voor de particuliere maatregelen; voor zakelijke eigenaren is de EIA aantrekkelijk. MB Adviesgroep toetst de actuele voorwaarden en vraagt de regelingen voor u aan.');
   return `
-  <article class="a4 content">
+  <article class="a4 content page-subs">
     ${pageTop(d)}
     <div class="page-stamp">04 · 12</div>
     <div class="page-body">
@@ -2203,15 +2259,16 @@ function pageSubsidies(d){
       <div class="page-eyebrow">Subsidies &amp; regelingen</div>
       <div class="page-title">Welke subsidies en regelingen zijn relevant?</div>
       <div class="page-title-sub">Op basis van de geadviseerde maatregelen komt dit object naar verwachting in aanmerking voor onderstaande regelingen. Bedragen en voorwaarden zijn indicatief; definitieve toekenning loopt via RVO en/of gemeente.</div>
+      ${d.aanvrager_type?`<div style="display:inline-flex;align-items:center;gap:8px;background:var(--blue-faint);border:1px solid var(--blue-faint2);border-radius:999px;padding:5px 6px 5px 13px;margin-bottom:6px;"><span style="font-size:7.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-4);">Geselecteerd type aanvrager</span><span style="font-size:9.5px;font-weight:800;color:#fff;background:var(--blue-deep);border-radius:999px;padding:3px 11px;">${esc(d.aanvrager_type==='ondernemer'?'Ondernemer / zakelijk':d.aanvrager_type==='vve'?'VvE':'Particulier')}</span></div>`:''}
       <div class="page-thin-rule"></div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:13px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:9px;">
         ${subs.map(s=>{
           const st=String(s.status||'Indicatief');
           const stl=st.toLowerCase();
           const sc=stl.includes('kansrijk')?{bg:'var(--green-bg)',fg:'var(--green)'}:stl.includes('lokaal')?{bg:'var(--blue-faint)',fg:'var(--blue)'}:stl.includes('niet')?{bg:'var(--red-bg)',fg:'var(--red)'}:{bg:'var(--amber-bg)',fg:'var(--amber)'};
           return `<div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:0;overflow:hidden;display:flex;flex-direction:column;border-top:3px solid ${sc.fg};">
-          <div style="padding:13px 15px 11px;display:flex;flex-direction:column;gap:9px;flex:1;">
+          <div style="padding:11px 14px 9px;display:flex;flex-direction:column;gap:7px;flex:1;">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
               <div style="font-size:11.5px;font-weight:750;color:var(--blue-deep);line-height:1.25;">${esc(s.naam||'')}</div>
               <span style="flex-shrink:0;font-size:7px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;background:${sc.bg};color:${sc.fg};border-radius:999px;padding:3px 9px;white-space:nowrap;">${esc(st)}</span>
@@ -2224,23 +2281,29 @@ function pageSubsidies(d){
             ${Array.isArray(s.items)&&s.items.length?`<div style="display:flex;flex-direction:column;gap:4px;margin-top:2px;border-top:1px dashed var(--mb-card-border);padding-top:7px;">${s.items.map(it=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;"><span style="font-size:8.5px;font-weight:600;color:var(--ink);line-height:1.25;">${esc(it.m)}</span><span style="flex-shrink:0;font-size:7.5px;color:var(--ink-3);">${esc(it.b)}</span></div>`).join('')}</div>`:''}
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--mb-card-border-soft);border-top:1px solid var(--mb-card-border-soft);">
-            <div style="background:#fff;padding:9px 13px;"><div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;">Voorwaarden</div><div style="font-size:8px;color:var(--ink-3);line-height:1.42;">${esc(s.voorwaarden||'Te bevestigen bij aanvraag.')}</div></div>
-            <div style="background:#fff;padding:9px 13px;"><div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;">Benodigd bewijs</div><div style="font-size:8px;color:var(--ink-3);line-height:1.42;">${esc(s.bewijs||'Offertes en facturen.')}</div></div>
+            <div style="background:#fff;padding:7px 12px;"><div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;">Voorwaarden</div><div style="font-size:8px;color:var(--ink-3);line-height:1.42;">${esc(s.voorwaarden||'Te bevestigen bij aanvraag.')}</div></div>
+            <div style="background:#fff;padding:7px 12px;"><div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;">Benodigd bewijs</div><div style="font-size:8px;color:var(--ink-3);line-height:1.42;">${esc(s.bewijs||'Offertes en facturen.')}</div></div>
           </div>
         </div>`;}).join('')}
       </div>
 
-      <div style="background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 100%);border-radius:13px;padding:16px 20px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
+      ${(d.subsidies_extra&&d.subsidies_extra.length)?`<div style="background:var(--blue-faint);border:1px solid var(--blue-faint2);border-radius:12px;padding:9px 14px;margin-bottom:11px;">
+        <div style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--blue-deep);margin-bottom:6px;">Aanvullende regelingen — afhankelijk van uw situatie</div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          ${d.subsidies_extra.map(x=>`<div style="display:flex;gap:9px;align-items:flex-start;"><span style="flex-shrink:0;margin-top:5px;width:5px;height:5px;border-radius:50%;background:var(--orange);"></span><div style="font-size:8.5px;color:var(--ink-3);line-height:1.35;"><b style="color:var(--blue-deep);font-weight:750;">${esc(x.naam)}</b> — ${esc(x.note)}</div></div>`).join('')}
+        </div>
+      </div>`:''}
+      <div style="background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 100%);border-radius:13px;padding:11px 18px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
         <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--orange);"></div>
         <div style="position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.04);"></div>
         <div style="font-size:8px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;position:relative;">Conclusie — meest kansrijke regeling</div>
-        <div style="font-size:10pt;color:rgba(255,255,255,.93);line-height:1.6;margin-bottom:12px;position:relative;">${concl}</div>
+        <div style="font-size:9pt;color:rgba(255,255,255,.93);line-height:1.5;margin-bottom:7px;position:relative;">${concl}</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;">
-          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:9px 12px;">
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:6px 11px;">
             <div style="font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Actiepunt</div>
-            <div style="font-size:8.5px;color:rgba(255,255,255,.9);line-height:1.45;">ISDE-aanvraag voorbereiden na opdrachtverstrekking; MB Adviesgroep verzorgt de aanvraag en bewijsvoering.</div>
+            <div style="font-size:8.5px;color:rgba(255,255,255,.9);line-height:1.45;">Subsidie- en/of fiscale aanvraag voorbereiden na opdrachtverstrekking; MB Adviesgroep verzorgt de aanvraag en bewijsvoering.</div>
           </div>
-          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:9px 12px;">
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:6px 11px;">
             <div style="font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Let op</div>
             <div style="font-size:8.5px;color:rgba(255,255,255,.9);line-height:1.45;">Toekenning en bedragen zijn indicatief en afhankelijk van de op het aanvraagmoment geldende voorwaarden.</div>
           </div>
@@ -2378,6 +2441,15 @@ function _norm(v){return String(v||'').toLowerCase().normalize('NFD').replace(/[
    kerncijfers worden hier vastgezet en zijn daarna door het hele dossier
    identiek. Validatieregels vangen onlogische combinaties af.
    ═══════════════════════════════════════════════════════════════════ */
+function getAanvragerType(){
+  const el=document.querySelector('input[name="aanvrager"]:checked');
+  const v=el?el.value:'particulier';
+  return (v==='ondernemer'||v==='vve'||v==='particulier')?v:'particulier';
+}
+function aanvragerLabel(t){
+  return t==='ondernemer'?'Ondernemer / zakelijk':t==='vve'?'VvE':'Particulier';
+}
+
 function reconcileNumbers(d){
   const num=v=>{ if(typeof v==='number') return isFinite(v)?v:0;
     const n=Number(String(v==null?'':v).replace(/[^0-9.,-]/g,'').replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.'));
@@ -2616,24 +2688,73 @@ function sanitizeNarratives(d){
     {l:'Sociale waarborgen',v:'Te bevestigen volgens uitvoeringsrichtlijnen.'}
   ];
 
-  // ── SUBSIDIES — opnieuw opbouwen o.b.v. de maatregelen ──
+  // ── SUBSIDIES — opnieuw opbouwen o.b.v. de maatregelen ÉN het type aanvrager ──
+  const aanvr=String(d.aanvrager_type||(typeof getAanvragerType==='function'?getAanvragerType():'particulier'));
+  d.aanvrager_type=aanvr;
   const subs=[];
-  if(has(/warmtepomp|isolat|glas|kierdicht|gevel|dak|spouw|hr\+|vloer|bodem/)){
-    const items=[];
-    if(has(/warmtepomp/)) items.push({m:'(Hybride) warmtepomp',b:'vast subsidiebedrag o.b.v. vermogen',st:'Kansrijk'});
-    if(has(/dak/)) items.push({m:'Dakisolatie',b:'bedrag per m² · te bevestigen',st:'Kansrijk'});
-    if(has(/gevel|spouw/)) items.push({m:'Gevel-/spouwmuurisolatie',b:'bedrag per m² · te bevestigen',st:'Kansrijk'});
-    if(has(/vloer|bodem|kruipruimte/)) items.push({m:'Vloer-/bodemisolatie',b:'bedrag per m² · te bevestigen',st:'Kansrijk'});
-    if(has(/glas|beglazing|hr\+|triple|isolatieglas/)) items.push({m:'Isolerend glas (HR++/triple)',b:'bedrag per m² · te bevestigen',st:'Te bevestigen'});
-    subs.push({naam:'ISDE — Investeringssubsidie Duurzame Energie en energiebesparing',voor:'Warmtepomp · isolatie (per onderdeel)',bedrag:'indicatief, per onderdeel',status:'Kansrijk',items,voorwaarden:'Eigenaar-bewoner · gecertificeerde maatregel/installatie · minimale oppervlakte · aanvraag via RVO binnen 24 maanden na uitvoering.',bewijs:'Facturen, installatiecertificaat, meetstaat isolatie.',uitleg:'Per onderdeel afzonderlijk aan te vragen — uitdrukkelijk niet op zonnepanelen.'});
+  const extra=[];
+  const heeftIso=has(/warmtepomp|isolat|glas|kierdicht|gevel|dak|spouw|hr\+|vloer|bodem|beglazing|triple|zonneboiler/);
+  const heeftWp=has(/warmtepomp/);
+  const heeftPv=has(/zonnepane|\bpv\b|zonne/);
+  const heeftVent=has(/ventilat|wtw|warmteterug/);
+  const heeftLed=has(/led|verlicht/);
+  const isdeItems=()=>{const items=[];
+    if(heeftWp) items.push({m:'(Hybride) warmtepomp',b:'vast bedrag o.b.v. vermogen'});
+    if(has(/dak/)) items.push({m:'Dakisolatie',b:'bedrag per m² · te bevestigen'});
+    if(has(/gevel|spouw/)) items.push({m:'Gevel-/spouwmuurisolatie',b:'bedrag per m² · te bevestigen'});
+    if(has(/vloer|bodem|kruipruimte/)) items.push({m:'Vloer-/bodemisolatie',b:'bedrag per m² · te bevestigen'});
+    if(has(/glas|beglazing|hr\+|triple|isolatieglas/)) items.push({m:'Isolerend glas (HR++/triple)',b:'bedrag per m² · te bevestigen'});
+    if(has(/zonneboiler/)) items.push({m:'Zonneboiler',b:'vast bedrag o.b.v. opp.'});
+    return items;};
+
+  if(aanvr==='ondernemer'){
+    if(heeftIso||heeftPv||heeftLed||heeftVent){
+      subs.push({naam:'EIA — Energie-investeringsaftrek',voor:'Energiebesparende bedrijfsmiddelen',bedrag:'40% extra aftrek van de fiscale winst',status:'Fiscaal voordeel',voorwaarden:'Bedrijfsmiddel op de Energielijst · melden bij RVO binnen 3 maanden na opdracht · zakelijke eigenaar/ondernemer.',bewijs:'Offertes, EIA-melding, RVO-verklaring.',uitleg:'Verlaagt de belastbare winst; netto voordeel ≈ aftrek × belastingtarief (VPB/IB).'});
+    }
+    if(has(/gevel|dak|isolat|groen dak|duurzaam|laadpaal|elektrisch|biobased/)){
+      subs.push({naam:'MIA / Vamil — Milieu-investeringsaftrek + vrije afschrijving',voor:'Milieuvriendelijke / biobased maatregelen',bedrag:'tot 45% MIA-aftrek + 75% vrije afschrijving',status:'Fiscaal voordeel',voorwaarden:'Maatregel op de Milieulijst · melden bij RVO binnen 3 maanden na opdracht.',bewijs:'Offertes, Milieulijst-code, RVO-melding.',uitleg:'Extra aftrek én versnelde afschrijving voor een liquiditeitsvoordeel.'});
+    }
+    subs.push({naam:'KIA — Kleinschaligheidsinvesteringsaftrek',voor:'Volledig investeringspakket',bedrag:'extra aftrek o.b.v. investeringshoogte',status:'Fiscaal voordeel',voorwaarden:'Totale investering tussen de jaarlijkse grensbedragen · combineerbaar met EIA/MIA.',bewijs:'Investeringsadministratie · accountant.',uitleg:'Aftrek bovenop EIA/MIA; de accountant verwerkt dit in de aangifte.'});
+    if(heeftWp||has(/zonneboiler/)){
+      subs.push({naam:'ISDE (zakelijk) — Investeringssubsidie Duurzame Energie',voor:'Warmtepomp · zonneboiler',bedrag:'vast bedrag per maatregel',status:'Kansrijk',items:isdeItems(),voorwaarden:'Aanvraag via RVO met eHerkenning · gecertificeerde installatie · binnen de gestelde termijn.',bewijs:'Facturen, installatiecertificaat, meldcode.',uitleg:'Directe subsidie naast de fiscale aftrek (niet op hetzelfde middel met EIA te combineren).'});
+    }
+    subs.push({naam:'BMKB-Groen — Borgstelling MKB-krediet',voor:'Financiering verduurzaming',bedrag:'overheid staat tot 75% garant',status:'Financiering (geen subsidie)',voorwaarden:'Via de bank aan te vragen · max. looptijd 12 jaar.',bewijs:'Financieringsaanvraag bank.',uitleg:'Maakt een groene lening makkelijker verkrijgbaar — dit is een garantie, geen subsidie.'});
+    if(heeftPv) extra.push({naam:'SDE++',note:'exploitatiesubsidie per kWh voor grotere zon-/energie-installaties (> 15 kWp); aanvragen tijdens de openstellingsronde.'});
+    extra.push({naam:'SVOH',note:'verduurzaming & onderhoud van verhuurde woningen — tot 30% van de kosten per woning (alleen bij verhuur).'});
+    extra.push({naam:'DUMAVA',note:'voor maatschappelijk vastgoed (scholen, zorg, cultuur, overheid) — subsidie op verduurzaming.'});
+    if(heeftPv) extra.push({naam:'SCE',note:'coöperatieve energieopwekking (postcoderoos) voor coöperaties en collectieven.'});
+  } else if(aanvr==='vve'){
+    subs.push({naam:'SVVE — Subsidie verduurzaming voor verenigingen van eigenaars',voor:'Isolatie · (hybride) warmtepomp · advies & procesbegeleiding',bedrag:'tot ca. 30% van de kosten + vergoeding advies',status:'Kansrijk',items:isdeItems(),voorwaarden:'Aanvrager is de VvE · minimaal twee isolatiemaatregelen of een (hybride) warmtepomp · ALV-besluit · aanvraag via RVO.',bewijs:'ALV-besluit, offertes, meetstaat isolatie.',uitleg:'Specifiek voor VvE’s; dekt naast maatregelen ook energieadvies, MJOP-verduurzaming en procesbegeleiding.'});
+    if(heeftWp||has(/zonneboiler|isolat|dak|gevel|vloer|glas/)){
+      subs.push({naam:'ISDE — Investeringssubsidie Duurzame Energie',voor:'Warmtepomp · zonneboiler · isolatie',bedrag:'vast bedrag per maatregel',status:'Kansrijk',voorwaarden:'Per maatregel aan te vragen door de VvE · gecertificeerde installatie · aanvraag via RVO.',bewijs:'Facturen, installatiecertificaat.',uitleg:'Naast de SVVE per onderdeel aan te vragen — uitdrukkelijk niet op zonnepanelen.'});
+    }
+    subs.push({naam:'Nationaal Warmtefonds — VvE-Energiebespaarlening',voor:'Volledig maatregelenpakket',bedrag:'lening met rentevoordeel · lange looptijd',status:'Financiering (geen subsidie)',voorwaarden:'VvE-financiering · combineerbaar met SVVE en ISDE.',bewijs:'ALV-besluit, offertes.',uitleg:'Financiert het eigen deel van de VvE tegen een gunstig tarief.'});
+    if(heeftPv){
+      subs.push({naam:'0%-btw op zonnepanelen',voor:'Zonnepanelen',bedrag:'0% btw bij aanschaf & installatie',status:'Te bevestigen',voorwaarden:'Voor woningen / VvE’s bij aanschaf en installatie. Actuele fiscale regeling te bevestigen.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt 0% btw; een aparte teruggaaf is doorgaans niet meer nodig.'});
+    }
+    subs.push({naam:'Gemeentelijke / provinciale regelingen',voor:'Wisselend per maatregel',bedrag:'nader te bepalen',status:'Lokaal te controleren',voorwaarden:'Beschikbaarheid en voorwaarden verschillen per gemeente/provincie en per jaar.',bewijs:'Lokale aanvraag.',uitleg:'Te controleren bij de gemeente van het object.'});
+    if(heeftPv) extra.push({naam:'SCE',note:'subsidie coöperatieve energieopwekking (postcoderoos) voor VvE’s die collectief zonnestroom opwekken.'});
+  } else {
+    if(heeftIso||heeftWp){
+      subs.push({naam:'ISDE — Investeringssubsidie Duurzame Energie en energiebesparing',voor:'Warmtepomp · zonneboiler · isolatie (per onderdeel)',bedrag:'vast bedrag per maatregel',status:'Kansrijk',items:isdeItems(),voorwaarden:'Eigenaar-bewoner · gecertificeerde maatregel/installatie · minimale oppervlakte · aanvraag via RVO binnen 24 maanden na uitvoering.',bewijs:'Facturen, installatiecertificaat, meetstaat isolatie.',uitleg:'Per onderdeel afzonderlijk aan te vragen — uitdrukkelijk niet op zonnepanelen.'});
+    }
+    subs.push({naam:'Nationaal Warmtefonds — Energiebespaarlening',voor:'Volledig maatregelenpakket',bedrag:'lening met rentevoordeel · looptijd tot 20 jaar',status:'Financiering (geen subsidie)',voorwaarden:'Toets op inkomen en object · combineerbaar met ISDE.',bewijs:'Offertes, inkomenstoets.',uitleg:'Financiert het eigen deel tegen een gunstig tarief — dit is een lening, geen subsidie.'});
+    if(heeftPv){
+      subs.push({naam:'0%-btw op zonnepanelen',voor:'Zonnepanelen',bedrag:'0% btw bij aanschaf & installatie',status:'Te bevestigen',voorwaarden:'Voor particuliere woningeigenaren bij aanschaf/installatie. Actuele fiscale regeling te bevestigen.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt 0% btw; een aparte btw-teruggaaf is doorgaans niet meer nodig.'});
+      subs.push({naam:'Salderingsregeling zonnepanelen',voor:'Zonnepanelen',bedrag:'teruglevering wegstrepen tegen afname',status:'Te bevestigen',voorwaarden:'Slimme meter vereist · regeling wordt stapsgewijs afgebouwd.',bewijs:'Meterdata netbeheerder.',uitleg:'Hoe eerder geïnstalleerd, hoe meer voordeel zolang de afbouw loopt.'});
+    }
+    subs.push({naam:'Gemeentelijke / provinciale regelingen',voor:'Wisselend per maatregel',bedrag:'nader te bepalen',status:'Lokaal te controleren',voorwaarden:'Beschikbaarheid en voorwaarden verschillen per gemeente/provincie en per jaar.',bewijs:'Lokale aanvraag.',uitleg:'Te controleren bij de gemeente van het object.'});
+    extra.push({naam:'SVOH',note:'verduurzaming & onderhoud huurwoningen — alleen relevant als u de woning verhuurt (tot 30% van de kosten per woning).'});
   }
-  subs.push({naam:'Nationaal Warmtefonds — Energiebespaarlening',voor:'Volledig maatregelenpakket',bedrag:'lening met rentevoordeel · looptijd tot 20 jaar',status:'Financiering (geen subsidie)',voorwaarden:'Toets op inkomen en object · combineerbaar met ISDE.',bewijs:'Offertes, inkomenstoets.',uitleg:'Financieringsmogelijkheid voor het eigen deel tegen een gunstig tarief — dit is een lening, geen subsidie.'});
-  if(has(/zonnepane|\bpv\b|zonne/)){
-    subs.push({naam:'0%-btw op zonnepanelen',voor:'Zonnepanelen',bedrag:'0% btw bij aanschaf & installatie',status:'Te bevestigen',voorwaarden:'Voor particuliere woningeigenaren bij aanschaf/installatie. Actuele fiscale regeling te bevestigen.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt 0% btw; een aparte btw-teruggaaf is daardoor doorgaans niet meer nodig.'});
-  }
-  subs.push({naam:'Gemeentelijke / provinciale regelingen',voor:'Wisselend per maatregel',bedrag:'nader te bepalen',status:'Lokaal te controleren',voorwaarden:'Beschikbaarheid en voorwaarden verschillen per gemeente/provincie en per jaar.',bewijs:'Lokale aanvraag.',uitleg:'Te controleren bij de gemeente van het object.'});
-  d.subsidies=subs;
-  d.subsidie_conclusie=`Voor ${obj} is de ISDE doorgaans het meest kansrijk — vooral voor de warmtepomp en de isolatiemaatregelen. ${has(/zonnepane|zonne/)?'Voor de zonnepanelen geldt het 0%-btw-tarief (te bevestigen). ':''}Het Nationaal Warmtefonds kan het eigen deel gunstig financieren. Bedragen en toekenning zijn indicatief en afhankelijk van actuele voorwaarden en aanvraag; MB Adviesgroep toetst dit en begeleidt de aanvraag.`;
+  d.subsidies=subs.slice(0,4);
+  const _ov=subs.slice(4).map(s=>({naam:(s.naam.split('—')[0]).trim(),note:(s.voor?s.voor+' — ':'')+(s.uitleg||s.bedrag||'')}));
+  d.subsidies_extra=_ov.concat(extra).slice(0,6);
+  const _conclByType={
+    ondernemer:`Voor ${obj} zijn vooral de fiscale regelingen (EIA, KIA${has(/gevel|dak|isolat|groen dak|duurzaam/)?', MIA/Vamil':''}) interessant; ${heeftWp?'de ISDE geeft daarnaast een directe subsidie op de warmtepomp. ':''}BMKB-Groen kan de financiering vergemakkelijken. Bedragen en toekenning zijn indicatief; MB Adviesgroep stemt dit af met uw accountant en begeleidt de aanvraag.`,
+    vve:`Voor ${obj} is de SVVE doorgaans het meest kansrijk — die dekt zowel de maatregelen als advies en procesbegeleiding voor de VvE. De ISDE kan per onderdeel worden aangevraagd en het VvE-Warmtefonds financiert het eigen deel. Bedragen en toekenning zijn indicatief; MB Adviesgroep begeleidt het ALV-traject en de aanvraag.`,
+    particulier:`Voor ${obj} is de ISDE doorgaans het meest kansrijk — vooral voor de warmtepomp en de isolatiemaatregelen. ${heeftPv?'Voor de zonnepanelen geldt het 0%-btw-tarief (te bevestigen). ':''}Het Nationaal Warmtefonds kan het eigen deel gunstig financieren. Bedragen en toekenning zijn indicatief; MB Adviesgroep toetst dit en begeleidt de aanvraag.`
+  };
+  d.subsidie_conclusie=_conclByType[aanvr]||_conclByType.particulier;
 
   // ── ASSURANCE-TEKST ──
   d.assurance_tekst=`Dit dossier is bruikbaar als indicatieve basis voor de financieringsaanvraag op bewijsniveau ${d.assurance_niveau||3}. De brondata komt uit een gevalideerd energie-advies; definitieve kwalificatie volgt na uitvoering, een nieuw energielabel (EP-online), facturen, DNSH en sociale waarborgen.`;
@@ -3907,6 +4028,7 @@ const DEMO_DATA={
 function runDemo(){
   let d=JSON.parse(JSON.stringify(DEMO_DATA));
   try{ if(typeof enrichSdgMappings==='function') d=enrichSdgMappings(d); }catch(e){}
+  d.aanvrager_type = getAanvragerType();
   d=reconcileNumbers(d);
   d=sanitizeNarratives(d);
   currentData=d;
