@@ -1,3 +1,16 @@
+# MB Duurzaamheids- & ESG-dossier (v12)
+
+## Nieuw in v12 — kwaliteitsronde 3
+- **Logo vervangen** door de schone transparante PNG; alle logo-plekken staan nu op een witte achtergrond met `object-fit:contain` (geen zwarte rand meer).
+- **Besparing > energiekosten wordt nooit als harde KPI getoond.** Bij `besparing > energiekosten` krijgt de besparings-KPI (pagina 2 én groene paragraaf) een amber "nader te valideren"-status met toelichting, en de terugverdientijd wordt als indicatief gemarkeerd. De huidige energiekosten worden **uit het bronrapport overgenomen en niet opgehoogd**.
+- **Primaire-energiereductie losgekoppeld van CO₂** (mag er niet automatisch aan gelijk zijn); indicatief afgeleid uit de labelstappen.
+- **CO₂-totaalregel** toont de gevalideerde scope 1+2-reductie; de (hogere) rekenkundige optelsom per maatregel wordt bewust niet meer als officieel totaal gepresenteerd.
+- **Compacter: 10 sterke pagina's i.p.v. 12.** De dubbele financiële pagina en de losse leeswijzer zijn verwijderd; de leeswijzer-kern staat nu compact op de ESG-pagina. Paginanummers zijn dynamisch (`NN · TOT`).
+- **Groene paragraaf** in de juiste volgorde: hero → titel → subtitel → samenvatting → KPI's → financieringshaak → bewijsstukken → risico's → sterke slotconclusie.
+- Extra **claim-softening**: "voldoet aan", "aantoonbaar", "garandeert", "definitief aligned" worden automatisch afgezwakt.
+
+---
+
 # MB Duurzaamheids- & ESG-dossier (v11)
 
 Eén professioneel, bankwaardig A4-dossier dat het beste van de duurzaamheidstool combineert met het beste van de ESG/SDG-tool. Het rapport rendert per pagina als een vaste A4 (web én print) met vaste header/footer, paginastempel, print-vriendelijke inline-SVG-grafieken en een conservatieve ESG-score.
@@ -25,13 +38,12 @@ Eén professioneel, bankwaardig A4-dossier dat het beste van de duurzaamheidstoo
 ## Demo / preview zonder backend
 Open `index.html?demo=1` om een voorbeelddossier (Beatrixlaan 138) te renderen dat door exact dezelfde normalisatie- en sanitatielaag loopt als de live-flow. Alleen voor visuele controle.
 
-## Paginavolgorde (12)
+## Paginavolgorde (10)
 1. Cover  2. Energieprestatie & kerncijfers  3. Geadviseerde maatregelen
 4. Subsidies & regelingen  5. Groene paragraaf & financieringsadvies
-6. ESG-beoordeling in één oogopslag  7. Leeswijzer scores & indicatoren
-8. Risicomatrix & financieringsvoorwaarden  9. SDG per maatregel
-10. SFDR / Pillar 3 / EU Taxonomie 7.2 / DNSH  11. Financiële impact & terugverdientijd
-12. Conclusie & vervolgstappen
+6. ESG-beoordeling + compacte leeswijzer  7. SDG-impact per maatregel
+8. SFDR / Pillar 3 / EU Taxonomie 7.2 / DNSH  9. Risicomatrix & financieringsvoorwaarden
+10. Conclusie & vervolgstappen
 
 ## Vereiste Vercel environment variables
 - `OPENAI_API_KEY`
