@@ -2,7 +2,8 @@
 
 ## Nieuw in v12 — kwaliteitsronde 3
 - **Logo vervangen** door de schone transparante PNG; alle logo-plekken staan nu op een witte achtergrond met `object-fit:contain` (geen zwarte rand meer).
-- **Besparing > energiekosten wordt nooit als harde KPI getoond.** Bij `besparing > energiekosten` krijgt de besparings-KPI (pagina 2 én groene paragraaf) een amber "nader te valideren"-status met toelichting, en de terugverdientijd wordt als indicatief gemarkeerd. De huidige energiekosten worden **uit het bronrapport overgenomen en niet opgehoogd**.
+- **Besparing > energiekosten wordt automatisch begrensd.** De huidige energiekosten komen ongewijzigd uit het bronrapport; ligt de bron-besparing daarboven, dan wordt de jaarlijkse besparing begrensd op een realistisch deel van de energiekosten en worden de besparing per maatregel, terugverdientijd en break-even evenredig herschaald. Verouderde €-bedragen in de toelichting/SDG-tekst worden automatisch verwijderd. De besparing toont weer als nette KPI (met "indicatief, begrensd"-notitie).
+- **Header verfijnd**: objectnaam met daaronder een subtiele postcode/plaats-regel.
 - **Primaire-energiereductie losgekoppeld van CO₂** (mag er niet automatisch aan gelijk zijn); indicatief afgeleid uit de labelstappen.
 - **CO₂-totaalregel** toont de gevalideerde scope 1+2-reductie; de (hogere) rekenkundige optelsom per maatregel wordt bewust niet meer als officieel totaal gepresenteerd.
 - **Compacter: 10 sterke pagina's i.p.v. 12.** De dubbele financiële pagina en de losse leeswijzer zijn verwijderd; de leeswijzer-kern staat nu compact op de ESG-pagina. Paginanummers zijn dynamisch (`NN · TOT`).
