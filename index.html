@@ -1294,7 +1294,7 @@ body.report-mode .rpt-mode{display:block;}
 
     <div class="body" id="uploadBody">
       <div class="eyebrow">Duurzaamheids- &amp; ESG-dossier</div>
-      <h1 class="h1">Van verduurzamings­rapport naar één <em>bankwaardig</em> dossier.</h1>
+      <h1 class="h1">Van verduurzamings­rapport naar één <em>onderbouwend</em> ESG-dossier.</h1>
       <p class="lead">Upload het verduurzamingsrapport (en optioneel een pandsfoto en brochures). De tool stelt één professioneel A4-dossier op: energieprestatie en maatregelen uit de duurzaamheidstool, gevolgd door de groene paragraaf en de volledige ESG-/SDG-/SFDR-/Taxonomie-analyse — geschikt voor de green-loan toets.</p>
 
       <div class="sec-head">
@@ -1879,7 +1879,7 @@ function buildLocalReport(text){
     taxonomie:{
       activiteit:'7.2 Renovatie van bestaande gebouwen',
       eligibility:'In aanmerking (Eligible)',
-      alignment:'Potentieel aligned — DNSH en sociale waarborgen te bevestigen',
+      alignment:'Indicatief in aanmerking — alignment, DNSH en sociale waarborgen te bevestigen',
       contribution:'De EU Taxonomie is een Europese classificatie voor duurzame activiteiten. Renovatie van bestaande gebouwen valt onder activiteit 7.2. Indicatieve eligibility en eventuele alignment worden gebaseerd op het bronrapport en blijven afhankelijk van oplevering, nieuw energielabel, DNSH-bewijs en sociale waarborgen.',
       dnsh:[
         {l:'Klimaatadaptatie',v:'Risicoscan uitgevoerd — laag tot middel risico'},
@@ -2305,7 +2305,7 @@ function pageSubsidies(d){
           </div>
           <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:6px 11px;">
             <div style="font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Let op</div>
-            <div style="font-size:8.5px;color:rgba(255,255,255,.9);line-height:1.45;">Toekenning en bedragen zijn indicatief en afhankelijk van de op het aanvraagmoment geldende voorwaarden.</div>
+            <div style="font-size:8.5px;color:rgba(255,255,255,.9);line-height:1.45;">Toekenning en bedragen zijn indicatief. Subsidies en fiscale regelingen wijzigen regelmatig — controleer de actuele voorwaarden vóór opdrachtverstrekking.</div>
           </div>
         </div>
       </div>
@@ -2369,7 +2369,7 @@ function pageGroeneParagraaf(d){
           <div style="font-size:8px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:rgba(255,255,255,.7);">ESG &amp; financieringsduiding</div>
         </div>
         <div style="position:relative;font-size:28px;font-weight:800;line-height:1.04;letter-spacing:-.7px;margin-bottom:7px;">Groene paragraaf &amp; financieringsadvies</div>
-        <div style="position:relative;font-size:11px;font-weight:500;color:rgba(255,255,255,.8);margin-bottom:14px;">Bankwaardige duurzaamheidsduiding voor ${obj}${adr?' · '+adr:''}</div>
+        <div style="position:relative;font-size:11px;font-weight:500;color:rgba(255,255,255,.8);margin-bottom:14px;">Onderbouwende duurzaamheidsduiding (ESG-bijlage t.b.v. financieringsbeoordeling) voor ${obj}${adr?' · '+adr:''}</div>
         <div style="position:relative;font-size:9.5pt;color:rgba(255,255,255,.93);line-height:1.64;max-width:97%;">${samenvatting}</div>
       </div>
 
@@ -2382,9 +2382,12 @@ function pageGroeneParagraaf(d){
         </div>`).join('')}
       </div>
 
-      <!-- WAAROM GROEN FINANCIERBAAR + FINANCIERINGSHAAK -->
+      <!-- METHODIEK ESG-SCORE -->
+      <div style="font-size:7.6px;color:var(--ink-3);line-height:1.45;margin:-3px 0 12px;padding:8px 13px;background:var(--blue-faint);border-radius:9px;"><b style="color:var(--blue-deep);">Methodiek ESG-score ·</b> interne, indicatieve MB&nbsp;Adviesgroep-score (0–100), opgebouwd uit transitierisico, datakwaliteit, bewijsniveau, klimaatrisico en rapportagegereedheid. Geen externe certificering, rating of assurance — bedoeld als onderbouwing t.b.v. de financieringsbeoordeling.</div>
+
+      <!-- WAAROM ONDERBOUWING + FINANCIERINGSHAAK -->
       <div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:15px 18px;margin-bottom:12px;border-left:4px solid var(--green);">
-        <div style="font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:6px;">Waarom onder voorwaarden groen financierbaar — bank · hypotheekverstrekker · duurzaamheidslening</div>
+        <div style="font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:6px;">Waarom dit dossier bruikbaar is als onderbouwing — bank · hypotheekverstrekker · duurzaamheidslening</div>
         <div style="font-size:9.5pt;color:var(--ink-2);line-height:1.62;">${esc(g.mb_credion_haak||'Voor een bank, hypotheekverstrekker of duurzaamheidslening telt vooral dat de investering objectief is onderbouwd: maatregelen, offertes, oplevering en meetbare effecten. De bruto investering, jaarlijkse besparing, labelstap en CO₂-reductie vormen samen de kern van de green-loan-toets. MB Adviesgroep en Credion verzorgen de onderbouwing en begeleiden de aanvraag.')}</div>
       </div>
 
@@ -2989,7 +2992,7 @@ function pageBanksamenvatting(d){
           <div class="sc-num">${esc(d.bankscore)}<small> / 100</small></div>
           <div class="sc-bar"><div class="sc-bar-fill" style="width:${esc(d.bankscore)}%"></div></div>
           <div class="sc-verdict">${esc(d.bankscore_oordeel)}</div>
-          <div class="sc-text"><b style="color:var(--blue-deep);">Leeswijzer ·</b> 65–79 = indicatief geschikt onder voorwaarden. Bewijsniveau 3/4: bron gevalideerd, nieuw label volgt na oplevering.</div>
+          <div class="sc-text"><b style="color:var(--blue-deep);">Leeswijzer ·</b> 65–79 = indicatief geschikt onder voorwaarden · interne, indicatieve MB-score, geen externe rating/certificering.</div>
         </div>
         <div class="score-side">
           ${arr(d.bankscore_componenten).map(c=>`<div class="ss-row"><div class="ss-l">${esc(c.l)}</div><div class="ss-v">${esc(c.v)}</div></div>`).join('')}
@@ -3410,7 +3413,7 @@ function alignReportConsistency(d){
 
   if(!d.taxonomie || typeof d.taxonomie!=='object') d.taxonomie={};
   d.taxonomie.eligibility='In aanmerking (eligible)';
-  d.taxonomie.alignment='Potentieel aligned — DNSH en sociale waarborgen te bevestigen';
+  d.taxonomie.alignment='Indicatief in aanmerking — alignment, DNSH en sociale waarborgen te bevestigen';
   d.taxonomie.contribution=`De renovatie kan onder EU Taxonomie 7.2 vallen op basis van het bronrapport: ${esc(String(d.primaire_energie_reductie_pct||'n.b.'))}% energiereductie, labeltraject ${esc(d.huidig_label)} → ${esc(d.streef_label)} en een scope 1+2 CO₂-reductie van circa ${co2Txt}. Definitieve alignment blijft afhankelijk van oplevering, nieuw energielabel, DNSH en sociale waarborgen.`;
 
   // Evidence/ESRS-overzichten gelijktrekken met de maatregelentabel.
@@ -3440,7 +3443,7 @@ function alignReportConsistency(d){
     if(d[k]) d[k]=String(d[k])
       .replace(/voldoet aan/gi,'lijkt onder voorwaarden te passen binnen')
       .replace(/kwalificeert als/gi,'kan indicatief kwalificeren als')
-      .replace(/is aligned/gi,'is potentieel aligned')
+      .replace(/is aligned/gi,'kan indicatief in aanmerking komen (alignment te bevestigen)')
       .replace(/Green Asset Ratio verhoogt/gi,'kan Green Asset Ratio ondersteunen');
   });
   if(Array.isArray(d.conclusie_punten)){
@@ -3454,7 +3457,7 @@ function alignReportConsistency(d){
     .replace(/voldoet aan/gi,'lijkt onder voorwaarden te passen binnen')
     .replace(/kwalificeert voor/gi,'lijkt onder voorwaarden geschikt voor')
     .replace(/kwalificeert als/gi,'kan indicatief kwalificeren als')
-    .replace(/is aligned/gi,'is potentieel aligned');
+    .replace(/is aligned/gi,'kan indicatief in aanmerking komen (alignment te bevestigen)');
   ['samenvatting','assurance_tekst','bankscore_oordeel','sfdr','pillar3'].forEach(k=>{ if(typeof d[k]==='string') d[k]=softenString(d[k]); });
 
 
@@ -3676,7 +3679,7 @@ function pageSfdrTax(d){
       <div style="background:var(--blue-faint);border-radius:10px;padding:10px 14px;margin-bottom:12px;border-left:3px solid var(--blue);">
         <div style="font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:3px;">In gewone taal</div>
         <div style="font-size:9pt;color:var(--ink-2);line-height:1.55;">
-          Indicatief ja. De verduurzaming van <b>${esc(d.object_naam||'dit pand')}</b> levert naar verwachting ${energiePct}% minder energieverbruik, ${co2Pct}% minder CO₂ en ${stappen} labelstappen (${labelVan} → ${labelNaar}). Deze waarden worden uit het verduurzamingsrapport overgenomen. Daarmee kan het dossier onder voorwaarden passen binnen Europese kaders voor groene financiering. Definitieve kwalificatie volgt pas na oplevering, nieuw energielabel en bevestiging van DNSH en sociale waarborgen.
+          Indicatief ja. De verduurzaming van <b>${esc(d.object_naam||'dit pand')}</b> levert naar verwachting ${energiePct}% minder energieverbruik, ${co2Pct}% minder CO₂ en ${stappen} labelstappen (${labelVan} → ${labelNaar}). Deze waarden worden uit het verduurzamingsrapport overgenomen. Daarmee levert het dossier <b>input</b> die een financier kan gebruiken voor de eigen interne duurzaamheidsrapportage en portefeuilleclassificatie. Het pand valt hier niet automatisch zelf onder — SFDR geldt voor financiële producten, Pillar&nbsp;3 voor bankrapportage. Een formele classificatie is aan de financier en volgt pas na oplevering, nieuw energielabel en bevestiging van DNSH en sociale waarborgen.
         </div>
       </div>
 
@@ -3709,7 +3712,7 @@ function pageSfdrTax(d){
           <div style="font-size:8.5pt;color:var(--ink-2);line-height:1.55;margin-bottom:8px;">${esc(tax.contribution||'Primaire energiereductie '+energiePct+'% — indicatief boven de drempel van 30%. Aangevuld met '+stappen+' labelstappen ('+labelVan+' → '+labelNaar+'). Definitieve Taxonomie-alignment blijft afhankelijk van DNSH en sociale waarborgen.')}</div>
           <div style="border-top:1px solid var(--blue-faint);padding-top:7px;display:flex;flex-wrap:wrap;gap:4px;">
             <span class="pill p-good" style="font-size:7px;">${esc(tax.eligibility||'Eligible')}</span>
-            <span class="pill p-warn" style="font-size:7px;">Potentieel aligned</span>
+            <span class="pill p-warn" style="font-size:7px;">Alignment te bevestigen</span>
             <span class="pill p-info" style="font-size:7px;">DNSH vereist</span>
             <span class="pill p-mute" style="font-size:7px;">Waarborgen te bevestigen</span>
           </div>
@@ -3735,7 +3738,7 @@ function pageSfdrTax(d){
         <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--orange);"></div>
         <div style="font-size:7.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:3px;">Conclusie</div>
         <div style="font-size:8.5pt;color:rgba(255,255,255,.92);line-height:1.55;">
-          ${esc(d.object_naam||'Het pand')} is indicatief geschikt voor groene financiering onder SFDR Artikel 8, Pillar 3 en EU Taxonomie 7.2. <b style="color:#fff;">Definitieve kwalificatie</b> volgt na oplevering, registratie van het nieuwe energielabel en bevestiging van DNSH en sociale waarborgen.
+          ${esc(d.object_naam||'Het pand')} levert input die een financier kan gebruiken voor de eigen interne duurzaamheidsrapportage en portefeuilleclassificatie (o.a. SFDR, Pillar 3, EU&nbsp;Taxonomie&nbsp;7.2). Het pand valt hier niet automatisch zelf onder. <b style="color:#fff;">Een formele classificatie</b> is aan de financier en volgt pas na oplevering, registratie van het nieuwe energielabel en bevestiging van DNSH en sociale waarborgen. Dit dossier is geen ESG-rating, taxonomieverklaring of certificering.
         </div>
       </div>
 
@@ -3829,13 +3832,38 @@ function pageMaatregelen(d){
 }
 
 
+/* Aandachtspunten vóór financieringsaanvraag — validaties die om bevestiging vragen */
+function buildAttention(d){
+  const w=[]; const ms=arr(d.maatregelen);
+  const nm=m=>_norm(m&&m.naam);
+  const has=re=>ms.some(m=>re.test(nm(m)));
+  const gevel=ms.some(m=>/gevel/.test(nm(m)));
+  const spouw=ms.some(m=>/spouw/.test(nm(m)));
+  if(gevel&&spouw) w.push('Gevel- én spouwmuurisolatie staan beide in het pakket — controleer op dubbele besparing op hetzelfde warmteverlies of combineer tot één post (Gevel-/spouwmuurisolatie).');
+  if(d._bes_gecapt) w.push('De jaarlijkse besparing is begrensd op de energiekosten; de bronwaarde lag hoger en is gecorrigeerd.');
+  const langeTvt=ms.filter(m=>Number(m.tvt)>20).map(m=>m.naam);
+  if(langeTvt.length) w.push('Terugverdientijd langer dan 20 jaar bij: '+langeTvt.join(', ')+' — weeg nut en rendement vóór financiering.');
+  const pv=ms.find(m=>/zonnepane|\bpv\b|zonnestroom/.test(nm(m)));
+  if(pv && Number(pv.tvt)>15 && Number(pv.tvt)<=20) w.push('Zonnepanelen kennen een relatief lange terugverdientijd ('+String(pv.tvt).replace('.',',')+' jr) — afhankelijk van saldering en stroomprijs.');
+  const wp=has(/warmtepomp/); const isolatie=ms.some(m=>/isolat|spouw|gevel|dak|vloer|glas|beglazing/.test(nm(m)));
+  if(wp && !isolatie) w.push('Warmtepomp opgenomen zonder onderbouwde isolatiemaatregelen — bevestig of de schil geschikt is voor lagetemperatuurverwarming.');
+  const renteBron=d.rente_referentie && !/^(n\.?\s*b\.?|onbekend|geen|—|-|\s)*$/i.test(String(d.rente_referentie));
+  if(!renteBron) w.push('Een exact rentevoordeel (bps) wordt alleen getoond met bron of regeling van de financier; nu indicatief weergegeven.');
+  if(Number(d.assurance_niveau||3)<3) w.push('Bewijsniveau lager dan 3 — de ESG-score blijft voorlopig en vraagt aanvullende brondata.');
+  return w.slice(0,4);
+}
+
 /* ─── PAGINA 8 — CONCLUSIE & VERVOLG ─── */
 function pageBewijsVervolg(d){
   const lvl=d.assurance_niveau||3;
+  const renteBron=d.rente_referentie && !/^(n\.?\s*b\.?|onbekend|geen|—|-|\s)*$/i.test(String(d.rente_referentie));
+  const renteTile=renteBron
+    ? {l:'Potentieel rentevoordeel',v:'−'+esc(String(d.rentekorting_bps||25))+' bps',s:'Indicatief voorbeeld — alleen indien de financier dit aanbiedt'}
+    : {l:'Rentevoordeel',v:'Mogelijk gunstiger',s:'Afhankelijk van financier/regeling — geen vast percentage zonder bron'};
   const levels=[
     {nr:1,l:'PDF-scan',sub:'Ruwe data uit rapport'},
     {nr:2,l:'PDF + afgeleid',sub:'Berekeningen op basis van rapport'},
-    {nr:3,l:'Data-validatie',sub:'Bronnen geverifieerd'},
+    {nr:3,l:'Data-validatie',sub:'Brondata verwerkt en intern gecontroleerd'},
     {nr:4,l:'Post-implementatie',sub:'Meterdata na oplevering'}
   ];
 
@@ -3849,7 +3877,7 @@ function pageBewijsVervolg(d){
       <div class="page-thin-rule"></div>
 
       <!-- Conclusieblok -->
-      <div style="background:linear-gradient(150deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:15px;padding:22px 26px;color:#fff;margin-bottom:14px;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 12px 32px rgba(13,51,72,.24);">
+      <div style="background:linear-gradient(150deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:15px;padding:22px 26px;color:#fff;margin-bottom:11px;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 12px 32px rgba(13,51,72,.24);">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
         <div style="position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(31,146,89,.4),rgba(255,255,255,0) 70%);"></div>
         <div style="position:relative;font-size:8px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);margin-bottom:7px;">Eindadvies — financiering</div>
@@ -3858,8 +3886,8 @@ function pageBewijsVervolg(d){
         <div style="position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
           ${[
             {l:'ESG-score',v:esc(String(d.bankscore||'—'))+' / 100',s:esc(d.bankscore_oordeel||'Indicatief geschikt onder voorwaarden')},
-            {l:'Bewijsniveau',v:'Niveau '+esc(String(lvl))+' / 4',s:'Data-validatie — bronnen geverifieerd'},
-            {l:'Potentieel rentevoordeel',v:'−'+esc(String(d.rentekorting_bps||25))+' bps',s:'Indicatief, afhankelijk van financier'}
+            {l:'Bewijsniveau',v:'Niveau '+esc(String(lvl))+' / 4',s:'Brondata verwerkt, intern gecontroleerd'},
+            renteTile
           ].map(k=>`
             <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:9px;padding:11px 13px;">
               <div style="font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:4px;">${k.l}</div>
@@ -3869,6 +3897,15 @@ function pageBewijsVervolg(d){
           `).join('')}
         </div>
       </div>
+
+      <!-- AANDACHTSPUNTEN VÓÓR FINANCIERINGSAANVRAAG -->
+      ${(function(){const w=buildAttention(d);return w.length?`
+      <div style="background:var(--amber-bg);border:1px solid #e8d9a8;border-radius:10px;padding:10px 15px;margin-bottom:11px;">
+        <div style="font-size:7.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--amber);margin-bottom:8px;">Aandachtspunten vóór financieringsaanvraag</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;">
+          ${w.map(x=>`<div style="display:flex;gap:8px;align-items:flex-start;font-size:8.3px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--amber);font-weight:800;flex-shrink:0;">!</span><span>${esc(x)}</span></div>`).join('')}
+        </div>
+      </div>`:'';})()}
 
       <!-- B: Nog nodig + vervolgstappen naast elkaar -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
