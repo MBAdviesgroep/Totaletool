@@ -1673,6 +1673,7 @@ async function startGenerate(){
     // Consistentiecheck: ESG-dossier moet 1-op-1 aansluiten op het verduurzamingsrapport.
     currentData = alignReportConsistency(currentData);
     currentData = reconcileNumbers(currentData);
+    currentData = sanitizeNarratives(currentData);
 
     renderReport(currentData);
     document.getElementById('appPage').style.display='none';
@@ -2144,11 +2145,12 @@ function pageMaatregelenAdvies(d){
               <td style="padding:8px 8px 8px 0;color:var(--blue-deep);font-size:8.5pt;">Totaal pakket</td>
               <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${eur(d.capex_totaal)}</td>
               <td style="padding:8px 8px 8px 0;text-align:right;color:var(--green);font-size:8.5pt;">${eur(d.bes_jaar||totBes)}</td>
-              <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${Number(d.tvt_jaar||((d.capex_totaal&&d.bes_jaar)?d.capex_totaal/d.bes_jaar:0)).toFixed(1).replace('.',',')} jr</td>
-              <td style="padding:8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${Number(d.co2_reductie_ton||totCo2).toFixed(2).replace('.',',')}</td>
+              <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${num1(d.tvt_jaar)} jr</td>
+              <td style="padding:8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${num2(d.co2_som_maatregelen||totCo2)}<sup style="color:var(--orange);font-size:7px;">*</sup></td>
             </tr>
           </tbody>
         </table>
+        ${d._co2_som_afwijkt?`<div style="font-size:7.8px;color:var(--ink-3);line-height:1.45;margin-top:8px;border-top:1px solid var(--blue-faint);padding-top:7px;"><sup style="color:var(--orange);">*</sup> De som van de CO₂-posten per maatregel (${num1(d.co2_som_maatregelen)} t/jr) is hoger dan de gevalideerde totale scope 1+2-reductie (≈ ${tonC(d.co2_reductie_ton)}/jr) door overlap en afronding. De scope 1+2-reductie is leidend door het hele dossier.</div>`:''}
       </div>
 
       <div class="col-h" style="margin-bottom:9px;">Toelichting per maatregel</div>
@@ -2189,22 +2191,45 @@ function pageSubsidies(d){
       <div class="page-title-sub">Op basis van de geadviseerde maatregelen komt dit object naar verwachting in aanmerking voor onderstaande regelingen. Bedragen en voorwaarden zijn indicatief; definitieve toekenning loopt via RVO en/of gemeente.</div>
       <div class="page-thin-rule"></div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px;">
-        ${subs.map(s=>`<div style="background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:13px 15px;border-top:3px solid var(--green);display:flex;flex-direction:column;gap:7px;">
-          <div style="font-size:11px;font-weight:750;color:var(--blue-deep);line-height:1.25;">${esc(s.naam||'')}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:5px;">
-            <span style="font-size:7.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--green-bg);color:var(--green);border-radius:999px;padding:3px 9px;">${esc(s.bedrag||'Indicatief')}</span>
-            ${s.voor?`<span style="font-size:7.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--blue-faint);color:var(--blue);border-radius:999px;padding:3px 9px;">${esc(s.voor)}</span>`:''}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:13px;">
+        ${subs.map(s=>{
+          const st=String(s.status||'Indicatief');
+          const stl=st.toLowerCase();
+          const sc=stl.includes('kansrijk')?{bg:'var(--green-bg)',fg:'var(--green)'}:stl.includes('lokaal')?{bg:'var(--blue-faint)',fg:'var(--blue)'}:stl.includes('niet')?{bg:'var(--red-bg)',fg:'var(--red)'}:{bg:'var(--amber-bg)',fg:'var(--amber)'};
+          return `<div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:0;overflow:hidden;display:flex;flex-direction:column;border-top:3px solid ${sc.fg};">
+          <div style="padding:13px 15px 11px;display:flex;flex-direction:column;gap:9px;flex:1;">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+              <div style="font-size:11.5px;font-weight:750;color:var(--blue-deep);line-height:1.25;">${esc(s.naam||'')}</div>
+              <span style="flex-shrink:0;font-size:7px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;background:${sc.bg};color:${sc.fg};border-radius:999px;padding:3px 9px;white-space:nowrap;">${esc(st)}</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;">
+              <span style="font-size:15px;font-weight:800;color:var(--blue-deep);letter-spacing:-.2px;">${esc(s.bedrag||'Indicatief')}</span>
+            </div>
+            ${s.voor?`<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);">Maatregelen</span><span style="font-size:8.5px;font-weight:600;color:var(--green);line-height:1.3;">${esc(s.voor)}</span></div>`:''}
+            ${s.uitleg?`<div style="font-size:9px;color:var(--ink-2);line-height:1.5;">${esc(s.uitleg)}</div>`:''}
           </div>
-          ${s.uitleg?`<div style="font-size:9px;color:var(--ink-2);line-height:1.5;">${esc(s.uitleg)}</div>`:''}
-          <div style="font-size:8.5px;color:var(--ink-3);line-height:1.45;border-top:1px solid var(--blue-faint);padding-top:7px;"><b style="color:var(--ink-4);font-size:7px;letter-spacing:.5px;text-transform:uppercase;">Voorwaarden</b><br>${esc(s.voorwaarden||'Actuele voorwaarden te bevestigen bij aanvraag.')}</div>
-        </div>`).join('')}
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--mb-card-border-soft);border-top:1px solid var(--mb-card-border-soft);">
+            <div style="background:#fff;padding:9px 13px;"><div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;">Voorwaarden</div><div style="font-size:8px;color:var(--ink-3);line-height:1.42;">${esc(s.voorwaarden||'Te bevestigen bij aanvraag.')}</div></div>
+            <div style="background:#fff;padding:9px 13px;"><div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;">Benodigd bewijs</div><div style="font-size:8px;color:var(--ink-3);line-height:1.42;">${esc(s.bewijs||'Offertes en facturen.')}</div></div>
+          </div>
+        </div>`;}).join('')}
       </div>
 
-      <div style="background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 100%);border-radius:12px;padding:15px 20px;color:#fff;position:relative;overflow:hidden;">
+      <div style="background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 100%);border-radius:13px;padding:16px 20px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
         <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--orange);"></div>
-        <div style="font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">Conclusie — meest relevante regelingen</div>
-        <div style="font-size:10pt;color:rgba(255,255,255,.92);line-height:1.6;">${concl}</div>
+        <div style="position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.04);"></div>
+        <div style="font-size:8px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;position:relative;">Conclusie — meest kansrijke regeling</div>
+        <div style="font-size:10pt;color:rgba(255,255,255,.93);line-height:1.6;margin-bottom:12px;position:relative;">${concl}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;">
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:9px 12px;">
+            <div style="font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Actiepunt</div>
+            <div style="font-size:8.5px;color:rgba(255,255,255,.9);line-height:1.45;">ISDE-aanvraag voorbereiden na opdrachtverstrekking; MB Adviesgroep verzorgt de aanvraag en bewijsvoering.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:9px 12px;">
+            <div style="font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Let op</div>
+            <div style="font-size:8.5px;color:rgba(255,255,255,.9);line-height:1.45;">Toekenning en bedragen zijn indicatief en afhankelijk van de op het aanvraagmoment geldende voorwaarden.</div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -2288,54 +2313,208 @@ function pageGroeneParagraaf(d){
 }
 
 /* ─── CIJFER-RECONCILIATIE — één consistente bron voor alle pagina's ─── */
+/* ═══════════════════════════════════════════════════════════════════
+   CANONIEKE OPMAAK — overal exact dezelfde formattering
+   ═══════════════════════════════════════════════════════════════════ */
+function NBSP(s){return String(s).replace(/ /g,'\u00A0');}
+function eurC(v){return '\u20AC\u00A0'+Math.round(Number(v)||0).toLocaleString('nl-NL');}
+function num1(v){return (Number(v)||0).toLocaleString('nl-NL',{minimumFractionDigits:1,maximumFractionDigits:1});}
+function num2(v){return (Number(v)||0).toLocaleString('nl-NL',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function pctC(v){return (Math.round(Number(v)||0))+'%';}
+function tonC(v){const n=Number(v)||0;return (n>=10?Math.round(n).toLocaleString('nl-NL'):num1(n))+'\u00A0t';}
+function jrC(v){return num1(v)+'\u00A0jr';}
+function _norm(v){return String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+
+/* ═══════════════════════════════════════════════════════════════════
+   reconcileNumbers — ÉÉN BRON VAN WAARHEID
+   De maatregelentabel uit het verduurzamingsrapport is leidend. Alle
+   kerncijfers worden hier vastgezet en zijn daarna door het hele dossier
+   identiek. Validatieregels vangen onlogische combinaties af.
+   ═══════════════════════════════════════════════════════════════════ */
 function reconcileNumbers(d){
   const num=v=>{ if(typeof v==='number') return isFinite(v)?v:0;
     const n=Number(String(v==null?'':v).replace(/[^0-9.,-]/g,'').replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.'));
     return isNaN(n)?0:n; };
+  const r1=n=>Math.round((Number(n)||0)*10)/10;
+  const r2=n=>Math.round((Number(n)||0)*100)/100;
+
   const ms=Array.isArray(d.maatregelen)?d.maatregelen:[];
-  ms.forEach(m=>{ m.capex=num(m.capex); m.bes=num(m.bes); m.co2=num(m.co2); m.tvt=num(m.tvt); });
+  ms.forEach(m=>{ m.capex=num(m.capex); m.bes=num(m.bes); m.co2=r2(num(m.co2)); m.tvt=num(m.tvt); });
 
-  // Investering: som van maatregelen is leidend als die er is
-  let capex=num(d.capex_totaal);
+  // ── INVESTERING: som van de maatregelen is leidend ──
   const sumCapex=ms.reduce((a,m)=>a+m.capex,0);
-  if(sumCapex>0 && (capex<=0 || Math.abs(sumCapex-capex)/Math.max(capex,1)>0.2)) capex=sumCapex;
-  if(capex<=0) capex=sumCapex;
+  let capex=num(d.capex_totaal);
+  if(sumCapex>0) capex=sumCapex; else if(capex<=0) capex=sumCapex;
 
-  // Jaarlijkse besparing
-  let bes=num(d.bes_jaar);
+  // ── JAARLIJKSE BESPARING: som van de maatregelen is leidend ──
   const sumBes=ms.reduce((a,m)=>a+m.bes,0);
-  if(bes<=0) bes=sumBes;
+  let bes=num(d.bes_jaar);
+  if(sumBes>0) bes=sumBes; else if(bes<=0) bes=sumBes;
 
-  // Besparing kan NOOIT hoger zijn dan de huidige energiekosten → kosten zonodig ophogen
+  // ── VALIDATIE: besparing mag NOOIT ≥ huidige energiekosten ──
+  // Als de br-energiekosten ontbreken of te laag zijn → afleiden uit het
+  // besparingspotentieel (indicatief). Zo verdwijnt de €5.571-vs-€2.396-fout.
   let kosten=num(d.energiekosten_huidig);
-  if(bes>0 && (kosten<=0 || kosten < bes*1.05)) kosten=Math.round(bes/0.7);
+  let kostenIndicatief=false;
+  if(bes>0 && (kosten<=0 || kosten < bes*1.10)){ kosten=Math.round(bes/0.68/10)*10; kostenIndicatief=true; }
 
-  // Terugverdientijd & break-even altijd afgeleid → gegarandeerd consistent met capex/besparing
-  const tvt = bes>0 ? +(capex/bes).toFixed(1) : 0;
-  const eigen = num(d.capex_eigen)>0 ? num(d.capex_eigen) : capex;
-  const breakEven = bes>0 ? Math.ceil(eigen/bes) : 0;
+  // ── PER MAATREGEL: TVT consistent met eigen capex/besparing ──
+  ms.forEach(m=>{ if(m.bes>0){ const t=r1(m.capex/m.bes); if(!m.tvt||Math.abs(m.tvt-t)>0.6) m.tvt=t; } else m.tvt=m.tvt||0; });
 
-  // CO₂
-  let co2t=num(d.co2_reductie_ton); const sumCo2=ms.reduce((a,m)=>a+m.co2,0);
-  if(co2t<=0 && sumCo2>0) co2t=+sumCo2.toFixed(2);
-  let co2pct=num(d.co2_reductie_pct);
-  if((co2pct<=0||co2pct>90) && d.scope_voor&&d.scope_na&&num(d.scope_voor.tot)>0){
-    co2pct=Math.round((1-num(d.scope_na.tot)/num(d.scope_voor.tot))*100);
-  }
-  if(co2pct<=0||co2pct>90) co2pct=Math.min(80,Math.max(15,co2pct||45));
+  // ── PAKKET-TVT & BREAK-EVEN: één basis = bruto investering ──
+  const tvt = bes>0 ? r1(capex/bes) : 0;
+  const breakEven = bes>0 ? Math.ceil(capex/bes) : 0;
 
+  // ── CO₂: scope 1+2-totaal is leidend (fysiek begrensd). De som van de
+  //    maatregelen kan hoger uitvallen door overlap/afronding → apart tonen. ──
+  const sumCo2=r2(ms.reduce((a,m)=>a+m.co2,0));
+  let voorTot=d.scope_voor?num(d.scope_voor.tot):0;
+  let naTot=d.scope_na?num(d.scope_na.tot):0;
+  let co2t, co2pct;
+  if(voorTot>0 && voorTot>naTot){
+    co2t=r1(voorTot-naTot);
+    co2pct=Math.round((1-naTot/voorTot)*100);
+  } else if(sumCo2>0){
+    co2t=sumCo2; co2pct=num(d.co2_reductie_pct);
+  } else { co2t=num(d.co2_reductie_ton); co2pct=num(d.co2_reductie_pct); }
+  if(co2pct<=0||co2pct>92) co2pct=Math.min(88,Math.max(20,(d.label_streef_idx-d.label_huidig_idx)*12+12));
+  const co2SomAfwijkt = sumCo2>0 && co2t>0 && Math.abs(sumCo2-co2t)/Math.max(co2t,0.1)>0.25;
+
+  // ── PRIMAIRE ENERGIE: nooit n.b. — afleiden uit labelstappen ──
+  let primPct=num(d.primaire_energie_reductie_pct);
+  if(primPct<=0||primPct>92) primPct=Math.min(80,Math.max(25,(d.label_streef_idx-d.label_huidig_idx)*10+10));
+
+  // ── OPPERVLAKTE altijd mét m² ──
+  let opp=String(d.oppervlakte||'').trim();
+  if(opp){ if(!/m²|m2|㎡/i.test(opp)) opp=opp.replace(/[^\d.,]/g,'')+'\u00A0m²'; opp=opp.replace(/\s*m2/i,'\u00A0m²').replace(/\s*m²/,'\u00A0m²'); }
+
+  // ── WEGSCHRIJVEN ──
+  d.maatregelen=ms;
   d.capex_totaal=Math.round(capex);
   d.bes_jaar=Math.round(bes);
   d.energiekosten_huidig=Math.round(kosten);
+  d._kosten_indicatief=kostenIndicatief;
   d.tvt_jaar=tvt; d.tvt_afgeleid=true;
   d.break_even_jaar=breakEven; d.break_even_afgeleid=true;
   d.co2_reductie_ton=co2t;
   d.co2_reductie_pct=co2pct;
-  if(num(d.primaire_energie_reductie_pct)<=0||num(d.primaire_energie_reductie_pct)>90)
-    d.primaire_energie_reductie_pct=Math.min(75,Math.max(20,Math.round((d.label_streef_idx-d.label_huidig_idx)*10+10)||45));
+  d.co2_som_maatregelen=sumCo2;
+  d._co2_som_afwijkt=co2SomAfwijkt;
+  d.primaire_energie_reductie_pct=primPct;
+  if(opp) d.oppervlakte=opp;
+  if(voorTot>0){ d.scope_voor.tot=r1(voorTot); if(d.scope_na) d.scope_na.tot=r1(naTot); }
 
-  // Datum altijd correct (AI-datum negeren)
+  // ── GRAFIEKDATA altijd herbouwen → gegarandeerd consistent ──
+  d.cashflow=Array.from({length:16},(_,i)=>Math.round(-capex+bes*i));
+  if(voorTot>0) d.co2_pad=Array.from({length:16},(_,i)=>r1(voorTot-(voorTot-naTot)*Math.min(1,i/2)));
+
+  // ── DATUM dynamisch ──
   d.datum_rapport=new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
+  return d;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   sanitizeNarratives — alle cijferdragende lopende tekst opnieuw
+   opbouwen uit de canonieke waarden. Zo kunnen tegenstrijdige bedragen
+   die de AI in vrije tekst zette (€19.000, €2.396, 13,6 jaar, n.b.%)
+   nooit meer in het eindrapport verschijnen.
+   ═══════════════════════════════════════════════════════════════════ */
+function sanitizeNarratives(d){
+  const ms=arr(d.maatregelen);
+  const E=eurC;
+  const obj=String(d.object_naam||'het object').trim();
+  const adr=String(d.object_adres||'').trim();
+  const lab=esc(d.huidig_label||'')+'\u00A0→\u00A0'+esc(d.streef_label||'');
+  const steps=(d.label_streef_idx-d.label_huidig_idx)||0;
+  const co2t=d.co2_reductie_ton, co2pct=d.co2_reductie_pct, prim=d.primaire_energie_reductie_pct;
+  const bes=d.bes_jaar, capex=d.capex_totaal, kosten=d.energiekosten_huidig, tvt=d.tvt_jaar, be=d.break_even_jaar;
+  const tonStr=num1(co2t);
+  const n=ms.length;
+  const has=re=>ms.some(m=>re.test(_norm(m.naam)));
+  const verbruik=[];
+  if(d.stroomverbruik) verbruik.push(String(d.stroomverbruik).replace(/[^\d.]/g,'')+' kWh stroom');
+  if(d.gasverbruik) verbruik.push(String(d.gasverbruik).replace(/[^\d.]/g,'')+' m³ gas');
+
+  // ── conservatief oordeel ──
+  const sc=Number(d.bankscore)||77;
+  d.bankscore_oordeel = sc>=80?'Voorwaardelijk geschikt voor groene financiering'
+    : sc>=68?'Indicatief geschikt voor groene financiering onder voorwaarden'
+    : sc>=58?'Beperkt geschikt — aanvullende onderbouwing nodig'
+    : 'Aanvullende onderbouwing nodig voor groene financiering';
+
+  // ── UITGANGSPUNTEN ──
+  d.uitgangspunten=[
+    `${obj} is ${d.functie?'een '+String(d.functie).toLowerCase():'een object'} uit bouwjaar ${esc(d.bouwjaar||'—')} met een gebruiksoppervlak van ${esc(d.oppervlakte||'—')}.`,
+    `Het huidige energielabel is ${esc(d.huidig_label||'—')}; doellabel na uitvoering is ${esc(d.streef_label||'—')} (${steps} labelstappen, te bevestigen met een nieuw energielabel).`,
+    verbruik.length?`Jaarlijks energieverbruik: ${verbruik.join(' en ')}.`:`De energiekosten bedragen indicatief ${E(kosten)} per jaar.`,
+    `De geadviseerde investering bedraagt ${E(capex)} incl. btw, met een verwachte jaarlijkse besparing van ${E(bes)}${verbruik.length?` (huidige energiekosten indicatief ${E(kosten)}/jr)`:''}.`,
+    `De CO₂-uitstoot daalt met circa ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0ton per jaar, scope 1+2) door uitvoering van ${n} maatregelen.`
+  ];
+
+  // ── MANAGEMENTSAMENVATTING ──
+  d.samenvatting=`De verduurzaming van ${obj} omvat ${n} maatregelen met een bruto investering van ${E(capex)} incl. btw en een geraamde jaarlijkse besparing van ${E(bes)}. De gemiddelde terugverdientijd bedraagt circa ${jrC(tvt)}; het break-evenpunt ligt rond jaar ${be}. Het labeltraject ${lab} ondersteunt een primaire-energiereductie van circa ${pctC(prim)} en een CO₂-reductie van circa ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0ton per jaar, scope 1+2). De maatregelen zijn technisch en financieel uitvoerbaar en onder voorwaarden geschikt als basis voor groene financiering.`;
+  d.samenvatting_punten=[
+    `${n} maatregelen · ${E(capex)} investering · ${E(bes)} besparing per jaar.`,
+    `Gemiddelde terugverdientijd ± ${jrC(tvt)} · break-even rond jaar ${be}.`,
+    `Labeltraject ${lab} · primaire energie −${pctC(prim)} · CO₂ −${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0t/jr, scope 1+2).`
+  ];
+
+  // ── GROENE PARAGRAAF ──
+  d.groene_paragraaf=d.groene_paragraaf||{};
+  d.groene_paragraaf.titel='Groene paragraaf & financieringsadvies';
+  d.groene_paragraaf.conclusie=`${obj}${adr?' ('+esc(adr)+')':''} wordt met een pakket van ${n} verduurzamingsmaatregelen voorbereid op label ${esc(d.streef_label||'')}. Daarmee wordt een jaarlijkse besparing van ${E(bes)} gerealiseerd bij een investering van ${E(capex)} incl. btw. De CO₂-uitstoot daalt met circa ${pctC(co2pct)} naar ≈\u00A0${tonStr}\u00A0ton per jaar (scope 1+2), conform de rapportberekeningen. Het traject is marktconform en onder voorwaarden geschikt voor groene financiering, mits uitvoering, een nieuw energielabel en bewijsstukken tijdig worden aangeleverd. Subsidies — met name ISDE voor de isolatie en de warmtepomp — kunnen het eigen benodigde kapitaal verlagen. Na oplevering sluit het object onder voorwaarden aan op de EU\u00A0Taxonomie\u00A07.2, mits DNSH en sociale waarborgen worden bevestigd.`;
+  d.groene_paragraaf.mb_credion_haak=d.groene_paragraaf.mb_credion_haak||`Voor een bank, hypotheekverstrekker of duurzaamheidslening telt vooral dat de investering objectief is onderbouwd: maatregelen, offertes, oplevering en meetbare effecten. De bruto investering van ${E(capex)}, de jaarlijkse besparing van ${E(bes)}, de labelstap ${lab} en de CO₂-reductie van circa ${pctC(co2pct)} vormen samen de kern van de green-loan-toets. MB Adviesgroep en Credion verzorgen de onderbouwing en begeleiden de aanvraag.`;
+  d.groene_paragraaf.esg_score=d.bankscore;
+  d.groene_paragraaf.oordeel=d.bankscore_oordeel;
+
+  // ── SFDR / PILLAR 3 / PAI / TAXONOMIE ──
+  d.sfdr=`Het maatregelenpakket draagt aantoonbaar bij aan de klimaatdoelstellingen: een CO₂-reductie van circa ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0t/jr, scope 1+2) en een labelverbetering ${lab}. Daarmee is het dossier onder voorwaarden bruikbaar voor een SFDR\u00A0Artikel\u00A08-classificatie, na oplevering en bewijsstukken.`;
+  d.pillar3=`Het dossier is bruikbaar als input voor Pillar\u00A03-rapportage: het bronrapport onderbouwt een investering van ${E(capex)}, een jaarlijkse besparing van ${E(bes)}, labeltraject ${lab} en een scope 1+2-reductie van circa ${pctC(co2pct)}.`;
+  d.pai=[
+    `PAI 1 — CO₂-uitstoot scope 1+2: indicatieve reductie ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0t/jr).`,
+    `PAI 17 — Energieprestatie verbetert met circa ${pctC(prim)} primaire energie en labeltraject ${lab}.`,
+    `PAI 18 — Fossiel-afhankelijk vastgoed: verbetert onder voorwaarde van uitvoering en nieuw energielabel.`
+  ];
+  d.taxonomie=d.taxonomie||{};
+  d.taxonomie.contribution=`Primaire-energiereductie van circa ${pctC(prim)} — indicatief boven de drempel van 30% — aangevuld met ${steps} labelstappen (${lab}) en een CO₂-reductie van circa ${pctC(co2pct)}. Definitieve Taxonomie-alignment blijft afhankelijk van DNSH en sociale waarborgen.`;
+  d.taxonomie.eligibility=d.taxonomie.eligibility||'In aanmerking (eligible)';
+  if(!Array.isArray(d.taxonomie.dnsh)||!d.taxonomie.dnsh.length) d.taxonomie.dnsh=[
+    {l:'Klimaatadaptatie',v:'Locatierisico naar verwachting laag-middel; nadere toets gewenst.'},
+    {l:'Water',v:'Geen negatieve effecten verwacht bij deze maatregelen.'},
+    {l:'Circulaire economie',v:'Reguliere materialen; recyclingpotentie te bevestigen.'},
+    {l:'Vervuiling',v:'Geen vervuilende installaties; lage-emissie toepassing.'},
+    {l:'Natuur & biodiversiteit',v:'Geen extra ruimtebeslag; impact te bevestigen.'},
+    {l:'Sociale waarborgen',v:'Te bevestigen volgens uitvoeringsrichtlijnen.'}
+  ];
+
+  // ── SUBSIDIES — opnieuw opbouwen o.b.v. de maatregelen ──
+  const subs=[];
+  if(has(/warmtepomp|isolat|glas|kierdicht|gevel|dak|spouw|hr\+/)){
+    subs.push({naam:'ISDE — Investeringssubsidie Duurzame Energie en energiebesparing',voor:'Warmtepomp · isolatie (dak / gevel / glas)',bedrag:'indicatief € 1.000 – € 3.500',status:'Kansrijk',voorwaarden:'Eigenaar-bewoner · gecertificeerde maatregel/installatie · minimale oppervlakte · aanvraag via RVO binnen 24 maanden na uitvoering.',bewijs:'Facturen, installatiecertificaat, meetstaat isolatie.',uitleg:'Subsidie op de warmtepomp en de isolatiemaatregelen — uitdrukkelijk niet op zonnepanelen.'});
+  }
+  subs.push({naam:'Nationaal Warmtefonds — Energiebespaarlening',voor:'Volledig maatregelenpakket',bedrag:'lening met rentevoordeel · looptijd tot 20 jaar',status:'Te bevestigen',voorwaarden:'Toets op inkomen en object · combineerbaar met ISDE.',bewijs:'Offertes, inkomenstoets.',uitleg:'Financiert het eigen deel van de investering tegen een gunstig tarief.'});
+  if(has(/zonnepane|\bpv\b|zonne/)){
+    subs.push({naam:'0%-btw op zonnepanelen',voor:'Zonnepanelen',bedrag:'0% btw bij aanschaf & installatie',status:'Te bevestigen',voorwaarden:'Voor particuliere woningeigenaren bij aanschaf/installatie. Actuele fiscale regeling te bevestigen.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt 0% btw; een aparte btw-teruggaaf is daardoor doorgaans niet meer nodig.'});
+  }
+  subs.push({naam:'Gemeentelijke / provinciale regelingen',voor:'Wisselend per maatregel',bedrag:'nader te bepalen',status:'Lokaal te bevestigen',voorwaarden:'Beschikbaarheid en voorwaarden verschillen per gemeente/provincie en per jaar.',bewijs:'Lokale aanvraag.',uitleg:'Te controleren bij de gemeente van het object.'});
+  d.subsidies=subs;
+  d.subsidie_conclusie=`Voor ${obj} is de ISDE doorgaans het meest kansrijk — vooral voor de warmtepomp en de isolatiemaatregelen. ${has(/zonnepane|zonne/)?'Voor de zonnepanelen geldt het 0%-btw-tarief (te bevestigen). ':''}Het Nationaal Warmtefonds kan het eigen deel gunstig financieren. Bedragen en toekenning zijn indicatief en afhankelijk van actuele voorwaarden en aanvraag; MB Adviesgroep toetst dit en begeleidt de aanvraag.`;
+
+  // ── ASSURANCE-TEKST ──
+  d.assurance_tekst=`Dit dossier is bruikbaar als indicatieve basis voor de financieringsaanvraag op bewijsniveau ${d.assurance_niveau||3}. De brondata komt uit een gevalideerd energie-advies; definitieve kwalificatie volgt na uitvoering, een nieuw energielabel (EP-online), facturen, DNSH en sociale waarborgen.`;
+
+  // ── VERVOLGSTAPPEN: dubbele nummering verwijderen ("1 1." / "1. ") ──
+  if(Array.isArray(d.vervolg)) d.vervolg=d.vervolg.map(v=>String(v).replace(/^[\s\u2022·–-]*\d+[\.\)]?\s*\d*[\.\)]?\s*/,'').trim()).filter(Boolean);
+
+  // ── GLOBALE SCRUB: nooit "n.b.%", "NaN", "undefined", dubbele spaties ──
+  const fix=s=>String(s)
+    .replace(/n\.?\s*b\.?\s*%/gi, pctC(prim))
+    .replace(/€\s*NaN|NaN\s*%|NaN/g, '—')
+    .replace(/\bundefined\b/g,'')
+    .replace(/[ \t]{2,}/g,' ').trim();
+  const walk=o=>{ if(Array.isArray(o)){for(let i=0;i<o.length;i++){if(typeof o[i]==='string')o[i]=fix(o[i]);else if(o[i]&&typeof o[i]==='object')walk(o[i]);}}
+    else if(o&&typeof o==='object'){for(const k in o){if(typeof o[k]==='string')o[k]=fix(o[k]);else if(o[k]&&typeof o[k]==='object')walk(o[k]);}} };
+  walk(d);
   return d;
 }
 
@@ -3324,8 +3503,8 @@ function pageMaatregelen(d){
         </div>
         <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px 16px;">
           <div style="font-size:7.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">CO₂-reductie</div>
-          <div style="font-size:28px;font-weight:700;color:var(--blue-deep);line-height:1;margin-bottom:4px;">${esc(String(d.co2_reductie_pct||35))}%</div>
-          <div style="font-size:8.5px;color:var(--ink-3);line-height:1.5;">Ca. ${esc(String(d.co2_reductie_ton||totCo2.toFixed(1)))} ton CO₂ minder per jaar op scope 1+2. ${esc(d.co2_uitleg||'Onderbouwt de indicatieve EU Taxonomie 7.2-beoordeling.')}</div>
+          <div style="font-size:28px;font-weight:700;color:var(--blue-deep);line-height:1;margin-bottom:4px;">${pctC(d.co2_reductie_pct)}</div>
+          <div style="font-size:8.5px;color:var(--ink-3);line-height:1.5;">Circa ${tonC(d.co2_reductie_ton)} CO₂ minder per jaar op scope 1+2 — de gevalideerde, leidende waarde voor dit dossier.</div>
         </div>
       </div>
 
@@ -3348,20 +3527,21 @@ function pageMaatregelen(d){
                 <td style="padding:7px 8px 7px 0;font-weight:600;color:var(--ink);font-size:8.5pt;">${esc(m.naam||'')}</td>
                 <td style="padding:7px 8px 7px 0;text-align:right;color:var(--ink-2);font-size:8.5pt;">${eur(m.capex)}</td>
                 <td style="padding:7px 8px 7px 0;text-align:right;color:var(--green);font-weight:600;font-size:8.5pt;">${eur(m.bes)}</td>
-                <td style="padding:7px 8px 7px 0;text-align:right;color:var(--ink-3);font-size:8.5pt;">${(m.co2||0).toFixed(2)}</td>
-                <td style="padding:7px 0;text-align:right;color:var(--ink-3);font-size:8.5pt;">${(m.tvt||0).toFixed(1)} jr</td>
+                <td style="padding:7px 8px 7px 0;text-align:right;color:var(--ink-3);font-size:8.5pt;">${num2(m.co2)}</td>
+                <td style="padding:7px 0;text-align:right;color:var(--ink-3);font-size:8.5pt;">${num1(m.tvt)} jr</td>
               </tr>
             `).join('')}
             <tr style="background:#f8f6f2;font-weight:700;">
               <td style="padding:8px 8px 8px 0;color:var(--blue-deep);font-size:8.5pt;">Totaal pakket</td>
               <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${eur(d.capex_totaal)}</td>
               <td style="padding:8px 8px 8px 0;text-align:right;color:var(--green);font-size:8.5pt;">${eur(d.bes_jaar||totBes)}</td>
-              <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${Number(totCo2||d.co2_reductie_ton||0).toFixed(2)}</td>
-              <td style="padding:8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${Number(d.tvt_jaar||((d.capex_totaal&&d.bes_jaar)?d.capex_totaal/d.bes_jaar:0)).toFixed(1)} jr</td>
+              <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${num2(d.co2_som_maatregelen||totCo2)}<sup style="color:var(--orange);font-size:7px;">*</sup></td>
+              <td style="padding:8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${num1(d.tvt_jaar)} jr</td>
             </tr>
           </tbody>
         </table>
         ${d.bestaande_opwek_besparing?`<div style="font-size:7.8px;color:var(--ink-3);line-height:1.4;margin-top:7px;">Let op: de totalen sluiten aan op het verduurzamingsrapport en bevatten circa ${eur(d.bestaande_opwek_besparing)}/jr bestaande opwek/besparing. De additionele besparing uit nieuwe maatregelen bedraagt ${eur(d.bes_jaar_additioneel)}/jr.</div>`:''}
+        ${d._co2_som_afwijkt?`<div style="font-size:7.8px;color:var(--ink-3);line-height:1.45;margin-top:8px;border-top:1px solid var(--blue-faint);padding-top:7px;"><sup style="color:var(--orange);">*</sup> De som van de CO₂-posten per maatregel (${num1(d.co2_som_maatregelen)} t/jr) ligt hoger dan de gevalideerde totale scope 1+2-reductie (≈ ${tonC(d.co2_reductie_ton)}/jr) door overlap tussen maatregelen en afronding. De <b>scope 1+2-reductie is leidend</b> voor dit dossier.</div>`:''}
       </div>
 
       <!-- Cashflow grafiek -->
@@ -3526,6 +3706,62 @@ function resetTool(){
   hideError();
   window.scrollTo({top:0,behavior:'instant'});
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   DEMO / PREVIEW — render een voorbeelddossier zonder backend.
+   Activeer met ?demo  (alleen voor visuele controle; productie gebruikt
+   de echte upload+AI-flow). De data loopt door exact dezelfde
+   normalisatie- en sanitatielaag als de live-flow.
+   ═══════════════════════════════════════════════════════════════════ */
+const DEMO_DATA={
+  object_naam:'Beatrixlaan 138', object_adres:'Beatrixlaan 138, 1791 GG Den Burg',
+  functie:'Woning', bouwjaar:'1963', oppervlakte:'127', stroomverbruik:'2.918', gasverbruik:'1.638',
+  huidig_label:'E', streef_label:'A',
+  label_pad:['G','F','E','D','C','B','A','A+','A++','A+++','A++++'], label_huidig_idx:2, label_streef_idx:6,
+  energiekosten_huidig:0, bes_jaar:0, capex_totaal:0,
+  primaire_energie_reductie_pct:0, co2_reductie_pct:0, co2_reductie_ton:0,
+  scope_voor:{s1:3.9,s2:0.9,tot:4.8}, scope_na:{s1:0.5,s2:0.3,tot:0.8},
+  rentekorting_bps:25, looptijd_jr:15, assurance_niveau:3, bankscore:77,
+  maatregelen:[
+    {naam:'Hybride warmtepomp',capex:4700,bes:580,co2:2.00,tvt:8.1,toelichting:'Een hybride warmtepomp neemt een groot deel van de warmtevraag over en verlaagt het gasverbruik fors.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Lager aardgasgebruik, € 580/jr besparing.'},{sdg_nr:'9',uitleg:'Efficiënte installatietechniek.'},{sdg_nr:'13',uitleg:'Minder CO₂ door elektrificatie van de verwarming.'}]},
+    {naam:'Dakisolatie',capex:3700,bes:1100,co2:2.00,tvt:3.4,toelichting:'Dakisolatie beperkt het warmteverlies via het dak aanzienlijk en verhoogt het comfort.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Hogere energie-efficiëntie, € 1.100/jr besparing.'},{sdg_nr:'11',uitleg:'Gezonder en comfortabeler binnenklimaat.'},{sdg_nr:'13',uitleg:'Structureel lager warmteverlies.'}]},
+    {naam:'Gevelisolatie',capex:4400,bes:1400,co2:3.00,tvt:3.1,toelichting:'Na-isolatie van de spouw verlaagt de warmtevraag sterk; grootste besparingspost van het pakket.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Sterk lagere ruimteverwarmingsbehoefte, € 1.400/jr.'},{sdg_nr:'11',uitleg:'Comfortabeler en droger.'},{sdg_nr:'13',uitleg:'Forse CO₂-reductie.'}]},
+    {naam:'Zonnepanelen (4.000 Wp, 10 panelen)',capex:6100,bes:400,co2:0.86,tvt:15.3,toelichting:'Tien panelen wekken duurzame stroom op en verlagen de jaarlijkse energiekosten.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Duurzame opwek, € 400/jr lagere energiekosten.'},{sdg_nr:'9',uitleg:'Lokale opwekinfrastructuur.'},{sdg_nr:'13',uitleg:'Minder CO₂ bij de huidige stroommix.'}]},
+    {naam:'Slimme thermostaten',capex:390,bes:88,co2:0.17,tvt:4.4,toelichting:'Slimme regeling optimaliseert het verwarmingsprofiel en verlaagt het verbruik.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Lager verbruik door optimalisatie.'},{sdg_nr:'9',uitleg:'Digitalisering van energiebeheer.'},{sdg_nr:'12',uitleg:'Bewuster energiegebruik via monitoring.'}]},
+    {naam:'Isolatieglas (HR+ / triple, 30 m²)',capex:4200,bes:230,co2:0.38,tvt:18.3,toelichting:'Vervanging van oud glas door HR+/triple beperkt warmteverlies via de ramen.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Minder warmteverlies via ramen, € 230/jr.'},{sdg_nr:'11',uitleg:'Beter wooncomfort en geluidswering.'},{sdg_nr:'13',uitleg:'Lagere CO₂-uitstoot.'}]},
+    {naam:'Kierdichting (ramen/deuren/zolder)',capex:350,bes:55,co2:0.09,tvt:6.4,toelichting:'Het dichten van kieren voorkomt tochtverlies en verlaagt de energievraag.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Minder tochtverlies, lagere energievraag.'},{sdg_nr:'11',uitleg:'Comfortabeler en toekomstbestendiger.'},{sdg_nr:'13',uitleg:'Lager verbruik.'}]},
+    {naam:'Berging/voordeurisolatie',capex:860,bes:47,co2:0.06,tvt:18.3,toelichting:'Isolatie van berging en voordeur voorkomt warmteverlies bij de entree.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Kleine isolatiemaatregel met comfortwinst.'},{sdg_nr:'11',uitleg:'Minder tocht in entree/bijkeuken.'},{sdg_nr:'13',uitleg:'Lagere CO₂-uitstoot.'}]}
+  ],
+  radar:[{l:'Transitierisico',v:78},{l:'Datakwaliteit',v:74},{l:'Bewijsniveau',v:75},{l:'Klimaatrisico',v:72},{l:'Rapportage',v:80}],
+  bankscore_componenten:[{l:'ESG-score (gewogen)',v:'77 / 100'},{l:'Bewijsniveau',v:'Niveau 3 / 4'},{l:'Datakwaliteit',v:'Bron-rapport gevalideerd'},{l:'Beleidsrisico energie',v:'Laag · dalend'},{l:'Klimaatrisico (fysiek)',v:'Laag-middel'},{l:'Rapportagegereedheid',v:'Voorwaardelijk'}],
+  risicos:[
+    {risk:'Maatregelprijzen kunnen afwijken door materiaal- of loonkostenstijging.',ernst:'Middel',horizon:'Kort',action:'Vergelijk meerdere offertes en actualiseer de begroting vóór de financieringsaanvraag.'},
+    {risk:'Werkelijke besparing is afhankelijk van gebruikersgedrag.',ernst:'Middel',horizon:'Middel',action:'Monitor het energieverbruik tijdens en na oplevering.'},
+    {risk:'Subsidievoorwaarden kunnen wijzigen.',ernst:'Laag',horizon:'Kort',action:'Controleer de voorwaarden bij aanvraag (RVO/gemeente).'},
+    {risk:'Nieuw energielabel ontbreekt nog tot na oplevering.',ernst:'Middel',horizon:'Kort',action:'Schakel na uitvoering een erkend energieadviseur in voor het nieuwe label.'}
+  ],
+  voorwaarden:['Getekende opdracht tot uitvoering vóór financieringsuitkering.','Offertes per maatregel aanwezig.','ISDE-aanvraag voorbereid (toekenning na uitvoering, indien van toepassing).','Oplevering nieuw energielabel A, vastgelegd door een erkend energieadviseur.','Facturen en betaalbewijzen per maatregel.'],
+  monitoring:['Jaarlijkse monitoring van energierekening en werkelijk gebruik.','Controle op registratie van het nieuwe energielabel na uitvoering.','Bijstelling van het financieel plan bij afwijkingen.','Verantwoording van de verduurzamingsbestedingen bij einde looptijd.'],
+  evidence:[], missing:[
+    {stuk:'Definitieve offertes (isolatieglas / voordeurisolatie)',prio:'Laag',actie:'Opvragen bij leverancier.'},
+    {stuk:'ISDE-beschikking',prio:'Hoog',actie:'Aanvragen na opdrachtverstrekking.'},
+    {stuk:'Nieuw energielabel na afronding',prio:'Hoog',actie:'Erkend energieadviseur inschakelen na uitvoering.'}
+  ],
+  vervolg:['1. Definitieve offertes opvragen en accorderen per maatregel.','2. Subsidieaanvraag ISDE voorbereiden en indienen (na opdracht).','3. Offertes, betaalbewijzen en opleverlabel aanleveren aan financier/adviseur.','4. Monitoring van energiebesparing en labelresultaat na afronding.']
+};
+
+function runDemo(){
+  let d=JSON.parse(JSON.stringify(DEMO_DATA));
+  try{ if(typeof enrichSdgMappings==='function') d=enrichSdgMappings(d); }catch(e){}
+  d=reconcileNumbers(d);
+  d=sanitizeNarratives(d);
+  currentData=d;
+  renderReport(d);
+  document.getElementById('appPage').style.display='none';
+  document.body.classList.add('report-mode');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+if(/[?&]demo\b/.test(location.search)){ window.addEventListener('DOMContentLoaded',runDemo); }
 </script>
 </body>
 </html>

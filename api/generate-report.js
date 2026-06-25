@@ -21,7 +21,8 @@ RAPPORTOPBOUW (de frontend toont deze 11 A4-pagina's)
 11. Conclusie & vervolgstappen
 
 KERNREGELS
-- Het verduurzamingsrapport is LEIDEND voor alle cijfers: energielabel-traject, energiekosten, investering (capex), jaarlijkse besparing, terugverdientijd, break-even, CO₂-reductie en de maatregelen. Neem deze EXACT over en houd ze door het hele dossier consistent (verander €-bedragen, CO₂ of het labeltraject nooit tussen pagina's).
+- Het verduurzamingsrapport is LEIDEND voor alle cijfers: energielabel-traject, energiekosten, investering (capex), jaarlijkse besparing, terugverdientijd, break-even, CO₂-reductie en de maatregelen. Neem deze EXACT over uit de maatregelentabel. LET OP: de frontend bevat een normalisatie- en validatielaag die alle kerncijfers vastzet en alle cijferdragende lopende tekst (uitgangspunten, samenvatting, groene paragraaf, SFDR/PAI/Pillar 3/Taxonomie, subsidies) opnieuw opbouwt uit die canonieke waarden. Zet daarom de maatregelen, scope_voor/na en het verbruik zo nauwkeurig mogelijk; de exacte formattering verzorgt de frontend.
+- Geef voor energiekosten, gas- en stroomverbruik de waarden uit het bronrapport; laat ze leeg als ze niet betrouwbaar zijn (de frontend leidt dan een indicatieve waarde af). Een jaarlijkse besparing is NOOIT hoger dan de huidige energiekosten.
 - Verzin GEEN nieuwe maatregelen als het rapport al maatregelen bevat. Reken alleen af als een waarde ontbreekt; markeer afgeleide waarden met de bijbehorende *_afgeleid:true vlag.
 - CONSISTENTIE (hard): gebruik EXACT ÉÉN waarde voor de jaarlijkse besparing in het hele dossier. De jaarlijkse besparing is NOOIT hoger dan de huidige energiekosten (energiekosten_huidig ≥ bes_jaar). De terugverdientijd = capex_totaal ÷ bes_jaar en capex_totaal = som van de maatregel-capex. Laat geen enkel bedrag (besparing, kosten, investering, CO₂, TVT) tussen pagina's of in de groene paragraaf afwijken.
 - Investeringsbedragen per maatregel moeten realistisch zijn (marktconform, incl. btw bij particulier / excl. btw bij zakelijk) — geen onrealistisch lage schijnbedragen.
@@ -35,7 +36,7 @@ ESG-SCORE — REALISTISCH EN CONSERVATIEF
 
 LEVER PRECIES DIT JSON-OBJECT (vul alle velden; gebruik getallen zonder valutateken voor numerieke velden):
 {
-  "object_naam": "", "object_adres": "", "functie": "", "bouwjaar": "", "oppervlakte": "", "datum_rapport": "",
+  "object_naam": "", "object_adres": "", "functie": "", "bouwjaar": "", "oppervlakte": "", "stroomverbruik": "", "gasverbruik": "", "datum_rapport": "",
   "huidig_label": "E", "streef_label": "A",
   "label_pad": ["G","F","E","D","C","B","A","A+","A++","A+++","A++++"],
   "label_huidig_idx": 2, "label_streef_idx": 6,

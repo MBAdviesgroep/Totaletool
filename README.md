@@ -1,34 +1,45 @@
-# MB Duurzaamheids- & ESG-dossier (v10)
+# MB Duurzaamheids- & ESG-dossier (v11)
 
-Eén professioneel, bankwaardig A4-dossier dat het beste van de duurzaamheidstool combineert met het beste van de ESG/SDG-tool. Het rapport rendert per pagina als een vaste A4 (web én print) en is opgebouwd uit het ESG-tool-stramien (vaste header/footer, paginastempel, print-vriendelijke inline-SVG-grafieken, conservatieve ESG-score).
+Eén professioneel, bankwaardig A4-dossier dat het beste van de duurzaamheidstool combineert met het beste van de ESG/SDG-tool. Het rapport rendert per pagina als een vaste A4 (web én print) met vaste header/footer, paginastempel, print-vriendelijke inline-SVG-grafieken en een conservatieve ESG-score.
 
-## Wat is er nieuw in v10
-- **Volledig herbouwd op de ESG/SDG-tool** (de output die de voorkeur had): elke pagina is één `<article class="a4 content">` die netjes op de analyse zelf afgekapt wordt — geen overlopende of lege pagina's.
-- **Drie duurzaamheidspagina's vooraan toegevoegd** in dezelfde stijl: Energieprestatie (energielabelbalk + kerncijfers) en Geadviseerde maatregelen (tabel + toelichting per maatregel).
-- **Groene paragraaf als volledige A4** (pagina 4) met grote kop, MB-logo, managementsamenvatting, financieringshaak, SFDR Art. 8 / Pillar 3 / EU Taxonomie 7.2, SDG-impact, risico's & voorwaarden, benodigde bewijsstukken en een opvallend donkerblauw conclusieblok.
-- **Vercel Blob-upload** behouden: bron-PDF + optionele brochures + pandsfoto. GPT-4.1 leest de PDF native via de file-URL.
-- **Conservatieve, consistente ESG-score**: de score wordt herberekend als gewogen gemiddelde van de 5 radar-dimensies (richtwaarde ±77, bewijsniveau 3/4). Cijfers blijven door het hele dossier consistent met het bronrapport.
+## Wat is er nieuw in v11 — kwaliteitsronde
 
-## Paginavolgorde (11)
-1. Cover — "Duurzaamheids- & ESG-dossier"
-2. Energieprestatie (energielabelbalk, kerncijfers, kosten, besparing, CO₂, TVT, uitgangspunten)
-3. Geadviseerde maatregelen (tabel + compacte toelichting per maatregel)
-4. Groene paragraaf & financieringsadvies (volledige A4)
-5. ESG-beoordeling in één oogopslag (score, radar, labeltraject)
-6. Leeswijzer — scores & indicatoren
-7. Risicomatrix & financieringsvoorwaarden (risico's, CO₂-emissiepad, scope 1/2 vóór/na, monitoring)
-8. SDG per maatregel
-9. SFDR / Pillar 3 / EU Taxonomie 7.2 / DNSH
-10. Financiële analyse & terugverdientijd (break-even, maatregelenoverzicht, cumulatieve cashflow)
-11. Conclusie & vervolgstappen (assurance-pad 1–4)
+### Eén bron van waarheid voor alle cijfers
+- **`reconcileNumbers()`** — centrale normalisatielaag. De maatregelentabel is leidend: `capex_totaal` en `bes_jaar` zijn de som van de maatregelen; terugverdientijd (`capex ÷ besparing`) en break-even (`afronding naar boven`) worden hier afgeleid en zijn door het hele dossier identiek.
+- **Validatieregels** vangen onlogische combinaties af:
+  - Jaarlijkse besparing kan **nooit** ≥ de huidige energiekosten zijn (kosten worden anders indicatief afgeleid).
+  - Eén basis voor terugverdientijd én break-even (bruto investering) — geen "jaar 4 vs. 6,3 jaar" meer.
+  - CO₂: de gevalideerde **scope 1+2-reductie is leidend**; de (hogere) som van de CO₂-posten per maatregel wordt apart getoond met een voetnoot die het verschil uitlegt.
+  - Primaire-energiereductie wordt afgeleid uit de labelstappen — **nooit meer "n.b.%"**.
+  - Oppervlakte krijgt altijd "m²".
+- **`sanitizeNarratives()`** — bouwt álle cijferdragende lopende tekst (uitgangspunten, managementsamenvatting, groene paragraaf, SFDR/PAI/Pillar 3/EU Taxonomie, subsidies) opnieuw op uit de canonieke waarden. Tegenstrijdige bedragen die de AI in vrije tekst zette (€ 19.000, € 2.396, 13,6 jaar, "n.b.%") kunnen nooit meer in het eindrapport verschijnen. Globale scrub verwijdert "n.b.%", "NaN" en dubbele nummering in de vervolgstappen.
+
+### Inhoudelijk gecorrigeerd
+- Subsidies opnieuw opgebouwd uit de maatregelen: **ISDE alleen op warmtepomp + isolatie (uitdrukkelijk niet op zonnepanelen)**, btw-zonnepanelen voorzichtig geformuleerd (0%-tarief, te bevestigen), gemeentelijke regeling als "lokaal te bevestigen".
+- Conservatief, voorwaardelijk geformuleerd financieringsoordeel ("indicatief geschikt onder voorwaarden").
+
+### Visueel
+- **Premium subsidiepagina**: luxe kaarten met status-badge (kansrijk / te bevestigen / lokaal te bevestigen), gekoppelde maatregelen, voorwaarden én benodigde bewijsstukken, plus een conclusieblok met actiepunt en voorbehoud.
+- Groene paragraaf met correcte titel en bankwaardige, canonieke samenvatting.
+
+## Demo / preview zonder backend
+Open `index.html?demo=1` om een voorbeelddossier (Beatrixlaan 138) te renderen dat door exact dezelfde normalisatie- en sanitatielaag loopt als de live-flow. Alleen voor visuele controle.
+
+## Paginavolgorde (12)
+1. Cover  2. Energieprestatie & kerncijfers  3. Geadviseerde maatregelen
+4. Subsidies & regelingen  5. Groene paragraaf & financieringsadvies
+6. ESG-beoordeling in één oogopslag  7. Leeswijzer scores & indicatoren
+8. Risicomatrix & financieringsvoorwaarden  9. SDG per maatregel
+10. SFDR / Pillar 3 / EU Taxonomie 7.2 / DNSH  11. Financiële impact & terugverdientijd
+12. Conclusie & vervolgstappen
 
 ## Vereiste Vercel environment variables
 - `OPENAI_API_KEY`
 - `BLOB_READ_WRITE_TOKEN` **of** `BLOB2_READ_WRITE_TOKEN` (beide worden ondersteund in `api/upload.js`)
 
 ## Bestanden
-- `index.html` — frontend + volledige rapport-rendering
-- `api/upload.js` — Vercel Blob client-token (browser → Blob, omzeilt 4.5MB serverless-limiet)
-- `api/generate-report.js` — GPT-4.1-aanroep met het volledige JSON-schema en conservatieve scoring
+- `index.html` — frontend + volledige rapport-rendering + normalisatie/sanitatielaag
+- `api/upload.js` — Vercel Blob client-token (browser → Blob, omzeilt de 4.5MB serverless-limiet)
+- `api/generate-report.js` — GPT-4.1-aanroep; de frontend is de single source of truth voor cijfers en formattering
 
 Na uploaden naar GitHub altijd opnieuw redeployen in Vercel.
