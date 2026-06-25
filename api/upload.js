@@ -9,10 +9,7 @@ export default async function handler(req, res) {
     const body = await new Promise((resolve, reject) => {
       let data = '';
       req.on('data', chunk => (data += chunk));
-      req.on('end', () => {
-        try { resolve(JSON.parse(data)); }
-        catch { resolve({}); }
-      });
+      req.on('end', () => { try { resolve(JSON.parse(data)); } catch { resolve({}); } });
       req.on('error', reject);
     });
  
@@ -21,16 +18,9 @@ export default async function handler(req, res) {
     }
  
     const pathname = body?.payload?.pathname || `upload-${Date.now()}.pdf`;
-    const blobToken = process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB2_READ_WRITE_TOKEN;
-
-    if (!blobToken) {
-      return res.status(500).json({
-        error: 'Blob token ontbreekt. Voeg BLOB_READ_WRITE_TOKEN of BLOB2_READ_WRITE_TOKEN toe aan Vercel Environment Variables.'
-      });
-    }
  
     const clientToken = await generateClientTokenFromReadWriteToken({
-      token: blobToken,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
       pathname,
       maximumSizeInBytes: 50 * 1024 * 1024,
       allowedContentTypes: ['application/pdf', 'application/octet-stream'],
@@ -44,3 +34,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: error.message || 'Token genereren mislukt' });
   }
 }
+ 

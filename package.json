@@ -1,6 +1,6 @@
 {
-  "name": "mb-duurzaamheids-esg-dossier",
-  "version": "12.2.0",
+  "name": "mb-verduurzaming-esg-tool",
+  "version": "1.0.0",
   "type": "module",
   "private": true,
   "dependencies": {
