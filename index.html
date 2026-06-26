@@ -1819,7 +1819,7 @@ function buildLocalReport(text){
     bankscore_componenten:[
       {l:'ESG-score (gewogen)',v:'74 / 100'},
       {l:'Bewijsniveau',v:'Niveau 3 / 4'},
-      {l:'Datakwaliteit',v:'Bron-rapport gevalideerd'},
+      {l:'Datakwaliteit',v:'Brondata verwerkt, intern gecontroleerd'},
       {l:'Beleidsrisico energie',v:'Laag · dalend'},
       {l:'Klimaatrisico (fysiek)',v:'Laag-middel'},
       {l:'Rapportagegereedheid',v:'Voorwaardelijk'}
@@ -2016,7 +2016,7 @@ function pageScoreUitleg(d){
             ${[
               ['1','PDF-scan','Ruwe data uit PDF-rapport, niet gevalideerd.'],
               ['2','PDF + afgeleid','Berekeningen op basis van bron-rapport.'],
-              ['3','Data-validatie','Bron gevalideerd, kengetallen geverifieerd. ← Huidig'],
+              ['3','Data-validatie','Brondata verwerkt en intern gecontroleerd. ← Huidig'],
               ['4','Post-implementatie','Na oplevering: nieuw energielabel + meterdata.']
             ].map(([nr,lbl,txt])=>`
               <div style="display:flex;gap:10px;align-items:flex-start;padding:6px 10px;border-radius:8px;background:${nr===String(d.assurance_niveau)?'var(--blue-faint)':'transparent'};">
@@ -2339,7 +2339,7 @@ function pageGroeneParagraaf(d){
     {l:'CO₂-reductie',v:pctC(co2pct),s:'≈ '+tonC(co2t)+'/jr · scope 1+2'},
     {l:'Jaarlijkse besparing',v:eurC(bes),s:d._bes_gecapt?'Indicatief · begrensd op energiekosten':(maand?'≈ '+eurC(maand)+' per maand':'Per jaar')},
     {l:'Investering',v:eurC(capex),s:'Incl. btw · som maatregelen'},
-    {l:'Bewijsniveau',v:'Niveau '+lvl,s:'van 4 · bron gevalideerd'}
+    {l:'Bewijsniveau',v:'Niveau '+lvl,s:'van 4 · brondata gecontroleerd'}
   ];
   const bewijs=arr((g.benodigde_bewijsstukken&&g.benodigde_bewijsstukken.length)?g.benodigde_bewijsstukken:[
     'Offertes per maatregel','Energielabel vóór en na (EP-online)','Facturen en betaalbewijzen','Opleverrapport per maatregel','Meterdata na oplevering'
@@ -2360,21 +2360,21 @@ function pageGroeneParagraaf(d){
     <div class="page-body" style="padding-bottom:0;">
 
       <!-- PREMIUM GROENE HERO -->
-      <div style="background:linear-gradient(150deg,#0b3d28 0%,#0f5132 42%,#16774a 100%);border-radius:18px;padding:24px 26px 22px;color:#fff;position:relative;overflow:hidden;margin-bottom:13px;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 14px 36px rgba(11,61,40,.28);">
+      <div style="background:linear-gradient(150deg,#0b3d28 0%,#0f5132 42%,#16774a 100%);border-radius:18px;padding:17px 24px 16px;color:#fff;position:relative;overflow:hidden;margin-bottom:10px;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 14px 36px rgba(11,61,40,.28);">
         <div style="position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.10),rgba(255,255,255,0) 70%);"></div>
         <div style="position:absolute;left:-40px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(31,146,89,.45),rgba(255,255,255,0) 70%);"></div>
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
-        <div style="position:relative;display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <div style="position:relative;display:flex;align-items:center;gap:12px;margin-bottom:10px;">
           <div style="width:48px;height:48px;border-radius:12px;flex-shrink:0;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.30);display:flex;align-items:center;justify-content:center;padding:5px;">${logo?`<img src="${logo}" style="max-width:100%;max-height:100%;object-fit:contain;display:block;" alt="MB Adviesgroep">`:''}</div>
           <div style="font-size:8px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:rgba(255,255,255,.7);">ESG &amp; financieringsduiding</div>
         </div>
-        <div style="position:relative;font-size:28px;font-weight:800;line-height:1.04;letter-spacing:-.7px;margin-bottom:7px;">Groene paragraaf &amp; financieringsadvies</div>
-        <div style="position:relative;font-size:11px;font-weight:500;color:rgba(255,255,255,.8);margin-bottom:14px;">Onderbouwende duurzaamheidsduiding (ESG-bijlage t.b.v. financieringsbeoordeling) voor ${obj}${adr?' · '+adr:''}</div>
-        <div style="position:relative;font-size:9.5pt;color:rgba(255,255,255,.93);line-height:1.64;max-width:97%;">${samenvatting}</div>
+        <div style="position:relative;font-size:25px;font-weight:800;line-height:1.04;letter-spacing:-.7px;margin-bottom:5px;">Groene paragraaf &amp; financieringsadvies</div>
+        <div style="position:relative;font-size:11px;font-weight:500;color:rgba(255,255,255,.8);margin-bottom:11px;">Onderbouwende duurzaamheidsduiding (ESG-bijlage t.b.v. financieringsbeoordeling) voor ${obj}${adr?' · '+adr:''}</div>
+        <div style="position:relative;font-size:9.3pt;color:rgba(255,255,255,.93);line-height:1.5;max-width:97%;">${samenvatting}</div>
       </div>
 
       <!-- 6 KPI-TEGELS -->
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:13px;">
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:10px;">
         ${kpi.map((k,i)=>`<div style="background:#fff;border-radius:11px;box-shadow:var(--mb-card-shadow);padding:12px 12px 11px;border-top:3px solid ${i===0?'var(--green)':i===5?'var(--blue)':'var(--blue-mid)'};">
           <div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;line-height:1.2;min-height:16px;">${k.l}</div>
           <div style="font-size:15px;font-weight:800;color:var(--blue-deep);line-height:1;margin-bottom:5px;letter-spacing:-.3px;">${k.v}</div>
@@ -2383,16 +2383,16 @@ function pageGroeneParagraaf(d){
       </div>
 
       <!-- METHODIEK ESG-SCORE -->
-      <div style="font-size:7.6px;color:var(--ink-3);line-height:1.45;margin:-3px 0 12px;padding:8px 13px;background:var(--blue-faint);border-radius:9px;"><b style="color:var(--blue-deep);">Methodiek ESG-score ·</b> interne, indicatieve MB&nbsp;Adviesgroep-score (0–100), opgebouwd uit transitierisico, datakwaliteit, bewijsniveau, klimaatrisico en rapportagegereedheid. Geen externe certificering, rating of assurance — bedoeld als onderbouwing t.b.v. de financieringsbeoordeling.</div>
+      <div style="font-size:7.6px;color:var(--ink-3);line-height:1.4;margin:-1px 0 9px;padding:7px 12px;background:var(--blue-faint);border-radius:9px;"><b style="color:var(--blue-deep);">Methodiek ESG-score ·</b> interne, indicatieve MB&nbsp;Adviesgroep-score (0–100), opgebouwd uit transitierisico, datakwaliteit, bewijsniveau, klimaatrisico en rapportagegereedheid. Geen externe certificering, rating of assurance — bedoeld als onderbouwing t.b.v. de financieringsbeoordeling.</div>
 
       <!-- WAAROM ONDERBOUWING + FINANCIERINGSHAAK -->
-      <div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:15px 18px;margin-bottom:12px;border-left:4px solid var(--green);">
+      <div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:12px 16px;margin-bottom:9px;border-left:4px solid var(--green);">
         <div style="font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:6px;">Waarom dit dossier bruikbaar is als onderbouwing — bank · hypotheekverstrekker · duurzaamheidslening</div>
         <div style="font-size:9.5pt;color:var(--ink-2);line-height:1.62;">${esc(g.mb_credion_haak||'Voor een bank, hypotheekverstrekker of duurzaamheidslening telt vooral dat de investering objectief is onderbouwd: maatregelen, offertes, oplevering en meetbare effecten. De bruto investering, jaarlijkse besparing, labelstap en CO₂-reductie vormen samen de kern van de green-loan-toets. MB Adviesgroep en Credion verzorgen de onderbouwing en begeleiden de aanvraag.')}</div>
       </div>
 
       <!-- BEWIJSSTUKKEN + RISICO'S -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:9px;">
         <div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:14px 16px;">
           <div style="font-size:8px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:9px;">Benodigde bewijsstukken</div>
           <div style="display:flex;flex-direction:column;gap:7px;">
@@ -2408,7 +2408,7 @@ function pageGroeneParagraaf(d){
       </div>
 
       <!-- STERKE SLOTCONCLUSIE -->
-      <div style="background:linear-gradient(135deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:14px;padding:16px 22px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 28px rgba(13,51,72,.22);">
+      <div style="background:linear-gradient(135deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:14px;padding:13px 20px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 28px rgba(13,51,72,.22);">
         <div style="position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--orange);"></div>
         <div style="position:absolute;right:-30px;bottom:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
         <div style="position:relative;display:flex;align-items:center;gap:16px;">
@@ -2667,13 +2667,13 @@ function sanitizeNarratives(d){
   // ── GROENE PARAGRAAF ──
   d.groene_paragraaf=d.groene_paragraaf||{};
   d.groene_paragraaf.titel='Groene paragraaf & financieringsadvies';
-  d.groene_paragraaf.conclusie=`${obj}${adr?' ('+esc(adr)+')':''} wordt met een pakket van ${n} verduurzamingsmaatregelen voorbereid op label ${esc(d.streef_label||'')}. Daarmee wordt een jaarlijkse besparing van ${E(bes)} gerealiseerd bij een investering van ${E(capex)} incl. btw. De CO₂-uitstoot daalt met circa ${pctC(co2pct)} naar ≈\u00A0${tonStr}\u00A0ton per jaar (scope 1+2), conform de rapportberekeningen. Het traject is marktconform en levert input voor de beoordeling door de financier; acceptatie als groene financiering hangt af van het beleid van de financier, bewijsstukken, uitvoering en een nieuw energielabel. Subsidies — met name ISDE voor de isolatie en de warmtepomp — kunnen het eigen benodigde kapitaal verlagen. Na oplevering sluit het object onder voorwaarden aan op de EU\u00A0Taxonomie\u00A07.2, mits DNSH en sociale waarborgen worden bevestigd.`;
+  d.groene_paragraaf.conclusie=`${obj}${adr?' ('+esc(adr)+')':''} wordt met een pakket van ${n} verduurzamingsmaatregelen voorbereid op label ${esc(d.streef_label||'')}. Daarmee wordt een jaarlijkse besparing van ${E(bes)} gerealiseerd bij een investering van ${E(capex)} incl. btw. De CO₂-uitstoot daalt met circa ${pctC(co2pct)} naar ≈\u00A0${tonStr}\u00A0ton per jaar (scope 1+2), conform de rapportberekeningen. Het traject is marktconform en levert input voor de beoordeling door de financier; acceptatie als groene financiering hangt af van het beleid van de financier, bewijsstukken, uitvoering en een nieuw energielabel. Subsidies — met name ISDE voor de isolatie en de warmtepomp — kunnen het eigen benodigde kapitaal verlagen. De gegevens kunnen een financier helpen bij de eigen EU-Taxonomie-toets (art.\u00A07.2); het object valt hier niet automatisch zelf onder en DNSH en sociale waarborgen moeten nog worden bevestigd.`;
   d.groene_paragraaf.mb_credion_haak=d.groene_paragraaf.mb_credion_haak||`Voor een bank, hypotheekverstrekker of duurzaamheidslening telt vooral dat de investering objectief is onderbouwd: maatregelen, offertes, oplevering en meetbare effecten. De bruto investering van ${E(capex)}, de jaarlijkse besparing van ${E(bes)}, de labelstap ${lab} en de CO₂-reductie van circa ${pctC(co2pct)} vormen samen de kern van de green-loan-toets. MB Adviesgroep en Credion verzorgen de onderbouwing en begeleiden de aanvraag.`;
   d.groene_paragraaf.esg_score=d.bankscore;
   d.groene_paragraaf.oordeel=d.bankscore_oordeel;
 
   // ── SFDR / PILLAR 3 / PAI / TAXONOMIE ──
-  d.sfdr=`Het maatregelenpakket draagt naar verwachting bij aan de klimaatdoelstellingen: een CO₂-reductie van circa ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0t/jr, scope 1+2) en een labelverbetering ${lab}. Daarmee is het dossier onder voorwaarden bruikbaar voor een SFDR\u00A0Artikel\u00A08-classificatie, na oplevering en bewijsstukken.`;
+  d.sfdr=`Het maatregelenpakket draagt naar verwachting bij aan de klimaatdoelstellingen: een CO₂-reductie van circa ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0t/jr, scope 1+2) en een labelverbetering ${lab}. Daarmee levert het dossier input die een financier kan gebruiken voor de eigen SFDR-rapportage (o.a. Artikel\u00A08); het pand valt hier niet automatisch zelf onder en classificatie volgt na oplevering en bewijsstukken.`;
   d.pillar3=`Het dossier is bruikbaar als input voor Pillar\u00A03-rapportage: het bronrapport onderbouwt een investering van ${E(capex)}, een jaarlijkse besparing van ${E(bes)}, labeltraject ${lab} en een scope 1+2-reductie van circa ${pctC(co2pct)}.`;
   d.pai=[
     `PAI 1 — CO₂-uitstoot scope 1+2: indicatieve reductie ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0t/jr).`,
@@ -2792,7 +2792,8 @@ function renderReport(d){
     pageEnergie(d)+
     pageMaatregelenAdvies(d)+
     pageSubsidies(d)+
-    pageEsgSamenvatting(d)+
+    pageGroeneParagraaf(d)+
+    pageBanksamenvatting(d)+
     pageSdgEsrs(d)+
     pageSfdrTax(d)+
     pageRisico(d)+
@@ -2963,28 +2964,10 @@ function pageBanksamenvatting(d){
     ${pageTop(d)}
     <div class="page-stamp">06 · 12</div>
     <div class="page-body">
-      <div class="page-eyebrow">ESG-Samenvatting &amp; Leeswijzer</div>
-      <div class="page-title">ESG-beoordeling — in één oogopslag</div>
-      <div class="page-title-sub">Het object is indicatief bruikbaar als duurzaamheidsbijlage bij de financieringsbeoordeling, onder voorbehoud van oplevering, bewijsstukken, DNSH en sociale waarborgen.</div>
+      <div class="page-eyebrow">Score-onderbouwing &amp; analyse</div>
+      <div class="page-title">Hoe de ESG-score is opgebouwd</div>
+      <div class="page-title-sub">Onderbouwing van de interne, indicatieve MB-score: vijf gewogen dimensies, het labeltraject en de managementsamenvatting — als toelichting bij de groene paragraaf op de vorige pagina.</div>
       <div class="page-thin-rule"></div>
-
-      <div class="kpi-rapport">
-        <div class="kpi-r-cell">
-          <div class="kpi-r-lbl">ESG-score (0–100)</div>
-          <div class="kpi-r-val">${esc(d.bankscore)} <small style="font-size:14px;color:var(--ink-3);font-weight:500;">/ 100</small></div>
-          <div class="kpi-r-sub">${esc(d.bankscore_oordeel)}</div>
-        </div>
-        <div class="kpi-r-cell">
-          <div class="kpi-r-lbl">Bewijsniveau (1–4)</div>
-          <div class="kpi-r-val orange">Niveau 3<small style="font-size:14px;color:var(--ink-3);font-weight:500;">/ 4</small></div>
-          <div class="kpi-r-sub">Bron-rapport gevalideerd</div>
-        </div>
-        <div class="kpi-r-cell">
-          <div class="kpi-r-lbl">Rapportagegereedheid</div>
-          <div class="kpi-r-val green">Voorwaardelijk</div>
-          <div class="kpi-r-sub">Onder voorbehoud van bewijsstukken</div>
-        </div>
-      </div>
 
       <div class="score-row">
         <div class="score-card">
@@ -3007,7 +2990,7 @@ function pageBanksamenvatting(d){
         </div>
         <div class="chart-card">
           <div class="chart-card-h">Energielabel-traject</div>
-          <div class="chart-card-t">${esc(d.huidig_label)} → ${esc(d.streef_label)} · ${esc(d.label_streef_idx-d.label_huidig_idx)} labelstappen voor Taxonomie 7.2</div>
+          <div class="chart-card-t">${esc(d.huidig_label)} → ${esc(d.streef_label)} · ${esc(d.label_streef_idx-d.label_huidig_idx)} labelstappen na uitvoering te bevestigen</div>
           <div style="padding:14px 0 4px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>
           <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink-3);margin-top:8px;">
             <span><b style="color:var(--blue-deep);">Primaire-energie</b> &minus;${esc(d.primaire_energie_reductie_pct)}% <span style="color:var(--ink-4);">(ind.)</span></span>
@@ -3023,78 +3006,6 @@ function pageBanksamenvatting(d){
         <div class="verdict-text">${esc(summaryText)}</div>
         <div class="mgt-bullets">
           ${summaryPunten.map(p=>`<div>${esc(p)}</div>`).join('')}
-        </div>
-      </div>
-
-    </div>
-    ${pageFoot()}
-  </article>`;
-}
-
-/* ─── PAGINA 5 — ESG-SAMENVATTING (samenvoeging groene paragraaf + leeswijzer) ─── */
-function pageEsgSamenvatting(d){
-  const g=d.groene_paragraaf||{};
-  const score=d.bankscore||g.esg_score||77;
-  const oordeel=d.bankscore_oordeel||g.oordeel||'Indicatief bruikbaar als duurzaamheidsbijlage';
-  const obj=esc(d.object_naam||'dit object');
-  const lvl=d.assurance_niveau||3;
-  const lab=esc(d.huidig_label||'')+'\u00A0→\u00A0'+esc(d.streef_label||'');
-  const co2pct=Number(d.co2_reductie_pct||0), co2t=Number(d.co2_reductie_ton||0);
-  const eCol=e=>/hoog/i.test(e)?'var(--red)':/middel/i.test(e)?'var(--amber)':'var(--green)';
-  const eBg=e=>/hoog/i.test(e)?'var(--red-bg)':/middel/i.test(e)?'var(--amber-bg)':'var(--green-bg)';
-  const risico=arr(d.risicos).slice(0,4).map(r=>({t:esc(r.risk||''),e:esc(r.ernst||'')}));
-  const conclusie=esc(g.afsluitende_conclusie||'Indicatief bruikbaar als duurzaamheidsbijlage bij de financieringsbeoordeling; acceptatie hangt af van het beleid van de financier, bewijsstukken, uitvoering en een nieuw energielabel.');
-  const haak=esc(g.mb_credion_haak||'MB Adviesgroep en Credion verzorgen de onderbouwing en begeleiden de financieringsaanvraag.');
-  return `
-  <article class="a4 content">
-    ${pageTop(d)}
-    <div class="page-stamp">05 · 12</div>
-    <div class="page-body">
-      <div class="page-eyebrow">ESG-samenvatting &middot; Financieringsbijlage</div>
-      <div class="page-title">ESG-beoordeling — in één oogopslag</div>
-      <div class="page-title-sub">Indicatieve interne MB-beoordeling t.b.v. de financieringsbeoordeling — onder voorbehoud van oplevering, bewijsstukken, DNSH en sociale waarborgen.</div>
-      <div class="page-thin-rule"></div>
-
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:13px;">
-        ${[
-          {l:'ESG-score',v:String(score)+' /100',s:esc(oordeel),accent:'var(--green)'},
-          {l:'Bewijsniveau',v:'Niveau '+lvl+' /4',s:'Brondata verwerkt, intern gecontroleerd',accent:'var(--orange)'},
-          {l:'Labeltraject',v:lab,s:'Na uitvoering te bevestigen',accent:'var(--blue-mid)'},
-          {l:'CO₂-reductie',v:pctC(co2pct),s:'≈ '+tonC(co2t)+'/jr · scope 1+2',accent:'var(--blue-mid)'}
-        ].map(k=>`<div style="background:#fff;border-radius:11px;box-shadow:var(--mb-card-shadow);padding:12px 13px;border-top:3px solid ${k.accent};">
-          <div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;min-height:14px;">${k.l}</div>
-          <div style="font-size:17px;font-weight:800;color:var(--blue-deep);line-height:1;margin-bottom:5px;letter-spacing:-.3px;">${k.v}</div>
-          <div style="font-size:7px;color:var(--ink-3);line-height:1.3;">${k.s}</div>
-        </div>`).join('')}
-      </div>
-
-      <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:12px;margin-bottom:13px;">
-        <div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:13px 15px;">
-          <div style="font-size:8px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:2px;">ESG-score · opbouw (methodiek)</div>
-          <div style="font-size:7.5px;color:var(--ink-3);line-height:1.35;margin-bottom:2px;">Interne, indicatieve MB-score (0–100) uit vijf dimensies — geen externe rating/certificering.</div>
-          ${chartRadar(d.radar,200)}
-        </div>
-        <div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:13px 15px;">
-          <div style="font-size:8px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--orange);margin-bottom:9px;">Belangrijkste risico's</div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            ${risico.map(r=>`<div style="display:flex;gap:9px;align-items:flex-start;justify-content:space-between;"><span style="font-size:8.5pt;color:var(--ink-2);line-height:1.4;">${r.t}</span>${r.e?`<span style="flex-shrink:0;font-size:7px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;background:${eBg(r.e)};color:${eCol(r.e)};border-radius:999px;padding:2px 8px;white-space:nowrap;">${r.e}</span>`:''}</div>`).join('')}
-          </div>
-        </div>
-      </div>
-
-      <div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:13px 18px;margin-bottom:13px;border-left:4px solid var(--green);">
-        <div style="font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--green);margin-bottom:6px;">Waarom dit dossier bruikbaar is als onderbouwing</div>
-        <div style="font-size:9pt;color:var(--ink-2);line-height:1.6;">${haak}</div>
-      </div>
-
-      <div style="background:linear-gradient(135deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:14px;padding:16px 22px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 28px rgba(13,51,72,.22);">
-        <div style="position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--orange);"></div>
-        <div style="position:relative;display:flex;align-items:center;gap:16px;">
-          <div style="flex-shrink:0;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:19px;">✓</div>
-          <div>
-            <div style="font-size:7.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:4px;">Conclusie financieringsbijlage</div>
-            <div style="font-size:11pt;font-weight:600;line-height:1.4;color:#fff;">${conclusie}</div>
-          </div>
         </div>
       </div>
 
@@ -3119,7 +3030,7 @@ function pageRisico(d){
       <div class="page-title-sub">Compacte risicobeoordeling, voorwaarden bij financiering en monitoring tijdens looptijd.</div>
       <div class="page-thin-rule"></div>
 
-      <div class="matrix" style="margin-bottom:14px;">
+      <div class="matrix" style="margin-bottom:8px;">
         <div class="mh">Risico</div><div class="mh">Ernst</div><div class="mh">Horizon</div><div class="mh">Bankactie</div>
         ${arr(d.risicos).map(r=>`
           <div class="ml">${esc(r.risk)}</div>
@@ -3133,7 +3044,7 @@ function pageRisico(d){
         <div class="chart-card">
           <div class="chart-card-h">CO₂-emissiepad · scope 1+2</div>
           <div class="chart-card-t">Verwacht reductiepad over 15 jaar (ton CO₂-eq / jr)</div>
-          ${chartLine(d.co2_pad,{w:540,h:130,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#0d8a4f'})}
+          ${chartLine(d.co2_pad,{w:540,h:108,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#0d8a4f'})}
         </div>
         <div class="chart-card">
           <div class="chart-card-h">Scope 1 / Scope 2 · ton CO₂-eq / jaar</div>
@@ -3157,7 +3068,7 @@ function pageRisico(d){
         </div>
       </div>
 
-      <div class="verdict" style="margin-top:18px;">
+      <div class="verdict" style="margin-top:5px;">
         <div class="verdict-eyebrow">Advies bij financieringsaanvraag</div>
         <div class="verdict-title" style="font-size:13px;margin-bottom:8px;">${esc(d.bankscore_oordeel)} — ESG-dossier voor green-loan toets</div>
         <div class="verdict-text" style="margin-bottom:6px;">${esc(adviesTekst)}</div>
@@ -3614,6 +3525,21 @@ function enrichSdgMappings(d){
       kopp=add(kopp,11,'Lokale duurzame elektriciteitsopwekking ondersteunt een duurzamer gebouw.');
     }
 
+    // Eerlijk werk & economische groei: uitvoering door lokale installateurs + lagere energielasten.
+    if(/isolatie|glas|beglazing|warmtepomp|zonne|thermostaat|ventilatie|wtw|led|dak|vloer|gevel|deur|kozijnen|boiler|installatie/.test(n)){
+      kopp=add(kopp,8,'Uitvoering door lokale vakmensen en lagere energielasten ondersteunen werk en bestedingsruimte.');
+    }
+
+    // Schoon water & sanitair: water-/hemelwater-/sanitaire maatregelen.
+    if(/water|hemelwater|regenwater|sanitair|kraan|douche|wc|toilet/.test(n)){
+      kopp=add(kopp,6,'De maatregel beperkt het water- of energiegebruik voor warm water.');
+    }
+
+    // Leven op het land: groene/biodiverse daken en gevels.
+    if(/groen\s?dak|sedum|biodivers|groene gevel|begroeid/.test(n)){
+      kopp=add(kopp,15,'Een groen dak of gevel vergroot biodiversiteit en helpt tegen hittestress.');
+    }
+
     // Geen kWh verzinnen: als de bron alleen eurobesparing geeft, formuleer in euro's.
     kopp=kopp.map(k=>{
       const txt=String((k&&k.uitleg)||'');
@@ -3671,8 +3597,8 @@ function pageSdgEsrs(d){
 
   const mBlock=(m)=>{
     const s=SDG_DB;
-    return `<div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:10px 12px;display:flex;flex-direction:column;gap:0;break-inside:avoid;">
-      <div style="margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid var(--blue-faint);">
+    return `<div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:9px 11px;display:flex;flex-direction:column;gap:0;break-inside:avoid;">
+      <div style="margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--blue-faint);">
         <div style="font-size:7.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:1px;">${esc(m.nr||'')}</div>
         <div style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.3;">${esc(m.naam||'')}</div>
         <div style="display:flex;gap:8px;margin-top:3px;">
@@ -3680,7 +3606,7 @@ function pageSdgEsrs(d){
           ${m.bes?`<span style="font-size:7.5px;color:var(--ink-3);">€ ${(m.bes||0).toLocaleString('nl-NL')}/jr</span>`:''}
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;flex-direction:column;gap:4px;">
         ${arr(m.sdg_koppelingen).map(k=>{
           const sg=s[String(k.sdg_nr)]||{kleur:'#888',label:'SDG '+k.sdg_nr};
           return `<div style="display:grid;grid-template-columns:22px 1fr;gap:6px;align-items:flex-start;">
@@ -3704,43 +3630,22 @@ function pageSdgEsrs(d){
     <div class="page-body">
       <div class="page-eyebrow">SDG · Duurzaamheidsdoelen</div>
       <div class="page-title">Welke maatregel draagt bij aan welk doel?</div>
-      <div class="page-title-sub">Compacte matrix: per maatregel de gekoppelde VN-duurzaamheidsdoelen (SDGs), met daaronder een korte samenvatting per doel — op basis van uw verduurzamingsrapport.</div>
+      <div class="page-title-sub">Per maatregel uit uw verduurzamingsrapport de gekoppelde VN-duurzaamheidsdoelen (SDGs), met een korte toelichting per koppeling.</div>
       <div class="page-thin-rule"></div>
 
       ${maatregelen.length>0 ? `
 
       <!-- Geraakte SDGs -->
-      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px;">
+      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px;">
         ${allSdgs.map(k=>{const sg=SDG_DB[String(k.sdg_nr)]||{kleur:'#888',label:'SDG '+k.sdg_nr};return `<div style="display:flex;align-items:center;gap:4px;background:#fff;border-radius:6px;padding:3px 8px 3px 4px;box-shadow:0 1px 3px rgba(0,0,0,.06);">
           <div style="width:16px;height:16px;border-radius:3px;background:${sg.kleur};color:#fff;font-size:7px;font-weight:800;display:flex;align-items:center;justify-content:center;">${k.sdg_nr}</div>
           <span style="font-size:7.5px;font-weight:600;color:var(--ink);">${sg.label}</span>
         </div>`;}).join('')}
       </div>
 
-      <!-- MAATREGEL × SDG MATRIX -->
-      <div style="background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:2px 8px 8px;margin-bottom:13px;">
-        <div style="display:grid;grid-template-columns:minmax(0,1.8fr) repeat(${sdgCols.length},1fr);">
-          <div style="padding:9px 6px 7px;font-size:7.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);align-self:end;">Maatregel</div>
-          ${sdgCols.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};return `<div style="padding:7px 2px 6px;text-align:center;">
-            <div style="width:23px;height:23px;margin:0 auto 3px;border-radius:5px;background:${sg.kleur};color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;">${nr}</div>
-            <div style="font-size:6.5px;font-weight:600;color:var(--ink-3);line-height:1.1;">${esc(sg.label)}</div>
-          </div>`;}).join('')}
-          ${maatregelen.map(m=>`
-            <div style="padding:9px 6px;border-top:1px solid var(--blue-faint);display:flex;flex-direction:column;justify-content:center;">
-              <div style="font-size:8.5px;font-weight:700;color:var(--blue-deep);line-height:1.25;">${esc(m.naam||'')}</div>
-              <div style="font-size:7px;color:var(--ink-3);margin-top:1px;">${m.co2?'↓ '+m.co2+' t CO₂/jr':''}${m.co2&&m.bes?' · ':''}${m.bes?'€ '+(m.bes||0).toLocaleString('nl-NL')+'/jr':''}</div>
-            </div>
-            ${sdgCols.map(nr=>{const on=hasSdg(m,nr);const sg=SDG_DB[nr]||{kleur:'#888'};return `<div style="border-top:1px solid var(--blue-faint);display:flex;align-items:center;justify-content:center;">${on?`<div style="width:14px;height:14px;border-radius:4px;background:${sg.kleur};"></div>`:`<div style="width:7px;height:2px;border-radius:2px;background:var(--rule);"></div>`}</div>`;}).join('')}
-          `).join('')}
-        </div>
-      </div>
-
-      <!-- PER SDG — PORTEFEUILLEBIJDRAGE -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 16px;">
-        ${sdgCols.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};const cnt=maatregelen.filter(m=>hasSdg(m,nr)).length;const b=SDG_BENEFIT[nr]||'dragen bij aan dit duurzame ontwikkelingsdoel';return `<div style="display:flex;gap:9px;align-items:flex-start;">
-          <div style="width:21px;height:21px;border-radius:5px;background:${sg.kleur};color:#fff;font-size:8.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${nr}</div>
-          <div style="font-size:8.3px;color:var(--ink-2);line-height:1.4;"><b style="color:var(--blue-deep);">SDG ${nr} · ${esc(sg.label)}</b> — ${cnt} maatregel${cnt===1?'':'en'} ${b}.</div>
-        </div>`;}).join('')}
+      <!-- 2-KOLOMS GRID VAN MAATREGELBLOKKEN -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+        ${maatregelen.map(m=>mBlock(m)).join('')}
       </div>
 
       ` : `
@@ -3944,7 +3849,7 @@ function buildAttention(d){
   const has=re=>ms.some(m=>re.test(nm(m)));
   const gevel=ms.some(m=>/gevel/.test(nm(m)));
   const spouw=ms.some(m=>/spouw/.test(nm(m)));
-  if(gevel&&spouw) w.push('Gevel- én spouwmuurisolatie staan beide in het pakket — controleer op dubbele besparing op hetzelfde warmteverlies of combineer tot één post (Gevel-/spouwmuurisolatie).');
+  if(gevel&&spouw) w.push('Gevel- én spouwmuurisolatie staan beide in het pakket — controleer dat de besparing op hetzelfde warmteverlies niet dubbel is geteld (beide maatregelen mogen wel als aparte posten blijven staan).');
   if(d._bes_gecapt) w.push('De jaarlijkse besparing is begrensd op de energiekosten; de bronwaarde lag hoger en is gecorrigeerd.');
   const langeTvt=ms.filter(m=>Number(m.tvt)>20).map(m=>m.naam);
   if(langeTvt.length) w.push('Terugverdientijd langer dan 20 jaar bij: '+langeTvt.join(', ')+' — weeg nut en rendement vóór financiering.');
@@ -4150,12 +4055,11 @@ const DEMO_DATA={
     {naam:'Berging/voordeurisolatie',capex:860,bes:47,co2:0.06,tvt:18.3,toelichting:'Isolatie van berging en voordeur voorkomt warmteverlies bij de entree.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Kleine isolatiemaatregel met comfortwinst.'},{sdg_nr:'11',uitleg:'Minder tocht in entree/bijkeuken.'},{sdg_nr:'13',uitleg:'Lagere CO₂-uitstoot.'}]}
   ],
   radar:[{l:'Transitierisico',v:78},{l:'Datakwaliteit',v:74},{l:'Bewijsniveau',v:75},{l:'Klimaatrisico',v:72},{l:'Rapportage',v:80}],
-  bankscore_componenten:[{l:'ESG-score (gewogen)',v:'77 / 100'},{l:'Bewijsniveau',v:'Niveau 3 / 4'},{l:'Datakwaliteit',v:'Bron-rapport gevalideerd'},{l:'Beleidsrisico energie',v:'Laag · dalend'},{l:'Klimaatrisico (fysiek)',v:'Laag-middel'},{l:'Rapportagegereedheid',v:'Voorwaardelijk'}],
+  bankscore_componenten:[{l:'ESG-score (gewogen)',v:'77 / 100'},{l:'Bewijsniveau',v:'Niveau 3 / 4'},{l:'Datakwaliteit',v:'Brondata verwerkt, intern gecontroleerd'},{l:'Beleidsrisico energie',v:'Laag · dalend'},{l:'Klimaatrisico (fysiek)',v:'Laag-middel'},{l:'Rapportagegereedheid',v:'Voorwaardelijk'}],
   risicos:[
-    {risk:'Definitief energielabel kan na uitvoering lager uitvallen dan het streeflabel.',ernst:'Middel',horizon:'Kort',action:'Laat na oplevering een erkend adviseur het nieuwe label (EP-online) registreren en stuur bij waar nodig.'},
+    {risk:'Definitief energielabel kan na uitvoering lager uitvallen dan het streeflabel.',ernst:'Middel',horizon:'Kort',action:'Laat na oplevering het nieuwe label (EP-online) registreren en stuur bij waar nodig.'},
     {risk:'Niet alle subsidie- en fiscale regelingen worden (volledig) toegekend; subsidiabele m² nog te bevestigen.',ernst:'Laag-Middel',horizon:'Kort',action:'Bevestig de ISDE/EIA/SVOH-positie bij RVO en de gemeentelijke regeling vóór opdracht.'},
     {risk:'Technische uitvoerbaarheid warmtepomp: schil en afgiftesysteem moeten geschikt zijn voor een lagere aanvoertemperatuur.',ernst:'Middel',horizon:'Kort',action:'Laat de installateur de aanvoertemperatuur en isolatiegraad toetsen vóór plaatsing.'},
-    {risk:'Dakconstructie en netcapaciteit bepalen de haalbaarheid en omvang van de zonnepanelen.',ernst:'Laag-Middel',horizon:'Kort',action:'Toets dakdraagkracht en aansluitcapaciteit bij de netbeheerder.'},
     {risk:'Werkelijke besparing hangt af van bewonersgedrag en energieprijzen.',ernst:'Middel',horizon:'Middel',action:'Monitor het energieverbruik tijdens en na oplevering met meterdata.'}
   ],
   voorwaarden:['Getekende opdracht tot uitvoering vóór financieringsuitkering.','Offertes per maatregel aanwezig.','ISDE-aanvraag voorbereid (toekenning na uitvoering, indien van toepassing).','Oplevering nieuw energielabel A, vastgelegd door een erkend energieadviseur.','Facturen en betaalbewijzen per maatregel.'],
