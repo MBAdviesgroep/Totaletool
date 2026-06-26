@@ -2429,13 +2429,41 @@ function pageGroeneParagraaf(d){
         </div>
       </div>
 
-      <!-- SCORE-COMPONENTEN -->
-      <div style="display:grid;grid-template-columns:repeat(${Math.max(1,Math.min(5,arr(d.bankscore_componenten).length))},1fr);gap:8px;margin-bottom:9px;">
-        ${arr(d.bankscore_componenten).slice(0,5).map(c=>`<div style="background:#fff;border-radius:10px;box-shadow:var(--mb-card-shadow);padding:9px 11px;">
-          <div style="font-size:6.3px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-4);margin-bottom:4px;line-height:1.2;min-height:15px;">${esc(c.l)}</div>
-          <div style="font-size:9.5px;font-weight:700;color:var(--blue-deep);line-height:1.18;">${esc(c.v)}</div>
-        </div>`).join('')}
-      </div>
+      <!-- SCORE-OPBOUW (transparant: gewogen berekening) -->
+      ${(function(){
+        const W={transitierisico:.25,datakwaliteit:.20,bewijsniveau:.20,klimaatrisico:.15,rapportage:.20};
+        const nrm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z]/g,'');
+        let dims=arr(d.radar).map(r=>({l:r.l,v:Number(r.v)||0,w:(W[nrm(r.l)]!=null?W[nrm(r.l)]:null)}));
+        if(!dims.length) return '';
+        const eq=1/dims.length;
+        dims=dims.map(x=>({...x,w:x.w!=null?x.w:eq}));
+        const totW=dims.reduce((a,x)=>a+x.w,0)||1;
+        const contrib=x=>x.v*(x.w/totW);
+        const sum=dims.reduce((a,x)=>a+contrib(x),0);
+        const total=Math.round(Number(d.bankscore)||sum);
+        const sc=v=>v>=75?'var(--green)':v>=60?'var(--orange)':'var(--red)';
+        return `<div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:10px 14px 10px;margin-bottom:7px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span style="font-size:8px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);">Score-opbouw — zo is de ESG-score berekend</span>
+            <span style="flex:1;height:1px;background:var(--blue-faint);"></span>
+            <span style="font-size:7.5px;color:var(--ink-4);">gewogen gemiddelde van ${dims.length} dimensies</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(${dims.length},1fr) 1.1fr;gap:9px;align-items:stretch;">
+            ${dims.map(x=>`<div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="font-size:7.5px;font-weight:700;color:var(--ink-3);line-height:1.15;min-height:17px;">${esc(x.l)}</div>
+              <div style="font-size:15px;font-weight:800;color:var(--blue-deep);line-height:1;">${x.v}<span style="font-size:8px;color:var(--ink-4);font-weight:600;">/100</span></div>
+              <div style="height:4px;border-radius:3px;background:var(--blue-faint);overflow:hidden;"><div style="height:100%;width:${Math.max(0,Math.min(100,x.v))}%;background:${sc(x.v)};border-radius:3px;"></div></div>
+              <div style="font-size:7.5px;color:var(--ink-3);">weging <b style="color:var(--ink-2);">${Math.round(x.w/totW*100)}%</b></div>
+              <div style="font-size:8.5px;font-weight:700;color:var(--orange);">= ${num1(contrib(x))} pt</div>
+            </div>`).join('')}
+            <div style="display:flex;flex-direction:column;justify-content:center;gap:2px;background:linear-gradient(150deg,#0d3348,#11684a);border-radius:10px;padding:10px 13px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
+              <div style="font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);">ESG-score</div>
+              <div style="font-size:21px;font-weight:800;line-height:1;">${total}<span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.7);">/100</span></div>
+              <div style="font-size:7px;color:rgba(255,255,255,.7);line-height:1.25;">som van de bijdragen</div>
+            </div>
+          </div>
+        </div>`;
+      })()}
 
       <!-- STERKE SLOTCONCLUSIE -->
       <div style="background:linear-gradient(135deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:14px;padding:12px 20px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 28px rgba(13,51,72,.22);">
@@ -3633,24 +3661,24 @@ function pageSdgEsrs(d){
 
   const mBlock=(m)=>{
     const kopp=arr(m.sdg_koppelingen);
-    return `<div style="background:#fff;border:1px solid #ece6dd;border-radius:12px;box-shadow:0 3px 12px rgba(13,51,72,.05);padding:11px 13px;display:flex;flex-direction:column;gap:9px;break-inside:avoid;">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+    return `<div style="background:#fff;border:1px solid #ece6dd;border-radius:12px;box-shadow:0 3px 12px rgba(13,51,72,.05);padding:12px 14px;display:flex;flex-direction:column;gap:10px;break-inside:avoid;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:9px;border-bottom:1px solid #f0ece4;">
         <div style="display:flex;align-items:center;gap:7px;min-width:0;">
           <span style="width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0;"></span>
-          <span style="font-size:10.5px;font-weight:700;color:var(--blue-deep);line-height:1.2;">${esc(m.naam||'')}</span>
+          <span style="font-size:11px;font-weight:700;color:var(--blue-deep);line-height:1.2;">${esc(m.naam||'')}</span>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;flex-shrink:0;white-space:nowrap;">
-          ${m.co2?`<span style="font-size:7.5px;color:var(--green);font-weight:700;">↓ ${m.co2} t CO₂/jr</span>`:''}
-          ${m.bes?`<span style="font-size:7px;color:var(--ink-4);">€ ${(m.bes||0).toLocaleString('nl-NL')}/jr</span>`:''}
+          ${m.co2?`<span style="font-size:8.5px;color:var(--green);font-weight:700;">↓ ${m.co2} t CO₂/jr</span>`:''}
+          ${m.bes?`<span style="font-size:8px;color:var(--ink-3);">€ ${(m.bes||0).toLocaleString('nl-NL')}/jr</span>`:''}
         </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:7px 9px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;">
         ${kopp.map(k=>{
           const sg=SDG_DB[String(k.sdg_nr)]||{kleur:'#888',label:'SDG '+k.sdg_nr};
-          return `<span style="display:inline-flex;align-items:center;gap:5px;">
-            <span style="width:19px;height:19px;border-radius:5px;background:${sg.kleur};color:#fff;font-size:8.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.14);">${k.sdg_nr}</span>
-            <span style="font-size:7.5px;font-weight:600;color:var(--ink-3);">${esc(sg.label)}</span>
-          </span>`;
+          return `<div style="display:flex;align-items:center;gap:7px;min-width:0;">
+            <span style="width:21px;height:21px;border-radius:5px;background:${sg.kleur};color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.14);">${k.sdg_nr}</span>
+            <span style="font-size:8.7px;font-weight:600;color:var(--ink-2);line-height:1.15;">${esc(sg.label)}</span>
+          </div>`;
         }).join('')}
       </div>
     </div>`;
@@ -3687,8 +3715,8 @@ function pageSdgEsrs(d){
             ${touched.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};const cnt=maatregelen.filter(m=>hasSdg(m,nr)).length;const b=SDG_BENEFIT[nr]||'draagt bij aan dit duurzame ontwikkelingsdoel';return `<div style="display:flex;gap:9px;align-items:flex-start;">
               <span style="width:24px;height:24px;border-radius:6px;background:${sg.kleur};color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.16);">${nr}</span>
               <div style="min-width:0;">
-                <div style="font-size:8.5px;font-weight:700;color:var(--blue-deep);line-height:1.25;">SDG ${nr} · ${esc(sg.label)} <span style="color:var(--orange);font-weight:700;">· ${cnt}×</span></div>
-                <div style="font-size:8px;color:var(--ink-3);line-height:1.35;">${cnt} maatregel${cnt===1?'':'en'} ${b}.</div>
+                <div style="font-size:9px;font-weight:700;color:var(--blue-deep);line-height:1.25;">SDG ${nr} · ${esc(sg.label)} <span style="color:var(--orange);font-weight:700;">· ${cnt}×</span></div>
+                <div style="font-size:8.5px;color:var(--ink-3);line-height:1.35;">${cnt} maatregel${cnt===1?'':'en'} ${b}.</div>
               </div>
             </div>`;}).join('')}
           </div>
