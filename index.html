@@ -2854,7 +2854,7 @@ function chartRadar(items,size){
     const anchor=Math.abs(x-cx)<5?'middle':(x>cx?'start':'end');
     return `<text x="${x}" y="${y+3}" font-size="8.5" font-weight="700" fill="#021e2e" text-anchor="${anchor}" font-family="'DM Sans',sans-serif">${esc(it.l)}</text><text x="${x}" y="${y+13}" font-size="8" fill="#6c7480" text-anchor="${anchor}" font-family="'DM Sans',sans-serif">${it.v}</text>`;
   }).join('');
-  return `<svg viewBox="0 0 ${size} ${size}" width="100%" style="display:block;">${grid}${spokes}<polygon points="${dataPts}" fill="rgba(196,92,46,0.18)" stroke="#c45c2e" stroke-width="1.6"/>${dots}${labels}</svg>`;
+  return `<svg viewBox="-34 -26 ${size+68} ${size+50}" width="100%" style="display:block;overflow:visible;">${grid}${spokes}<polygon points="${dataPts}" fill="rgba(196,92,46,0.18)" stroke="#c45c2e" stroke-width="1.6"/>${dots}${labels}</svg>`;
 }
 
 function chartLine(values,opts){
@@ -3632,22 +3632,24 @@ function pageSdgEsrs(d){
   const SDG_BENEFIT={'3':'voor een gezonder binnenklimaat en meer comfort','7':'die de energievraag verlagen of duurzame opwek vergroten','9':'met efficiënte, moderne installatie- en bouwtechniek','11':'voor een comfortabeler en toekomstbestendiger gebouw','12':'voor efficiënter materiaal- en energiegebruik','13':'die de CO₂-uitstoot verlagen en aan klimaatdoelen bijdragen'};
 
   const mBlock=(m)=>{
-    const s=SDG_DB;
     const kopp=arr(m.sdg_koppelingen);
-    return `<div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:9px 12px;display:flex;flex-direction:column;gap:7px;break-inside:avoid;">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;">
-        <div style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.25;">${esc(m.naam||'')}</div>
-        <div style="display:flex;gap:7px;flex-shrink:0;white-space:nowrap;">
-          ${m.co2?`<span style="font-size:7.5px;color:var(--green);font-weight:600;">↓ ${m.co2} t CO₂/jr</span>`:''}
-          ${m.bes?`<span style="font-size:7.5px;color:var(--ink-3);">€ ${(m.bes||0).toLocaleString('nl-NL')}/jr</span>`:''}
+    return `<div style="background:#fff;border:1px solid #ece6dd;border-radius:12px;box-shadow:0 3px 12px rgba(13,51,72,.05);padding:11px 13px;display:flex;flex-direction:column;gap:9px;break-inside:avoid;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+        <div style="display:flex;align-items:center;gap:7px;min-width:0;">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0;"></span>
+          <span style="font-size:10.5px;font-weight:700;color:var(--blue-deep);line-height:1.2;">${esc(m.naam||'')}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;flex-shrink:0;white-space:nowrap;">
+          ${m.co2?`<span style="font-size:7.5px;color:var(--green);font-weight:700;">↓ ${m.co2} t CO₂/jr</span>`:''}
+          ${m.bes?`<span style="font-size:7px;color:var(--ink-4);">€ ${(m.bes||0).toLocaleString('nl-NL')}/jr</span>`:''}
         </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:5px;">
+      <div style="display:flex;flex-wrap:wrap;gap:7px 9px;">
         ${kopp.map(k=>{
-          const sg=s[String(k.sdg_nr)]||{kleur:'#888',label:'SDG '+k.sdg_nr};
-          return `<span style="display:inline-flex;align-items:center;gap:4px;background:var(--blue-faint);border-radius:5px;padding:2px 7px 2px 2px;">
-            <span style="width:15px;height:15px;border-radius:3px;background:${sg.kleur};color:#fff;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">${k.sdg_nr}</span>
-            <span style="font-size:7.5px;font-weight:600;color:var(--ink-2);">${esc(sg.label)}</span>
+          const sg=SDG_DB[String(k.sdg_nr)]||{kleur:'#888',label:'SDG '+k.sdg_nr};
+          return `<span style="display:inline-flex;align-items:center;gap:5px;">
+            <span style="width:19px;height:19px;border-radius:5px;background:${sg.kleur};color:#fff;font-size:8.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.14);">${k.sdg_nr}</span>
+            <span style="font-size:7.5px;font-weight:600;color:var(--ink-3);">${esc(sg.label)}</span>
           </span>`;
         }).join('')}
       </div>
@@ -3666,29 +3668,28 @@ function pageSdgEsrs(d){
 
       ${maatregelen.length>0 ? `
 
-      <!-- Geraakte SDGs -->
-      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px;">
-        ${allSdgs.map(k=>{const sg=SDG_DB[String(k.sdg_nr)]||{kleur:'#888',label:'SDG '+k.sdg_nr};return `<div style="display:flex;align-items:center;gap:4px;background:#fff;border-radius:6px;padding:3px 8px 3px 4px;box-shadow:0 1px 3px rgba(0,0,0,.06);">
-          <div style="width:16px;height:16px;border-radius:3px;background:${sg.kleur};color:#fff;font-size:7px;font-weight:800;display:flex;align-items:center;justify-content:center;">${k.sdg_nr}</div>
-          <span style="font-size:7.5px;font-weight:600;color:var(--ink);">${sg.label}</span>
-        </div>`;}).join('')}
-      </div>
-
-      <!-- 2-KOLOMS GRID VAN MAATREGELBLOKKEN -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+      <!-- MAATREGELKAARTEN -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
         ${maatregelen.map(m=>mBlock(m)).join('')}
       </div>
 
-      <!-- PER SDG — PORTEFEUILLEBIJDRAGE -->
+      <!-- BIJDRAGE PER DOEL -->
       ${(function(){
         const touched=[...new Set(maatregelen.flatMap(m=>arr(m.sdg_koppelingen).map(k=>String(k.sdg_nr))))].sort((a,b)=>Number(a)-Number(b));
         if(!touched.length) return '';
-        return `<div style="margin-top:11px;padding-top:11px;border-top:1px solid var(--blue-faint);">
-          <div style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Bijdrage per duurzaamheidsdoel</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;">
-            ${touched.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};const cnt=maatregelen.filter(m=>hasSdg(m,nr)).length;const b=SDG_BENEFIT[nr]||'draagt bij aan dit duurzame ontwikkelingsdoel';return `<div style="display:flex;gap:8px;align-items:flex-start;">
-              <span style="width:19px;height:19px;border-radius:4px;background:${sg.kleur};color:#fff;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">${nr}</span>
-              <span style="font-size:8.2px;color:var(--ink-2);line-height:1.4;"><b style="color:var(--blue-deep);">SDG ${nr} · ${esc(sg.label)}</b> — ${cnt} maatregel${cnt===1?'':'en'} ${b}.</span>
+        return `<div style="margin-top:10px;background:linear-gradient(180deg,#fbfaf7,#fff);border:1px solid #ece6dd;border-radius:12px;box-shadow:0 3px 12px rgba(13,51,72,.05);padding:13px 16px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span style="font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--blue);">Bijdrage per duurzaamheidsdoel</span>
+            <span style="flex:1;height:1px;background:var(--blue-faint);"></span>
+            <span style="font-size:7.5px;color:var(--ink-4);">${touched.length} doelen geraakt</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px 22px;">
+            ${touched.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};const cnt=maatregelen.filter(m=>hasSdg(m,nr)).length;const b=SDG_BENEFIT[nr]||'draagt bij aan dit duurzame ontwikkelingsdoel';return `<div style="display:flex;gap:9px;align-items:flex-start;">
+              <span style="width:24px;height:24px;border-radius:6px;background:${sg.kleur};color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.16);">${nr}</span>
+              <div style="min-width:0;">
+                <div style="font-size:8.5px;font-weight:700;color:var(--blue-deep);line-height:1.25;">SDG ${nr} · ${esc(sg.label)} <span style="color:var(--orange);font-weight:700;">· ${cnt}×</span></div>
+                <div style="font-size:8px;color:var(--ink-3);line-height:1.35;">${cnt} maatregel${cnt===1?'':'en'} ${b}.</div>
+              </div>
             </div>`;}).join('')}
           </div>
         </div>`;
