@@ -63,7 +63,7 @@ LEVER PRECIES DIT JSON-OBJECT (vul alle velden; gebruik getallen zonder valutate
   "_comment_eigen_advies": "Zet eigen_advies:true op maatregelen die JIJ adviseert maar niet in het bronrapport staan; deze worden apart getoond als aanvullend MB-advies.",
 
   "bankscore": 77,
-  "bankscore_oordeel": "Geschikt voor groene financiering onder voorwaarden",
+  "bankscore_oordeel": "Indicatief goed bruikbaar als duurzaamheidsbijlage onder voorwaarden",
   "samenvatting": "4–6 zinnen managementsamenvatting in gewone taal, met exacte cijfers uit de bron.",
   "samenvatting_punten": ["3–4 korte kernpunten"],
   "bankscore_componenten": [ {"l":"ESG-score (gewogen)","v":"77 / 100"}, {"l":"Bewijsniveau","v":"Niveau 3 / 4"}, {"l":"Datakwaliteit","v":"Bron-rapport gevalideerd"}, {"l":"Beleidsrisico energie","v":"Laag · dalend"}, {"l":"Klimaatrisico (fysiek)","v":"Laag-middel"}, {"l":"Rapportagegereedheid","v":"Voorwaardelijk"} ],
@@ -94,7 +94,7 @@ LEVER PRECIES DIT JSON-OBJECT (vul alle velden; gebruik getallen zonder valutate
     "titel": "Groene paragraaf & financieringsadvies",
     "conclusie": "5–7 zinnen managementsamenvatting in gewone taal, voorzichtig en onderbouwend, met exacte cijfers (labeltraject, investering, besparing, CO₂).",
     "esg_score": 77,
-    "oordeel": "Indicatief sterk geschikt onder voorwaarden | Indicatief geschikt met bewijsstukken | Voorwaardelijk geschikt | Aanvullende onderbouwing nodig",
+    "oordeel": "Indicatief goed bruikbaar onder voorwaarden | Indicatief bruikbaar met bewijsstukken | Voorwaardelijk bruikbaar | Aanvullende onderbouwing nodig",
     "sfdr": "2–3 zinnen, ESG-dossier-stijl, met cijfers.",
     "taxonomie": "2–3 zinnen EU Taxonomie 7.2, indicatief, met voorwaarden (DNSH, sociale waarborgen, nieuw label, oplevering).",
     "pillar3": "2–3 zinnen bankrapportage-bruikbaarheid.",
@@ -106,10 +106,9 @@ LEVER PRECIES DIT JSON-OBJECT (vul alle velden; gebruik getallen zonder valutate
   }
 }
 
-MAATREGEL → SDG-KOPPELINGEN — WEEG ELKE SDG, NIET EEN VASTE LIJST:
-Beoordeel voor ELKE maatregel afzonderlijk alle 17 VN-duurzaamheidsdoelen en koppel ELK doel waarvoor een ECHTE, onderbouwde inhoudelijke link bestaat. Forceer niets en vul niet aan met irrelevante doelen (geen greenwashing) — maar beperk je ook NIET tot een standaard rijtje. Geef per koppeling een korte, maatregel-specifieke uitleg met een cijfer waar mogelijk.
-De 17 SDG's: 1 Geen armoede · 2 Geen honger · 3 Goede gezondheid & welzijn · 4 Kwaliteitsonderwijs · 5 Gendergelijkheid · 6 Schoon water & sanitair · 7 Betaalbare & duurzame energie · 8 Eerlijk werk & economische groei · 9 Industrie, innovatie & infrastructuur · 10 Ongelijkheid verminderen · 11 Duurzame steden & gemeenschappen · 12 Verantwoorde consumptie & productie · 13 Klimaatactie · 14 Leven in het water · 15 Leven op het land · 16 Vrede, justitie & sterke publieke diensten · 17 Partnerschap om doelen te bereiken.
-Richtlijn (niet uitputtend, beslis op de feiten van de maatregel): energie-/schil-/installatiemaatregelen raken vrijwel altijd 7, 12 en 13; isolatie/glas/ventilatie vaak ook 3 (binnenklimaat) en 11 (gebouwkwaliteit); warmtepomp/zonnepanelen/slimme techniek vaak 9 (innovatie/infrastructuur); lagere energielasten en uitvoering door lokale installateurs kunnen 8 raken (eerlijk werk & economische groei); waterbesparende of hemelwater-/sanitaire maatregelen 6; biodiverse/groene daken 15; financiering via bank/Warmtefonds/gemeente 17 (partnerschap). Laat SDG's die niet aantoonbaar van toepassing zijn weg.
+MAATREGEL → SDG-KOPPELINGEN — TERUGHOUDEND EN RELEVANT:
+Koppel per maatregel alleen de SDG's die er logisch en direct bij passen. Voor particuliere/zakelijke verduurzamingsrapporten zijn dat vrijwel altijd: 3 (gezondheid/comfort), 7 (energie), 9 (techniek/innovatie), 11 (gebouwkwaliteit), 12 (materiaal-/energiegebruik) en 13 (klimaat). Vermijd te brede of gezochte koppelingen — koppel SDG 6, 8, 15 of 17 ALLEEN als de maatregel daar echt aanleiding toe geeft (bijv. een waterbesparende maatregel → 6); doe dat niet standaard. Forceer niets en vul niet aan met irrelevante doelen (geen greenwashing). Geef per koppeling een korte, maatregel-specifieke uitleg met een cijfer waar mogelijk.
+Richtlijn: energie-/schil-/installatiemaatregelen raken vrijwel altijd 7, 12 en 13; isolatie/glas/ventilatie vaak ook 3 (binnenklimaat) en 11 (gebouwkwaliteit); warmtepomp/zonnepanelen/slimme techniek vaak 9 (innovatie/techniek). Laat SDG's die niet aantoonbaar van toepassing zijn weg.
 
 Lever uitsluitend valide JSON terug, zonder markdown.`;
 

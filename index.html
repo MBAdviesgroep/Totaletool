@@ -2271,7 +2271,7 @@ function pageSubsidies(d){
     {naam:'Nationaal Warmtefonds — Energiebespaarlening',voor:'Volledig maatregelenpakket',bedrag:'Lening met rentevoordeel · looptijd tot 20 jaar',voorwaarden:'Toets op inkomen/object · combineerbaar met ISDE.'},
     {naam:'EIA — Energie-investeringsaftrek',voor:'Zakelijke energiebesparende investeringen',bedrag:'40% extra fiscale aftrek',voorwaarden:'Voor ondernemers/zakelijke eigenaren · melden bij RVO binnen 3 maanden.'},
     {naam:'SVOH — Verduurzaming & Onderhoud Huurwoningen',voor:'Isolatie & installatie bij verhuur',bedrag:'Tot 30% van de kosten',voorwaarden:'Particuliere verhuurders · per woning aan te vragen.'},
-    {naam:'0%-btw op zonnepanelen',voor:'Zonnepanelen',bedrag:'0% btw bij aanschaf en installatie',voorwaarden:'Woningen · geen aparte teruggaaf meer nodig.'},
+    {naam:'0%-btw-tarief zonnepanelen',voor:'Zonnepanelen',bedrag:'Fiscale regeling — geen subsidie',voorwaarden:'Te controleren op basis van actuele fiscale regels; fiscale behandeling zonnepanelen verifiëren vóór aanschaf.'},
     {naam:'Gemeentelijke & provinciale regelingen',voor:'Wisselend per maatregel',bedrag:'Indicatief · lokaal afhankelijk',voorwaarden:'Actuele check per gemeente/provincie vereist.'}
   ]).slice(0,6);
   const concl=esc(d.subsidie_conclusie||'Voor dit object zijn de ISDE en het Nationaal Warmtefonds doorgaans het meest kansrijk voor de particuliere maatregelen; voor zakelijke eigenaren is de EIA aantrekkelijk. MB Adviesgroep toetst de actuele voorwaarden en vraagt de regelingen voor u aan.');
@@ -2664,19 +2664,21 @@ function sanitizeNarratives(d){
     const x=_norm(name);
     if(/warmtepomp/.test(x)) return 'Een (hybride) warmtepomp neemt een deel van de warmtevraag over en verlaagt het aardgasverbruik.';
     if(/zonneboiler/.test(x)) return 'Een zonneboiler verwarmt een deel van het tapwater met zonne-energie.';
-    if(/zonnepane|\bpv\b|zonnestroom|zonne energie/.test(x)) return 'Zonnepanelen wekken duurzame stroom op en verlagen de inkoop van elektriciteit.';
+    if(/zonnepane|\bpv\b|zonnestroom|zonne energie/.test(x)) return 'Zonnepanelen wekken duurzame stroom op voor eigen verbruik; de opbrengst hangt af van dakligging en -oppervlak, de netcapaciteit en het (afbouwende) salderingsbeleid.';
     if(/dakisolat|dak/.test(x)) return 'Dakisolatie beperkt het warmteverlies via het dak en verhoogt het wooncomfort.';
     if(/gevel|spouw/.test(x)) return 'Gevel- of spouwmuurisolatie verlaagt het warmteverlies via de muren aanzienlijk.';
     if(/vloer|bodem|kruipruimte/.test(x)) return 'Vloer- of bodemisolatie beperkt het warmteverlies via de begane grond.';
     if(/glas|beglazing|hr\+|triple|isolatieglas/.test(x)) return 'Hoogwaardige beglazing (HR++ of triple) beperkt het warmteverlies via de ramen.';
     if(/radiatorventilator|radiatorvent|ventilatorradiator/.test(x)) return 'Radiatorventilatoren verbeteren de warmteafgifte van bestaande radiatoren, waardoor ruimtes sneller op temperatuur komen en de cv-installatie mogelijk met een lagere aanvoertemperatuur kan werken.';
     if(/ventilat|wtw|warmteterugwin/.test(x)) return 'Mechanische ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
-    if(/thermostaat|zoneregel|slimme regel|radiatorthermostaat/.test(x)) return 'Slimme zone- of klokregeling optimaliseert het verwarmingsprofiel en verlaagt het verbruik.';
+    if(/waterzijdig|inregel|inregelen|hydraulisch/.test(x)) return 'Waterzijdig inregelen verdeelt het warme water gelijkmatig over alle radiatoren, waardoor de cv-installatie efficiënter werkt en op een lagere aanvoertemperatuur kan draaien.';
+    if(/thermostaat|zoneregel|slimme regel|radiatorthermostaat|klokthermostaat/.test(x)) return 'Een slimme thermostaat stemt de verwarming af op aanwezigheid en gebruiksritme, voorkomt onnodig stoken en verlaagt zo het gas- of warmteverbruik.';
+    if(/\bled\b|verlichting/.test(x)) return 'LED-verlichting verlaagt het elektriciteitsverbruik voor verlichting fors en gaat aanzienlijk langer mee dan conventionele lampen.';
     if(/kierdicht|tocht/.test(x)) return 'Kierdichting en tochtstrips voorkomen ongewenst warmteverlies door tocht.';
     if(/radiatorfolie|leidingisolat/.test(x)) return 'Radiatorfolie en leidingisolatie beperken warmteverlies bij radiatoren en cv-leidingen.';
     if(/voordeur|berging|deur/.test(x)) return 'Isolatie van de deur of berging beperkt het warmteverlies bij de entree.';
-    if(/isolat/.test(x)) return 'Deze isolatiemaatregel beperkt het warmteverlies van het pand.';
-    return 'Deze maatregel draagt bij aan de verduurzaming van het pand.';
+    if(/isolat/.test(x)) return 'Deze isolatiemaatregel beperkt het warmteverlies van het pand en verbetert het wooncomfort.';
+    return (name? name+' verlaagt het energieverbruik van het pand en verbetert de energieprestatie.' : 'Deze maatregel verlaagt het energieverbruik van het pand en verbetert de energieprestatie.');
   };
   const sdgText=(nr,m)=>{ switch(String(nr).replace(/\D/g,'')){
     case '3': return 'Beter binnenklimaat, comfort en gezondheid.';
@@ -2792,7 +2794,7 @@ function sanitizeNarratives(d){
     }
     subs.push({naam:'Nationaal Warmtefonds — VvE-Energiebespaarlening',voor:'Volledig maatregelenpakket',bedrag:'lening met rentevoordeel · lange looptijd',status:'Financiering (geen subsidie)',voorwaarden:'VvE-financiering · combineerbaar met SVVE en ISDE.',bewijs:'ALV-besluit, offertes.',uitleg:'Financiert het eigen deel van de VvE tegen een gunstig tarief.'});
     if(heeftPv){
-      subs.push({naam:'0%-btw op zonnepanelen',voor:'Zonnepanelen',bedrag:'0% btw bij aanschaf & installatie',status:'Te bevestigen',voorwaarden:'Voor woningen / VvE’s bij aanschaf en installatie. Actuele fiscale regeling te bevestigen.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt 0% btw; een aparte teruggaaf is doorgaans niet meer nodig.'});
+      subs.push({naam:'0%-btw-tarief zonnepanelen',voor:'Zonnepanelen',bedrag:'Fiscale regeling — geen subsidie',status:'Te controleren',voorwaarden:'Voor woningen / VvE’s bij aanschaf en installatie. Te controleren op basis van actuele fiscale regels.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt voor woningen het 0%-btw-tarief; fiscale behandeling vooraf controleren.'});
     }
     subs.push({naam:'Gemeentelijke / provinciale regelingen',voor:'Wisselend per maatregel',bedrag:'nader te bepalen',status:'Lokaal te controleren',voorwaarden:'Beschikbaarheid en voorwaarden verschillen per gemeente/provincie en per jaar.',bewijs:'Lokale aanvraag.',uitleg:'Te controleren bij de gemeente van het object.'});
     if(heeftPv) extra.push({naam:'SCE',note:'subsidie coöperatieve energieopwekking (postcoderoos) voor VvE’s die collectief zonnestroom opwekken.'});
@@ -2802,7 +2804,7 @@ function sanitizeNarratives(d){
     }
     subs.push({naam:'Nationaal Warmtefonds — Energiebespaarlening',voor:'Volledig maatregelenpakket',bedrag:'lening met rentevoordeel · looptijd tot 20 jaar',status:'Financiering (geen subsidie)',voorwaarden:'Toets op inkomen en object · combineerbaar met ISDE.',bewijs:'Offertes, inkomenstoets.',uitleg:'Financiert het eigen deel tegen een gunstig tarief — dit is een lening, geen subsidie.'});
     if(heeftPv){
-      subs.push({naam:'0%-btw op zonnepanelen',voor:'Zonnepanelen',bedrag:'0% btw bij aanschaf & installatie',status:'Te bevestigen',voorwaarden:'Voor particuliere woningeigenaren bij aanschaf/installatie. Actuele fiscale regeling te bevestigen.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt 0% btw; een aparte btw-teruggaaf is doorgaans niet meer nodig.'});
+      subs.push({naam:'0%-btw-tarief zonnepanelen',voor:'Zonnepanelen',bedrag:'Fiscale regeling — geen subsidie',status:'Te controleren',voorwaarden:'Voor particuliere woningeigenaren bij aanschaf/installatie. Actuele fiscale regeling te bevestigen.',bewijs:'Aankoopfactuur installateur.',uitleg:'Sinds 2023 geldt voor woningen het 0%-btw-tarief; fiscale behandeling vooraf controleren.'});
       subs.push({naam:'Salderingsregeling zonnepanelen',voor:'Zonnepanelen',bedrag:'teruglevering wegstrepen tegen afname',status:'Te bevestigen',voorwaarden:'Slimme meter vereist · regeling wordt stapsgewijs afgebouwd.',bewijs:'Meterdata netbeheerder.',uitleg:'Hoe eerder geïnstalleerd, hoe meer voordeel zolang de afbouw loopt.'});
     }
     subs.push({naam:'Gemeentelijke / provinciale regelingen',voor:'Wisselend per maatregel',bedrag:'nader te bepalen',status:'Lokaal te controleren',voorwaarden:'Beschikbaarheid en voorwaarden verschillen per gemeente/provincie en per jaar.',bewijs:'Lokale aanvraag.',uitleg:'Te controleren bij de gemeente van het object.'});
@@ -2814,7 +2816,7 @@ function sanitizeNarratives(d){
   const _conclByType={
     ondernemer:`Voor ${obj} zijn vooral de fiscale regelingen (EIA, KIA${has(/gevel|dak|isolat|groen dak|duurzaam/)?', MIA/Vamil':''}) interessant; ${heeftWp?'de ISDE geeft daarnaast een directe subsidie op de warmtepomp. ':''}BMKB-Groen kan de financiering vergemakkelijken. Bedragen en toekenning zijn indicatief; MB Adviesgroep stemt dit af met uw accountant en begeleidt de aanvraag.`,
     vve:`Voor ${obj} is de SVVE doorgaans het meest kansrijk — die dekt zowel de maatregelen als advies en procesbegeleiding voor de VvE. De ISDE kan per onderdeel worden aangevraagd en het VvE-Warmtefonds financiert het eigen deel. Bedragen en toekenning zijn indicatief; MB Adviesgroep begeleidt het ALV-traject en de aanvraag.`,
-    particulier:`Voor ${obj} is de ISDE doorgaans het meest kansrijk — vooral voor de warmtepomp en de isolatiemaatregelen. ${heeftPv?'Voor de zonnepanelen geldt het 0%-btw-tarief (te bevestigen). ':''}Het Nationaal Warmtefonds kan het eigen deel gunstig financieren. Bedragen en toekenning zijn indicatief; MB Adviesgroep toetst dit en begeleidt de aanvraag.`
+    particulier:`Voor ${obj} is de ISDE doorgaans het meest kansrijk — vooral voor de warmtepomp en de isolatiemaatregelen. ${heeftPv?'Voor de zonnepanelen geldt het 0%-btw-tarief (fiscale regeling, geen subsidie; te controleren op basis van actuele fiscale regels). ':''}Het Nationaal Warmtefonds kan het eigen deel gunstig financieren. Bedragen en toekenning zijn indicatief; MB Adviesgroep toetst dit en begeleidt de aanvraag.`
   };
   d.subsidie_conclusie=_conclByType[aanvr]||_conclByType.particulier;
 
@@ -3535,8 +3537,12 @@ function alignReportConsistency(d){
     .replace(/voldoet aan/gi,'lijkt onder voorwaarden te passen binnen')
     .replace(/kwalificeert voor/gi,'lijkt onder voorwaarden geschikt voor')
     .replace(/kwalificeert als/gi,'kan indicatief kwalificeren als')
+    .replace(/\buitstekend\s+(bruikbaar|geschikt|financierbaar)/gi,'goed $1')
+    .replace(/\buitstekend\b/gi,'goed')
+    .replace(/\bzeer\s+goed\s+(bruikbaar|geschikt)/gi,'goed $1')
     .replace(/is aligned/gi,'kan indicatief in aanmerking komen (alignment te bevestigen)');
-  ['samenvatting','assurance_tekst','bankscore_oordeel','sfdr','pillar3'].forEach(k=>{ if(typeof d[k]==='string') d[k]=softenString(d[k]); });
+  ['samenvatting','assurance_tekst','bankscore_oordeel','sfdr','pillar3','afsluitende_conclusie','conclusie','oordeel'].forEach(k=>{ if(typeof d[k]==='string') d[k]=softenString(d[k]); });
+  if(d.groene_paragraaf&&typeof d.groene_paragraaf==='object'){ ['conclusie','afsluitende_conclusie','oordeel','mb_credion_haak'].forEach(k=>{ if(typeof d.groene_paragraaf[k]==='string') d.groene_paragraaf[k]=softenString(d.groene_paragraaf[k]); }); }
 
 
   // Geen eurobedragen als kWh presenteren in SDG-teksten.
@@ -3606,24 +3612,9 @@ function enrichSdgMappings(d){
       kopp=add(kopp,3,'De maatregel kan bijdragen aan een gezonder binnenklimaat en meer comfort.');
     }
 
-    // Zonnepanelen: duurzame opwek + infrastructuur + soms lokale energie.
+    // Zonnepanelen: duurzame opwek + gebouwkwaliteit.
     if(/zonne/.test(n)){
       kopp=add(kopp,11,'Lokale duurzame elektriciteitsopwekking ondersteunt een duurzamer gebouw.');
-    }
-
-    // Eerlijk werk & economische groei: uitvoering door lokale installateurs + lagere energielasten.
-    if(/isolatie|glas|beglazing|warmtepomp|zonne|thermostaat|ventilatie|wtw|led|dak|vloer|gevel|deur|kozijnen|boiler|installatie/.test(n)){
-      kopp=add(kopp,8,'Uitvoering door lokale vakmensen en lagere energielasten ondersteunen werk en bestedingsruimte.');
-    }
-
-    // Schoon water & sanitair: water-/hemelwater-/sanitaire maatregelen.
-    if(/water|hemelwater|regenwater|sanitair|kraan|douche|wc|toilet/.test(n)){
-      kopp=add(kopp,6,'De maatregel beperkt het water- of energiegebruik voor warm water.');
-    }
-
-    // Leven op het land: groene/biodiverse daken en gevels.
-    if(/groen\s?dak|sedum|biodivers|groene gevel|begroeid/.test(n)){
-      kopp=add(kopp,15,'Een groen dak of gevel vergroot biodiversiteit en helpt tegen hittestress.');
     }
 
     // Geen kWh verzinnen: als de bron alleen eurobesparing geeft, formuleer in euro's.
@@ -3731,7 +3722,7 @@ function pageSdgEsrs(d){
             <span style="font-size:7.5px;color:var(--ink-4);">${touched.length} doelen geraakt</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 22px;">
-            ${touched.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};const cnt=maatregelen.filter(m=>hasSdg(m,nr)).length;const b=SDG_BENEFIT[nr]||'draagt bij aan dit duurzame ontwikkelingsdoel';return `<div style="display:flex;gap:9px;align-items:flex-start;">
+            ${touched.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};const cnt=maatregelen.filter(m=>hasSdg(m,nr)).length;const b=SDG_BENEFIT[nr]||((cnt===1?'draagt':'dragen')+' bij aan dit duurzame ontwikkelingsdoel');return `<div style="display:flex;gap:9px;align-items:flex-start;">
               <span style="width:22px;height:22px;border-radius:6px;background:${sg.kleur};color:#fff;font-size:9.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.16);">${nr}</span>
               <div style="min-width:0;">
                 <div style="font-size:9px;font-weight:700;color:var(--blue-deep);line-height:1.2;">SDG ${nr} · ${esc(sg.label)} <span style="color:var(--orange);font-weight:700;">· ${cnt}×</span></div>
