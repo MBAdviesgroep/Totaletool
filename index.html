@@ -2116,7 +2116,7 @@ function pageEnergie(d){
   const besSub = d._bes_gecapt ? 'Per jaar · indicatief, begrensd op de energiekosten' : (d.bes_maand?'Per jaar · ≈ '+eurC(d.bes_maand)+'/maand':'Per jaar na uitvoering');
   const kpis=[
     {l:'Huidig energielabel',v:esc(d.huidig_label||'—'),s:'Conform bronrapport / energielabel',c:'var(--orange)'},
-    {l:'Doellabel na uitvoering',v:esc(d.streef_label||'—'),s:stappen+' labelstappen · te bevestigen',c:'var(--green)'},
+    {l:'Doellabel na uitvoering',v:esc(d.streef_label||'—'),s:stappen+' labelstappen · indicatief, te bevestigen na uitvoering',c:'var(--green)'},
     {l:'Energiekosten huidig',v:eurC(d.energiekosten_huidig),s:d._kosten_indicatief?'Per jaar · indicatief, te controleren met jaarafrekening':'Per jaar · conform bronrapport',c:'var(--blue-deep)'},
     {l:'Jaarlijkse besparing',v:eurC(d.bes_jaar),s:besSub,c:'var(--green)'},
     {l:'CO₂-reductie',v:tonC(d.co2_reductie_ton),s:'Per jaar · scope 1+2 · gevalideerd',c:'var(--blue-deep)'},
@@ -2163,13 +2163,13 @@ function pageEnergie(d){
 
       <div class="col-card">
         <div class="col-h">Uitgangspunten</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px 20px;margin-top:8px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 18px;margin-top:6px;">
           ${arr((d.uitgangspunten&&d.uitgangspunten.length)?d.uitgangspunten:[
             'Cijfers (energiekosten, besparing, CO₂, terugverdientijd) zijn overgenomen uit het verduurzamingsrapport.',
             'Bedragen zijn indicatief op basis van actuele marktprijzen en kengetallen per maatregel.',
             'De terugverdientijd is berekend zonder subsidie; subsidie verkort de netto terugverdientijd.',
             'Het doellabel '+esc(d.streef_label||'')+' wordt na uitvoering bevestigd met een nieuw energielabel (EP-online).'
-          ]).map(u=>`<div style="display:flex;gap:8px;font-size:10px;color:var(--ink-2);line-height:1.5;"><span style="color:var(--orange);font-weight:700;flex-shrink:0;">›</span><span>${esc(u)}</span></div>`).join('')}
+          ]).map(u=>`<div style="display:flex;gap:8px;font-size:9.5px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--orange);font-weight:700;flex-shrink:0;">›</span><span>${esc(u)}</span></div>`).join('')}
         </div>
       </div>
 
@@ -2631,9 +2631,13 @@ function reconcileNumbers(d){
   //    huidige energiekosten. Ligt de bron-besparing daarboven, dan begrenzen
   //    we de besparing op een realistisch deel van de energiekosten en
   //    schalen we de besparing per maatregel evenredig mee → alles consistent. ──
+  // ── VALIDATIE: jaarlijkse besparing kan nooit een onrealistisch deel van de
+  //    huidige energiekosten beslaan. Een besparing boven ~75% van de
+  //    energiekosten is voor de meeste panden niet geloofwaardig; we begrenzen
+  //    dan op ~70% en schalen de besparing per maatregel evenredig mee. ──
   let besGecapt=false;
-  if(bes>0 && kosten>0 && bes>kosten*1.02){
-    const capped=Math.max(10,Math.round(kosten*0.65/10)*10);
+  if(bes>0 && kosten>0 && bes>kosten*0.75){
+    const capped=Math.max(10,Math.round(kosten*0.70/10)*10);
     const factor=capped/bes;
     ms.forEach(m=>{ m.bes=Math.round(m.bes*factor); });
     bes=ms.reduce((a,m)=>a+m.bes,0);
@@ -2750,17 +2754,17 @@ function sanitizeNarratives(d){
     if(/zonneboiler/.test(x)) return 'Verwarmt een deel van het tapwater met zonne-energie.';
     if(/zonnepane|\bpv\b|zonnestroom|zonne energie/.test(x)) return 'Wekken duurzame stroom op voor eigen verbruik; opbrengst hangt af van dakligging, netcapaciteit en saldering.';
     if(/dakisolat|dak/.test(x)) return 'Beperkt het warmteverlies via het dak en verhoogt het comfort.';
-    if(/gevel|spouw/.test(x)) return 'Verlaagt het warmteverlies via de muren aanzienlijk.';
+    if(/gevel|spouw/.test(x)) return 'Gevelisolatie kan het warmteverlies via de muren beperken, maar bij een oud of mogelijk monumentaal pand moet vooraf bouwfysisch, vergunningstechnisch en esthetisch worden beoordeeld of dit verantwoord uitvoerbaar is.';
     if(/vloer|bodem|kruipruimte/.test(x)) return 'Beperkt het warmteverlies via de begane grond.';
     if(/glas|beglazing|hr\+|triple|isolatieglas/.test(x)) return 'Hoogwaardige beglazing beperkt het warmteverlies via de ramen.';
     if(/radiatorventilator|radiatorvent|ventilatorradiator/.test(x)) return 'Verbeteren de warmteafgifte van bestaande radiatoren, zodat de cv op een lagere aanvoertemperatuur kan werken.';
     if(/wtw|warmteterugwin|balansventilat/.test(x)) return 'Mechanische ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
     if(/ventilat/.test(x)) return 'Betere ventilatie met natuurlijke toevoer verbetert de luchtkwaliteit en het binnenklimaat.';
     if(/waterzijdig|inregel|inregelen|hydraulisch/.test(x)) return 'Verdeelt het warme water gelijkmatig over de radiatoren, zodat de cv efficiënter werkt.';
-    if(/thermosta|zoneregel|slimme regel|klokthermosta/.test(x)) return 'Verminderen onnodig stoken door de verwarming af te stemmen op aanwezigheid en dagritme.';
+    if(/thermosta|zoneregel|slimme regel|klokthermosta/.test(x)) return 'Slimme thermostaten verminderen onnodig stoken door de verwarming af te stemmen op aanwezigheid en dagritme.';
     if(/\bled\b|verlichting/.test(x)) return 'Verlaagt het stroomverbruik voor verlichting fors en gaat langer mee.';
     if(/kierdicht|tocht/.test(x)) return 'Voorkomt ongewenst warmteverlies door tocht.';
-    if(/radiatorfolie|leidingisolat/.test(x)) return 'Beperken warmteverlies bij radiatoren en cv-leidingen.';
+    if(/radiatorfolie|leidingisolat/.test(x)) return 'Radiatorfolie en leidingisolatie beperken het warmteverlies bij radiatoren en cv-leidingen.';
     if(/voordeur|berging|deur/.test(x)) return 'Beperkt het warmteverlies bij de entree of berging.';
     if(/isolat/.test(x)) return 'Beperkt het warmteverlies van het pand en verbetert het comfort.';
     return 'Verlaagt het energieverbruik van het pand en verbetert de energieprestatie.';
@@ -2792,11 +2796,11 @@ function sanitizeNarratives(d){
   // ── UITGANGSPUNTEN ──
   d.uitgangspunten=[
     `${obj} is ${d.functie?'een '+String(d.functie).toLowerCase():'een object'} uit bouwjaar ${esc(d.bouwjaar||'—')} met een gebruiksoppervlak van ${esc(d.oppervlakte||'—')}.`,
-    `Het huidige energielabel is ${esc(d.huidig_label||'—')}; doellabel na uitvoering is ${esc(d.streef_label||'—')} (${steps} labelstappen, te bevestigen met een nieuw energielabel).`,
+    `Het huidige energielabel is ${esc(d.huidig_label||'—')}; het doellabel na uitvoering is ${esc(d.streef_label||'—')} (${steps} labelstappen). Dit doellabel is indicatief en afhankelijk van technische uitvoerbaarheid, eventuele monumentale beperkingen, isolatiewaarden, installatiekeuzes en labelopname na uitvoering.`,
     verbruik.length?`Jaarlijks energieverbruik: ${verbruik.join(' en ')}; huidige energiekosten ${d._kosten_indicatief?'indicatief ':''}${E(kosten)} per jaar.`:`De huidige energiekosten bedragen ${d._kosten_indicatief?'indicatief ':''}${E(kosten)} per jaar.`,
     `De geadviseerde investering bedraagt ${E(capex)} incl. btw, met een geraamde jaarlijkse besparing van ${E(bes)}.`,
     d._bes_gecapt
-      ? `De jaarlijkse besparing is indicatief en begrensd op de huidige energiekosten; de definitieve besparing wordt na uitvoering met meterdata bevestigd.`
+      ? `De jaarlijkse besparing besloeg een onrealistisch deel van de energiekosten en is begrensd op een realistisch deel (±70%); de definitieve besparing wordt na uitvoering met meterdata bevestigd.`
       : `De jaarlijkse besparing is overgenomen uit het verduurzamingsrapport en na uitvoering te bevestigen met meterdata.`,
     `De CO₂-uitstoot daalt met circa ${pctC(co2pct)} (≈\u00A0${tonStr}\u00A0ton per jaar, scope 1+2); de primaire-energiereductie is indicatief circa ${pctC(prim)}.`
   ];
@@ -2942,6 +2946,22 @@ function sanitizeNarratives(d){
   const walk=o=>{ if(Array.isArray(o)){for(let i=0;i<o.length;i++){if(typeof o[i]==='string')o[i]=fix(o[i]);else if(o[i]&&typeof o[i]==='object')walk(o[i]);}}
     else if(o&&typeof o==='object'){for(const k in o){if(typeof o[k]==='string')o[k]=fix(o[k]);else if(o[k]&&typeof o[k]==='object')walk(o[k]);}} };
   walk(d);
+  // ── 0%-btw / zonnepanelen alleen vermelden als er ook PV in het pakket zit ──
+  const hasPV=arr(d.maatregelen).some(m=>/zonnepane|\bpv\b|zonnestroom|zonnepv|fotovolta|panelen/i.test(String(m&&m.naam)));
+  if(!hasPV){
+    const dropPv=s=>String(s)
+      .replace(/Vraag relevante subsidies, zoals ISDE, tijdig aan en controleer het 0%-btw-tarief voor zonnepanelen op basis van actuele fiscale regels\./gi,'Vraag relevante subsidies, zoals ISDE, tijdig aan en controleer de actuele voorwaarden vóór opdrachtverstrekking.')
+      .replace(/Controleer het 0%-btw-tarief voor zonnepanelen en de actuele fiscale behandeling vóór opdrachtverstrekking\./gi,'Controleer de actuele subsidie- en fiscale voorwaarden vóór opdrachtverstrekking.')
+      .replace(/[^.]*0%[- ]?btw-tarief voor zonnepanelen[^.]*\.?/gi,'')
+      .replace(/[ \t]{2,}/g,' ').trim();
+    const walkPv=o=>{ if(Array.isArray(o)){for(let i=0;i<o.length;i++){if(typeof o[i]==='string')o[i]=dropPv(o[i]);else if(o[i]&&typeof o[i]==='object')walkPv(o[i]);}}
+      else if(o&&typeof o==='object'){for(const k in o){if(typeof o[k]==='string')o[k]=dropPv(o[k]);else if(o[k]&&typeof o[k]==='object')walkPv(o[k]);}} };
+    walkPv(d);
+    // Verwijder een losse 0%-btw-zonnepanelen regeling uit de subsidielijst.
+    if(Array.isArray(d.subsidies)) d.subsidies=d.subsidies.filter(s=>!/0%[- ]?btw|btw[- ]?tarief zonnepane/i.test(String(s&&s.naam)));
+    // Lege strings uit arrays filteren.
+    ['vervolg','voorwaarden','monitoring','aandachtspunten','samenvatting_punten'].forEach(k=>{ if(Array.isArray(d[k])) d[k]=d[k].filter(x=>typeof x!=='string'||x.trim()); });
+  }
   return d;
 }
 
@@ -4052,7 +4072,7 @@ function buildAttention(d){
   const gevel=ms.some(m=>/gevel/.test(nm(m)));
   const spouw=ms.some(m=>/spouw/.test(nm(m)));
   if(gevel&&spouw) w.push('Gevel- én spouwmuurisolatie staan beide in het pakket — controleer dat de besparing op hetzelfde warmteverlies niet dubbel is geteld (beide maatregelen mogen wel als aparte posten blijven staan).');
-  if(d._bes_gecapt) w.push('De jaarlijkse besparing is begrensd op de energiekosten; de bronwaarde lag hoger en is gecorrigeerd.');
+  if(d._bes_gecapt) w.push('De jaarlijkse besparing besloeg een onrealistisch deel van de energiekosten en is begrensd op een realistisch deel (±70%); de definitieve besparing wordt na uitvoering met meterdata bevestigd.');
   const langeTvt=ms.filter(m=>Number(m.tvt)>20).map(m=>m.naam);
   if(langeTvt.length) w.push('Terugverdientijd langer dan 20 jaar bij: '+langeTvt.join(', ')+' — weeg nut en rendement vóór financiering.');
   const pv=ms.find(m=>/zonnepane|\bpv\b|zonnestroom/.test(nm(m)));
