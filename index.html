@@ -3419,6 +3419,17 @@ function alignReportConsistency(d){
   const stripAdviesTag=(s)=>String(s||'')
     .replace(/[\(\[\{]?\s*eigen[\s_\-]*advies\s*[\)\]\}]?/ig,'')
     .replace(/\s{2,}/g,' ').replace(/\s*[·\-–—,:]\s*$/,'').trim();
+  // Filter maatregelen die niet thuishoren in een financierbaar verduurzamingsdossier:
+  // niet-gebouwgebonden of niet-energiebesparende posten, en absurde terugverdientijden.
+  const isJunkMeasure=(m)=>{
+    if(!m||!m.naam) return true;
+    const n=String(m.naam).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(/laadpaal|laadpunt|laadstation|wallbox|elektrische auto|\bev[-\s]?charg|thuisbatterij|thuisaccu|accupakket|powerwall|huisbatterij|domotica|smart\s?home/.test(n)) return true;
+    if(/(groen|sedum|begroeid|biodivers).{0,12}dak|gevelgroen|groene gevel/.test(n)) return true;
+    const tvt=Number(m.tvt)||0;
+    if(tvt>40) return true; // onrealistisch lange terugverdientijd
+    return false;
+  };
   const src=getSource();
   const calc=applySource(src);
   const ms=calc.ms||[];
@@ -3436,10 +3447,12 @@ function alignReportConsistency(d){
       const key=norm(m.naam);
       if(seen.has(key)) return false;
       seen.add(key); return true;
-    });
+    }).filter(m=>!isJunkMeasure(m));
   }
   if(Array.isArray(d.maatregelen_extra)){
+    d.maatregelen_extra=d.maatregelen_extra.filter(m=>m&&m.naam);
     d.maatregelen_extra.forEach(m=>{ if(m&&m.naam) m.naam=stripAdviesTag(m.naam); });
+    d.maatregelen_extra=d.maatregelen_extra.filter(m=>!isJunkMeasure(m));
   }
 
   // Subsidie/fiscaal voordeel: geen hard bedrag claimen als het niet direct uit de brontabel sluitend volgt.
@@ -4137,7 +4150,7 @@ const DEMO_DATA={
   ],
   maatregelen_extra:[
     {naam:'Vloerisolatie (kruipruimte)',capex:2400,bes:210,co2:0.42,tvt:11.4,eigen_advies:true,toelichting:'Niet in het bronrapport, maar sterk aan te raden: vloerisolatie pakt het koudeverlies via de begane grond aan en verhoogt het comfort merkbaar.'},
-    {naam:'Thuisbatterij (5 kWh)',capex:3800,bes:240,co2:0.30,tvt:15.8,eigen_advies:true,toelichting:'Combineert goed met de zonnepanelen: meer eigen verbruik van opgewekte stroom en minder afhankelijkheid van saldering op termijn.'}
+    {naam:'Zonneboiler (warm tapwater)',capex:2600,bes:185,co2:0.34,tvt:14.1,eigen_advies:true,toelichting:'Een zonneboiler verwarmt een groot deel van het warme tapwater met zonne-energie en verlaagt het gasverbruik verder bovenop de schilmaatregelen.'}
   ],
   radar:[{l:'Transitierisico',v:78},{l:'Datakwaliteit',v:74},{l:'Bewijsniveau',v:75},{l:'Klimaatrisico',v:72},{l:'Rapportage',v:80}],
   bankscore_componenten:[{l:'ESG-score (gewogen)',v:'77 / 100'},{l:'Bewijsniveau',v:'Niveau 3 / 4'},{l:'Datakwaliteit',v:'Brondata verwerkt, intern gecontroleerd'},{l:'Beleidsrisico energie',v:'Laag · dalend'},{l:'Klimaatrisico (fysiek)',v:'Laag-middel'},{l:'Rapportagegereedheid',v:'Voorwaardelijk'}],
