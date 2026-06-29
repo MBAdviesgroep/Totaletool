@@ -2225,8 +2225,8 @@ function pageMaatregelenAdvies(d){
       </div>
 
       <div class="col-h" style="margin-bottom:6px;">Toelichting per maatregel</div>
-      <div style="display:grid;grid-template-columns:repeat(${ms.length>6?3:2},1fr);gap:6px;align-items:start;">
-        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:8px 12px;display:flex;flex-direction:column;gap:2px;">
+      <div style="display:grid;grid-template-columns:repeat(${ms.length>6?3:2},1fr);gap:6px;align-items:stretch;">
+        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:8px 12px;height:100%;display:flex;flex-direction:column;gap:2px;">
           <div style="display:flex;gap:8px;align-items:baseline;">
             <span style="font-size:9.5px;font-weight:800;color:var(--orange);flex-shrink:0;">${String(i+1).padStart(2,'0')}</span>
             <span style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.2;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
