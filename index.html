@@ -2183,6 +2183,7 @@ function pageMaatregelenAdvies(d){
   const cell='padding:5px 8px 5px 0;font-size:8.5pt;';
   const head='text-align:right;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;';
   const toel=m=>esc(m.toelichting||m.text||('Verbetert de energieprestatie en verlaagt de jaarlijkse energiekosten met circa '+eur(m.bes)+' per jaar.'));
+  const many=ms.length>6;
   return `
   <article class="a4 content">
     ${pageTop(d)}
@@ -2222,15 +2223,26 @@ function pageMaatregelenAdvies(d){
         </table>
         <div style="font-size:8.1px;color:var(--ink-2);line-height:1.4;margin-top:7px;border-top:1px solid var(--blue-faint);padding-top:6px;"><sup style="color:var(--orange);font-weight:700;">*</sup> Het CO₂-effect per maatregel is indicatief en herschaald naar de <b>gevalideerde totale scope 1+2-reductie</b> van circa ${tonC(d.co2_reductie_ton)} per jaar${d._co2_uit_verbruik?', berekend uit het werkelijke gas- en stroomverbruik':''}. Deze totale reductie is leidend door het hele dossier.</div>
       </div>
-
-      <div class="col-h" style="margin-bottom:5px;">Toelichting per maatregel</div>
-      <div style="display:grid;grid-template-columns:repeat(${ms.length>6?3:2},1fr);gap:5px;align-items:start;">
-        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:6px 10px;display:flex;flex-direction:column;gap:1px;">
-          <div style="display:flex;gap:6px;align-items:baseline;">
-            <span style="font-size:8.5px;font-weight:800;color:var(--orange);flex-shrink:0;">${String(i+1).padStart(2,'0')}</span>
-            <span style="font-size:9px;font-weight:700;color:var(--blue-deep);line-height:1.18;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
+      ${many?`</div>
+    ${pageFoot()}
+  </article>
+  <article class="a4 content">
+    ${pageTop(d)}
+    <div class="page-stamp">04 · 13</div>
+    <div class="page-body">
+      <div class="sec-bar">Stap 2 · Geadviseerde maatregelen</div>
+      <div class="page-eyebrow">Geadviseerde maatregelen</div>
+      <div class="page-title">Toelichting per maatregel</div>
+      <div class="page-title-sub">Korte, inhoudelijke toelichting per maatregel uit het pakket.</div>
+      <div class="page-thin-rule"></div>`:`
+      <div class="col-h" style="margin-bottom:7px;">Toelichting per maatregel</div>`}
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;align-items:start;">
+        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:9px 13px;display:flex;flex-direction:column;gap:3px;">
+          <div style="display:flex;gap:8px;align-items:baseline;">
+            <span style="font-size:9.5px;font-weight:800;color:var(--orange);flex-shrink:0;">${String(i+1).padStart(2,'0')}</span>
+            <span style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.22;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
           </div>
-          <div style="font-size:7.7px;color:var(--ink-2);line-height:1.32;">${toel(m)}</div>
+          <div style="font-size:9px;color:var(--ink-2);line-height:1.5;">${toel(m)}</div>
         </div>`).join('')}
       </div>
 
@@ -2943,8 +2955,8 @@ function chartScopeBars(voor,na){
       <rect x="${pl}" y="${r.y}" width="${(r.s1/max)*iw}" height="${bh}" fill="#c45c2e"/>
       <rect x="${x1}" y="${r.y}" width="${x2w}" height="${bh}" fill="#021e2e"/>
       <text x="${pl+(r.tot/max)*iw+8}" y="${r.y+bh/2+4}" font-size="10" font-weight="700" fill="#021e2e" font-family="'DM Sans',sans-serif">${r.tot.toFixed(1)} t</text>
-      <text x="${pl+(r.s1/max)*iw/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${r.s1.toFixed(1)}</text>
-      <text x="${x1+x2w/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${r.s2.toFixed(1)}</text>`;
+      ${(r.s1/max)*iw>24?`<text x="${pl+(r.s1/max)*iw/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${r.s1.toFixed(1)}</text>`:''}
+      ${x2w>24?`<text x="${x1+x2w/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${r.s2.toFixed(1)}</text>`:''}`;
   }).join('');
   const legend=`<rect x="${pl}" y="${h-14}" width="10" height="8" fill="#c45c2e"/><text x="${pl+14}" y="${h-7}" font-size="8" fill="#021e2e" font-family="'DM Sans',sans-serif" font-weight="600">Scope 1 · directe uitstoot (gas)</text>
     <rect x="${pl+200}" y="${h-14}" width="10" height="8" fill="#021e2e"/><text x="${pl+214}" y="${h-7}" font-size="8" fill="#021e2e" font-family="'DM Sans',sans-serif" font-weight="600">Scope 2 · indirecte uitstoot (elektra)</text>`;
