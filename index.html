@@ -1729,9 +1729,11 @@ async function startGenerate(){
 
     // Consistentiecheck: ESG-dossier moet 1-op-1 aansluiten op het verduurzamingsrapport.
     currentData.aanvrager_type = getAanvragerType();
+    currentData = applyExclusions(currentData, (document.getElementById('extraNotes')||{}).value||'');
     currentData = alignReportConsistency(currentData);
     currentData = reconcileNumbers(currentData);
     currentData = sanitizeNarratives(currentData);
+    currentData = applyExclusions(currentData, (document.getElementById('extraNotes')||{}).value||'');
 
     renderReport(currentData);
     document.getElementById('appPage').style.display='none';
@@ -2503,6 +2505,37 @@ function _norm(v){return String(v||'').toLowerCase().normalize('NFD').replace(/[
    kerncijfers worden hier vastgezet en zijn daarna door het hele dossier
    identiek. Validatieregels vangen onlogische combinaties af.
    ═══════════════════════════════════════════════════════════════════ */
+/* Maatregelen die het pand AL heeft (uit het instructieveld) deterministisch uitsluiten. */
+function applyExclusions(d, notes){
+  if(!d || !Array.isArray(d.maatregelen)) return d;
+  const t=String(notes||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(!t) return d;
+  // Zoek expliciete "heeft al ..." / "al aanwezig" / "neem ... niet op" passages.
+  const triggers=/(heeft\s+al|al\s+aanwezig|reeds\s+aanwezig|aanwezig:|al\s+voorzien|niet\s+op(?:nemen)?|uitsluiten|exclude|al\s+geisoleerd|al\s+gedaan)/.test(t);
+  const KW=[
+    {re:/dakisolat|dak\s*geisoleerd|dak\b/, kw:/dakisolat|dak/},
+    {re:/zonnepane|zonnepv|\bpv\b|zonnestroom|zonne[- ]?energie|panelen/, kw:/zonnepane|\bpv\b|zonnestroom|zonne|panelen/},
+    {re:/cv[- ]?ketel|hr[- ]?ketel|combiketel|nieuwe\s+ketel/, kw:/cv[- ]?ketel|hr[- ]?ketel|combiketel|\bketel\b/},
+    {re:/hr\+\+|hr\s*\+\+|triple|isolatieglas|hr\+\+\s*glas|dubbel\s*glas|beglazing/, kw:/hr\+\+|triple|isolatieglas|beglazing|\bglas\b/},
+    {re:/spouw|gevelisolat/, kw:/spouw|gevelisolat|gevel/},
+    {re:/vloerisolat|bodemisolat/, kw:/vloerisolat|bodemisolat|vloer/},
+    {re:/warmtepomp/, kw:/warmtepomp/},
+    {re:/zonneboiler/, kw:/zonneboiler/},
+    {re:/ventilat|wtw/, kw:/ventilat|wtw/}
+  ];
+  // Verzamel uit te sluiten categorieën: alleen die in de notes als 'aanwezig/niet opnemen' staan.
+  const excl=[];
+  if(triggers){
+    KW.forEach(k=>{ if(k.re.test(t)) excl.push(k.kw); });
+  }
+  if(!excl.length) return d;
+  const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const isExcluded=m=>{ const n=norm(m&&m.naam); return excl.some(re=>re.test(n)); };
+  d.maatregelen=d.maatregelen.filter(m=>!isExcluded(m));
+  if(Array.isArray(d.maatregelen_extra)) d.maatregelen_extra=d.maatregelen_extra.filter(m=>!isExcluded(m));
+  return d;
+}
+
 function getAanvragerType(){
   const el=document.querySelector('input[name="aanvrager"]:checked');
   const v=el?el.value:'particulier';
