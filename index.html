@@ -2838,7 +2838,17 @@ function sanitizeNarratives(d){
     .replace(/\bdefinitief aligned\b/gi,'potentieel aligned (te bevestigen)')
     .replace(/\bis groen financierbaar\b/gi,'is onder voorwaarden indicatief bruikbaar als duurzaamheidsbijlage')
     .replace(/\baantoonbaar\b/gi,'naar verwachting')
-    .replace(/[ \t]{2,}/g,' ').trim();
+    // ── BTW / zonnepanelen: nooit als subsidie of teruggave ──
+    .replace(/subsidies?\s*\(\s*ISDE\s*\/\s*btw\s*\)/gi,'subsidies, zoals ISDE, en controle van fiscale regelingen zoals het 0%-btw-tarief voor zonnepanelen')
+    .replace(/ISDE\s*\/\s*btw(?:[- ]?(?:teruggave|teruggaaf))?/gi,'ISDE en het 0%-btw-tarief voor zonnepanelen (fiscale regeling)')
+    .replace(/ISDE[- ]?subsidie\s+en\s+btw[- ]?(?:teruggave|teruggaaf)(?:\s+voor\s+zonnepanelen)?(?:\s+aan(?:vragen)?)?/gi,'ISDE-subsidie tijdig aan en controleer het 0%-btw-tarief voor zonnepanelen op basis van actuele fiscale regels')
+    .replace(/ISDE\s+en\s+btw[- ]?(?:teruggave|teruggaaf)(?:\s+voor\s+zonnepanelen)?/gi,'ISDE-subsidie en het 0%-btw-tarief voor zonnepanelen (te controleren op basis van actuele fiscale regels)')
+    .replace(/btw[- ]?(?:teruggave|teruggaaf)\s*(?:bij|voor|op)?\s*zonnepanelen(?:\s*aanvragen|\s*aan(?:vragen)?)?/gi,'het 0%-btw-tarief voor zonnepanelen (te controleren op basis van actuele fiscale regels)')
+    .replace(/btw[- ]?(?:teruggave|teruggaaf)\s*(?:aanvragen|aanvraag)/gi,'de fiscale behandeling van zonnepanelen controleren')
+    .replace(/\bbtw[- ]?(?:teruggave|teruggaaf)\b/gi,'0%-btw-tarief (fiscale regeling, geen subsidie)')
+    .replace(/[ \t]{2,}/g,' ')
+    .replace(/\b(relevante)\s+\1\b/gi,'$1')
+    .trim();
   const walk=o=>{ if(Array.isArray(o)){for(let i=0;i<o.length;i++){if(typeof o[i]==='string')o[i]=fix(o[i]);else if(o[i]&&typeof o[i]==='object')walk(o[i]);}}
     else if(o&&typeof o==='object'){for(const k in o){if(typeof o[k]==='string')o[k]=fix(o[k]);else if(o[k]&&typeof o[k]==='object')walk(o[k]);}} };
   walk(d);
@@ -3541,8 +3551,25 @@ function alignReportConsistency(d){
     .replace(/\buitstekend\b/gi,'goed')
     .replace(/\bzeer\s+goed\s+(bruikbaar|geschikt)/gi,'goed $1')
     .replace(/is aligned/gi,'kan indicatief in aanmerking komen (alignment te bevestigen)');
-  ['samenvatting','assurance_tekst','bankscore_oordeel','sfdr','pillar3','afsluitende_conclusie','conclusie','oordeel'].forEach(k=>{ if(typeof d[k]==='string') d[k]=softenString(d[k]); });
-  if(d.groene_paragraaf&&typeof d.groene_paragraaf==='object'){ ['conclusie','afsluitende_conclusie','oordeel','mb_credion_haak'].forEach(k=>{ if(typeof d.groene_paragraaf[k]==='string') d.groene_paragraaf[k]=softenString(d.groene_paragraaf[k]); }); }
+  // BTW/fiscaal rond zonnepanelen: nooit als subsidie of teruggave presenteren.
+  const scrubBtw=v=>String(v||'')
+    // Combinaties "ISDE/btw", "ISDE en btw(-teruggave)", "subsidies ISDE/btw"
+    .replace(/ISDE\s*\/\s*btw(?:[- ]?(?:teruggave|teruggaaf))?/gi,'ISDE en het 0%-btw-tarief voor zonnepanelen (fiscale regeling)')
+    .replace(/ISDE\s+en\s+btw(?:[- ]?(?:teruggave|teruggaaf))?(?:\s+voor\s+zonnepanelen)?/gi,'ISDE-subsidie en het 0%-btw-tarief voor zonnepanelen (te controleren op basis van actuele fiscale regels)')
+    // "Vraag ... btw-teruggave ... aan"
+    .replace(/btw[- ]?(?:teruggave|teruggaaf)\s*(?:bij|voor|op)?\s*zonnepanelen(?:\s*aanvragen|\s*aan(?:vragen)?)?/gi,'het 0%-btw-tarief voor zonnepanelen (te controleren op basis van actuele fiscale regels)')
+    .replace(/btw[- ]?(?:teruggave|teruggaaf)\s*(?:aanvragen|aanvraag)/gi,'de fiscale behandeling van zonnepanelen controleren')
+    .replace(/\bbtw[- ]?(?:teruggave|teruggaaf)\b/gi,'0%-btw-tarief (fiscale regeling, geen subsidie)')
+    .replace(/[ \t]{2,}/g,' ').trim();
+  const polish=v=>scrubBtw(softenString(v));
+  const polishField=(o,k)=>{ if(o&&typeof o[k]==='string') o[k]=polish(o[k]); };
+  const polishArr=(o,k)=>{ if(o&&Array.isArray(o[k])) o[k]=o[k].map(x=>typeof x==='string'?polish(x):x); };
+  ['samenvatting','assurance_tekst','bankscore_oordeel','sfdr','pillar3','afsluitende_conclusie','conclusie','oordeel','subsidie_conclusie','subsidie_tekst','eindadvies'].forEach(k=>polishField(d,k));
+  ['vervolg','voorwaarden','monitoring','samenvatting_punten','conclusie_punten','uitgangspunten','aandachtspunten'].forEach(k=>polishArr(d,k));
+  if(Array.isArray(d.risicos)) d.risicos.forEach(r=>{ polishField(r,'risk'); polishField(r,'action'); });
+  if(Array.isArray(d.subsidies)) d.subsidies.forEach(s=>{ polishField(s,'voorwaarden'); polishField(s,'uitleg'); polishField(s,'bedrag'); });
+  if(Array.isArray(d.subsidies_extra)) d.subsidies_extra.forEach(s=>{ polishField(s,'note'); polishField(s,'voorwaarden'); });
+  if(d.groene_paragraaf&&typeof d.groene_paragraaf==='object'){ ['conclusie','afsluitende_conclusie','oordeel','mb_credion_haak'].forEach(k=>polishField(d.groene_paragraaf,k)); }
 
 
   // Geen eurobedragen als kWh presenteren in SDG-teksten.
