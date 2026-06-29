@@ -2180,7 +2180,7 @@ function pageMaatregelenAdvies(d){
   const ms=arr(d.maatregelen);
   const totCo2=ms.reduce((a,m)=>a+(m.co2||0),0);
   const totBes=ms.reduce((a,m)=>a+(m.bes||0),0);
-  const cell='padding:6px 8px 6px 0;font-size:8.5pt;';
+  const cell='padding:5px 8px 5px 0;font-size:8.5pt;';
   const head='text-align:right;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;';
   const toel=m=>esc(m.toelichting||m.text||('Verbetert de energieprestatie en verlaagt de jaarlijkse energiekosten met circa '+eur(m.bes)+' per jaar.'));
   return `
@@ -2191,10 +2191,10 @@ function pageMaatregelenAdvies(d){
       <div class="sec-bar">Stap 2 · Geadviseerde maatregelen</div>
       <div class="page-eyebrow">Geadviseerde maatregelen</div>
       <div class="page-title">Welke maatregelen adviseren wij?</div>
-      <div class="page-title-sub">De maatregelen uit het verduurzamingsrapport met investering, jaarlijkse besparing, terugverdientijd en CO₂-effect — gevolgd door een korte toelichting per maatregel.</div>
+      <div class="page-title-sub">Maatregelen uit het verduurzamingsrapport met investering, besparing, terugverdientijd en CO₂-effect, plus een korte toelichting.</div>
       <div class="page-thin-rule"></div>
 
-      <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 15px;margin-bottom:8px;">
+      <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:11px 15px;margin-bottom:7px;">
         <table style="width:100%;border-collapse:collapse;font-size:8.5pt;">
           <thead><tr style="border-bottom:1.5px solid var(--blue-faint);">
             <th style="text-align:left;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;width:40%;">Maatregel</th>
@@ -2212,25 +2212,25 @@ function pageMaatregelenAdvies(d){
               <td style="${cell}text-align:right;color:var(--ink-3);padding-right:0;">${(m.co2||0).toFixed(2).replace('.',',')}</td>
             </tr>`).join('')||'<tr><td colspan="5" style="padding:10px 0;font-size:9pt;color:var(--ink-3);">Maatregelen worden uit het verduurzamingsrapport overgenomen.</td></tr>'}
             <tr style="background:#f8f6f2;font-weight:700;">
-              <td style="padding:8px 8px 8px 0;color:var(--blue-deep);font-size:8.5pt;">Totaal pakket</td>
-              <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${eur(d.capex_totaal)}</td>
-              <td style="padding:8px 8px 8px 0;text-align:right;color:var(--green);font-size:8.5pt;">${eur(d.bes_jaar||totBes)}</td>
-              <td style="padding:8px 8px 8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${num1(d.tvt_jaar)} jr</td>
-              <td style="padding:8px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">≈ ${num1(d.co2_reductie_ton)}<sup style="color:var(--orange);font-size:7px;">*</sup></td>
+              <td style="padding:6px 8px 6px 0;color:var(--blue-deep);font-size:8.5pt;">Totaal pakket</td>
+              <td style="padding:6px 8px 6px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${eur(d.capex_totaal)}</td>
+              <td style="padding:6px 8px 6px 0;text-align:right;color:var(--green);font-size:8.5pt;">${eur(d.bes_jaar||totBes)}</td>
+              <td style="padding:6px 8px 6px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${num1(d.tvt_jaar)} jr</td>
+              <td style="padding:6px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">≈ ${num1(d.co2_reductie_ton)}<sup style="color:var(--orange);font-size:7px;">*</sup></td>
             </tr>
           </tbody>
         </table>
-        <div style="font-size:7.8px;color:var(--ink-3);line-height:1.4;margin-top:6px;border-top:1px solid var(--blue-faint);padding-top:6px;"><sup style="color:var(--orange);">*</sup> Het CO₂-effect per maatregel is indicatief en herschaald naar de <b>gevalideerde totale scope 1+2-reductie</b> van circa ${tonC(d.co2_reductie_ton)} per jaar${d._co2_uit_verbruik?', berekend uit het werkelijke gas- en stroomverbruik':''}. Deze totale reductie is leidend door het hele dossier.</div>
+        <div style="font-size:8.1px;color:var(--ink-2);line-height:1.4;margin-top:7px;border-top:1px solid var(--blue-faint);padding-top:6px;"><sup style="color:var(--orange);font-weight:700;">*</sup> Het CO₂-effect per maatregel is indicatief en herschaald naar de <b>gevalideerde totale scope 1+2-reductie</b> van circa ${tonC(d.co2_reductie_ton)} per jaar${d._co2_uit_verbruik?', berekend uit het werkelijke gas- en stroomverbruik':''}. Deze totale reductie is leidend door het hele dossier.</div>
       </div>
 
       <div class="col-h" style="margin-bottom:5px;">Toelichting per maatregel</div>
-      <div style="display:grid;grid-template-columns:repeat(${ms.length>6?3:2},1fr);gap:6px;">
-        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:7px 11px;">
-          <div style="display:flex;gap:7px;align-items:baseline;margin-bottom:2px;">
-            <span style="font-size:9px;font-weight:800;color:var(--orange);">${String(i+1).padStart(2,'0')}</span>
-            <span style="font-size:9.5px;font-weight:700;color:var(--blue-deep);line-height:1.2;">${esc(m.naam||'')}</span>
+      <div style="display:grid;grid-template-columns:repeat(${ms.length>6?3:2},1fr);gap:5px;align-items:start;">
+        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:6px 10px;display:flex;flex-direction:column;gap:1px;">
+          <div style="display:flex;gap:6px;align-items:baseline;">
+            <span style="font-size:8.5px;font-weight:800;color:var(--orange);flex-shrink:0;">${String(i+1).padStart(2,'0')}</span>
+            <span style="font-size:9px;font-weight:700;color:var(--blue-deep);line-height:1.18;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
           </div>
-          <div style="font-size:8.3px;color:var(--ink-3);line-height:1.4;">${toel(m)}</div>
+          <div style="font-size:7.7px;color:var(--ink-2);line-height:1.32;">${toel(m)}</div>
         </div>`).join('')}
       </div>
 
@@ -2238,22 +2238,22 @@ function pageMaatregelenAdvies(d){
         const ex=arr(d.maatregelen_extra);
         if(!ex.length) return '';
         return `
-      <div style="margin-top:8px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 100%);border-radius:11px;padding:11px 14px 12px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 8px 22px rgba(11,61,40,.22);">
-        <div style="font-size:7.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);margin-bottom:3px;">Aanvullend advies van MB Adviesgroep</div>
-        <div style="font-size:8.3px;color:rgba(255,255,255,.78);line-height:1.4;margin-bottom:8px;">Maatregelen die wij naast het bronrapport adviseren — indicatieve cijfers, niet meegerekend in het pakkettotaal hierboven.</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
-          ${ex.map(m=>`<div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:9px 11px;">
-            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:5px;">
-              <span style="font-size:9.5px;font-weight:700;color:#fff;line-height:1.2;">${esc(m.naam||'')}</span>
+      <div style="margin-top:7px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 100%);border-radius:11px;padding:10px 14px 11px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 8px 22px rgba(11,61,40,.22);">
+        <div style="font-size:7.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);margin-bottom:2px;">Aanvullend advies van MB Adviesgroep</div>
+        <div style="font-size:8px;color:rgba(255,255,255,.78);line-height:1.35;margin-bottom:6px;">Maatregelen die wij naast het bronrapport adviseren — indicatieve cijfers, niet meegerekend in het pakkettotaal hierboven.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          ${ex.map(m=>`<div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:7px 10px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;">
+              <span style="font-size:9.3px;font-weight:700;color:#fff;line-height:1.18;overflow-wrap:anywhere;">${esc(m.naam||'')}</span>
               <span style="font-size:6.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:4px;padding:2px 5px;white-space:nowrap;flex-shrink:0;">MB-advies</span>
             </div>
-            <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:5px;font-size:7.5px;">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;font-size:7.5px;">
               <span style="color:rgba(255,255,255,.85);"><b style="color:#fff;">${eur(m.capex)}</b> invest.</span>
               <span style="color:#7ee0a8;font-weight:600;">${eur(m.bes)}/jr</span>
               <span style="color:rgba(255,255,255,.85);">${(m.tvt||0).toFixed(1).replace('.',',')} jr TVT</span>
               ${m.co2?`<span style="color:rgba(255,255,255,.85);">${(m.co2||0).toFixed(2).replace('.',',')} t CO₂/jr</span>`:''}
             </div>
-            <div style="font-size:8px;color:rgba(255,255,255,.72);line-height:1.45;">${toel(m)}</div>
+            <div style="font-size:7.7px;color:rgba(255,255,255,.74);line-height:1.38;">${toel(m)}</div>
           </div>`).join('')}
         </div>
       </div>`;
@@ -2672,7 +2672,7 @@ function sanitizeNarratives(d){
     if(/radiatorventilator|radiatorvent|ventilatorradiator/.test(x)) return 'Radiatorventilatoren verbeteren de warmteafgifte van bestaande radiatoren, waardoor ruimtes sneller op temperatuur komen en de cv-installatie mogelijk met een lagere aanvoertemperatuur kan werken.';
     if(/ventilat|wtw|warmteterugwin/.test(x)) return 'Mechanische ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
     if(/waterzijdig|inregel|inregelen|hydraulisch/.test(x)) return 'Waterzijdig inregelen verdeelt het warme water gelijkmatig over alle radiatoren, waardoor de cv-installatie efficiënter werkt en op een lagere aanvoertemperatuur kan draaien.';
-    if(/thermostaat|zoneregel|slimme regel|radiatorthermostaat|klokthermostaat/.test(x)) return 'Een slimme thermostaat stemt de verwarming af op aanwezigheid en gebruiksritme, voorkomt onnodig stoken en verlaagt zo het gas- of warmteverbruik.';
+    if(/thermosta|zoneregel|slimme regel|klokthermosta/.test(x)) return 'Slimme thermostaten helpen om onnodig stoken te verminderen door de verwarming beter af te stemmen op aanwezigheid, dagritme en gebruikspatronen.';
     if(/\bled\b|verlichting/.test(x)) return 'LED-verlichting verlaagt het elektriciteitsverbruik voor verlichting fors en gaat aanzienlijk langer mee dan conventionele lampen.';
     if(/kierdicht|tocht/.test(x)) return 'Kierdichting en tochtstrips voorkomen ongewenst warmteverlies door tocht.';
     if(/radiatorfolie|leidingisolat/.test(x)) return 'Radiatorfolie en leidingisolatie beperken warmteverlies bij radiatoren en cv-leidingen.';
@@ -2694,6 +2694,8 @@ function sanitizeNarratives(d){
     m.toelichting = m.bes>0
       ? `${desc} Geraamde besparing ca. ${E(m.bes)} per jaar${m.tvt>0?`, terugverdientijd ± ${num1(m.tvt)} jaar`:''}.`
       : desc;
+    // Lange terugverdientijd: voorzichtiger toelichten (cijfers ongewijzigd).
+    if(Number(m.tvt)>20) m.toelichting += ' Gezien de langere terugverdientijd is deze maatregel vooral relevant vanuit comfort, onderhoud, toekomstbestendigheid of aanvullende verduurzaming, en minder als puur financiële besparingsmaatregel.';
     if(Array.isArray(m.sdg_koppelingen)) m.sdg_koppelingen.forEach(s=>{ s.uitleg=sdgText(s.sdg_nr||s.sdg||s.nr,m); });
   });
 
@@ -4162,9 +4164,7 @@ const DEMO_DATA={
     {naam:'Gevelisolatie',capex:4400,bes:1400,co2:3.00,tvt:3.1,toelichting:'Na-isolatie van de spouw verlaagt de warmtevraag sterk; grootste besparingspost van het pakket.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Sterk lagere ruimteverwarmingsbehoefte, € 1.400/jr.'},{sdg_nr:'11',uitleg:'Comfortabeler en droger.'},{sdg_nr:'13',uitleg:'Forse CO₂-reductie.'}]},
     {naam:'Zonnepanelen (4.000 Wp, 10 panelen)',capex:6100,bes:400,co2:0.86,tvt:15.3,toelichting:'Tien panelen wekken duurzame stroom op en verlagen de jaarlijkse energiekosten.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Duurzame opwek, € 400/jr lagere energiekosten.'},{sdg_nr:'9',uitleg:'Lokale opwekinfrastructuur.'},{sdg_nr:'13',uitleg:'Minder CO₂ bij de huidige stroommix.'}]},
     {naam:'Slimme thermostaten',capex:390,bes:88,co2:0.17,tvt:4.4,toelichting:'Slimme regeling optimaliseert het verwarmingsprofiel en verlaagt het verbruik.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Lager verbruik door optimalisatie.'},{sdg_nr:'9',uitleg:'Digitalisering van energiebeheer.'},{sdg_nr:'12',uitleg:'Bewuster energiegebruik via monitoring.'}]},
-    {naam:'Isolatieglas (HR+ / triple, 30 m²)',capex:4200,bes:230,co2:0.38,tvt:18.3,toelichting:'Vervanging van oud glas door HR+/triple beperkt warmteverlies via de ramen.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Minder warmteverlies via ramen, € 230/jr.'},{sdg_nr:'11',uitleg:'Beter wooncomfort en geluidswering.'},{sdg_nr:'13',uitleg:'Lagere CO₂-uitstoot.'}]},
-    {naam:'Kierdichting (ramen/deuren/zolder)',capex:350,bes:55,co2:0.09,tvt:6.4,toelichting:'Het dichten van kieren voorkomt tochtverlies en verlaagt de energievraag.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Minder tochtverlies, lagere energievraag.'},{sdg_nr:'11',uitleg:'Comfortabeler en toekomstbestendiger.'},{sdg_nr:'13',uitleg:'Lager verbruik.'}]},
-    {naam:'Berging/voordeurisolatie',capex:860,bes:47,co2:0.06,tvt:18.3,toelichting:'Isolatie van berging en voordeur voorkomt warmteverlies bij de entree.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Kleine besparing op de warmtevraag.'}]}
+    {naam:'Isolatieglas (HR+ / triple, 30 m²)',capex:4200,bes:230,co2:0.38,tvt:18.3,toelichting:'Vervanging van oud glas door HR+/triple beperkt warmteverlies via de ramen.',sdg_koppelingen:[{sdg_nr:'7',uitleg:'Minder warmteverlies via ramen, € 230/jr.'},{sdg_nr:'11',uitleg:'Beter wooncomfort en geluidswering.'},{sdg_nr:'13',uitleg:'Lagere CO₂-uitstoot.'}]}
   ],
   maatregelen_extra:[
     {naam:'Vloerisolatie (kruipruimte)',capex:2400,bes:210,co2:0.42,tvt:11.4,eigen_advies:true,toelichting:'Niet in het bronrapport, maar sterk aan te raden: vloerisolatie pakt het koudeverlies via de begane grond aan en verhoogt het comfort merkbaar.'},
