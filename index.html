@@ -2753,11 +2753,12 @@ function sanitizeNarratives(d){
     if(/warmtepomp/.test(x)) return 'Neemt een deel van de warmtevraag over en verlaagt het aardgasverbruik.';
     if(/zonneboiler/.test(x)) return 'Verwarmt een deel van het tapwater met zonne-energie.';
     if(/zonnepane|\bpv\b|zonnestroom|zonne energie/.test(x)) return 'Wekken duurzame stroom op voor eigen verbruik; opbrengst hangt af van dakligging, netcapaciteit en saldering.';
-    if(/dakisolat|dak/.test(x)) return 'Beperkt het warmteverlies via het dak en verhoogt het comfort.';
+    if(/dakisolat|dak/.test(x)) return 'Beperkt het warmteverlies via het dak en verhoogt het comfort. Definitieve besparing afhankelijk van bestaande dakopbouw, isolatiewaarde, kierdichting en uitvoering.';
     if(/gevel|spouw/.test(x)) return 'Gevelisolatie kan het warmteverlies via de muren beperken, maar bij een oud of mogelijk monumentaal pand moet vooraf bouwfysisch, vergunningstechnisch en esthetisch worden beoordeeld of dit verantwoord uitvoerbaar is.';
     if(/vloer|bodem|kruipruimte/.test(x)) return 'Beperkt het warmteverlies via de begane grond.';
     if(/glas|beglazing|hr\+|triple|isolatieglas/.test(x)) return 'Hoogwaardige beglazing beperkt het warmteverlies via de ramen.';
     if(/radiatorventilator|radiatorvent|ventilatorradiator/.test(x)) return 'Verbeteren de warmteafgifte van bestaande radiatoren, zodat de cv op een lagere aanvoertemperatuur kan werken.';
+    if(/douche[- ]?wtw|douchewtw|douche.*warmteterug|wtw.*douche/.test(x)) return 'Een douche-wtw wint warmte terug uit wegstromend douchewater en gebruikt deze om koud toevoerwater voor te verwarmen. De besparing hangt af van douchegebruik, installatieopstelling en technische inpasbaarheid.';
     if(/wtw|warmteterugwin|balansventilat/.test(x)) return 'Mechanische ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
     if(/ventilat/.test(x)) return 'Betere ventilatie met natuurlijke toevoer verbetert de luchtkwaliteit en het binnenklimaat.';
     if(/waterzijdig|inregel|inregelen|hydraulisch/.test(x)) return 'Verdeelt het warme water gelijkmatig over de radiatoren, zodat de cv efficiënter werkt.';
@@ -2940,6 +2941,11 @@ function sanitizeNarratives(d){
     .replace(/subsidieaanvragen?\s+v[oó]{1,2}r\s+(?:de\s+)?uitvoering\s+indienen/gi,'relevante subsidies tijdig aanvragen en voorwaarden controleren')
     .replace(/[^.]*0%[- ]?btw[- ]?tarief[^.]*opdrachtverstrekking\.?/gi,'Controleer het 0%-btw-tarief voor zonnepanelen en de actuele fiscale behandeling vóór opdrachtverstrekking.')
     .replace(/Vraag[^.]*\bISDE\b[^.]*0%[- ]?btw[^.]*\.?/gi,'Vraag relevante subsidies, zoals ISDE, tijdig aan en controleer het 0%-btw-tarief voor zonnepanelen op basis van actuele fiscale regels.')
+    .replace(/Dien\s+(?:de\s+)?ISDE[-\s\wö]*subsidieaanvr[^.]*?(?:v[oó]{1,2}r\s+aanvang[^.]*|v[oó]{1,2}r\s+uitvoering[^.]*|direct\s+in[^.]*)\./gi,'Controleer het juiste aanvraagmoment en de actuele ISDE-voorwaarden vóór opdrachtverstrekking.')
+    .replace(/Subsidieaanvr(?:aag|agen)\s+v[oó]{1,2}r\s+(?:de\s+)?(?:uitvoering|aanvang)[^.]*\.?/gi,'Controleer het juiste aanvraagmoment en de actuele subsidievoorwaarden vóór opdrachtverstrekking.')
+    .replace(/\bv[oó]{1,2}r\s+aanvang\s+van\s+de\s+werkzaamheden\b/gi,'volgens de actuele voorwaarden')
+    .replace(/\s*(?:door\s+)?(?:gedrag\s*\/\s*)?bewonersweerstand/gi,' door gebruikersgedrag')
+    .replace(/\bbewonersweerstand\b/gi,'gebruikersgedrag')
     .replace(/[ \t]{2,}/g,' ')
     .replace(/\b(relevante)\s+\1\b/gi,'$1')
     .trim();
