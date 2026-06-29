@@ -2223,26 +2223,15 @@ function pageMaatregelenAdvies(d){
         </table>
         <div style="font-size:8.1px;color:var(--ink-2);line-height:1.4;margin-top:7px;border-top:1px solid var(--blue-faint);padding-top:6px;"><sup style="color:var(--orange);font-weight:700;">*</sup> Het CO₂-effect per maatregel is indicatief en herschaald naar de <b>gevalideerde totale scope 1+2-reductie</b> van circa ${tonC(d.co2_reductie_ton)} per jaar${d._co2_uit_verbruik?', berekend uit het werkelijke gas- en stroomverbruik':''}. Deze totale reductie is leidend door het hele dossier.</div>
       </div>
-      ${many?`</div>
-    ${pageFoot()}
-  </article>
-  <article class="a4 content">
-    ${pageTop(d)}
-    <div class="page-stamp">04 · 13</div>
-    <div class="page-body">
-      <div class="sec-bar">Stap 2 · Geadviseerde maatregelen</div>
-      <div class="page-eyebrow">Geadviseerde maatregelen</div>
-      <div class="page-title">Toelichting per maatregel</div>
-      <div class="page-title-sub">Korte, inhoudelijke toelichting per maatregel uit het pakket.</div>
-      <div class="page-thin-rule"></div>`:`
-      <div class="col-h" style="margin-bottom:7px;">Toelichting per maatregel</div>`}
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px;align-items:start;">
-        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:9px 13px;display:flex;flex-direction:column;gap:3px;">
+
+      <div class="col-h" style="margin-bottom:6px;">Toelichting per maatregel</div>
+      <div style="display:grid;grid-template-columns:repeat(${ms.length>6?3:2},1fr);gap:6px;align-items:start;">
+        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:8px 12px;display:flex;flex-direction:column;gap:2px;">
           <div style="display:flex;gap:8px;align-items:baseline;">
             <span style="font-size:9.5px;font-weight:800;color:var(--orange);flex-shrink:0;">${String(i+1).padStart(2,'0')}</span>
-            <span style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.22;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
+            <span style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.2;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
           </div>
-          <div style="font-size:9px;color:var(--ink-2);line-height:1.5;">${toel(m)}</div>
+          <div style="font-size:9px;color:var(--ink-2);line-height:1.42;">${toel(m)}</div>
         </div>`).join('')}
       </div>
 
@@ -2674,23 +2663,23 @@ function sanitizeNarratives(d){
   //    nooit kromme zinnen of verouderde bedragen, voor élke casus. ──
   const measureDesc=name=>{
     const x=_norm(name);
-    if(/warmtepomp/.test(x)) return 'Een (hybride) warmtepomp neemt een deel van de warmtevraag over en verlaagt het aardgasverbruik.';
-    if(/zonneboiler/.test(x)) return 'Een zonneboiler verwarmt een deel van het tapwater met zonne-energie.';
-    if(/zonnepane|\bpv\b|zonnestroom|zonne energie/.test(x)) return 'Zonnepanelen wekken duurzame stroom op voor eigen verbruik; de opbrengst hangt af van dakligging en -oppervlak, de netcapaciteit en het (afbouwende) salderingsbeleid.';
-    if(/dakisolat|dak/.test(x)) return 'Dakisolatie beperkt het warmteverlies via het dak en verhoogt het wooncomfort.';
-    if(/gevel|spouw/.test(x)) return 'Gevel- of spouwmuurisolatie verlaagt het warmteverlies via de muren aanzienlijk.';
-    if(/vloer|bodem|kruipruimte/.test(x)) return 'Vloer- of bodemisolatie beperkt het warmteverlies via de begane grond.';
-    if(/glas|beglazing|hr\+|triple|isolatieglas/.test(x)) return 'Hoogwaardige beglazing (HR++ of triple) beperkt het warmteverlies via de ramen.';
-    if(/radiatorventilator|radiatorvent|ventilatorradiator/.test(x)) return 'Radiatorventilatoren verbeteren de warmteafgifte van bestaande radiatoren, waardoor ruimtes sneller op temperatuur komen en de cv-installatie mogelijk met een lagere aanvoertemperatuur kan werken.';
-    if(/ventilat|wtw|warmteterugwin/.test(x)) return 'Mechanische ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
-    if(/waterzijdig|inregel|inregelen|hydraulisch/.test(x)) return 'Waterzijdig inregelen verdeelt het warme water gelijkmatig over alle radiatoren, waardoor de cv-installatie efficiënter werkt en op een lagere aanvoertemperatuur kan draaien.';
-    if(/thermosta|zoneregel|slimme regel|klokthermosta/.test(x)) return 'Slimme thermostaten helpen om onnodig stoken te verminderen door de verwarming beter af te stemmen op aanwezigheid, dagritme en gebruikspatronen.';
-    if(/\bled\b|verlichting/.test(x)) return 'LED-verlichting verlaagt het elektriciteitsverbruik voor verlichting fors en gaat aanzienlijk langer mee dan conventionele lampen.';
-    if(/kierdicht|tocht/.test(x)) return 'Kierdichting en tochtstrips voorkomen ongewenst warmteverlies door tocht.';
-    if(/radiatorfolie|leidingisolat/.test(x)) return 'Radiatorfolie en leidingisolatie beperken warmteverlies bij radiatoren en cv-leidingen.';
-    if(/voordeur|berging|deur/.test(x)) return 'Isolatie van de deur of berging beperkt het warmteverlies bij de entree.';
-    if(/isolat/.test(x)) return 'Deze isolatiemaatregel beperkt het warmteverlies van het pand en verbetert het wooncomfort.';
-    return (name? name+' verlaagt het energieverbruik van het pand en verbetert de energieprestatie.' : 'Deze maatregel verlaagt het energieverbruik van het pand en verbetert de energieprestatie.');
+    if(/warmtepomp/.test(x)) return 'Neemt een deel van de warmtevraag over en verlaagt het aardgasverbruik.';
+    if(/zonneboiler/.test(x)) return 'Verwarmt een deel van het tapwater met zonne-energie.';
+    if(/zonnepane|\bpv\b|zonnestroom|zonne energie/.test(x)) return 'Wekken duurzame stroom op voor eigen verbruik; opbrengst hangt af van dakligging, netcapaciteit en saldering.';
+    if(/dakisolat|dak/.test(x)) return 'Beperkt het warmteverlies via het dak en verhoogt het comfort.';
+    if(/gevel|spouw/.test(x)) return 'Verlaagt het warmteverlies via de muren aanzienlijk.';
+    if(/vloer|bodem|kruipruimte/.test(x)) return 'Beperkt het warmteverlies via de begane grond.';
+    if(/glas|beglazing|hr\+|triple|isolatieglas/.test(x)) return 'Hoogwaardige beglazing beperkt het warmteverlies via de ramen.';
+    if(/radiatorventilator|radiatorvent|ventilatorradiator/.test(x)) return 'Verbeteren de warmteafgifte van bestaande radiatoren, zodat de cv op een lagere aanvoertemperatuur kan werken.';
+    if(/ventilat|wtw|warmteterugwin/.test(x)) return 'Ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
+    if(/waterzijdig|inregel|inregelen|hydraulisch/.test(x)) return 'Verdeelt het warme water gelijkmatig over de radiatoren, zodat de cv efficiënter werkt.';
+    if(/thermosta|zoneregel|slimme regel|klokthermosta/.test(x)) return 'Verminderen onnodig stoken door de verwarming af te stemmen op aanwezigheid en dagritme.';
+    if(/\bled\b|verlichting/.test(x)) return 'Verlaagt het stroomverbruik voor verlichting fors en gaat langer mee.';
+    if(/kierdicht|tocht/.test(x)) return 'Voorkomt ongewenst warmteverlies door tocht.';
+    if(/radiatorfolie|leidingisolat/.test(x)) return 'Beperken warmteverlies bij radiatoren en cv-leidingen.';
+    if(/voordeur|berging|deur/.test(x)) return 'Beperkt het warmteverlies bij de entree of berging.';
+    if(/isolat/.test(x)) return 'Beperkt het warmteverlies van het pand en verbetert het comfort.';
+    return 'Verlaagt het energieverbruik van het pand en verbetert de energieprestatie.';
   };
   const sdgText=(nr,m)=>{ switch(String(nr).replace(/\D/g,'')){
     case '3': return 'Beter binnenklimaat, comfort en gezondheid.';
@@ -2703,11 +2692,9 @@ function sanitizeNarratives(d){
   }};
   ms.forEach(m=>{
     const desc=measureDesc(m.naam);
-    m.toelichting = m.bes>0
-      ? `${desc} Geraamde besparing ca. ${E(m.bes)} per jaar${m.tvt>0?`, terugverdientijd ± ${num1(m.tvt)} jaar`:''}.`
-      : desc;
-    // Lange terugverdientijd: voorzichtiger toelichten (cijfers ongewijzigd).
-    if(Number(m.tvt)>20) m.toelichting += ' Gezien de langere terugverdientijd is deze maatregel vooral relevant vanuit comfort, onderhoud, toekomstbestendigheid of aanvullende verduurzaming, en minder als puur financiële besparingsmaatregel.';
+    m.toelichting = desc;
+    // Lange terugverdientijd: korte nuance (cijfers staan in de tabel).
+    if(Number(m.tvt)>20) m.toelichting += ' Bij de langere terugverdientijd vooral relevant voor comfort en toekomstbestendigheid.';
     if(Array.isArray(m.sdg_koppelingen)) m.sdg_koppelingen.forEach(s=>{ s.uitleg=sdgText(s.sdg_nr||s.sdg||s.nr,m); });
   });
 
