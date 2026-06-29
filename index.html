@@ -2671,7 +2671,8 @@ function sanitizeNarratives(d){
     if(/vloer|bodem|kruipruimte/.test(x)) return 'Beperkt het warmteverlies via de begane grond.';
     if(/glas|beglazing|hr\+|triple|isolatieglas/.test(x)) return 'Hoogwaardige beglazing beperkt het warmteverlies via de ramen.';
     if(/radiatorventilator|radiatorvent|ventilatorradiator/.test(x)) return 'Verbeteren de warmteafgifte van bestaande radiatoren, zodat de cv op een lagere aanvoertemperatuur kan werken.';
-    if(/ventilat|wtw|warmteterugwin/.test(x)) return 'Ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
+    if(/wtw|warmteterugwin|balansventilat/.test(x)) return 'Mechanische ventilatie met warmteterugwinning (WTW) verbetert de luchtkwaliteit met minder warmteverlies.';
+    if(/ventilat/.test(x)) return 'Betere ventilatie met natuurlijke toevoer verbetert de luchtkwaliteit en het binnenklimaat.';
     if(/waterzijdig|inregel|inregelen|hydraulisch/.test(x)) return 'Verdeelt het warme water gelijkmatig over de radiatoren, zodat de cv efficiënter werkt.';
     if(/thermosta|zoneregel|slimme regel|klokthermosta/.test(x)) return 'Verminderen onnodig stoken door de verwarming af te stemmen op aanwezigheid en dagritme.';
     if(/\bled\b|verlichting/.test(x)) return 'Verlaagt het stroomverbruik voor verlichting fors en gaat langer mee.';
@@ -2847,6 +2848,9 @@ function sanitizeNarratives(d){
     .replace(/btw[- ]?(?:teruggave|teruggaaf)\s*(?:bij|voor|op)?\s*zonnepanelen(?:\s*aanvragen|\s*aan(?:vragen)?)?/gi,'het 0%-btw-tarief voor zonnepanelen (te controleren op basis van actuele fiscale regels)')
     .replace(/btw[- ]?(?:teruggave|teruggaaf)\s*(?:aanvragen|aanvraag)/gi,'de fiscale behandeling van zonnepanelen controleren')
     .replace(/\bbtw[- ]?(?:teruggave|teruggaaf)\b/gi,'0%-btw-tarief (fiscale regeling, geen subsidie)')
+    .replace(/(?:de\s+|het\s+)?0%[- ]?btw[- ]?aanvraag(?:\s+voor\s+zonnepanelen)?/gi,'het 0%-btw-tarief voor zonnepanelen controleren (fiscale behandeling)')
+    .replace(/\bbtw[- ]?aanvraag(?:\s+voor)?(?:\s+zonnepanelen)?/gi,'de fiscale behandeling van zonnepanelen controleren')
+    .replace(/subsidieaanvragen?\s+v[oó]{1,2}r\s+(?:de\s+)?uitvoering\s+indienen/gi,'relevante subsidies tijdig aanvragen en voorwaarden controleren')
     .replace(/[ \t]{2,}/g,' ')
     .replace(/\b(relevante)\s+\1\b/gi,'$1')
     .trim();
