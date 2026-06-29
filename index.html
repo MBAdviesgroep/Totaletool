@@ -3415,6 +3415,10 @@ function alignReportConsistency(d){
 
   // Eerste schoonmaak, daarna bronrapport toepassen.
   deepClean(d);
+  // Strip per ongeluk meegegeven "(eigen advies)"-tekst uit maatregelnamen.
+  const stripAdviesTag=(s)=>String(s||'')
+    .replace(/[\(\[\{]?\s*eigen[\s_\-]*advies\s*[\)\]\}]?/ig,'')
+    .replace(/\s{2,}/g,' ').replace(/\s*[·\-–—,:]\s*$/,'').trim();
   const src=getSource();
   const calc=applySource(src);
   const ms=calc.ms||[];
@@ -3423,6 +3427,8 @@ function alignReportConsistency(d){
   if(Array.isArray(d.maatregelen)){
     const seen=new Set();
     d.maatregelen=d.maatregelen.filter(m=>m && typeof m==='object' && m.naam).map(m=>{
+      if(/\(?\s*eigen[\s_-]*advies\s*\)?/i.test(String(m.naam))) m.eigen_advies=true;
+      m.naam=stripAdviesTag(m.naam);
       m.capex=toN(m.capex); m.bes=toN(m.bes); m.co2=toN(m.co2); m.tvt=toN(m.tvt);
       if((!m.tvt || m.tvt<=0) && m.capex>0 && m.bes>0){ m.tvt=r1(m.capex/m.bes); m.tvt_afgeleid=true; }
       return m;
@@ -3431,6 +3437,9 @@ function alignReportConsistency(d){
       if(seen.has(key)) return false;
       seen.add(key); return true;
     });
+  }
+  if(Array.isArray(d.maatregelen_extra)){
+    d.maatregelen_extra.forEach(m=>{ if(m&&m.naam) m.naam=stripAdviesTag(m.naam); });
   }
 
   // Subsidie/fiscaal voordeel: geen hard bedrag claimen als het niet direct uit de brontabel sluitend volgt.
@@ -3672,13 +3681,10 @@ function pageSdgEsrs(d){
           ${m.bes?`<span style="font-size:8px;color:var(--ink-3);">€ ${(m.bes||0).toLocaleString('nl-NL')}/jr</span>`:''}
         </div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:5px 11px;">
+      <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;">
         ${kopp.map(k=>{
           const sg=SDG_DB[String(k.sdg_nr)]||{kleur:'#888',label:'SDG '+k.sdg_nr};
-          return `<div style="display:flex;align-items:center;gap:6px;">
-            <span style="width:20px;height:20px;border-radius:5px;background:${sg.kleur};color:#fff;font-size:9.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.14);">${k.sdg_nr}</span>
-            <span style="font-size:8.5px;font-weight:600;color:var(--ink-2);line-height:1.15;">${esc(sg.label)}</span>
-          </div>`;
+          return `<span title="SDG ${k.sdg_nr} · ${esc(sg.label)}" style="width:23px;height:23px;border-radius:6px;background:${sg.kleur};color:#fff;font-size:10.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,.16);">${k.sdg_nr}</span>`;
         }).join('')}
       </div>
     </div>`;
