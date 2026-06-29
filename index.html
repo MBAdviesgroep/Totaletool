@@ -1732,6 +1732,7 @@ async function startGenerate(){
     currentData = applyExclusions(currentData, (document.getElementById('extraNotes')||{}).value||'');
     currentData = alignReportConsistency(currentData);
     currentData = reconcileNumbers(currentData);
+    currentData = computeEsgScore(currentData);
     currentData = sanitizeNarratives(currentData);
     currentData = applyExclusions(currentData, (document.getElementById('extraNotes')||{}).value||'');
 
@@ -2543,6 +2544,55 @@ function getAanvragerType(){
 }
 function aanvragerLabel(t){
   return t==='ondernemer'?'Ondernemer / zakelijk':t==='vve'?'VvE':'Particulier';
+}
+
+/* Deterministische ESG-score uit echte panddata — varieert per dossier
+   (niet de door de AI ge-echo'de voorbeeldwaarde). Vult radar + bankscore. */
+function computeEsgScore(d){
+  const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+  const toN=v=>{const n=Number(String(v==null?'':v).replace(/[^0-9.,-]/g,'').replace(',','.'));return isFinite(n)?n:0;};
+  const lvl=clamp(toN(d.assurance_niveau)||3,1,4);
+  const huidig=Number(d.label_huidig_idx); const streef=Number(d.label_streef_idx);
+  const stappen=(isFinite(huidig)&&isFinite(streef))?Math.max(0,streef-huidig):0;
+  const co2pct=toN(d.co2_reductie_pct);
+  const tvt=toN(d.tvt_jaar)|| (toN(d.capex_totaal)&&toN(d.bes_jaar)?toN(d.capex_totaal)/toN(d.bes_jaar):0);
+  const nMaat=Array.isArray(d.maatregelen)?d.maatregelen.length:0;
+  const heeftVerbruik=!!(toN(d.gasverbruik)||toN(d.stroomverbruik));
+  const heeftKosten=toN(d.energiekosten_huidig)>0 && !d._kosten_indicatief;
+  const capexOk=toN(d.capex_totaal)>0 && toN(d.bes_jaar)>0;
+
+  // 5 dimensies (0–100), elk uit een reële driver:
+  // Transitierisico: hoe ambitieus is het streeflabel + labelsprong.
+  const transitie=clamp(38 + (isFinite(streef)?streef:5)*4.2 + stappen*3.2, 30, 95);
+  // Datakwaliteit: aanwezigheid van echt verbruik/kosten.
+  const datakwaliteit=clamp(52 + (heeftVerbruik?16:0) + (heeftKosten?12:0) + (capexOk?6:0), 40, 92);
+  // Bewijsniveau: assurance 1–4.
+  const bewijs=clamp(28 + lvl*16, 30, 92);
+  // Klimaatrisico (hoger = beter beheerst): CO₂-reductie.
+  const klimaat=clamp(46 + co2pct*0.42, 40, 93);
+  // Rapportagegereedheid: volledigheid van het pakket.
+  const rapportage=clamp(44 + Math.min(nMaat,8)*4 + (capexOk?8:0) + (tvt>0&&tvt<=15?6:0), 40, 92);
+
+  const radar=[
+    {l:'Transitierisico',v:Math.round(transitie)},
+    {l:'Datakwaliteit',v:Math.round(datakwaliteit)},
+    {l:'Bewijsniveau',v:Math.round(bewijs)},
+    {l:'Klimaatrisico',v:Math.round(klimaat)},
+    {l:'Rapportage',v:Math.round(rapportage)}
+  ];
+  const W=[0.25,0.20,0.20,0.15,0.20];
+  const score=Math.round(radar.reduce((s,r,i)=>s+r.v*W[i],0));
+  d.radar=radar;
+  d.bankscore=clamp(score,0,100);
+  d.bankscore_componenten=[
+    {l:'ESG-score (gewogen)',v:d.bankscore+' / 100'},
+    {l:'Bewijsniveau',v:'Niveau '+lvl+' / 4'},
+    {l:'Datakwaliteit',v:heeftVerbruik?'Werkelijk verbruik verwerkt':'Indicatief verbruik'},
+    {l:'Beleidsrisico energie',v:'Laag · dalend'},
+    {l:'Klimaatrisico (fysiek)',v:'Laag-middel'},
+    {l:'Rapportagegereedheid',v:lvl>=3?'Voorwaardelijk':'Aanvullend nodig'}
+  ];
+  return d;
 }
 
 function reconcileNumbers(d){
@@ -4231,6 +4281,7 @@ function runDemo(){
   try{ if(typeof enrichSdgMappings==='function') d=enrichSdgMappings(d); }catch(e){}
   d.aanvrager_type = getAanvragerType();
   d=reconcileNumbers(d);
+  d=computeEsgScore(d);
   d=sanitizeNarratives(d);
   currentData=d;
   renderReport(d);
