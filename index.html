@@ -2851,6 +2851,8 @@ function sanitizeNarratives(d){
     .replace(/(?:de\s+|het\s+)?0%[- ]?btw[- ]?aanvraag(?:\s+voor\s+zonnepanelen)?/gi,'het 0%-btw-tarief voor zonnepanelen controleren (fiscale behandeling)')
     .replace(/\bbtw[- ]?aanvraag(?:\s+voor)?(?:\s+zonnepanelen)?/gi,'de fiscale behandeling van zonnepanelen controleren')
     .replace(/subsidieaanvragen?\s+v[oó]{1,2}r\s+(?:de\s+)?uitvoering\s+indienen/gi,'relevante subsidies tijdig aanvragen en voorwaarden controleren')
+    .replace(/[^.]*0%[- ]?btw[- ]?tarief[^.]*opdrachtverstrekking\.?/gi,'Controleer het 0%-btw-tarief voor zonnepanelen en de actuele fiscale behandeling vóór opdrachtverstrekking.')
+    .replace(/Vraag[^.]*\bISDE\b[^.]*0%[- ]?btw[^.]*\.?/gi,'Vraag relevante subsidies, zoals ISDE, tijdig aan en controleer het 0%-btw-tarief voor zonnepanelen op basis van actuele fiscale regels.')
     .replace(/[ \t]{2,}/g,' ')
     .replace(/\b(relevante)\s+\1\b/gi,'$1')
     .trim();
