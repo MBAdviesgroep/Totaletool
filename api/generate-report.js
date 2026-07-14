@@ -144,7 +144,7 @@ function validateSchema(data) {
     warnings.push('"maatregelen" is geen array.');
   }
   // Harde blokkade: nooit doorlaten als het model verboden claims teruggeeft.
-  const bannedPatterns = [/groen\s*financierbaar/i, /geschikt\s+voor\s+sfdr\s+artikel\s*8/i, /definitief\s+aligned/i, /voldoet\s+aan\s+de\s+eu[- ]?taxonomie/i];
+  const bannedPatterns = [/groen\s*financierbaar/i, /geschikt\s+voor\s+(sfdr\s+)?artikel\s*8/i, /definitief\s+aligned/i, /potentieel\s+aligned/i, /voldoet\s+aan\s+de\s+eu[- ]?taxonomie/i, /taxonomieproof/i, /bankwaardig/i];
   const asText = JSON.stringify(data);
   bannedPatterns.forEach((re) => {
     if (re.test(asText)) warnings.push(`AI-respons bevat een niet-toegestane formulering (${re}).`);
@@ -191,12 +191,20 @@ export default async function handler(req, res) {
     if (!/^https?:$/.test(scanUrl.protocol)) {
       return res.status(400).json({ error: 'Energiescan URL moet http(s) zijn.', error_code: 'UPLOAD_INVALID' });
     }
+    // Basale bestandstype-controle: het hoofdrapport moet een PDF zijn.
+    // (Volledige MIME-detectie vereist een extra HEAD-request per bestand;
+    // deze extensiecontrole is een lichte, snelle proxy daarvoor.)
+    if (!/\.pdf(\?|#|$)/i.test(scanUrl.pathname) && !/\.pdf(\?|#|$)/i.test(energiescan_url)) {
+      return res.status(400).json({ error: 'Het bronrapport moet een PDF-bestand zijn.', error_code: 'UPLOAD_INVALID_TYPE' });
+    }
 
     let brochures = Array.isArray(brochure_urls)
       ? brochure_urls.filter((u) => typeof u === 'string' && u.trim())
       : (brochure_url ? [brochure_url] : []);
-    brochures = [...new Set(brochures)]; // dedupe
+    brochures = [...new Set(brochures)]; // dedupe (ook lege/duplicaat-URL's eruit)
     brochures = brochures.filter((u) => { try { const p = new URL(u); return /^https?:$/.test(p.protocol); } catch { return false; } });
+    // Alleen bekende, veilige documenttypen als brochure/bijlage toestaan.
+    brochures = brochures.filter((u) => /\.(pdf|png|jpg|jpeg|webp)(\?|#|$)/i.test(u));
     if (brochures.length > MAX_BROCHURES) {
       brochures = brochures.slice(0, MAX_BROCHURES);
     }
