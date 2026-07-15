@@ -308,26 +308,32 @@ body.report-mode .rpt-mode{display:block;}
   padding:0 0 60px;
 }
 
-/* ── AUTOMATISCHE A4-FIT (spec §24) — progressief toegepast door
-   fitAllPagesToA4() wanneer de content van een pagina het beschikbare
-   budget overschrijdt. Verkleint eerst witruimte, dan tekst — nooit onder
-   ~8.5pt hoofdtekst. ── */
-/* Stap 1 — padding en marges verkleinen. */
-.a4.compact-1 .col-card,.a4.compact-1 .chart-card,.a4.compact-1 .verdict,.a4.compact-1 .close-card{padding:8px 10px!important;}
-.a4.compact-1 .page-body{padding-top:18px!important;}
+/* ── AUTOMATISCHE A4-FIT — progressief toegepast door fitAllPagesToA4()
+   wanneer de content van een pagina het beschikbare budget overschrijdt.
+   Vaste volgorde: 1 marges, 2 verticale padding, 3 regelafstand,
+   4 secundaire tekst verbergen, 5 optionele toelichtingen inkorten.
+   Lettertype verkleinen is GEEN van de 5 stappen en wordt alleen als
+   allerlaatste veiligheidsklep ingezet (compact-6), nooit onder ~8,5pt,
+   en nooit via CSS transform/scale (dat maakt tekst wazig). ── */
+/* Stap 1 — marges verkleinen. */
 .a4.compact-1 .page-body>div{margin-bottom:6px!important;}
-.a4.compact-1 .chart-grid-2,.a4.compact-1 .two-col{gap:6px!important;}
 .a4.compact-1 .page-thin-rule{margin:4px 0 8px!important;}
-/* Stap 2 — regelafstand iets kleiner (lettergrootte blijft gelijk). */
-.a4.compact-2 .page-body{line-height:1.32!important;}
-.a4.compact-2 .col-list div,.a4.compact-2 .ml{line-height:1.28!important;}
-/* Stap 3 — niet-essentiële/optionele detailtekst inkorten (verbergen). */
-.a4.compact-3 .optional-detail{display:none!important;}
-/* Stap 4 — pas als laatste, heel beperkt, het lettertype verkleinen (nooit onder ~8,5pt). */
-.a4.compact-4 .page-body{font-size:8.8pt!important;}
-.a4.compact-4 .body-text,.a4.compact-4 .col-list div,.a4.compact-4 .ml{font-size:8.3px!important;}
-.a4.compact-4 .page-title{font-size:17px!important;}
-.a4.compact-4 .page-title-sub{font-size:9px!important;}
+.a4.compact-1 .chart-grid-2,.a4.compact-1 .two-col{gap:6px!important;}
+/* Stap 2 — verticale padding verkleinen. */
+.a4.compact-2 .col-card,.a4.compact-2 .chart-card,.a4.compact-2 .verdict,.a4.compact-2 .close-card{padding:8px 10px!important;}
+.a4.compact-2 .page-body{padding-top:18px!important;}
+/* Stap 3 — regelafstand iets kleiner (lettergrootte blijft gelijk). */
+.a4.compact-3 .page-body{line-height:1.32!important;}
+.a4.compact-3 .col-list div,.a4.compact-3 .ml{line-height:1.28!important;}
+/* Stap 4 — secundaire tekst (bijschriften/voetnoten) verbergen. */
+.a4.compact-4 .optional-detail{display:none!important;}
+/* Stap 5 — optionele toelichtingen inkorten (niet verbergen, maar tot 2 regels beperken). */
+.a4.compact-5 .optional-note{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden!important;}
+/* Stap 6 — veiligheidsklep: pas als alle voorgaande stappen niet genoeg zijn, het lettertype heel beperkt verkleinen (nooit onder ~8,5pt). */
+.a4.compact-6 .page-body{font-size:8.8pt!important;}
+.a4.compact-6 .body-text,.a4.compact-6 .col-list div,.a4.compact-6 .ml{font-size:8.3px!important;}
+.a4.compact-6 .page-title{font-size:17px!important;}
+.a4.compact-6 .page-title-sub{font-size:9px!important;}
 
 
 /* ─── COVER ─── */
@@ -1290,6 +1296,8 @@ body.report-mode .rpt-mode{display:block;}
 }
 
 </style>
+
+<!-- Subtle card tint override: minder blauw, wel zichtbaar als vlak -->
 <style id="mb-subtle-card-tint-final">
 :root{
   --mb-card-subtle:#FAFCFE;
@@ -1387,6 +1395,8 @@ body.report-mode .rpt-mode{display:block;}
   }
 }
 </style>
+
+<!-- Extra subtle card tint override: nog minder blauw, wel zichtbaar door rand + schaduw -->
 <style id="mb-extra-subtle-card-tint">
 :root{
   --mb-card-subtle:#FDFEFE;
@@ -2169,7 +2179,7 @@ function pageMaatregelenAdvies(d){
     <div class="page-body">
       <div class="sec-bar">Stap 2 · Maatregelen &amp; prioritering</div>
       <div class="page-eyebrow">Geadviseerde maatregelen</div>
-      <div class="page-title">Welke maatregelen adviseren wij, en in welke volgorde?</div>
+      <div class="page-title">Welke maatregelen worden geadviseerd, en in welke volgorde?</div>
       <div class="page-title-sub">Maatregelen uit het bronrapport met investering, besparing, terugverdientijd en CO₂-effect, geprioriteerd op financieel rendement, technische volgorde, risico en comfort — niet alleen op terugverdientijd.</div>
       <div class="page-thin-rule"></div>
 
@@ -2185,7 +2195,7 @@ function pageMaatregelenAdvies(d){
           </tr></thead>
           <tbody>
             ${ms.map(m=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="${cell}font-weight:600;color:var(--ink);">${esc(m.naam||'')}${m.eigen_advies?' <span style="font-size:6.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:4px;padding:1px 5px;">MB-advies</span>':''}</td>
+              <td style="${cell}font-weight:600;color:var(--ink);">${esc(m.naam||'')}${m.eigen_advies?' <span style="font-size:6.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:4px;padding:1px 5px;">Aanvullend</span>':''}</td>
               <td style="${cell}text-align:right;color:var(--ink-2);">${capexTxt(m)}</td>
               <td style="${cell}text-align:right;color:var(--green);font-weight:600;">${m.total_financial_benefit_year>0?eur(m.total_financial_benefit_year)+(m.opwek>0&&m.bes<=0?' <span style="font-size:6.3px;color:var(--ink-4);font-weight:600;">(opwek)</span>':''):'niet uit bron vastgesteld'}</td>
               <td style="${cell}text-align:right;color:var(--ink-3);">${m.tvt>0?num1(m.tvt)+' jr':'n.v.t.'}</td>
@@ -2229,13 +2239,13 @@ function pageMaatregelenAdvies(d){
         const capexTxtEx=m=>(m.capex>0)?eur(m.capex):(hasVal(m.investering_min)&&hasVal(m.investering_max)?eur(m.investering_min)+' – '+eur(m.investering_max):'bandbreedte niet bekend');
         return `
       <div style="margin-top:2px;margin-bottom:7px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 100%);border-radius:11px;padding:10px 14px 11px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 8px 22px rgba(11,61,40,.22);">
-        <div style="font-size:7.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);margin-bottom:2px;">Aanvullend advies van MB Adviesgroep</div>
-        <div style="font-size:8px;color:rgba(255,255,255,.78);line-height:1.35;margin-bottom:6px;">Maatregelen die wij naast het bronrapport adviseren — indicatieve cijfers of een bandbreedte, niet meegerekend in het pakkettotaal hierboven.</div>
+        <div style="font-size:7.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);margin-bottom:2px;">Aanvullende maatregelen (niet in bronrapport)</div>
+        <div style="font-size:8px;color:rgba(255,255,255,.78);line-height:1.35;margin-bottom:6px;">Maatregelen aanvullend op het bronrapport — indicatieve cijfers of een bandbreedte, niet meegerekend in het pakkettotaal hierboven.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           ${ex.map(m=>`<div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:7px 10px;">
             <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;">
               <span style="font-size:9.3px;font-weight:700;color:#fff;line-height:1.18;overflow-wrap:anywhere;">${esc(m.naam||'')}</span>
-              <span style="font-size:6.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:4px;padding:2px 5px;white-space:nowrap;flex-shrink:0;">MB-advies</span>
+              <span style="font-size:6.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:4px;padding:2px 5px;white-space:nowrap;flex-shrink:0;">Aanvullend</span>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;font-size:7.5px;">
               <span style="color:rgba(255,255,255,.85);"><b style="color:#fff;">${capexTxtEx(m)}</b> invest.</span>
@@ -2243,7 +2253,7 @@ function pageMaatregelenAdvies(d){
               ${m.tvt>0?`<span style="color:rgba(255,255,255,.85);">${num1(m.tvt)} jr TVT</span>`:''}
               ${m.co2?`<span style="color:rgba(255,255,255,.85);">${num2(m.co2)} t CO₂/jr</span>`:''}
             </div>
-            <div style="font-size:7.7px;color:rgba(255,255,255,.74);line-height:1.38;">${toel(m)}</div>
+            <div class="optional-note" style="font-size:7.7px;color:rgba(255,255,255,.74);line-height:1.38;">${toel(m)}</div>
           </div>`).join('')}
         </div>
       </div>`;
@@ -2256,7 +2266,7 @@ function pageMaatregelenAdvies(d){
             <span style="font-size:9.5px;font-weight:800;color:var(--orange);flex-shrink:0;">${String(i+1).padStart(2,'0')}</span>
             <span style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.2;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
           </div>
-          <div style="font-size:9px;color:var(--ink-2);line-height:1.42;">${toel(m)}${m.technische_aannames?' <i style="color:var(--ink-3);">Aanname: '+esc(m.technische_aannames)+'</i>':''}</div>
+          <div class="optional-note" style="font-size:9px;color:var(--ink-2);line-height:1.42;">${toel(m)}${m.technische_aannames?' <i style="color:var(--ink-3);">Aanname: '+esc(m.technische_aannames)+'</i>':''}</div>
         </div>`).join('')}
       </div>
       ${msExtra.length?`<div style="font-size:8px;color:var(--ink-3);margin-top:6px;">+ ${msExtra.length} aanvullende maatregel${msExtra.length===1?'':'en'} uit het bronrapport (samengevat in het pakkettotaal): ${msExtra.map(m=>esc(m.naam||'')).join(', ')}.</div>`:''}
@@ -2281,7 +2291,7 @@ function pageSubsidies(d){
       ${d.aanvrager_type?`<div style="display:inline-flex;align-items:center;gap:8px;background:var(--blue-faint);border:1px solid var(--blue-faint2);border-radius:999px;padding:5px 6px 5px 13px;margin-bottom:6px;"><span style="font-size:7.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-4);">Geselecteerd type aanvrager</span><span style="font-size:9.5px;font-weight:800;color:#fff;background:var(--blue-deep);border-radius:999px;padding:3px 11px;">${esc(d.aanvrager_type==='ondernemer'?'Ondernemer / zakelijk':d.aanvrager_type==='vve'?'VvE':'Particulier')}</span></div>`:''}
       <div class="page-thin-rule"></div>
 
-      ${subs.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:9px;">
+      ${subs.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:13px;">
         ${subs.map(s=>{
           const st=String(s.status||'te controleren');
           const stl=st.toLowerCase();
@@ -2297,7 +2307,7 @@ function pageSubsidies(d){
               ${s.type?`<span style="font-size:7px;color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;">${esc(s.type)}</span>`:''}
             </div>
             ${s.voor?`<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);">Maatregelen</span><span style="font-size:8.5px;font-weight:600;color:var(--green);line-height:1.3;">${esc(s.voor)}</span></div>`:''}
-            ${s.uitleg?`<div style="font-size:9px;color:var(--ink-2);line-height:1.5;">${esc(s.uitleg)}</div>`:''}
+            ${s.uitleg?`<div class="optional-note" style="font-size:9px;color:var(--ink-2);line-height:1.5;">${esc(s.uitleg)}</div>`:''}
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--mb-card-border-soft);border-top:1px solid var(--mb-card-border-soft);">
             <div style="background:#fff;padding:7px 12px;"><div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:3px;">Voorwaarden</div><div style="font-size:8px;color:var(--ink-3);line-height:1.42;">${esc(s.voorwaarden||'Te bevestigen bij aanvraag.')}</div></div>
@@ -2323,15 +2333,15 @@ function pageSubsidies(d){
           </tr></thead>
           <tbody>
             ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="padding:7px 8px 7px 0;font-size:8.7px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
-              <td style="padding:7px 8px 7px 0;font-size:8.7px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
-              <td style="padding:7px 0;font-size:8.3px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
+              <td style="padding:8px 10px 8px 0;font-size:8.7px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
+              <td style="padding:8px 10px 8px 0;font-size:8.7px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
+              <td style="padding:8px 0;font-size:8.3px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
             </tr>`).join('')}
           </tbody>
         </table>
       </div>`:''}
 
-      <div style="font-size:7.8px;color:var(--ink-4);line-height:1.4;margin-top:10px;padding-top:8px;border-top:1px solid var(--blue-faint);">${esc(d.subsidies_disclaimer||'De actuele voorwaarden, aanvraagtermijnen en bedragen moeten vóór opdrachtverlening worden gecontroleerd bij de bevoegde instantie.')}</div>
+      <div class="optional-note" style="font-size:7.8px;color:var(--ink-4);line-height:1.4;margin-top:10px;padding-top:8px;border-top:1px solid var(--blue-faint);">${esc(d.subsidies_disclaimer||'De actuele voorwaarden, aanvraagtermijnen en bedragen moeten vóór opdrachtverlening worden gecontroleerd bij de bevoegde instantie.')}</div>
 
     </div>
     ${pageFoot()}
@@ -3603,11 +3613,12 @@ function fitAllPagesToA4(){
   const available=TOTAL-TOP-FOOT-BODY_TOP_PAD;
   const overflowPages=[];
   // Vaste volgorde, nooit CSS-transform/scale (dat maakt tekst wazig):
-  // 1) padding/marges verkleinen, 2) regelafstand iets kleiner,
-  // 3) niet-essentiële tekst inkorten, 4) lettertype heel beperkt verkleinen
-  // (nooit onder ~8,5pt). Elke stap wordt pas gezet als de vorige nog niet
-  // genoeg was.
-  const classes=['compact-1','compact-2','compact-3','compact-4'];
+  // 1) marges verkleinen, 2) verticale padding verkleinen, 3) regelafstand
+  // iets kleiner, 4) secundaire tekst verbergen, 5) optionele toelichtingen
+  // inkorten (2 regels). Lettertype verkleinen (6) is geen van deze 5
+  // stappen en is alleen een allerlaatste veiligheidsklep, nooit onder
+  // ~8,5pt. Elke stap wordt pas gezet als de vorige nog niet genoeg was.
+  const classes=['compact-1','compact-2','compact-3','compact-4','compact-5','compact-6'];
   [...stage.querySelectorAll('.a4.content')].forEach((page,i)=>{
     page.classList.remove(...classes);
     const body=page.querySelector('.page-body');
@@ -4255,7 +4266,7 @@ function alignReportConsistency(d){
       }));
       const pdfNames=new Set(pdfMeasures.map(m=>norm(m.naam)));
       // Behoud de door de AI ZELF geadviseerde maatregelen (eigen_advies) die niet in het
-      // bronrapport staan — apart, als aanvullend MB-advies, los van de officiële totalen.
+      // bronrapport staan — apart, als aanvullende (niet-bronrapport) maatregel, los van de officiële totalen.
       d.maatregelen_extra=oldMeasures
         .filter(m=>m&&m.naam&&m.eigen_advies===true && !pdfNames.has(norm(m.naam)))
         .map((m,i)=>({...m, nr:m.nr||('A'+(i+1)), eigen_advies:true}));
