@@ -210,7 +210,7 @@ body{font-family:'DM Sans','Segoe UI',system-ui,sans-serif;background:var(--page
 
 /* Subsidiepagina — compacter zodat alle regelingen op één A4 passen */
 .page-subs .page-title{font-size:22px;margin-bottom:4px;}
-.page-subs .page-title-sub{font-size:12.7px;line-height:1.45;margin-bottom:10px;}
+.page-subs .page-title-sub{font-size:11.9px;line-height:1.45;margin-bottom:10px;}
 .page-subs .page-thin-rule{margin:6px 0 12px;}
 
 .bullets{
@@ -330,7 +330,7 @@ body.report-mode .rpt-mode{display:block;}
 .a4.compact-2 .page-body{padding-top:18px!important;}
 .a4.compact-2 table td,.a4.compact-2 table th{padding-top:4px!important;padding-bottom:4px!important;}
 /* Stap 6 — regelafstand iets kleiner (lettergrootte blijft gelijk). */
-.a4.compact-3 .page-body{line-height:1.32!important;}
+.a4.compact-3 .page-body{line-height:1.22!important;}
 .a4.compact-3 .col-list div,.a4.compact-3 .ml{line-height:1.28!important;}
 /* Stap 7a — secundaire tekst (bijschriften/voetnoten) verbergen. */
 .a4.compact-4 .optional-detail{display:none!important;}
@@ -338,11 +338,13 @@ body.report-mode .rpt-mode{display:block;}
 .a4.compact-5 .optional-note{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden!important;}
 /* Veiligheidsklep — pas als alle voorgaande stappen niet genoeg zijn, het
    lettertype heel beperkt verkleinen, nooit onder de minimale punt-maten
-   uit sectie 18 (lopende tekst blijft ≥9,5pt / 12,7px, paginatitel ≥15pt / 20px). */
-.a4.compact-6 .page-body{font-size:9.52pt!important;}
-.a4.compact-6 .body-text,.a4.compact-6 .col-list div,.a4.compact-6 .ml{font-size:12.7px!important;}
-.a4.compact-6 .page-title{font-size:20px!important;}
-.a4.compact-6 .page-title-sub{font-size:12.7px!important;}
+   (herzien in de verfijningsronde: lopende tekst ≥8,8pt / 11,7px, tabeltekst
+   ≥8,3pt / 11px, paginatitel ≥16,5pt / 22px). */
+.a4.compact-6 .page-body{font-size:8.8pt!important;}
+.a4.compact-6 .body-text{font-size:11.7px!important;}
+.a4.compact-6 .col-list div,.a4.compact-6 .ml{font-size:11px!important;}
+.a4.compact-6 .page-title{font-size:22px!important;}
+.a4.compact-6 .page-title-sub{font-size:11.7px!important;}
 
 
 /* ─── COVER ─── */
@@ -459,7 +461,7 @@ body.report-mode .rpt-mode{display:block;}
 .pt-mid-sub{display:block;font-size:10px;font-weight:500;letter-spacing:.2px;color:rgba(255,255,255,.6);margin-top:2px;}
 .pt-right{font-size:10px;font-weight:700;letter-spacing:2.5px;color:rgba(255,255,255,.55);text-align:right;}
 
-.page-body{padding:26px 44px 0;}
+.page-body{padding:26px 44px 0;line-height:1.3;}
 
 .page-eyebrow{
   font-size:10.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
@@ -469,7 +471,7 @@ body.report-mode .rpt-mode{display:block;}
   font-family:var(--f-serif);font-size:28px;font-weight:600;color:var(--blue-deep);
   letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;
 }
-.page-title-sub{font-size:12.7px;color:var(--ink-3);margin-bottom:24px;line-height:1.55;}
+.page-title-sub{font-size:11.9px;color:var(--ink-3);margin-bottom:24px;line-height:1.55;}
 .page-divider{height:1px;background:var(--rule);margin:14px 0 22px;}
 .page-thin-rule{height:2px;background:var(--blue-deep);width:48px;margin:8px 0 18px;}
 .sec-bar{display:block;background:linear-gradient(135deg,var(--blue-deep) 0%,#1a5e85 100%);color:#fff;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px 16px;border-radius:8px;border-left:4px solid var(--orange);margin-bottom:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
@@ -508,12 +510,12 @@ body.report-mode .rpt-mode{display:block;}
   font-family:var(--f-serif);font-size:18px;font-weight:600;color:var(--blue-deep);
   margin-bottom:8px;line-height:1.3;
 }
-.verdict-text{font-size:12.7px;color:var(--ink-2);line-height:1.65;}
+.verdict-text{font-size:11.9px;color:var(--ink-2);line-height:1.65;}
 .verdict-text b{color:var(--blue-deep);}
 
 /* Bullets management summary */
 .mgt-bullets{display:flex;flex-direction:column;gap:7px;margin-top:12px;}
-.mgt-bullets div{display:flex;gap:10px;align-items:flex-start;font-size:12.7px;color:var(--ink-2);line-height:1.55;}
+.mgt-bullets div{display:flex;gap:10px;align-items:flex-start;font-size:11.9px;color:var(--ink-2);line-height:1.55;}
 .mgt-bullets div::before{
   content:'';width:5px;height:5px;border-radius:50%;background:var(--orange);
   flex-shrink:0;margin-top:7px;
@@ -522,7 +524,7 @@ body.report-mode .rpt-mode{display:block;}
 /* Tabel — luxe rapportstijl */
 .rpt-table{width:100%;border-collapse:collapse;font-size:11pt;margin:8px 0;}
 .rpt-table thead th{
-  font-size:11.8px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  font-size:11.2px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
   color:var(--ink-3);text-align:left;padding:0 10px 10px 0;
   border-bottom:2px solid var(--blue-faint2);
 }
@@ -563,7 +565,7 @@ body.report-mode .rpt-mode{display:block;}
 .sc-bar{height:5px;background:rgba(255,255,255,.12);border-radius:99px;margin:14px 0 10px;overflow:hidden;}
 .sc-bar-fill{height:100%;background:linear-gradient(90deg,var(--orange),#f09060);border-radius:99px;}
 .sc-verdict{font-size:14px;font-weight:600;color:#fff;}
-.sc-text{font-size:12.7px;color:rgba(255,255,255,.7);margin-top:5px;line-height:1.45;}
+.sc-text{font-size:11.9px;color:rgba(255,255,255,.7);margin-top:5px;line-height:1.45;}
 
 .score-side{
   background:#fff;border:none;border-radius:14px;padding:16px 18px;box-shadow:0 2px 12px rgba(0,0,0,.06);
@@ -572,7 +574,7 @@ body.report-mode .rpt-mode{display:block;}
 .ss-row{display:flex;justify-content:space-between;align-items:center;font-size:11pt;padding:6px 0;border-bottom:1px solid var(--blue-faint);}
 .ss-row:last-child{border-bottom:none;}
 .ss-l{font-size:11px;color:var(--ink-3);font-weight:500;}
-.ss-v{font-size:12.7px;color:var(--blue-deep);font-weight:600;font-family:var(--f-serif);}
+.ss-v{font-size:11.9px;color:var(--blue-deep);font-weight:600;font-family:var(--f-serif);}
 
 /* Risk matrix mini */
 .matrix{
@@ -584,14 +586,14 @@ body.report-mode .rpt-mode{display:block;}
 .matrix > div:nth-child(5n){border-right:none;}
 .matrix > div:nth-last-child(-n+5){border-bottom:none;}
 .matrix .mh{
-  background:var(--page);font-weight:700;font-size:11.8px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-3);
+  background:var(--page);font-weight:700;font-size:11.2px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-3);
 }
 .matrix .ml{font-weight:600;color:var(--ink);}
 
 /* Two col */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
 .col-card{
-  background:#fff;border:none;border-radius:14px;padding:18px 20px;box-shadow:0 2px 12px rgba(0,0,0,.06);
+  background:#fff;border:none;border-radius:14px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
 .col-h{
   font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
@@ -640,12 +642,12 @@ body.report-mode .rpt-mode{display:block;}
 }
 .close-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
 .close-title{font-family:var(--f-serif);font-size:18px;font-weight:600;line-height:1.25;margin-bottom:10px;}
-.close-text{font-size:12.7px;color:rgba(255,255,255,.8);line-height:1.65;}
+.close-text{font-size:11.9px;color:rgba(255,255,255,.8);line-height:1.65;}
 
 /* CHART blocks */
 .chart-card{
   background:#fff;border:none;border-radius:14px;
-  padding:18px 20px 16px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);
+  padding:22px 22px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
 .chart-card-h{
   font-size:14px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;
@@ -667,7 +669,7 @@ body.report-mode .rpt-mode{display:block;}
 .fin-cell{padding:14px 16px;border-right:1px solid var(--blue-faint);}
 .fin-cell:last-child{border-right:0;}
 .fin-l{font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;}
-.fin-v{font-family:var(--f-serif);font-size:20px;font-weight:600;color:var(--blue-deep);line-height:1.1;}
+.fin-v{font-family:var(--f-serif);font-size:22px;font-weight:600;color:var(--blue-deep);line-height:1.1;}
 .fin-v small{font-size:14px;color:var(--ink-3);font-weight:500;}
 .fin-s{font-size:10.4px;color:var(--ink-3);margin-top:4px;}
 
@@ -692,7 +694,7 @@ body.report-mode .rpt-mode{display:block;}
 .page-summary .page-body,
 .page-risk .page-body{padding:24px 40px 76px;}
 .page-summary .page-title-sub,
-.page-risk .page-title-sub{margin-bottom:12px;line-height:1.45;font-size:12.7px;}
+.page-risk .page-title-sub{margin-bottom:12px;line-height:1.45;font-size:11.9px;}
 .page-summary .page-thin-rule,
 .page-risk .page-thin-rule{margin:6px 0 12px;}
 .page-summary .kpi-rapport{margin-bottom:10px;}
@@ -703,43 +705,43 @@ body.report-mode .rpt-mode{display:block;}
 .page-summary .sc-eyebrow{margin-bottom:8px;}
 .page-summary .sc-num{font-size:43px;}
 .page-summary .sc-bar{margin:9px 0 7px;}
-.page-summary .sc-text{font-size:12.7px;line-height:1.38;}
+.page-summary .sc-text{font-size:11.9px;line-height:1.38;}
 .page-summary .score-side{padding:9px 12px;gap:2px;}
 .page-summary .ss-row{padding:4px 0;font-size:10.8px;}
 .page-summary .ss-l{font-size:10px;}
-.page-summary .ss-v{font-size:12.7px;}
+.page-summary .ss-v{font-size:11.9px;}
 .page-summary .chart-grid-2{gap:10px;margin-bottom:10px;}
-.page-summary .chart-card{padding:12px 14px 10px;margin-bottom:8px;}
+.page-summary .chart-card{padding:14px 16px 12px;margin-bottom:8px;}
 .page-summary .chart-card-h{font-size:14px;margin-bottom:2px;}
 .page-summary .chart-card-t{font-size:12px;margin-bottom:6px;}
 .page-summary .chart-card svg{max-height:220px;}
 .page-summary .verdict{padding:14px 16px;margin-bottom:0;}
 .page-summary .verdict-eyebrow{font-size:10px;margin-bottom:5px;}
 .page-summary .verdict-title{font-size:14px;margin-bottom:5px;}
-.page-summary .verdict-text{font-size:12.7px;line-height:1.38;}
+.page-summary .verdict-text{font-size:11.9px;line-height:1.38;}
 .page-summary .mgt-bullets{gap:4px;margin-top:6px;}
-.page-summary .mgt-bullets div{font-size:12.7px;line-height:1.3;}
+.page-summary .mgt-bullets div{font-size:11.9px;line-height:1.3;}
 
 .page-risk .matrix{font-size:12px;margin-bottom:8px!important;}
 .page-risk .matrix>div{padding:6px 9px;line-height:1.28;}
-.page-risk .matrix .mh{font-size:11.8px;}
+.page-risk .matrix .mh{font-size:11.2px;}
 .page-risk .chart-grid-2{gap:10px;margin-bottom:6px;}
-.page-risk .chart-card{padding:10px 14px 7px;margin-bottom:6px;}
+.page-risk .chart-card{padding:12px 15px 9px;margin-bottom:6px;}
 .page-risk .chart-card-h{font-size:14px;margin-bottom:2px;}
 .page-risk .chart-card-t{font-size:12.2px;margin-bottom:6px;}
 .page-risk .chart-card svg{max-height:92px;width:100%;}
 .page-risk .two-col{gap:10px;}
-.page-risk .col-card{padding:11px 14px;}
+.page-risk .col-card{padding:14px 16px;}
 .page-risk .col-h{font-size:14px;margin-bottom:6px;padding-bottom:5px;}
 .page-risk .col-list{gap:5px;}
-.page-risk .col-list div{font-size:12.7px;line-height:1.34;}
+.page-risk .col-list div{font-size:11.9px;line-height:1.34;}
 .page-risk .col-list div::before{margin-top:5px;}
 .page-risk .verdict{padding:11px 16px!important;margin-top:6px!important;margin-bottom:0!important;}
 .page-risk .verdict-eyebrow{font-size:10px;margin-bottom:4px;}
 .page-risk .verdict-title{font-size:14px!important;margin-bottom:4px!important;}
-.page-risk .verdict-text{font-size:12.7px!important;line-height:1.32!important;margin-bottom:5px!important;}
+.page-risk .verdict-text{font-size:11.9px!important;line-height:1.32!important;margin-bottom:5px!important;}
 .page-risk .mgt-bullets{gap:3px;margin-top:4px;}
-.page-risk .mgt-bullets div{font-size:12.7px;line-height:1.25;}
+.page-risk .mgt-bullets div{font-size:11.9px;line-height:1.25;}
 
 /* PAGE FOOTER (vaste positie binnen pagina, op scherm én in print) */
 .page-foot{
@@ -810,27 +812,27 @@ body.report-mode .rpt-mode{display:block;}
   .a4.cover{height:297mm!important;}
   .a4.content{height:297mm!important;min-height:297mm!important;max-height:297mm!important;padding-bottom:72px!important;}
   .page-top{height:46px!important;}
-  .page-body{padding:18px 38px 0!important;font-size:9.5pt!important;}
-  .page-title{font-size:20px!important;margin-bottom:4px!important;}
-  .page-title-sub{font-size:12.7px!important;margin-bottom:12px!important;}
+  .page-body{padding:18px 38px 0!important;font-size:8.9pt!important;line-height:1.3!important;}
+  .page-title{font-size:22px!important;margin-bottom:4px!important;}
+  .page-title-sub{font-size:11.9px!important;margin-bottom:12px!important;}
   .page-thin-rule{margin:6px 0 12px!important;}
   .page-foot{height:52px!important;font-size:10.4px!important;position:absolute!important;bottom:0!important;left:0!important;right:0!important;}
   .page-stamp{top:52px!important;font-size:10.4px!important;}
-  .rpt-table{font-size:8.85pt!important;}
-  .rpt-table thead th{font-size:11.8px!important;padding:0 8px 7px 0!important;}
-  .rpt-table tbody td{padding:7px 8px 7px 0!important;font-size:8.85pt!important;}
+  .rpt-table{font-size:8.4pt!important;}
+  .rpt-table thead th{font-size:11.2px!important;padding:0 8px 7px 0!important;}
+  .rpt-table tbody td{padding:7px 8px 7px 0!important;font-size:8.4pt!important;}
   .kpi-rapport{margin-bottom:10px!important;}
   .kpi-r-cell{padding:10px 14px 10px!important;}
   .kpi-r-val{font-size:18px!important;}
   .score-row{gap:10px!important;margin-bottom:10px!important;}
   .chart-grid-2{gap:10px!important;margin-bottom:10px!important;}
-  .chart-card{padding:12px 14px 10px!important;margin-bottom:10px!important;}
-  .col-card{padding:12px 14px!important;}
+  .chart-card{padding:15px 17px 13px!important;margin-bottom:10px!important;}
+  .col-card{padding:16px 18px!important;}
   .two-col{gap:10px!important;}
   .verdict{padding:14px 16px!important;margin-bottom:10px!important;}
   .verdict-title{font-size:14px!important;}
-  .verdict-text{font-size:9.5pt!important;}
-  .mgt-bullets div{font-size:9.52pt!important;}
+  .verdict-text{font-size:8.9pt!important;}
+  .mgt-bullets div{font-size:8.92pt!important;}
   .fin-strip{margin-bottom:10px!important;}
   .fin-cell{padding:10px 12px!important;}
   .fin-v{font-size:14px!important;}
@@ -843,9 +845,9 @@ body.report-mode .rpt-mode{display:block;}
   .sc-num{font-size:40px!important;}
   .close-card{padding:16px 20px!important;margin-top:10px!important;}
   .close-title{font-size:14px!important;}
-  .close-text{font-size:9.52pt!important;}
+  .close-text{font-size:8.92pt!important;}
   .col-h{font-size:14px!important;margin-bottom:7px!important;padding-bottom:6px!important;}
-  .col-list div{font-size:9.52pt!important;}
+  .col-list div{font-size:8.92pt!important;line-height:1.3!important;}
   .pill{font-size:10px!important;padding:2px 7px!important;}
 }
 
@@ -874,7 +876,7 @@ body.report-mode .rpt-mode{display:block;}
   .page-summary .page-body,
   .page-risk .page-body{padding:18px 38px 58px!important;}
   .page-summary .page-title-sub,
-  .page-risk .page-title-sub{margin-bottom:11px!important;line-height:1.42!important;font-size:12.7px!important;}
+  .page-risk .page-title-sub{margin-bottom:11px!important;line-height:1.42!important;font-size:11.9px!important;}
   .page-summary .page-thin-rule,
   .page-risk .page-thin-rule{margin:5px 0 10px!important;}
 
@@ -890,44 +892,44 @@ body.report-mode .rpt-mode{display:block;}
   .page-summary .sc-num{font-size:39px!important;}
   .page-summary .sc-bar{height:5px!important;margin:8px 0 6px!important;}
   .page-summary .sc-verdict{font-size:14px!important;}
-  .page-summary .sc-text{font-size:12.7px!important;line-height:1.32!important;}
+  .page-summary .sc-text{font-size:11.9px!important;line-height:1.32!important;}
   .page-summary .score-side{padding:9px 11px!important;gap:2px!important;}
   .page-summary .ss-row{padding:3px 0!important;}
   .page-summary .ss-l{font-size:10px!important;}
-  .page-summary .ss-v{font-size:12.7px!important;}
+  .page-summary .ss-v{font-size:11.9px!important;}
   .page-summary .chart-grid-2{gap:10px!important;margin-bottom:9px!important;}
-  .page-summary .chart-card{padding:12px 14px 10px!important;margin-bottom:8px!important;}
+  .page-summary .chart-card{padding:14px 16px 12px!important;margin-bottom:8px!important;}
   .page-summary .chart-card-h{font-size:14px!important;margin-bottom:2px!important;}
   .page-summary .chart-card-t{font-size:10.4px!important;margin-bottom:5px!important;}
   .page-summary .chart-card svg{max-height:185px!important;}
   .page-summary .verdict{padding:12px 14px!important;margin-bottom:0!important;}
   .page-summary .verdict-eyebrow{font-size:10px!important;margin-bottom:4px!important;}
   .page-summary .verdict-title{font-size:14px!important;margin-bottom:4px!important;}
-  .page-summary .verdict-text{font-size:12.7px!important;line-height:1.32!important;}
+  .page-summary .verdict-text{font-size:11.9px!important;line-height:1.32!important;}
   .page-summary .mgt-bullets{gap:3px!important;margin-top:5px!important;}
-  .page-summary .mgt-bullets div{font-size:12.7px!important;line-height:1.22!important;}
+  .page-summary .mgt-bullets div{font-size:11.9px!important;line-height:1.22!important;}
 
   /* Pagina 4: risicomatrix, grafieken en actieblokken groter */
-  .page-risk .matrix{font-size:11.8px!important;margin-bottom:7px!important;}
+  .page-risk .matrix{font-size:11.2px!important;margin-bottom:7px!important;}
   .page-risk .matrix>div{padding:7px 9px!important;line-height:1.3!important;}
-  .page-risk .matrix .mh{font-size:11.8px!important;}
+  .page-risk .matrix .mh{font-size:11.2px!important;}
   .page-risk .chart-grid-2{gap:9px!important;margin-bottom:6px!important;}
-  .page-risk .chart-card{padding:9px 13px 7px!important;margin-bottom:6px!important;}
+  .page-risk .chart-card{padding:12px 15px 9px!important;margin-bottom:6px!important;}
   .page-risk .chart-card-h{font-size:14px!important;margin-bottom:2px!important;}
   .page-risk .chart-card-t{font-size:10.4px!important;margin-bottom:5px!important;}
   .page-risk .chart-card svg{max-height:96px!important;width:100%!important;}
   .page-risk .two-col{gap:10px!important;}
-  .page-risk .col-card{padding:12px 14px!important;}
+  .page-risk .col-card{padding:14px 16px!important;}
   .page-risk .col-h{font-size:14px!important;margin-bottom:5px!important;padding-bottom:5px!important;}
   .page-risk .col-list{gap:5px!important;}
-  .page-risk .col-list div{font-size:12.7px!important;line-height:1.3!important;}
+  .page-risk .col-list div{font-size:11.9px!important;line-height:1.3!important;}
   .page-risk .col-list div::before{margin-top:5px!important;}
   .page-risk .verdict{padding:11px 16px!important;margin-top:7px!important;margin-bottom:0!important;}
   .page-risk .verdict-eyebrow{font-size:10px!important;margin-bottom:4px!important;}
   .page-risk .verdict-title{font-size:14px!important;margin-bottom:4px!important;}
-  .page-risk .verdict-text{font-size:12.7px!important;line-height:1.24!important;margin-bottom:4px!important;}
+  .page-risk .verdict-text{font-size:11.9px!important;line-height:1.24!important;margin-bottom:4px!important;}
   .page-risk .mgt-bullets{gap:2px!important;margin-top:4px!important;}
-  .page-risk .mgt-bullets div{font-size:12.7px!important;line-height:1.16!important;}
+  .page-risk .mgt-bullets div{font-size:11.9px!important;line-height:1.16!important;}
 }
 
 
@@ -1435,7 +1437,7 @@ body.report-mode .rpt-mode{display:block;}
       <div style="margin-top:16px;">
         <label style="display:block;font-size:14px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;">Eigen inbreng <span style="font-weight:400;text-transform:none;color:var(--ink-3);">(optioneel — eigen middelen van de aanvrager, geen subsidie)</span></label>
         <input id="eigenInbreng" type="number" min="0" step="100" placeholder="Bijv. 5000" style="width:100%;border:1px solid var(--rule);border-radius:10px;padding:11px 13px;font:inherit;font-size:16px;line-height:1.5;color:var(--ink);background:#fff;outline:none;">
-        <div style="font-size:11.8px;color:var(--ink-4);margin-top:4px;line-height:1.4;">Eigen inbreng verlaagt uitsluitend de financieringsbehoefte, nooit de gerapporteerde netto-investering.</div>
+        <div style="font-size:11.2px;color:var(--ink-4);margin-top:4px;line-height:1.4;">Eigen inbreng verlaagt uitsluitend de financieringsbehoefte, nooit de gerapporteerde netto-investering.</div>
       </div>
 
       <div class="progress" id="progress"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
@@ -1952,15 +1954,15 @@ function pageEnergie(d){
       <div class="sec-bar">Stap 1 · Energieprestatie &amp; kerncijfers</div>
       <div class="page-eyebrow">Energieprestatie</div>
       <div class="page-title">Hoe presteert het pand — en wat levert verduurzaming op?</div>
-      <div class="page-title-sub">${heeftLabels?`Het energielabel verbetert van ${esc(d.huidig_label)} naar ${esc(d.streef_label)}.`:'Het energielabeltraject is niet meegenomen in deze indicatieve berekening.'} De kerncijfers hieronder komen uit het bronrapport en blijven door het hele dossier consistent.</div>
+      <div class="page-title-sub">${heeftLabels?`Het energielabel verbetert indicatief van ${esc(d.huidig_label)} naar ${esc(d.streef_label)}.`:'Het energielabeltraject is niet meegenomen in deze indicatieve berekening.'} Onderstaande kerncijfers zijn gebaseerd op het bronrapport.</div>
       <div class="page-thin-rule"></div>
 
       <div class="col-card" style="margin-bottom:16px;">
         <div class="col-h">Energielabel-traject ${heeftLabels?'· '+esc(d.huidig_label)+' → '+esc(d.streef_label):''}</div>
         ${heeftLabels?`<div style="padding:12px 0 4px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>
-        <div style="display:flex;justify-content:space-between;font-size:12.7px;color:var(--ink-3);margin-top:10px;">
+        <div style="display:flex;justify-content:space-between;font-size:11.9px;color:var(--ink-3);margin-top:10px;">
           <span>Minst zuinig (G)</span><span style="font-weight:600;color:var(--blue-deep);">${d.primaire_energie_reductie_pct!=null?'−'+esc(String(d.primaire_energie_reductie_pct))+'% primaire energie (indicatief, nader te bevestigen)':'Primaire-energiereductie niet meegenomen in deze indicatieve berekening'}</span><span>Meest zuinig (A++++)</span>
-        </div>`:`<div style="font-size:12.7px;color:var(--ink-3);padding:8px 0;">Het labeltraject is niet meegenomen in deze indicatieve berekening.</div>`}
+        </div>`:`<div style="font-size:11.9px;color:var(--ink-3);padding:8px 0;">Het labeltraject is niet meegenomen in deze indicatieve berekening.</div>`}
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;">
@@ -1972,7 +1974,7 @@ function pageEnergie(d){
           <div style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:15px 16px;border-top:3px solid ${k.c};">
             <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);margin-bottom:7px;">${k.l}</div>
             <div style="font-size:${/niet|nog niet/i.test(k.v)?'15px':'26px'};font-weight:700;color:${k.c};line-height:1.05;margin-bottom:5px;">${k.v}</div>
-            <div class="optional-detail" style="font-size:11.8px;color:var(--ink-3);line-height:1.4;">${k.s}</div>
+            <div class="optional-detail" style="font-size:11.2px;color:var(--ink-3);line-height:1.4;">${k.s}</div>
           </div>
         `).join('')}
       </div>
@@ -1980,13 +1982,13 @@ function pageEnergie(d){
       <div class="col-card">
         <div class="col-h">Uitgangspunten</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 18px;margin-top:6px;">
-          ${arr(d.uitgangspunten).slice(0,4).map(u=>`<div style="display:flex;gap:8px;font-size:12.7px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--orange);font-weight:700;flex-shrink:0;">›</span><span>${esc(truncateWords(u,24))}</span></div>`).join('')}
+          ${arr(d.uitgangspunten).slice(0,4).map(u=>`<div style="display:flex;gap:8px;font-size:11.9px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--orange);font-weight:700;flex-shrink:0;">›</span><span>${esc(truncateWords(u,24))}</span></div>`).join('')}
         </div>
       </div>
 
       ${d.diagnose?`<div class="col-card" style="margin-top:14px;background:var(--blue-faint);border:1px solid var(--blue-faint2);">
         <div class="col-h">Korte diagnose</div>
-        <div style="font-size:12.7px;color:var(--ink-2);line-height:1.5;margin-top:5px;">${esc(d.diagnose)}</div>
+        <div style="font-size:11.9px;color:var(--ink-2);line-height:1.5;margin-top:5px;">${esc(d.diagnose)}</div>
       </div>`:''}
 
     </div>
@@ -2028,7 +2030,7 @@ function pageMaatregelenAdvies(d){
       <div class="sec-bar">Stap 2 · Maatregelen &amp; prioritering</div>
       <div class="page-eyebrow">Geadviseerde maatregelen</div>
       <div class="page-title">Welke maatregelen worden geadviseerd, en in welke volgorde?</div>
-      <div class="page-title-sub">Maatregelen uit het bronrapport met investering, besparing, terugverdientijd en CO₂-effect, geprioriteerd op financieel rendement, technische volgorde, risico en comfort — niet alleen op terugverdientijd.</div>
+      <div class="page-title-sub">Maatregelen met investering, besparing, terugverdientijd en CO₂-effect, geprioriteerd op rendement, technische volgorde, risico en comfort.</div>
       <div class="page-thin-rule"></div>
 
       <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:11px 15px;margin-bottom:7px;">
@@ -2049,7 +2051,7 @@ function pageMaatregelenAdvies(d){
               <td style="${cell}text-align:right;color:var(--ink-3);">${m.tvt>0?num1(m.tvt)+' jr':'n.v.t.'}</td>
               <td style="${cell}text-align:right;color:var(--ink-3);">${m.co2>0?num2(m.co2):'—'}</td>
               <td style="${cell}text-align:right;padding-right:0;"><span class="pill ${volgColor[m.priority_tier]||'p-info'}" style="font-size:10px;">${volgLabel[m.priority_tier]||'Daarna uitvoeren'}</span></td>
-            </tr>`).join('')||'<tr><td colspan="6" style="padding:10px 0;font-size:9pt;color:var(--ink-3);">Geen maatregelen gevonden in het bronrapport.</td></tr>'}
+            </tr>`).join('')||'<tr><td colspan="6" style="padding:10px 0;font-size:8.4pt;color:var(--ink-3);">Geen maatregelen gevonden in het bronrapport.</td></tr>'}
             <tr style="background:#f8f6f2;font-weight:700;">
               <td style="padding:6px 8px 6px 0;color:var(--blue-deep);font-size:8.5pt;">Totaal pakket</td>
               <td style="padding:6px 8px 6px 0;text-align:right;color:var(--blue-deep);font-size:8.5pt;">${fmtEurOrNA(d.capex_totaal)}</td>
@@ -2059,7 +2061,7 @@ function pageMaatregelenAdvies(d){
             </tr>
           </tbody>
         </table>
-        <div style="font-size:11.8px;color:var(--ink-2);line-height:1.45;margin-top:7px;border-top:1px solid var(--blue-faint);padding-top:6px;">Opbrengst/jr = energiebesparing (${fmtEurOrNA(d.bes_jaar)}) + apart voordeel uit opwek (${d.opbrengst_opwek_jaar>0?eur(d.opbrengst_opwek_jaar):'n.v.t.'}).<br>CO₂ per maatregel is indicatief; de scope 1+2-reductie is leidend.<br>${buildCo2Sentence(d)}</div>
+        <div style="font-size:11.2px;color:var(--ink-2);line-height:1.45;margin-top:7px;border-top:1px solid var(--blue-faint);padding-top:6px;">Opbrengst/jr = energiebesparing (${fmtEurOrNA(d.bes_jaar)}) + apart voordeel uit opwek (${d.opbrengst_opwek_jaar>0?eur(d.opbrengst_opwek_jaar):'n.v.t.'}).<br>CO₂ per maatregel is indicatief; de scope 1+2-reductie is leidend.<br>${buildCo2Sentence(d)}</div>
       </div>
 
       <div class="col-card" style="margin-bottom:7px;">
@@ -2078,7 +2080,7 @@ function pageMaatregelenAdvies(d){
       ${bestaand.length?`<div style="background:var(--page);border-radius:9px;padding:9px 13px;margin-bottom:7px;">
         <div style="font-size:10.4px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:5px;">Reeds aanwezige voorzieningen</div>
         <div style="font-size:10.4px;color:var(--ink-3);line-height:1.4;margin-bottom:5px;">Reeds aanwezig en daarom niet meegenomen als nieuwe investering.</div>
-        ${bestaand.map(m=>`<div style="font-size:11.8px;color:var(--ink-2);padding:2px 0;">${esc(m.naam||'')}</div>`).join('')}
+        ${bestaand.map(m=>`<div style="font-size:11.2px;color:var(--ink-2);padding:2px 0;">${esc(m.naam||'')}</div>`).join('')}
       </div>`:''}
 
       ${(function(){
@@ -2092,7 +2094,7 @@ function pageMaatregelenAdvies(d){
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           ${ex.map(m=>`<div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:7px 10px;">
             <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;">
-              <span style="font-size:12.7px;font-weight:700;color:#fff;line-height:1.18;overflow-wrap:anywhere;">${esc(m.naam||'')}</span>
+              <span style="font-size:11.9px;font-weight:700;color:#fff;line-height:1.18;overflow-wrap:anywhere;">${esc(m.naam||'')}</span>
               <span style="font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:4px;padding:2px 5px;white-space:nowrap;flex-shrink:0;">Aanvullend</span>
             </div>
             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;font-size:10.4px;">
@@ -2128,7 +2130,7 @@ function pageSubsidies(d){
       <div class="page-title-sub">Deze regelingen zijn gebaseerd op algemene kennis van bestaande kaders, niet op een geverifieerde actuele bron.</div>
       <div class="page-thin-rule"></div>
 
-      ${subs.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+      ${subs.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;align-items:start;">
         ${subs.map(s=>{
           const st=String(s.status||'te controleren');
           const stl=st.toLowerCase();
@@ -2140,11 +2142,11 @@ function pageSubsidies(d){
             </div>
             ${(s.bedrag&&/\d/.test(String(s.bedrag)))?`<div style="font-size:16px;font-weight:800;color:var(--blue-deep);letter-spacing:-.2px;">${esc(s.bedrag)}</div>`:''}
             <div style="display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--mb-card-border-soft);padding-top:8px;">
-              <div style="font-size:11.8px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:10px;">Voorwaarden&nbsp;</b>${esc(truncateWords(s.voorwaarden||'Te bevestigen bij aanvraag.',10))}</div>
-              <div style="font-size:11.8px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:10px;">Bron&nbsp;</b>${esc(s.bron||'Algemene kennis')}${s.bron_datum?' · '+esc(s.bron_datum):''}</div>
+              <div style="font-size:11.2px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:10px;">Voorwaarden&nbsp;</b>${esc(truncateWords(s.voorwaarden||'Te bevestigen bij aanvraag.',10))}</div>
+              <div style="font-size:11.2px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:10px;">Bron&nbsp;</b>${esc(s.bron||'Algemene kennis')}${s.bron_datum?' · '+esc(s.bron_datum):''}</div>
             </div>
         </div>`;}).join('')}
-      </div>`:`<div style="background:var(--amber-bg);border-radius:10px;padding:14px 16px;font-size:9.5pt;color:var(--amber);margin-bottom:13px;">Geen subsidies of regelingen konden worden bepaald op basis van de aangeleverde gegevens.</div>`}
+      </div>`:`<div style="background:var(--amber-bg);border-radius:10px;padding:14px 16px;font-size:8.9pt;color:var(--amber);margin-bottom:13px;">Geen subsidies of regelingen konden worden bepaald op basis van de aangeleverde gegevens.</div>`}
 
       ${evidence.length?`<div class="col-card" style="margin-bottom:0;padding:16px 18px;">
         <div class="col-h">Bewijsstukken — status per onderdeel</div>
@@ -2156,9 +2158,9 @@ function pageSubsidies(d){
           </tr></thead>
           <tbody>
             ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="padding:7px 10px 7px 0;font-size:11.8px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
-              <td style="padding:7px 10px 7px 0;font-size:11.8px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
-              <td style="padding:7px 0;font-size:11.8px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
+              <td style="padding:7px 10px 7px 0;font-size:11.2px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
+              <td style="padding:7px 10px 7px 0;font-size:11.2px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
+              <td style="padding:7px 0;font-size:11.2px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
             </tr>`).join('')}
           </tbody>
         </table>
@@ -2224,7 +2226,7 @@ function pageGroeneParagraaf(d){
         </div>
         <div style="position:relative;font-size:23px;font-weight:800;line-height:1.04;letter-spacing:-.7px;margin-bottom:4px;">ESG-duiding &amp; interne dossierbeoordeling</div>
         <div style="position:relative;font-size:14px;font-weight:500;color:rgba(255,255,255,.75);margin-bottom:10px;">${obj}${adr?' · '+adr:''}</div>
-        <div style="position:relative;font-size:9pt;color:rgba(255,255,255,.93);line-height:1.5;max-width:94%;">${samenvatting}</div>
+        <div style="position:relative;font-size:8.9pt;color:rgba(255,255,255,.93);line-height:1.5;max-width:94%;">${samenvatting}</div>
       </div>
 
       <!-- KPI-TEGELS (bewust beperkt tot 2, zie toelichting hierboven) -->
@@ -2271,11 +2273,11 @@ function pageGroeneParagraaf(d){
               <div style="font-size:16.8px;font-weight:800;color:var(--blue-deep);line-height:1;">${x.v}<span style="font-size:10.4px;color:var(--ink-4);font-weight:600;">/100</span></div>
               <div style="height:4px;border-radius:3px;background:var(--blue-faint);overflow:hidden;"><div style="height:100%;width:${Math.max(0,Math.min(100,x.v))}%;background:${sc(x.v)};border-radius:3px;"></div></div>
               <div style="font-size:10.4px;color:var(--ink-3);">weging <b style="color:var(--ink-2);">${Math.round(x.w/totW*100)}%</b></div>
-              <div style="font-size:11.8px;font-weight:700;color:var(--orange);">= ${num1(contrib(x))} pt</div>
+              <div style="font-size:11.2px;font-weight:700;color:var(--orange);">= ${num1(contrib(x))} pt</div>
             </div>`).join('')}
             <div style="display:flex;flex-direction:column;justify-content:center;gap:3px;background:linear-gradient(150deg,#0d3348,#11684a);border-radius:10px;padding:12px 15px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
               <div style="font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);">Dossierbeoordeling</div>
-              <div style="font-size:21px;font-weight:800;line-height:1;">${total}<span style="font-size:11.8px;font-weight:600;color:rgba(255,255,255,.7);">/100</span></div>
+              <div style="font-size:21px;font-weight:800;line-height:1;">${total}<span style="font-size:11.2px;font-weight:600;color:rgba(255,255,255,.7);">/100</span></div>
               <div style="font-size:10px;color:rgba(255,255,255,.7);line-height:1.25;">som van de bijdragen</div>
             </div>
           </div>
@@ -3547,7 +3549,7 @@ function renderQualityBanner(warnings){
       <span style="font-size:14px;color:var(--ink-3);">Toon/verberg details</span>
     </div>
     <div id="qualityBannerBody" style="display:none;margin-top:8px;display:flex;flex-direction:column;gap:4px;">
-      ${warnings.map(w=>`<div style="font-size:14px;color:var(--ink-2);"><b style="color:${sevColor(w.severity)};text-transform:uppercase;font-size:11.8px;letter-spacing:.5px;">${esc(w.severity)}</b> · ${esc(w.message)}</div>`).join('')}
+      ${warnings.map(w=>`<div style="font-size:14px;color:var(--ink-2);"><b style="color:${sevColor(w.severity)};text-transform:uppercase;font-size:11.2px;letter-spacing:.5px;">${esc(w.severity)}</b> · ${esc(w.message)}</div>`).join('')}
     </div>
   </div>`;
 }
@@ -3623,12 +3625,15 @@ function runLayoutQualityChecks(){
   if(!stage) return warnings;
   const push=(code,severity,message,page)=>warnings.push({code,severity,message,page});
 
-  // Typografische ondergrenzen (spec §18), in px bij 96dpi-referentie.
+  // Typografische ondergrenzen — bewust herzien op verzoek van de opdrachtgever
+  // (verfijningsronde): paginatitels iets groter, lopende tekst en
+  // tabeltekst bewust iets kleiner voor een compactere, "bankrapport"-achtige
+  // uitstraling. Dit vervangt de eerdere, ruimere ondergrenzen uit sectie 18.
   const FLOORS=[
-    {sel:'.page-title,.hero-title',minPx:20,label:'paginatitel (≥15pt)'},
+    {sel:'.page-title,.hero-title',minPx:21,label:'paginatitel (≥16,5pt)'},
     {sel:'.col-h,.chart-card-h',minPx:14,label:'tussenkop (≥10,5pt)'},
-    {sel:'.page-body,.body-text',minPx:12.6,label:'lopende tekst (≥9,5pt)'},
-    {sel:'table td,table th,.ml',minPx:11.7,label:'tabeltekst (≥8,8pt)'},
+    {sel:'.page-body,.body-text',minPx:11.6,label:'lopende tekst (≥8,8pt)'},
+    {sel:'table td,table th,.ml',minPx:10.9,label:'tabeltekst (≥8,3pt)'},
     {sel:'.optional-note,.optional-detail,.disclaimer-note',minPx:10.3,label:'voetnoot (≥7,8pt)'},
     {sel:'.pill,.hdr-tag,.p-good,.p-warn,.p-bad,.p-info',minPx:9.9,label:'badge (≥7,5pt)'}
   ];
@@ -3762,14 +3767,14 @@ function pageFinancieel(d){
     const vergelijking=(!isReference && refA.c>0)?`<div style="display:flex;justify-content:space-between;font-size:10.4px;color:var(--ink-4);margin-top:5px;padding-top:5px;border-top:1px dashed var(--blue-faint);"><span>T.o.v. volledig pakket</span><span>${Math.round(deltaT)}% van de investering</span></div>`:'';
     return `<div style="background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
       <div style="font-size:10.4px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">${esc(title)}</div>
-      <div style="font-size:11.8px;color:var(--ink-3);margin-bottom:8px;line-height:1.4;">${esc(note)}</div>
-      <div style="display:flex;justify-content:space-between;font-size:12.7px;color:var(--ink-2);border-top:1px solid var(--blue-faint);padding-top:6px;">
+      <div style="font-size:11.2px;color:var(--ink-3);margin-bottom:8px;line-height:1.4;">${esc(note)}</div>
+      <div style="display:flex;justify-content:space-between;font-size:11.9px;color:var(--ink-2);border-top:1px solid var(--blue-faint);padding-top:6px;">
         <span>${list.length} maatregel${list.length===1?'':'en'}</span><span style="font-weight:700;color:var(--blue-deep);">${eurC(c)}</span>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:12.7px;color:var(--ink-2);margin-top:3px;">
+      <div style="display:flex;justify-content:space-between;font-size:11.9px;color:var(--ink-2);margin-top:3px;">
         <span>Totaal financieel effect/jr</span><span style="font-weight:700;color:var(--green);">${tot>0?eurC(tot):'Niet meegenomen'}</span>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:12.7px;color:var(--ink-2);margin-top:3px;">
+      <div style="display:flex;justify-content:space-between;font-size:11.9px;color:var(--ink-2);margin-top:3px;">
         <span>Eenvoudige TVT</span><span style="font-weight:700;color:var(--blue-deep);">${t}</span>
       </div>
       ${vergelijking}
@@ -3778,7 +3783,7 @@ function pageFinancieel(d){
   };
   const fasesHtml=Object.keys(scenCFases).sort().map(f=>{
     const list=scenCFases[f]; const c=sumOf(list,'capex'), b=sumOf(list,'bes'), o=sumOf(list,'opwek');
-    return `<div style="font-size:11.8px;color:var(--ink-2);padding:3px 0;border-bottom:1px dashed var(--blue-faint);"><b style="color:var(--blue-deep);">${esc(f)}</b> — ${list.length} maatregel${list.length===1?'':'en'} · ${eurC(c)} · ${eurC(b+o)}/jr financieel effect</div>`;
+    return `<div style="font-size:11.2px;color:var(--ink-2);padding:3px 0;border-bottom:1px dashed var(--blue-faint);"><b style="color:var(--blue-deep);">${esc(f)}</b> — ${list.length} maatregel${list.length===1?'':'en'} · ${eurC(c)} · ${eurC(b+o)}/jr financieel effect</div>`;
   }).join('');
 
   const eigenInbreng=Number(d.eigen_inbreng)||0;
@@ -3816,13 +3821,13 @@ function pageFinancieel(d){
         </div>`).join('')}
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;align-items:start;">
         ${scenarioCard('Scenario A — volledig pakket',scenA,'Alle geadviseerde maatregelen samen.',true)}
         ${scenarioCard('Scenario B — rendementspakket',scenB,'Maatregelen met een redelijke terugverdientijd (≤15 jr) en beperkte technische onzekerheid.',false,nearMissNote)}
         <div style="background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
           <div style="font-size:10.4px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">Scenario C — gefaseerde uitvoering</div>
-          <div style="font-size:11.8px;color:var(--ink-3);margin-bottom:6px;line-height:1.4;">Logische uitvoering in fasen op basis van de prioritering.</div>
-          ${fasesHtml||'<div style="font-size:11.8px;color:var(--ink-3);">Onvoldoende gegevens voor fasering.</div>'}
+          <div style="font-size:11.2px;color:var(--ink-3);margin-bottom:6px;line-height:1.4;">Logische uitvoering in fasen op basis van de prioritering.</div>
+          ${fasesHtml||'<div style="font-size:11.2px;color:var(--ink-3);">Onvoldoende gegevens voor fasering.</div>'}
         </div>
       </div>
 
@@ -3954,7 +3959,7 @@ function chartLine(values,opts){
 
 function chartLabelLadder(labels,huidig,streef){
   if(!Array.isArray(labels)||labels.length===0||!Number.isFinite(Number(huidig))||!Number.isFinite(Number(streef))){
-    return '<div style="font-size:11.8px;color:var(--ink-4);padding:10px 0;">Labeltraject niet meegenomen in deze indicatieve berekening.</div>';
+    return '<div style="font-size:11.2px;color:var(--ink-4);padding:10px 0;">Labeltraject niet meegenomen in deze indicatieve berekening.</div>';
   }
   const w=540,h=80,n=labels.length,bw=w/n;
   const colors={'G':'#a02121','F':'#b84a1f','E':'#c97211','D':'#d99a18','C':'#c9bb1d','B':'#7ea61a','A':'#3d9a26','A+':'#2d8a3a','A++':'#1d8546','A+++':'#0e7d52','A++++':'#00735c'};
@@ -4112,7 +4117,7 @@ function pageBanksamenvatting(d){
           <div class="chart-card-h">Energielabel-traject</div>
           <div class="chart-card-t">${heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label)+' · '+stappen+' labelstap'+(stappen===1?'':'pen')+', te bevestigen na uitvoering':'Labeltraject niet meegenomen in deze indicatieve berekening'}</div>
           ${heeftLabels?`<div style="padding:14px 0 4px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>`:''}
-          <div style="display:flex;justify-content:space-between;font-size:11.8px;color:var(--ink-3);margin-top:8px;flex-wrap:wrap;gap:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:11.2px;color:var(--ink-3);margin-top:8px;flex-wrap:wrap;gap:6px;">
             <span><b style="color:var(--blue-deep);">Primaire-energie</b> ${d.primaire_energie_reductie_pct!=null?'−'+esc(d.primaire_energie_reductie_pct)+'% (ind.)':'niet meegenomen in deze berekening'}</span>
             <span><b style="color:var(--blue-deep);">CO₂</b> ${d._co2_betrouwbaar?'−'+esc(d.co2_reductie_pct)+'% · '+esc(num1(d.co2_reductie_ton))+' t/jr':'niet meegenomen in deze berekening'}</span>
             <span><b style="color:var(--blue-deep);">Besparing</b> ${fmtEurOrNA(d.bes_jaar)}/jr${d.opbrengst_opwek_jaar?' + '+fmtEurOrNA(d.opbrengst_opwek_jaar)+' opwek':''}</span>
@@ -4176,12 +4181,12 @@ function pageRisico(d){
         <div class="chart-card">
           <div class="chart-card-h">CO₂-emissiepad · scope 1+2</div>
           <div class="chart-card-t">${d._co2_betrouwbaar?'Indicatief reductiepad over 15 jaar (ton CO₂-eq / jr)':'Onvoldoende brondata voor een betrouwbaar reductiepad'}</div>
-          ${(arr(d.co2_pad).length)?chartLine(d.co2_pad,{w:540,h:96,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#2A7A50'}):'<div style="font-size:11.8px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
+          ${(arr(d.co2_pad).length)?chartLine(d.co2_pad,{w:540,h:96,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#2A7A50'}):'<div style="font-size:11.2px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
         </div>
         <div class="chart-card">
           <div class="chart-card-h">Scope 1 / Scope 2 · ton CO₂-eq / jaar</div>
           <div class="chart-card-t">Voor en na uitvoering maatregelenpakket</div>
-          ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:11.8px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
+          ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:11.2px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
         </div>
       </div>
 
@@ -4757,12 +4762,12 @@ function pageSfdrTax(d){
     <div class="page-body">
       <div class="page-eyebrow">Regelgevingsduiding &amp; SDG's</div>
       <div class="page-title">SFDR &middot; Pillar 3 &middot; EU Taxonomie &middot; DNSH</div>
-      <div class="page-title-sub">Terughoudende duiding: dit object valt niet automatisch onder deze kaders — het dossier levert input die een financier kan gebruiken voor de eigen beoordeling.</div>
+      <div class="page-title-sub">Terughoudende duiding: dit object valt niet automatisch onder deze kaders — het dossier levert input voor de eigen beoordeling van de financier.</div>
       <div class="page-thin-rule"></div>
 
       <div style="background:var(--blue-faint);border-radius:10px;padding:10px 14px;margin-bottom:10px;border-left:3px solid var(--blue);">
         <div style="font-size:10.4px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:3px;">In gewone taal</div>
-        <div style="font-size:9pt;color:var(--ink-2);line-height:1.55;">
+        <div style="font-size:8.9pt;color:var(--ink-2);line-height:1.55;">
           SFDR en Pillar 3 zien niet rechtstreeks op dit object, maar op de financier zelf. <b>${esc(d.object_naam||'dit pand')}</b> levert naar verwachting ${energiePctTxt} minder primair energieverbruik, labeltraject ${labelTxt} en CO₂-reductie ${co2Txt} — bruikbaar als input voor de rapportage van de financier. Formele classificatie volgt pas na oplevering, een nieuw energielabel en bevestiging van DNSH.
         </div>
       </div>
@@ -4869,7 +4874,7 @@ function pageBewijsVervolg(d){
         <div style="position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(31,146,89,.4),rgba(255,255,255,0) 70%);"></div>
         <div style="position:relative;font-size:10.4px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);margin-bottom:7px;">Eindadvies</div>
         <div style="position:relative;font-size:17px;font-weight:800;color:#fff;line-height:1.4;margin-bottom:9px;letter-spacing:-.3px;">${esc(d.executive_conclusie||d.object_naam||'Dit dossier')}</div>
-        <div style="position:relative;font-size:9.5pt;color:rgba(255,255,255,.9);line-height:1.6;margin-bottom:12px;max-width:97%;">${esc(d.assurance_tekst||buildEvidenceConclusion(d))}</div>
+        <div style="position:relative;font-size:8.9pt;color:rgba(255,255,255,.9);line-height:1.6;margin-bottom:12px;max-width:97%;">${esc(d.assurance_tekst||buildEvidenceConclusion(d))}</div>
         ${(function(){
           const tiles=[
             {l:'Interne dossierbeoordeling',v:(Number.isFinite(Number(d.bankscore))?esc(String(d.bankscore)):'—')+' / 100',s:esc(d.bankscore_oordeel||'Onvoldoende gegevens')},
@@ -4892,18 +4897,18 @@ function pageBewijsVervolg(d){
       <div style="background:var(--amber-bg);border:1px solid #e8d9a8;border-radius:10px;padding:10px 15px;margin-bottom:11px;">
         <div style="font-size:10.4px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--amber);margin-bottom:8px;">Aandachtspunten vóór financieringsaanvraag</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;">
-          ${w.map(x=>`<div style="display:flex;gap:8px;align-items:flex-start;font-size:11.8px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--amber);font-weight:800;flex-shrink:0;">!</span><span>${esc(x)}</span></div>`).join('')}
+          ${w.map(x=>`<div style="display:flex;gap:8px;align-items:flex-start;font-size:11.2px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--amber);font-weight:800;flex-shrink:0;">!</span><span>${esc(x)}</span></div>`).join('')}
         </div>
       </div>`:'';})()}
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:9px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:9px;align-items:start;">
         <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
           <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">Nog aan te leveren</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             ${arr(d.missing).slice(0,4).map(m=>`
               <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:flex-start;padding-bottom:7px;border-bottom:1px solid var(--blue-faint);">
                 <div>
-                  <div style="font-size:9pt;font-weight:600;color:var(--ink);margin-bottom:1px;">${esc(m.stuk||'')}</div>
+                  <div style="font-size:8.9pt;font-weight:600;color:var(--ink);margin-bottom:1px;">${esc(m.stuk||'')}</div>
                   <div style="font-size:10.4px;color:var(--ink-3);">${esc(m.actie||'')}</div>
                 </div>
                 <span class="pill ${m.prio==='Hoog'?'p-bad':m.prio==='Middel'?'p-warn':'p-good'}" style="white-space:nowrap;">${esc(m.prio||'')}</span>
@@ -4917,7 +4922,7 @@ function pageBewijsVervolg(d){
           <div style="display:flex;flex-direction:column;gap:8px;">
             ${arr(d.vervolg).slice(0,4).map((v,i)=>`
               <div style="display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:flex-start;padding-bottom:7px;border-bottom:1px solid var(--blue-faint);">
-                <div style="width:22px;height:22px;border-radius:50%;background:var(--blue-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11.8px;font-weight:700;flex-shrink:0;">${i+1}</div>
+                <div style="width:22px;height:22px;border-radius:50%;background:var(--blue-deep);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11.2px;font-weight:700;flex-shrink:0;">${i+1}</div>
                 <div style="font-size:8.5pt;color:var(--ink-2);line-height:1.5;">${esc(v)}</div>
               </div>
             `).join('')}
@@ -4930,8 +4935,8 @@ function pageBewijsVervolg(d){
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
           ${levels.map(lv=>`
             <div style="padding:7px 9px;border-radius:8px;background:${lv.nr<=lvl?'var(--blue-deep)':lv.nr===lvl+1?'var(--blue-faint)':'var(--page)'};${lv.nr===lvl?'outline:2px solid var(--orange);outline-offset:1px;':''}">
-              <div style="font-size:11.8px;font-weight:700;color:${lv.nr<=lvl?'#fff':lv.nr===lvl+1?'var(--blue)':'var(--ink-4)'};margin-bottom:2px;">Niveau ${lv.nr}</div>
-              <div style="font-size:11.8px;font-weight:600;color:${lv.nr<=lvl?'rgba(255,255,255,.9)':'var(--ink-3)'};margin-bottom:1px;">${lv.l}</div>
+              <div style="font-size:11.2px;font-weight:700;color:${lv.nr<=lvl?'#fff':lv.nr===lvl+1?'var(--blue)':'var(--ink-4)'};margin-bottom:2px;">Niveau ${lv.nr}</div>
+              <div style="font-size:11.2px;font-weight:600;color:${lv.nr<=lvl?'rgba(255,255,255,.9)':'var(--ink-3)'};margin-bottom:1px;">${lv.l}</div>
               ${lv.nr===lvl?`<div style="font-size:10px;font-weight:700;color:var(--orange);margin-top:3px;text-transform:uppercase;letter-spacing:.5px;">← Huidig</div>`:''}
               ${lv.nr===lvl+1?`<div style="font-size:10px;font-weight:700;color:var(--blue);margin-top:3px;text-transform:uppercase;letter-spacing:.5px;">→ Volgend niveau</div>`:''}
             </div>
