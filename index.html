@@ -310,26 +310,35 @@ body.report-mode .rpt-mode{display:block;}
 
 /* ── AUTOMATISCHE A4-FIT — progressief toegepast door fitAllPagesToA4()
    wanneer de content van een pagina het beschikbare budget overschrijdt.
-   Vaste volgorde: 1 marges, 2 verticale padding, 3 regelafstand,
-   4 secundaire tekst verbergen, 5 optionele toelichtingen inkorten.
-   Lettertype verkleinen is GEEN van de 5 stappen en wordt alleen als
-   allerlaatste veiligheidsklep ingezet (compact-6), nooit onder ~8,5pt,
-   en nooit via CSS transform/scale (dat maakt tekst wazig). ── */
-/* Stap 1 — marges verkleinen. */
+   Verplichte volgorde (spec): 1 dubbele info verwijderen, 2 vrije tekst
+   verkorten, 3 lijsten beperken — deze drie zijn CONTENT-fixes en gebeuren
+   al bij het opbouwen van de tekst in JS (o.a. buildDiagnosis, uitgangspunten,
+   evidence/subsidie/risico-lijsten met vaste maxima), niet hier. Wat volgt is
+   de resterende, puur visuele CSS-ladder: 4 marges/kaartpadding, 5 tabellen
+   compacter, 6 regelafstand, 7 secundaire tekst inkorten/verbergen.
+   Lettertype verkleinen is GEEN van deze stappen en wordt alleen als
+   allerlaatste veiligheidsklep ingezet (compact-6), nooit onder de
+   typografische ondergrenzen uit sectie 18, en nooit via CSS transform/scale
+   (dat maakt tekst wazig en telt niet als een oplossing). ── */
+/* Stap 4a — marges verkleinen. */
 .a4.compact-1 .page-body>div{margin-bottom:6px!important;}
 .a4.compact-1 .page-thin-rule{margin:4px 0 8px!important;}
 .a4.compact-1 .chart-grid-2,.a4.compact-1 .two-col{gap:6px!important;}
-/* Stap 2 — verticale padding verkleinen. */
+/* Stap 4b — verticale kaartpadding verkleinen + Stap 5 — tabellen compacter
+   (rijhoogte/celpadding), in dezelfde fase toegepast. */
 .a4.compact-2 .col-card,.a4.compact-2 .chart-card,.a4.compact-2 .verdict,.a4.compact-2 .close-card{padding:8px 10px!important;}
 .a4.compact-2 .page-body{padding-top:18px!important;}
-/* Stap 3 — regelafstand iets kleiner (lettergrootte blijft gelijk). */
+.a4.compact-2 table td,.a4.compact-2 table th{padding-top:4px!important;padding-bottom:4px!important;}
+/* Stap 6 — regelafstand iets kleiner (lettergrootte blijft gelijk). */
 .a4.compact-3 .page-body{line-height:1.32!important;}
 .a4.compact-3 .col-list div,.a4.compact-3 .ml{line-height:1.28!important;}
-/* Stap 4 — secundaire tekst (bijschriften/voetnoten) verbergen. */
+/* Stap 7a — secundaire tekst (bijschriften/voetnoten) verbergen. */
 .a4.compact-4 .optional-detail{display:none!important;}
-/* Stap 5 — optionele toelichtingen inkorten (niet verbergen, maar tot 2 regels beperken). */
+/* Stap 7b — optionele toelichtingen inkorten (niet verbergen, maar tot 2 regels beperken). */
 .a4.compact-5 .optional-note{display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden!important;}
-/* Stap 6 — veiligheidsklep: pas als alle voorgaande stappen niet genoeg zijn, het lettertype heel beperkt verkleinen (nooit onder ~8,5pt). */
+/* Veiligheidsklep — pas als alle voorgaande stappen niet genoeg zijn, het
+   lettertype heel beperkt verkleinen, nooit onder de minimale punt-maten
+   uit sectie 18 (lopende tekst blijft ≥9,5pt / 12,7px, paginatitel ≥15pt / 20px). */
 .a4.compact-6 .page-body{font-size:9.52pt!important;}
 .a4.compact-6 .body-text,.a4.compact-6 .col-list div,.a4.compact-6 .ml{font-size:12.7px!important;}
 .a4.compact-6 .page-title{font-size:20px!important;}
@@ -1900,7 +1909,7 @@ function buildLocalReport(text){
     vervolg:[
       'Offertes en uitvoeringsplanning aanleveren.',
       'Subsidie- of financieringsstatus bevestigen bij de bevoegde instantie.',
-      'DNSH-thema\'s en sociale waarborgen per thema onderbouwen met bewijsstukken.',
+      'Aanvullende DNSH-onderbouwing alleen uitwerken indien de financier of regeling dit verlangt.',
       'Na uitvoering: facturen, opleverbewijs en (indien van toepassing) het nieuwe energielabel aanleveren voor een hoger bewijsniveau.'
     ]
   };
@@ -1971,13 +1980,13 @@ function pageEnergie(d){
       <div class="col-card">
         <div class="col-h">Uitgangspunten</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 18px;margin-top:6px;">
-          ${arr(d.uitgangspunten).slice(0,6).map(u=>`<div style="display:flex;gap:8px;font-size:12.7px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--orange);font-weight:700;flex-shrink:0;">›</span><span>${esc(u)}</span></div>`).join('')}
+          ${arr(d.uitgangspunten).slice(0,4).map(u=>`<div style="display:flex;gap:8px;font-size:12.7px;color:var(--ink-2);line-height:1.42;"><span style="color:var(--orange);font-weight:700;flex-shrink:0;">›</span><span>${esc(truncateWords(u,24))}</span></div>`).join('')}
         </div>
       </div>
 
-      ${d.diagnose?`<div class="col-card" style="margin-top:16px;background:var(--blue-faint);border:1px solid var(--blue-faint2);">
+      ${d.diagnose?`<div class="col-card" style="margin-top:14px;background:var(--blue-faint);border:1px solid var(--blue-faint2);">
         <div class="col-h">Korte diagnose</div>
-        <div style="font-size:12.7px;color:var(--ink-2);line-height:1.55;margin-top:6px;">${esc(d.diagnose)}</div>
+        <div style="font-size:12.7px;color:var(--ink-2);line-height:1.5;margin-top:5px;">${esc(d.diagnose)}</div>
       </div>`:''}
 
     </div>
@@ -2116,10 +2125,10 @@ function pageSubsidies(d){
       <div class="sec-bar">Stap 3 · Subsidies, financiering &amp; bewijsstukken</div>
       <div class="page-eyebrow">Subsidies &amp; regelingen</div>
       <div class="page-title">Welke subsidies en regelingen zijn mogelijk relevant?</div>
-      <div class="page-title-sub">Deze regelingen zijn gebaseerd op algemene kennis van bestaande kaders, niet op een geverifieerde actuele bron. Controleer bedragen, percentages en aanvraagtermijnen altijd bij de bevoegde instantie vóór opdrachtverlening.</div>
+      <div class="page-title-sub">Deze regelingen zijn gebaseerd op algemene kennis van bestaande kaders, niet op een geverifieerde actuele bron.</div>
       <div class="page-thin-rule"></div>
 
-      ${subs.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+      ${subs.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
         ${subs.map(s=>{
           const st=String(s.status||'te controleren');
           const stl=st.toLowerCase();
@@ -2137,9 +2146,9 @@ function pageSubsidies(d){
         </div>`;}).join('')}
       </div>`:`<div style="background:var(--amber-bg);border-radius:10px;padding:14px 16px;font-size:9.5pt;color:var(--amber);margin-bottom:13px;">Geen subsidies of regelingen konden worden bepaald op basis van de aangeleverde gegevens.</div>`}
 
-      ${evidence.length?`<div class="col-card" style="margin-bottom:0;padding:22px 24px;">
+      ${evidence.length?`<div class="col-card" style="margin-bottom:0;padding:16px 18px;">
         <div class="col-h">Bewijsstukken — status per onderdeel</div>
-        <table style="width:100%;border-collapse:collapse;margin-top:10px;">
+        <table style="width:100%;border-collapse:collapse;margin-top:8px;">
           <thead><tr style="border-bottom:1.5px solid var(--blue-faint);">
             <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;width:24%;">Onderdeel</th>
             <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;width:34%;">Waarde</th>
@@ -2147,15 +2156,15 @@ function pageSubsidies(d){
           </tr></thead>
           <tbody>
             ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="padding:9px 10px 9px 0;font-size:11.8px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
-              <td style="padding:9px 10px 9px 0;font-size:11.8px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
-              <td style="padding:9px 0;font-size:11.8px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
+              <td style="padding:7px 10px 7px 0;font-size:11.8px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
+              <td style="padding:7px 10px 7px 0;font-size:11.8px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
+              <td style="padding:7px 0;font-size:11.8px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
             </tr>`).join('')}
           </tbody>
         </table>
       </div>`:''}
 
-      <div class="optional-note" style="font-size:10.4px;color:var(--ink-4);line-height:1.4;margin-top:14px;padding-top:10px;border-top:1px solid var(--blue-faint);">${esc(d.subsidies_disclaimer||'De actuele voorwaarden, aanvraagtermijnen en bedragen moeten vóór opdrachtverlening worden gecontroleerd bij de bevoegde instantie.')}</div>
+      <div class="disclaimer-note" data-disclaimer="subsidies" style="font-size:10.4px;color:var(--ink-4);line-height:1.4;margin-top:11px;padding-top:8px;border-top:1px solid var(--blue-faint);">Actuele voorwaarden, bedragen en aanvraagtermijnen moeten vóór opdrachtverlening worden gecontroleerd bij de bevoegde instantie.</div>
 
     </div>
     ${pageFoot()}
@@ -2526,7 +2535,7 @@ function computeEsgScore(d, context){
     {l:'Bewijsniveau',v:'Niveau '+lvl+' / 4'},
     {l:'Datakwaliteit',v:heeftVerbruik?'Werkelijk verbruik verwerkt':'Niet meegenomen in deze indicatieve berekening'},
     {l:'Labeltraject',v:heeftLabels?'Bekend uit bronrapport':'Niet meegenomen in deze indicatieve berekening'},
-    {l:'Klimaatindicatie',v:heeftCo2?'CO₂-cijfers rekenkundig gecontroleerd':'Niet beoordeeld — onvoldoende brongegevens'},
+    {l:'Klimaatindicatie',v:heeftCo2?'CO₂-cijfers rekenkundig gecontroleerd':'Niet meegenomen in deze indicatieve berekening'},
     {l:'Rapportagegereedheid',v:lvl>=3?'Voorwaardelijk — bewijsstukken nog aan te leveren':'Aanvullende onderbouwing nodig'}
   ];
   return d;
@@ -2842,6 +2851,7 @@ function sanitizeText(value){
     .replace(/\uFFFE|\uFFFF/g,'')
     .replace(/\u00AD/g,'')
     .replace(/[\u200B-\u200D\u2060]/g,'')
+    .replace(/\bdnsh\b/gi,'DNSH')
     .replace(/\s+/g,' ')
     .normalize('NFC')
     .trim();
@@ -2889,54 +2899,48 @@ function buildManagementSummary(d){
    ("wijst op", "suggereert", "nader onderzoek moet dit bevestigen") en
    presenteert vermoedens nooit als vaststaand feit. */
 function buildDiagnosis(d){
-  const obj=String(d.object_naam||'dit object').trim();
   const ms=arr(d.maatregelen).filter(m=>!m.reeds_aanwezig);
   const nrm=s=>_norm(s||'');
   const isSchil=m=>/isolatie|dak|gevel|vloer|spouw|kozijn|glas|beglazing|kierdicht/.test(nrm(m.naam));
   const isVentilatie=m=>/ventilatie|wtw/.test(nrm(m.naam));
-  const isAfgifte=m=>/radiator|vloerverwarming|afgiftesysteem/.test(nrm(m.naam));
   const isOpwek=m=>/warmtepomp|ketel|cv-ketel/.test(nrm(m.naam));
-  const isOpwekEnergie=m=>/zonnepaneel|zonnepanelen|pv[- ]?paneel/.test(nrm(m.naam));
   const schilMs=ms.filter(isSchil);
   const eersteMs=ms.filter(m=>m.priority_tier===1).sort((a,b)=>(b.total_financial_benefit_year||b.bes||0)-(a.total_financial_benefit_year||a.bes||0));
   const heeftSchil=schilMs.length>0;
   const heeftInstallatie=ms.some(isOpwek)||ms.some(isVentilatie);
-  const oudBouw=Number(d.bouwjaar)&&Number(d.bouwjaar)<1990;
-  const hoogGas=Number(d.gasverbruik)>0 && Number(d.oppervlakte)>0 && (Number(d.gasverbruik)/Number(d.oppervlakte))>10;
+
+  // Signalen: uitsluitend op basis van kwalitatieve, pandspecifieke gegevens
+  // (energielabel, gasverbruik, maatregelenpakket) — nooit uitsluitend het
+  // bouwjaar, en zonder cijfers te herhalen die al in de kernkaarten staan.
+  const signalen=[];
+  if(d.huidig_label) signalen.push(`het energielabel ${d.huidig_label}`);
+  if(Number(d.gasverbruik)>0) signalen.push('het gasverbruik');
+  signalen.push('de geadviseerde maatregelen');
+  const signalenTxt=signalen.length>1
+    ? signalen.slice(0,-1).join(', ')+' en '+signalen[signalen.length-1]
+    : signalen[0];
 
   const zinnen=[];
-  // 1) Wat de cijfers zeggen over het pand.
-  if(oudBouw && hoogGas){
-    zinnen.push(`Het bouwjaar, het gasverbruik en het maatregelenpakket van ${esc(obj)} wijzen op relatief hoog warmteverlies via de gebouwschil.`);
-  } else if(oudBouw){
-    zinnen.push(`Het bouwjaar van ${esc(obj)} suggereert een gebouwschil die nog niet aan de huidige isolatiestandaard voldoet.`);
-  } else if(hoogGas){
-    zinnen.push(`Het gasverbruik van ${esc(obj)} ligt relatief hoog ten opzichte van het oppervlak, wat op verbeterpotentieel in de schil of installatie wijst.`);
-  } else {
-    zinnen.push(`De beschikbare cijfers geven geen uitgesproken signaal van bovengemiddeld warmteverlies bij ${esc(obj)}.`);
-  }
-  // 2) Waar vermoedelijk de grootste inefficiëntie zit + 3) prioriteit.
+  zinnen.push(`${esc(signalenTxt)} wijzen erop dat verbetering van de gebouwschil${heeftSchil?'':' mogelijk'} de eerste prioriteit vormt.`);
   if(heeftSchil){
     const namen=schilMs.slice(0,2).map(m=>String(m.naam||'').toLowerCase()).join(' en ');
-    zinnen.push(`Dit suggereert dat ${namen||'gevel- en dakisolatie'} het beste gecombineerde effect op investering en besparing opleveren.`);
-  } else if(heeftInstallatie){
-    zinnen.push('Zonder aanvullende schilmaatregelen in dit pakket ligt de nadruk op de installatiezijde van het verbruik.');
+    zinnen.push(`${esc(namen||'Gevel- en dakisolatie')} bieden volgens de beschikbare gegevens het beste gecombineerde effect.`);
+  } else {
+    zinnen.push('Nader onderzoek moet bevestigen welke schilmaatregel het beste gecombineerde effect biedt.');
   }
-  // 4) Technische volgorde.
   if(heeftSchil && heeftInstallatie){
-    zinnen.push('Installatiemaatregelen moeten daarna worden afgestemd op de lagere warmtevraag na uitvoering van de schilmaatregelen.');
+    zinnen.push('Installatiemaatregelen worden daarna afgestemd op de lagere warmtevraag.');
   } else if(eersteMs.length){
-    zinnen.push(`${eersteMs[0].naam||'De eerste maatregel'} vormt op basis van het rendement de logische eerste stap.`);
+    zinnen.push(`${esc(eersteMs[0].naam||'De eerst geadviseerde maatregel')} vormt op basis van het rendement de logische eerste stap.`);
   }
-  zinnen.push('Nader technisch onderzoek moet deze inschatting na uitvoering bevestigen.');
 
-  return truncateWords(zinnen.join(' '), 80);
+  return truncateWords(zinnen.join(' '), 55);
 }
 
 /* Financieringsconclusie — gebruikt in de ESG-duiding en het eindadvies. */
 function buildFinancingConclusion(d){
   const obj=String(d.object_naam||'Dit object').trim();
-  return `${esc(obj)} is met dit maatregelenpakket indicatief bruikbaar als duurzaamheidsbijlage bij een financieringsaanvraag, onder voorbehoud van offertes, uitvoering en het nieuwe energielabel.`;
+  return `Het geadviseerde maatregelenpakket levert bij ${esc(obj)} een indicatieve bijdrage aan de duurzaamheidsdoelstellingen van de financier, onder voorbehoud van offertes, uitvoering en het nieuwe energielabel.`;
 }
 
 /* buildExecutiveConclusion — de executive conclusie (max. 100 woorden) op
@@ -2948,25 +2952,36 @@ function buildExecutiveConclusion(d){
   const obj=String(d.object_naam||'Dit dossier').trim();
   const ms=arr(d.maatregelen).filter(m=>!m.reeds_aanwezig);
   const eersteMs=ms.filter(m=>m.priority_tier===1).sort((a,b)=>(b.total_financial_benefit_year||b.bes||0)-(a.total_financial_benefit_year||a.bes||0));
-  const onzekerMs=ms.filter(m=>m.eigen_advies||m.priority_tier===5)
-    .concat(ms.slice().sort((a,b)=>(Number(b.tvt)||0)-(Number(a.tvt)||0)))
-    .find(m=>m&&m.naam);
-  const ontbrekend=arr(d.evidence).filter(e=>/ontbreken|aanleveren|verzamelen|controleren|gewenst/i.test(String(e.actie||''))).map(e=>String(e.ond||'').toLowerCase()).slice(0,3);
+
+  // Grootste onzekerheid: primair de maatregel met de hoogste terugverdientijd
+  // (het meest objectieve, cijfermatige signaal). Alleen als geen enkele
+  // maatregel een bekende TVT heeft, valt dit terug op technische-
+  // onzekerheidskenmerken (aanvullend advies, alleen-na-nader-onderzoek,
+  // ontbrekende investeringsspecificatie) — nooit een willekeurige/eerste
+  // maatregel uit de lijst.
+  const metTvt=ms.filter(m=>m&&m.naam&&Number(m.tvt)>0);
+  let onzekerMs=null;
+  if(metTvt.length){
+    onzekerMs=metTvt.slice().sort((a,b)=>(Number(b.tvt)||0)-(Number(a.tvt)||0))[0];
+  } else {
+    onzekerMs=ms.find(m=>m&&m.naam&&(m.eigen_advies||m.priority_tier===5||!(hasVal(m.capex)&&Number(m.capex)>0)&&!(hasVal(m.investering_min)&&hasVal(m.investering_max))));
+  }
+  const ontbrekend=arr(d.evidence).filter(e=>/ontbreken|aanleveren|verzamelen|controleren|gewenst/i.test(String(e.actie||''))).map(e=>String(e.ond||'').toLowerCase()).slice(0,2);
 
   const zinnen=[];
-  zinnen.push(`${esc(obj)} is indicatief bruikbaar als duurzaamheidsbijlage bij een financieringsaanvraag.`);
+  zinnen.push(`${esc(obj)} is voorlopig bruikbaar als duurzaamheidsbijlage bij een financieringsaanvraag.`);
   if(eersteMs.length){
-    zinnen.push(`${esc(eersteMs[0].naam||'De eerst geadviseerde maatregel')} vormt op basis van de beschikbare gegevens de eerste uitvoeringsprioriteit.`);
+    zinnen.push(`${esc(eersteMs[0].naam||'De eerst geadviseerde maatregel')} vormt de eerste uitvoeringsprioriteit.`);
   }
   if(onzekerMs){
-    zinnen.push(`${esc(onzekerMs.naam||'Eén van de maatregelen')} kent de grootste technische of financiële onzekerheid en vraagt aanvullende onderbouwing vóór uitvoering.`);
+    zinnen.push(`${esc(onzekerMs.naam||'Eén van de maatregelen')} kent de grootste onzekerheid en vraagt aanvullende onderbouwing vóór uitvoering.`);
   }
   if(ontbrekend.length){
-    zinnen.push(`Voor een definitieve beoordeling zijn nog ${ontbrekend.join(', ')} nodig, naast offertes en het nieuwe energielabel na uitvoering.`);
+    zinnen.push(`Voor een definitieve beoordeling zijn nog ${ontbrekend.join(' en ')} nodig, naast offertes en het nieuwe energielabel na uitvoering.`);
   } else {
-    zinnen.push('Voor een definitieve beoordeling zijn offertes, een technische uitvoeringsopzet en na realisatie het nieuwe energielabel nodig.');
+    zinnen.push('Voor een definitieve beoordeling zijn offertes, een bevestigde uitvoeringsopzet en na uitvoering het nieuwe energielabel nodig.');
   }
-  return truncateWords(zinnen.join(' '), 100);
+  return truncateWords(zinnen.join(' '), 80);
 }
 
 /* SFDR / Pillar 3 / Taxonomie-uitleg — terughoudend en consistent, gebouwd
@@ -3071,9 +3086,18 @@ function generateFallbackRisks(d){
   if(has(/kozijn|glas|beglazing/)){
     out.push({risk:'Vervanging van kozijnen/beglazing kan leiden tot vertraging bij monumentale of beeldbepalende gevels.',kans:'Laag',impact:'Middel',ernst:'Laag-Middel',horizon:'Middel',action:'Vergunningsplicht vooraf toetsen bij de gemeente.'});
   }
-  // Bouwjaar-gerelateerd.
+  // Bouwjaar-gerelateerd. Asbest wordt uitsluitend bij naam genoemd als het
+  // bronrapport (of de aanvullende notities) daar concrete aanleiding toe
+  // geeft — het bouwjaar alleen is onvoldoende basis om dit als risico te
+  // kwalificeren.
+  const bronTekst=(typeof pdfText!=='undefined'?pdfText:'');
+  const asbestGenoemd=/asbest/i.test(bronTekst);
   if(bouwjaar && bouwjaar<1994){
-    out.push({risk:'Bij panden van vóór 1994 kan asbest aanwezig zijn; dit is niet separaat onderzocht.',kans:'Middel',impact:'Middel',ernst:'Middel',horizon:'Kort',action:'Asbestinventarisatie laten uitvoeren vóór aanvang van de werkzaamheden.'});
+    if(asbestGenoemd){
+      out.push({risk:'Asbest wordt genoemd in het bronrapport en vraagt aandacht vóór start van de werkzaamheden.',kans:'Middel',impact:'Middel',ernst:'Middel',horizon:'Kort',action:'Asbestinventarisatie laten uitvoeren vóór aanvang van de werkzaamheden.'});
+    } else {
+      out.push({risk:'Bij ingrepen in dak, gevel of vloer van een pand van vóór 1994 kunnen materialen worden aangetroffen die nader onderzoek vereisen.',kans:'Laag',impact:'Middel',ernst:'Laag-Middel',horizon:'Kort',action:'Vooronderzoek laten uitvoeren bij ingrepen in de bestaande constructie.'});
+    }
   } else if(bouwjaar && bouwjaar>=2015){
     out.push({risk:'Recent gebouwde panden hebben doorgaans een beperkter besparingspotentieel; de terugverdientijd is gevoeliger voor afwijkingen.',kans:'Laag',impact:'Laag',ernst:'Laag',horizon:'Middel',action:'Besparingsraming laten toetsen aan de actuele isolatiewaarden.'});
   }
@@ -3162,17 +3186,18 @@ function sanitizeNarratives(d){
   if(d.gasverbruik) verbruik.push(String(d.gasverbruik).replace(/[^\d.]/g,'')+' m³ gas');
   const heeftLabels=!!(d.huidig_label&&d.streef_label);
   const stappen=heeftLabels?Math.max(0,(d.label_streef_idx||0)-(d.label_huidig_idx||0)):null;
+  // Precies 4 uitgangspunten, elk max. 24 woorden (afgedwongen bij render
+  // op pageEnergie via truncateWords) — geen cijfers die al in de
+  // KPI-tegels of objectkaarten op dezelfde pagina staan.
   d.uitgangspunten=[
     `${esc(obj)} is ${d.functie?'een '+String(d.functie).toLowerCase():'een object'}${d.bouwjaar?' uit bouwjaar '+esc(d.bouwjaar):''}${d.oppervlakte?' met een gebruiksoppervlak van '+esc(d.oppervlakte):''}.`,
     heeftLabels
-      ? `Het huidige energielabel is ${esc(d.huidig_label)}; het doellabel na uitvoering is ${esc(d.streef_label)} (${stappen} labelstap${stappen===1?'':'pen'}). Dit doellabel is indicatief en afhankelijk van technische uitvoerbaarheid en labelopname na uitvoering.`
+      ? `Het doellabel is indicatief en afhankelijk van technische uitvoerbaarheid en labelopname na uitvoering.`
       : 'Het huidige en beoogde energielabel zijn niet meegenomen in deze indicatieve berekening.',
-    verbruik.length?`Jaarlijks energieverbruik: ${verbruik.join(' en ')}; huidige energiekosten ${d._kosten_indicatief?'indicatief ':''}${fmtEurOrNA(d.energiekosten_huidig)} per jaar.`:`De huidige energiekosten zijn ${fmtEurOrNA(d.energiekosten_huidig)}.`,
-    `De geadviseerde investering bedraagt ${fmtEurOrNA(d.capex_totaal)}, met een geraamde jaarlijkse energiebesparing van ${fmtEurOrNA(d.bes_jaar)}${d.opbrengst_opwek_jaar?' en een geraamde opbrengst uit opwek van '+fmtEurOrNA(d.opbrengst_opwek_jaar)+' per jaar':''}.`,
     d._bes_gecapt
-      ? 'De jaarlijkse besparing besloeg een onrealistisch deel van de energiekosten en is begrensd op een realistisch deel (±70%); de definitieve besparing wordt na uitvoering met meterdata bevestigd.'
+      ? 'De jaarlijkse besparing is begrensd op een realistisch deel van de energiekosten en wordt na uitvoering met meterdata bevestigd.'
       : 'De jaarlijkse besparing is overgenomen uit het bronrapport en na uitvoering te bevestigen met meterdata.',
-    buildCo2Sentence(d)
+    'De cijfers in dit dossier zijn intern op rekenkundige samenhang gecontroleerd, niet onafhankelijk geverifieerd.'
   ];
 
   // ── CENTRALE TEKSTHELPERS — dezelfde cijfers overal ──
@@ -3331,16 +3356,21 @@ function mapAiFields(apiData){
   }
   if(Array.isArray(apiData.risicos) && apiData.risicos.length>0){
     const cap=s=>{ s=String(s||'').toLowerCase(); return s?s.charAt(0).toUpperCase()+s.slice(1):''; };
+    // Robuuste veldmapping: de AI levert risiconamen soms onder een andere
+    // sleutel aan (risico/risk/naam/titel/omschrijving) dan verwacht. Een
+    // risicoregel mag NOOIT zonder naam worden gerenderd — regels die na
+    // deze mapping alsnog geen bruikbare naam hebben, worden hier direct
+    // verwijderd (en zo nodig later aangevuld door generateFallbackRisks()).
     out.risicos=apiData.risicos.map(r=>({
       ...r,
-      risk:r.risico||r.risk||'',
+      risk:r.risico||r.risk||r.naam||r.titel||r.omschrijving||'',
       ernst:cap(r.impact)||'Middel',
       horizon:cap(r.termijn)||'Kort',
-      action:r.beheersmaatregel||r.action||'',
-      kans:cap(r.kans)||'Middel',
+      action:r.beheersmaatregel||r.action||r.mitigatie||r.maatregel||'',
+      kans:cap(r.kans)||cap(r.probability)||'Middel',
       impact:cap(r.impact)||'Middel',
       categorie:r.categorie||''
-    }));
+    })).filter(r=>r.risk && String(r.risk).trim().length>1);
   }
   // Als de AI een leeg risico-array levert (of niets), NIET overschrijven met
   // leeg: de default-risico's blijven staan en worden later, indien nodig,
@@ -3579,6 +3609,115 @@ function fitAllPagesToA4(){
   return overflowPages;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   runLayoutQualityChecks — harde eindcontrole ná fitAllPagesToA4().
+   Controleert het WERKELIJK GERENDERDE DOM (dus na alle compact-*
+   aanpassingen) op layoutfouten die runQualityChecks(d) (data-niveau)
+   niet kan zien. Wordt uitgevoerd vlak vóór het tonen van de kwaliteits-
+   banner en nogmaals vlak vóór het printen — een ernstige fout wordt
+   nooit stilzwijgend in de PDF meegenomen (zie printReport()).
+   ═══════════════════════════════════════════════════════════════════ */
+function runLayoutQualityChecks(){
+  const stage=document.getElementById('rptStage');
+  const warnings=[];
+  if(!stage) return warnings;
+  const push=(code,severity,message,page)=>warnings.push({code,severity,message,page});
+
+  // Typografische ondergrenzen (spec §18), in px bij 96dpi-referentie.
+  const FLOORS=[
+    {sel:'.page-title,.hero-title',minPx:20,label:'paginatitel (≥15pt)'},
+    {sel:'.col-h,.chart-card-h',minPx:14,label:'tussenkop (≥10,5pt)'},
+    {sel:'.page-body,.body-text',minPx:12.6,label:'lopende tekst (≥9,5pt)'},
+    {sel:'table td,table th,.ml',minPx:11.7,label:'tabeltekst (≥8,8pt)'},
+    {sel:'.optional-note,.optional-detail,.disclaimer-note',minPx:10.3,label:'voetnoot (≥7,8pt)'},
+    {sel:'.pill,.hdr-tag,.p-good,.p-warn,.p-bad,.p-info',minPx:9.9,label:'badge (≥7,5pt)'}
+  ];
+
+  [...stage.querySelectorAll('.a4.content')].forEach((page,i)=>{
+    const pageNr=i+1;
+    const body=page.querySelector('.page-body');
+    const foot=page.querySelector('.page-foot');
+
+    // 1) scrollHeight <= clientHeight (na compactie mag er geen overloop
+    //    meer resteren; fitAllPagesToA4() meldt dit ook al zelf, dit is
+    //    het onafhankelijke tweede vangnet).
+    if(body && body.scrollHeight>body.clientHeight+2){
+      push('LAYOUT_OVERFLOW','error','Pagina '+pageNr+' bevat na compactie nog steeds meer inhoud dan zichtbaar past.',pageNr);
+    }
+
+    // 2) Geen element overlapt de footer.
+    if(body && foot){
+      const bodyBox=body.getBoundingClientRect();
+      const footBox=foot.getBoundingClientRect();
+      if(bodyBox.bottom>footBox.top+1){
+        push('LAYOUT_FOOTER_OVERLAP','error','Inhoud op pagina '+pageNr+' raakt of overlapt de voettekst.',pageNr);
+      }
+    }
+
+    // 3) Geen tekst buiten de pagina-inhoud (child-elementen die buiten de
+    //    A4-grenzen van de pagina zelf vallen).
+    const pageBox=page.getBoundingClientRect();
+    if(body){
+      [...body.children].forEach(child=>{
+        const cb=child.getBoundingClientRect();
+        if(cb.bottom>pageBox.bottom+2 || cb.right>pageBox.right+2){
+          push('LAYOUT_TEXT_OUTSIDE_PAGE','error','Een blok op pagina '+pageNr+' valt buiten de paginagrenzen.',pageNr);
+        }
+      });
+    }
+
+    // 4) Geen font-size onder de minimale punt-maten.
+    FLOORS.forEach(f=>{
+      page.querySelectorAll(f.sel).forEach(el=>{
+        if(!el.textContent || !el.textContent.trim()) return;
+        const fs=parseFloat(getComputedStyle(el).fontSize);
+        if(fs && fs<f.minPx-0.3){
+          push('LAYOUT_FONT_TOO_SMALL','error','Tekst op pagina '+pageNr+' is kleiner dan de ondergrens voor '+f.label+' ('+fs.toFixed(1)+'px).',pageNr);
+        }
+      });
+    });
+
+    // 5) Geen lege risiconamen/beheersmaatregelen in de risicomatrix.
+    if(page.classList.contains('page-risk')){
+      const rows=[...page.querySelectorAll('.matrix .ml')];
+      rows.forEach(r=>{ if(!r.textContent || !r.textContent.trim()) push('LAYOUT_EMPTY_RISK_NAME','error','Een risicoregel op pagina '+pageNr+' heeft geen zichtbare naam.',pageNr); });
+    }
+
+    // 6) Geen afgekapte disclaimer (kritieke disclaimers zijn uitgesloten
+    //    van line-clamp via de .disclaimer-note-klasse; dit controleert of
+    //    ze ook daadwerkelijk volledig getoond worden).
+    page.querySelectorAll('.disclaimer-note').forEach(el=>{
+      if(el.scrollHeight>el.clientHeight+2){
+        push('LAYOUT_DISCLAIMER_TRUNCATED','error','Een disclaimer op pagina '+pageNr+' wordt afgekapt.',pageNr);
+      }
+    });
+
+    // 10) Geen half zichtbare/lege kaarten (col-card zonder zichtbare inhoud).
+    page.querySelectorAll('.col-card').forEach(c=>{
+      const txt=(c.textContent||'').trim();
+      if(!txt) push('LAYOUT_EMPTY_CARD','warning','Een lege kaart is gevonden op pagina '+pageNr+'.',pageNr);
+    });
+  });
+
+  // 7) Geen dubbele adressen zichtbaar in de kop.
+  const addrEls=[...stage.querySelectorAll('.hdr-obj,.page-top')].map(e=>(e.textContent||'').trim()).filter(Boolean);
+  // (De onderliggende data-check zit al in runQualityChecks(d)/DUPLICATE_ADDRESS;
+  // dit is puur een visuele herbevestiging op het gerenderde resultaat.)
+
+  // 8) Geen vreemde/onzichtbare Unicode-tekens in de zichtbare tekst.
+  const rareUnicodeRe=/[\uFFFD\uFFFE\uFFFF\u0000-\u0008\u000B\u000C\u000E-\u001F\u200B-\u200D\u2060]/;
+  if(rareUnicodeRe.test(stage.textContent||'')){
+    push('LAYOUT_RARE_UNICODE','warning','Er zijn onzichtbare of ongeldige Unicode-tekens gevonden in de gerenderde tekst.');
+  }
+
+  // 9) Geen NaN/Infinity zichtbaar in de gerenderde tekst.
+  if(/\bNaN\b|\bInfinity\b/.test(stage.textContent||'')){
+    push('LAYOUT_NAN_INFINITY','error','De tekst "NaN" of "Infinity" is zichtbaar in het gerenderde rapport.');
+  }
+
+  return warnings;
+}
+
 /* ─── PAGINA — FINANCIËLE ANALYSE & SCENARIO'S ─── */
 function pageFinancieel(d){
   const ms=arr(d.maatregelen);
@@ -3734,12 +3873,21 @@ function renderReport(d){
   // ── Automatische A4-fit (spec §24): pas ná rendering meetbaar. Bij
   //    resterende overloop ná compactie wordt dit alsnog gemeld via de
   //    kwaliteitsbanner (PAGE_OVERFLOW), zodat overloop nooit onopgemerkt
-  //    blijft. ──
+  //    blijft. Daarna runLayoutQualityChecks() als onafhankelijke, op het
+  //    werkelijke DOM gebaseerde eindcontrole (voetteksten, lettergroottes,
+  //    lege risiconamen, afgekapte disclaimers, etc. — zie spec §26). ──
   const overflowPages=fitAllPagesToA4();
   if(overflowPages.length){
     overflowPages.forEach(o=>{
       d.validation.push({code:'PAGE_OVERFLOW',severity:'error',page:o.page,overflowPx:o.overflowPx,message:'Pagina '+o.page+' bevat meer inhoud dan binnen één A4 past.'});
     });
+  }
+  try{
+    const layoutWarnings=runLayoutQualityChecks();
+    if(layoutWarnings.length) d.validation=d.validation.concat(layoutWarnings);
+  }catch(e){ d.validation.push({code:'LAYOUT_CHECK_FAILED','severity':'warning',message:'De automatische layoutcontrole kon niet volledig worden uitgevoerd.'}); }
+  window._lastLayoutValidation=d.validation;
+  if(d.validation.length){
     const oldBanner=document.getElementById('qualityBanner');
     const newBannerHtml=renderQualityBanner(d.validation);
     if(oldBanner){ oldBanner.outerHTML=newBannerHtml||''; }
@@ -3989,7 +4137,10 @@ function pageBanksamenvatting(d){
 function pageRisico(d){
   const scaleMap={laag:1,middel:2,hoog:3};
   const scaleLabel=v=>v>=3?'Hoog':v===2?'Middel':'Laag';
-  const risicos=arr(d.risicos).slice(0,6).map(r=>{
+  // Laatste veiligheidsnet: een risicoregel mag nooit worden gerenderd
+  // zonder naam en beheersmaatregel (spec-eis). Regels die dit missen
+  // worden hier uitgefilterd i.p.v. leeg getoond.
+  const risicos=arr(d.risicos).filter(r=>r && String(r.risk||'').trim() && String(r.action||'').trim()).slice(0,6).map(r=>{
     const kans=scaleMap[String(r.kans||r.ernst||'middel').toLowerCase()]||2;
     const impact=scaleMap[String(r.impact||r.ernst||'middel').toLowerCase()]||2;
     const score=kans*impact;
@@ -4713,7 +4864,7 @@ function pageBewijsVervolg(d){
       <div class="page-title">Wat zijn de volgende stappen?</div>
       <div class="page-thin-rule"></div>
 
-      <div style="background:linear-gradient(150deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:15px;padding:18px 24px;color:#fff;margin-bottom:10px;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 12px 32px rgba(13,51,72,.24);">
+      <div style="background:linear-gradient(150deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:15px;padding:15px 20px;color:#fff;margin-bottom:9px;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 12px 32px rgba(13,51,72,.24);">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
         <div style="position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(31,146,89,.4),rgba(255,255,255,0) 70%);"></div>
         <div style="position:relative;font-size:10.4px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);margin-bottom:7px;">Eindadvies</div>
@@ -4745,12 +4896,11 @@ function pageBewijsVervolg(d){
         </div>
       </div>`:'';})()}
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:11px;">
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px 16px;">
-          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Nog aan te leveren</div>
-          <div style="font-size:11.8px;color:var(--ink-3);margin-bottom:10px;">Voor een definitieve beoordeling zijn onderstaande stukken nog nodig.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:9px;">
+        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
+          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">Nog aan te leveren</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            ${arr(d.missing).slice(0,5).map(m=>`
+            ${arr(d.missing).slice(0,4).map(m=>`
               <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:flex-start;padding-bottom:7px;border-bottom:1px solid var(--blue-faint);">
                 <div>
                   <div style="font-size:9pt;font-weight:600;color:var(--ink);margin-bottom:1px;">${esc(m.stuk||'')}</div>
@@ -4762,8 +4912,8 @@ function pageBewijsVervolg(d){
           </div>
         </div>
 
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:14px 16px;">
-          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Aanbevolen vervolgstappen</div>
+        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
+          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">Aanbevolen vervolgstappen</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             ${arr(d.vervolg).slice(0,4).map((v,i)=>`
               <div style="display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:flex-start;padding-bottom:7px;border-bottom:1px solid var(--blue-faint);">
@@ -4775,14 +4925,13 @@ function pageBewijsVervolg(d){
         </div>
       </div>
 
-      <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:13px 16px;margin-bottom:11px;">
-        <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;">Bewijsniveau-pad — huidig niveau: ${lvl} van 4</div>
+      <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:11px 14px;margin-bottom:9px;">
+        <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Bewijsniveau-pad — huidig niveau: ${lvl} van 4</div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
           ${levels.map(lv=>`
-            <div style="padding:8px 10px;border-radius:8px;background:${lv.nr<=lvl?'var(--blue-deep)':lv.nr===lvl+1?'var(--blue-faint)':'var(--page)'};${lv.nr===lvl?'outline:2px solid var(--orange);outline-offset:1px;':''}">
+            <div style="padding:7px 9px;border-radius:8px;background:${lv.nr<=lvl?'var(--blue-deep)':lv.nr===lvl+1?'var(--blue-faint)':'var(--page)'};${lv.nr===lvl?'outline:2px solid var(--orange);outline-offset:1px;':''}">
               <div style="font-size:11.8px;font-weight:700;color:${lv.nr<=lvl?'#fff':lv.nr===lvl+1?'var(--blue)':'var(--ink-4)'};margin-bottom:2px;">Niveau ${lv.nr}</div>
               <div style="font-size:11.8px;font-weight:600;color:${lv.nr<=lvl?'rgba(255,255,255,.9)':'var(--ink-3)'};margin-bottom:1px;">${lv.l}</div>
-              <div style="font-size:10.4px;color:${lv.nr<=lvl?'rgba(255,255,255,.6)':'var(--ink-4)'};">${lv.sub}</div>
               ${lv.nr===lvl?`<div style="font-size:10px;font-weight:700;color:var(--orange);margin-top:3px;text-transform:uppercase;letter-spacing:.5px;">← Huidig</div>`:''}
               ${lv.nr===lvl+1?`<div style="font-size:10px;font-weight:700;color:var(--blue);margin-top:3px;text-transform:uppercase;letter-spacing:.5px;">→ Volgend niveau</div>`:''}
             </div>
@@ -4790,13 +4939,12 @@ function pageBewijsVervolg(d){
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;gap:16px;padding:14px 22px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 50%,#16774a 100%);border-radius:14px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 26px rgba(11,61,40,.22);">
+      <div style="display:flex;align-items:center;gap:16px;padding:12px 20px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 50%,#16774a 100%);border-radius:14px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 26px rgba(11,61,40,.22);">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
         <div style="position:absolute;right:-30px;bottom:-50px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
         <div style="position:relative;">
           <div style="font-size:10.4px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Volgende stap</div>
-          <div style="font-size:16px;font-weight:800;line-height:1.2;letter-spacing:-.2px;margin-bottom:4px;">Input voor de interne beoordeling van de financier.</div>
-          <div style="font-size:11.8px;color:rgba(255,255,255,.78);">Dit dossier vormt een indicatieve duurzaamheidsbijlage voor de interne beoordeling van de financier. Aanvullende bewijsstukken verhogen de betrouwbaarheid van de beoordeling.</div>
+          <div style="font-size:15px;font-weight:800;line-height:1.25;letter-spacing:-.2px;">Dit dossier gaat, samen met de onderliggende stukken, naar de kredietbeoordeling van de financier.</div>
         </div>
       </div>
 
@@ -4813,6 +4961,20 @@ function printReport(){
   // na de eerste render nog zijn nageladen, wat de werkelijke content-hoogte
   // beïnvloedt.
   try{ fitAllPagesToA4(); }catch(e){}
+  // Harde eindcontrole vlak vóór het printen: bij een ernstige layoutfout
+  // (overloop, voettekst-overlap, afgekapte disclaimer, lettergrootte onder
+  // de ondergrens, lege risiconaam) wordt de PDF nooit stilzwijgend
+  // gegenereerd — de gebruiker krijgt eerst een expliciete waarschuwing.
+  let layoutErrors=[];
+  try{
+    const lw=runLayoutQualityChecks();
+    if(currentData){ currentData.validation=(currentData.validation||[]).concat(lw); }
+    layoutErrors=lw.filter(w=>w.severity==='error');
+  }catch(e){}
+  if(layoutErrors.length){
+    const msg='Let op: dit rapport bevat nog '+layoutErrors.length+' ernstige layoutfout'+(layoutErrors.length===1?'':'en')+' (bijv. tekst die niet volledig zichtbaar is of over de voettekst loopt).\n\nToch doorgaan met printen/exporteren naar PDF?';
+    if(!window.confirm(msg)) return;
+  }
   setTimeout(()=>{
     window.print();
     setTimeout(()=>{document.title=orig;},800);
