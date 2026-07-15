@@ -312,15 +312,22 @@ body.report-mode .rpt-mode{display:block;}
    fitAllPagesToA4() wanneer de content van een pagina het beschikbare
    budget overschrijdt. Verkleint eerst witruimte, dan tekst — nooit onder
    ~8.5pt hoofdtekst. ── */
+/* Stap 1 — padding en marges verkleinen. */
 .a4.compact-1 .col-card,.a4.compact-1 .chart-card,.a4.compact-1 .verdict,.a4.compact-1 .close-card{padding:8px 10px!important;}
-.a4.compact-1 .page-body>div{margin-bottom:6px;}
+.a4.compact-1 .page-body{padding-top:18px!important;}
+.a4.compact-1 .page-body>div{margin-bottom:6px!important;}
 .a4.compact-1 .chart-grid-2,.a4.compact-1 .two-col{gap:6px!important;}
-.a4.compact-2 .page-body{font-size:8.8pt!important;line-height:1.28!important;}
-.a4.compact-2 .body-text,.a4.compact-2 .col-list div,.a4.compact-2 .ml{font-size:8.3px!important;line-height:1.3!important;}
-.a4.compact-2 .page-title{font-size:17px!important;}
-.a4.compact-2 .page-title-sub{font-size:9px!important;}
+.a4.compact-1 .page-thin-rule{margin:4px 0 8px!important;}
+/* Stap 2 — regelafstand iets kleiner (lettergrootte blijft gelijk). */
+.a4.compact-2 .page-body{line-height:1.32!important;}
+.a4.compact-2 .col-list div,.a4.compact-2 .ml{line-height:1.28!important;}
+/* Stap 3 — niet-essentiële/optionele detailtekst inkorten (verbergen). */
 .a4.compact-3 .optional-detail{display:none!important;}
-.a4.compact-3 .page-body{font-size:8.5pt!important;}
+/* Stap 4 — pas als laatste, heel beperkt, het lettertype verkleinen (nooit onder ~8,5pt). */
+.a4.compact-4 .page-body{font-size:8.8pt!important;}
+.a4.compact-4 .body-text,.a4.compact-4 .col-list div,.a4.compact-4 .ml{font-size:8.3px!important;}
+.a4.compact-4 .page-title{font-size:17px!important;}
+.a4.compact-4 .page-title-sub{font-size:9px!important;}
 
 
 /* ─── COVER ─── */
@@ -559,8 +566,8 @@ body.report-mode .rpt-mode{display:block;}
   background:#fff;font-size:10.5px;box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
 .matrix > div{padding:9px 12px;border-bottom:1px solid var(--blue-faint);border-right:1px solid var(--blue-faint);}
-.matrix > div:nth-child(4n){border-right:none;}
-.matrix > div:nth-last-child(-n+4){border-bottom:none;}
+.matrix > div:nth-child(5n){border-right:none;}
+.matrix > div:nth-last-child(-n+5){border-bottom:none;}
 .matrix .mh{
   background:var(--page);font-weight:700;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-3);
 }
@@ -2125,7 +2132,7 @@ function pageEnergie(d){
           <div style="background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:15px 16px;border-top:3px solid ${k.c};">
             <div style="font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);margin-bottom:7px;">${k.l}</div>
             <div style="font-size:${/niet|nog niet/i.test(k.v)?'15px':'26px'};font-weight:700;color:${k.c};line-height:1.05;margin-bottom:5px;">${k.v}</div>
-            <div style="font-size:8.5px;color:var(--ink-3);line-height:1.4;">${k.s}</div>
+            <div class="optional-detail" style="font-size:8.5px;color:var(--ink-3);line-height:1.4;">${k.s}</div>
           </div>
         `).join('')}
       </div>
@@ -2261,7 +2268,6 @@ function pageMaatregelenAdvies(d){
 
 function pageSubsidies(d){
   const subs=arr(d.subsidies).slice(0,5);
-  const concl=esc(d.subsidie_conclusie||'Onvoldoende gegevens om een subsidieconclusie te trekken.');
   const evidence=arr(d.evidence).slice(0,7);
   return `
   <article class="a4 content page-subs">
@@ -2307,19 +2313,25 @@ function pageSubsidies(d){
         </div>
       </div>`:''}
 
-      ${evidence.length?`<div class="col-card" style="margin-bottom:9px;">
+      ${evidence.length?`<div class="col-card" style="margin-bottom:0;">
         <div class="col-h">Bewijsstukken — status per onderdeel</div>
-        <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px;">
-          ${evidence.map(e=>`<div style="display:flex;justify-content:space-between;gap:10px;font-size:8.5px;color:var(--ink-2);padding:3px 0;border-bottom:1px solid var(--blue-faint);"><span><b style="color:var(--blue-deep);">${esc(e.ond||'')}</b> — ${esc(e.w||'')}</span><span style="color:var(--ink-3);white-space:nowrap;">${esc(e.actie||'')}</span></div>`).join('')}
-        </div>
+        <table style="width:100%;border-collapse:collapse;margin-top:6px;">
+          <thead><tr style="border-bottom:1.5px solid var(--blue-faint);">
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;width:26%;">Onderdeel</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;width:32%;">Waarde</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 0 6px 0;">Bewijsstatus</th>
+          </tr></thead>
+          <tbody>
+            ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--blue-faint);">
+              <td style="padding:7px 8px 7px 0;font-size:8.7px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
+              <td style="padding:7px 8px 7px 0;font-size:8.7px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
+              <td style="padding:7px 0;font-size:8.3px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
       </div>`:''}
 
-      <div style="background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 100%);border-radius:13px;padding:11px 18px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
-        <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--orange);"></div>
-        <div style="font-size:8px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;position:relative;">Conclusie</div>
-        <div style="font-size:9pt;color:rgba(255,255,255,.93);line-height:1.5;margin-bottom:7px;position:relative;">${concl}</div>
-        <div style="font-size:8.5px;color:rgba(255,255,255,.85);line-height:1.45;position:relative;">${esc(d.subsidies_disclaimer||'De actuele voorwaarden, aanvraagtermijnen en bedragen moeten vóór opdrachtverlening worden gecontroleerd bij de bevoegde instantie.')}</div>
-      </div>
+      <div style="font-size:7.8px;color:var(--ink-4);line-height:1.4;margin-top:10px;padding-top:8px;border-top:1px solid var(--blue-faint);">${esc(d.subsidies_disclaimer||'De actuele voorwaarden, aanvraagtermijnen en bedragen moeten vóór opdrachtverlening worden gecontroleerd bij de bevoegde instantie.')}</div>
 
     </div>
     ${pageFoot()}
@@ -2389,7 +2401,7 @@ function pageGroeneParagraaf(d){
         ${kpi.map((k,i)=>`<div style="background:#fff;border-radius:11px;box-shadow:var(--mb-card-shadow);padding:12px 12px 11px;border-top:3px solid ${i===0?'var(--green)':i===5?'var(--blue)':'var(--blue-mid)'};">
           <div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;line-height:1.2;min-height:16px;">${k.l}</div>
           <div style="font-size:15px;font-weight:800;color:var(--blue-deep);line-height:1;margin-bottom:5px;letter-spacing:-.3px;">${k.v}</div>
-          <div style="font-size:7px;color:var(--ink-3);line-height:1.3;">${k.s}</div>
+          <div class="optional-detail" style="font-size:7px;color:var(--ink-3);line-height:1.3;">${k.s}</div>
         </div>`).join('')}
       </div>
 
@@ -2409,7 +2421,7 @@ function pageGroeneParagraaf(d){
           ${heeftLabelsGp?`<div style="padding:6px 0 2px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>`:''}
           <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink-3);margin-top:8px;gap:6px;flex-wrap:wrap;">
             <span><b style="color:var(--blue-deep);">Primaire-energie</b> ${hasVal(d.primaire_energie_reductie_pct)?'&minus;'+esc(d.primaire_energie_reductie_pct)+'%':'niet uit bron vastgesteld'} <span style="color:var(--ink-4);">(ind.)</span></span>
-            <span><b style="color:var(--blue-deep);">CO&#8322;</b> ${hasVal(d.co2_reductie_pct)?'&minus;'+esc(d.co2_reductie_pct)+'%':'—'} ${hasVal(d.co2_reductie_ton)?'&middot; '+esc(d.co2_reductie_ton)+' t/jr':''}</span>
+            <span><b style="color:var(--blue-deep);">CO&#8322;</b> ${hasVal(d.co2_reductie_pct)?'&minus;'+esc(d.co2_reductie_pct)+'%':'—'} ${hasVal(d.co2_reductie_ton)?'&middot; '+esc(num1(d.co2_reductie_ton))+' t/jr':''}</span>
             <span><b style="color:var(--blue-deep);">Besparing</b> ${eurC(bes)}/jr</span>
           </div>
         </div>
@@ -2575,30 +2587,53 @@ function dedupeAndPrioritizeMeasures(d){
     d.maatregelen.splice(dropIdx,1);
   }
 
+  // ── TECHNISCHE VOLGORDE (hard, niet financieel te overrulen) ──
+  // 1 = isoleren (schil), 2 = glas, 3 = ventilatie, 4 = warmtepomp/installatie,
+  // 5 = zonnepanelen/opwek. Comfortmaatregelen (thermostaten e.d.) hebben geen
+  // technische afhankelijkheid en worden als fase 1 behandeld (kunnen altijd
+  // meteen, hoeven nergens op te wachten). Een warmtepomp mag NOOIT vóór
+  // openstaande isolatie/glas komen te staan, ook niet als zijn eigen
+  // terugverdientijd korter is dan die van de isolatiemaatregel.
+  const phaseOf=(n)=>{
+    if(/glas|beglazing|kozijn/.test(n)) return 2;
+    if(/isolat|spouw|gevel|dak|vloer|bodem|hr\+|triple|kierdicht/.test(n)) return 1;
+    if(/thermosta|zoneregel|led|verlicht|inregel|waterzijdig/.test(n)) return 1;
+    if(/ventilat|wtw/.test(n)) return 3;
+    if(/warmtepomp|zonneboiler/.test(n)) return 4;
+    if(/zonnepane|\bpv\b|zonnestroom/.test(n)) return 5;
+    return 3;
+  };
   const classify=(m)=>{
     const n=norm(m.naam); const tvt=Number(m.tvt)||0;
-    const isSchil=/isolat|spouw|gevel|dak|vloer|bodem|glas|beglazing|hr\+|triple|kierdicht/.test(n);
-    const isInstallatie=/warmtepomp|zonneboiler|ventilat|wtw/.test(n);
+    const phase=phaseOf(n);
+    const isSchil=phase<=2;
+    const isOpwek=phase===5;
     const isComfort=/thermosta|zoneregel|led|verlicht|inregel|waterzijdig/.test(n);
-    const isOpwek=/zonnepane|\bpv\b|zonnestroom/.test(n);
+    // Staat er nog een niet-reeds-aanwezige maatregel uit een eerdere technische
+    // fase in het pakket? Dan mag deze maatregel niet als "eerst uitvoeren" gelden.
+    const heeftEerdereFase=d.maatregelen.some(x=>!x.reeds_aanwezig && phaseOf(norm(x.naam))<phase);
     // Sub-scores 0-100
     const financial=Math.max(0,Math.min(100,100-tvt*4));
-    const label=(isSchil||/warmtepomp/.test(n))?90:(isOpwek?55:35);
-    const technical=isSchil?85:(isInstallatie?55:(isComfort?45:40)); // schil eerst, dan installatie
-    // Risico op dubbel werk: installatie zonder schilmaatregelen in het pakket is risicovoller.
-    const heeftSchilInPakket=d.maatregelen.some(x=>isSchil||/isolat|spouw|gevel|dak|vloer|glas/.test(norm(x.naam)));
-    const risk=(isInstallatie && !heeftSchilInPakket)?35:75;
+    const label=(isSchil||phase===4)?90:(isOpwek?55:35);
+    const technical=isSchil?85:(phase===3?60:(phase===4?55:(isComfort?45:40)));
+    const risk=(phase>=4 && heeftEerdereFase)?35:75;
     const comfort=(isSchil||isComfort)?80:45;
     const priority_score=Math.round(financial*0.35+label*0.20+technical*0.20+risk*0.15+comfort*0.10);
     let tier, volgorde;
     if(tvt>20){ tier=5; volgorde='Alleen na nader onderzoek'; }
-    else if(isSchil||isInstallatie&&heeftSchilInPakket){ tier=(tvt<=10)?1:2; volgorde=(tvt<=10)?'Eerst uitvoeren':'Eerst uitvoeren'; }
-    else if(isComfort){ tier=3; volgorde='Daarna uitvoeren'; }
-    else if(isOpwek){ tier=4; volgorde='Optioneel'; }
+    else if(phase<=2){ tier=(tvt<=10)?1:2; volgorde='Eerst uitvoeren'; }
+    else if(phase===3){ tier=heeftEerdereFase?2:((tvt<=10)?1:2); volgorde=tier===1?'Eerst uitvoeren':'Daarna uitvoeren'; }
+    else if(phase===4){ tier=heeftEerdereFase?3:((tvt<=10)?1:2); volgorde=tier<=2?(tier===1?'Eerst uitvoeren':'Daarna uitvoeren'):'Daarna uitvoeren'; }
+    else if(phase===5){ tier=4; volgorde='Optioneel'; }
     else { tier=(tvt<=10)?1:3; volgorde=(tvt<=10)?'Eerst uitvoeren':'Daarna uitvoeren'; }
-    return {priority_score,priority_tier:tier,volgorde};
+    return {priority_score,priority_tier:tier,technical_phase:phase,volgorde};
   };
-  d.maatregelen=d.maatregelen.map(m=>({...m,...classify(m)})).sort((a,b)=>(b.priority_score||0)-(a.priority_score||0));
+  // Sorteer PRIMAIR op technische fase (isolatie/glas altijd vóór installatie/opwek),
+  // en pas binnen dezelfde fase op priority_score. Zo kan een gunstige eigen
+  // terugverdientijd een warmtepomp nooit vóór openstaande isolatie plaatsen.
+  d.maatregelen=d.maatregelen.map(m=>({...m,...classify(m)})).sort((a,b)=>
+    (a.technical_phase||3)-(b.technical_phase||3) || (b.priority_score||0)-(a.priority_score||0)
+  );
   if(Array.isArray(d.maatregelen_extra)) d.maatregelen_extra=d.maatregelen_extra.map(m=>({...m,...classify(m)}));
   return d;
 }
@@ -2904,7 +2939,7 @@ function reconcileNumbers(d){
   d.co2_pad=(voorTot>0&&naTot>=0)?Array.from({length:16},(_,i)=>r1(voorTot-(voorTot-naTot)*Math.min(1,i/2))):[];
 
   // ── DATUM dynamisch ──
-  d.datum_rapport=d.datum_rapport||new Date().toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
+  d.datum_rapport=formatDutchDate(d.datum_rapport);
   return d;
 }
 /* ═══════════════════════════════════════════════════════════════════
@@ -2915,16 +2950,48 @@ function reconcileNumbers(d){
    TEKSTLIMIETEN & UNICODE-SANITIZING — de frontend kort AI-tekst zelf
    veilig in, i.p.v. te vertrouwen op de AI om zich aan lengtes te houden.
    ═══════════════════════════════════════════════════════════════════ */
+/* splitSentences — deelt tekst op in complete zinnen (op punt/uitroep-/
+   vraagteken gevolgd door een spatie of het einde van de tekst). Gebruikt
+   door truncateWords/truncateChars om NOOIT midden in een zin af te breken:
+   liever een grammaticaal complete, kortere tekst dan een zin met "…". */
+function splitSentences(s){
+  const parts=s.match(/[^.!?]+[.!?]+(\s+|$)/g);
+  if(!parts || !parts.length) return [s];
+  return parts.map(p=>p.trim()).filter(Boolean);
+}
 function truncateWords(text,maxWords){
   const s=String(text||'').trim();
   if(!s) return s;
   const words=s.split(/\s+/);
   if(words.length<=maxWords) return s;
+  // Bouw de tekst op uit complete zinnen zolang die binnen de limiet passen —
+  // korten door samen te vatten (weglaten van latere zinnen), niet door
+  // af te breken midden in een zin.
+  const sentences=splitSentences(s);
+  if(sentences.length>1){
+    let out='', wc=0;
+    for(const sent of sentences){
+      const sw=sent.split(/\s+/).length;
+      if(wc+sw>maxWords) break;
+      out+=(out?' ':'')+sent; wc+=sw;
+    }
+    if(out) return out.trim();
+  }
+  // Fallback (één lange zin zonder punt binnen de limiet): woord-inkorting.
   return words.slice(0,maxWords).join(' ').replace(/[.,;:!?]*$/,'')+'…';
 }
 function truncateChars(text,maxChars){
   const s=String(text||'').trim();
   if(s.length<=maxChars) return s;
+  const sentences=splitSentences(s);
+  if(sentences.length>1){
+    let out='';
+    for(const sent of sentences){
+      if((out+sent).length>maxChars) break;
+      out+=(out?' ':'')+sent;
+    }
+    if(out) return out.trim();
+  }
   return s.slice(0,maxChars).replace(/\s+\S*$/,'')+'…';
 }
 function limitArray(items,maxItems){
@@ -2933,6 +3000,25 @@ function limitArray(items,maxItems){
 function compactSentence(text,maxChars){
   return truncateChars(text,maxChars);
 }
+/* formatDutchDate — normaliseert ELKE redelijke datuminvoer (ISO
+   "2026-07-14", "14-07-2026", "14/07/2026", of al-Nederlandse tekst) naar
+   de vaste lange Nederlandse notatie "14 juli 2026". Onherkenbare of lege
+   invoer valt terug op de datum van vandaag — nooit een rauwe ISO-string
+   tonen. ═══════════════════════════════════════════════════════════ */
+function formatDutchDate(v){
+  const fmt=(d)=>d.toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'});
+  if(!v) return fmt(new Date());
+  const s=String(v).trim();
+  // Al in Nederlandse langvorm ("14 juli 2026" of "14 juli 2026 ") — direct gebruiken.
+  if(/^\d{1,2}\s+[a-zA-Zé]+\s+\d{4}$/.test(s)) return s;
+  let m;
+  if((m=s.match(/^(\d{4})-(\d{2})-(\d{2})/))){ const d=new Date(+m[1],+m[2]-1,+m[3]); if(!isNaN(d)) return fmt(d); }
+  if((m=s.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})/))){ const d=new Date(+m[3],+m[2]-1,+m[1]); if(!isNaN(d)) return fmt(d); }
+  const d=new Date(s);
+  if(!isNaN(d)) return fmt(d);
+  return fmt(new Date());
+}
+
 function sanitizeText(value){
   return String(value==null?'':value)
     .replace(/\uFFFE|\uFFFF/g,'')
@@ -3010,47 +3096,54 @@ function buildRegulatoryExplanation(d){
    het losse d._evidence_ai-array (naam/bewijsstatus per onderdeel) — nooit
    het bedrag of cijfer zelf. */
 function buildEvidenceRows(d){
-  const aiByKey=(()=>{ const m={}; arr(d._evidence_ai||d.evidence).forEach(e=>{ const k=_norm(String(e.ond||e.onderdeel||'')); if(k) m[k]=e; }); return m; })();
-  const pick=(keyHints,fallbackActie,fallbackPrio)=>{
-    for(const k of keyHints){ const hit=aiByKey[_norm(k)]; if(hit) return hit; }
-    return {actie:fallbackActie,z:fallbackPrio||'Middel',bron:'Bronrapport'};
-  };
+  // Professionele, concrete bewijsstatus i.p.v. overal "nog te bevestigen":
+  // laat zien wat we weten, hoe zeker we dat weten, en wat nog ontbreekt.
+  // Gebaseerd op de daadwerkelijk aanwezige documenten (assurance_documenten_aanwezig),
+  // niet op een vaste voorzichtige tekst voor elk onderdeel.
+  const docs=d.assurance_documenten_aanwezig||{};
+  const heeftOffertes=!!docs.offertes;
+  const heeftFacturen=!!docs.facturen;
+  const heeftOplevering=!!docs.oplevering;
   const heeftLabels=!!(d.huidig_label&&d.streef_label);
+
   const rows=[];
   rows.push({
     ond:'Object, functie, bouwjaar',
     w:[d.object_naam||null,d.functie||null,d.bouwjaar?('bouwjaar '+d.bouwjaar):null].filter(Boolean).join(' · ')||'Niet uit bron vastgesteld',
-    ...pick(['Object, functie, bouwjaar','object'],'Overnemen uit bronrapport')
+    actie: d.object_naam? 'Overgenomen uit bronrapport':'Object niet uit bron vastgesteld — aanleveren.', z:'Laag'
   });
   rows.push({
     ond:'Energielabel huidig → doel',
     w:heeftLabels?(esc(d.huidig_label)+' → '+esc(d.streef_label)):'Niet uit bron vastgesteld',
-    ...pick(['Energielabel huidig → doel','energielabel'],'Overnemen uit bronrapport / energielabel')
+    actie: heeftLabels?'Overgenomen uit bronrapport/energielabel; nieuw label pas na uitvoering definitief.':'Energielabel aanleveren.', z:'Middel'
   });
   rows.push({
-    ond:'Maatregelenpakket en investering',
-    w:fmtEurOrNA(d.capex_totaal)+' ('+arr(d.maatregelen).length+' maatregelen)',
-    ...pick(['Maatregelenpakket en investering','maatregelenpakket','investering'],'Overnemen uit bronrapport')
+    ond:'Investering',
+    w:fmtEurOrNA(d.capex_totaal)+(arr(d.maatregelen).length?' ('+arr(d.maatregelen).length+' maatregelen)':''),
+    actie: d.capex_totaal>0?(heeftOffertes?'Bevestigd met offerte(s).':'Indicatief uit bronrapport, offertes ontbreken.'):'Investering niet uit bron vastgesteld.',
+    z: heeftOffertes?'Laag':'Middel'
   });
   rows.push({
     ond:'Jaarlijkse financiële opbrengst',
     w:fmtEurOrNA(d.totale_financiele_opbrengst_jaar!=null?d.totale_financiele_opbrengst_jaar:d.bes_jaar)+'/jaar',
-    ...pick(['Jaarlijkse financiële opbrengst','Jaarlijkse besparing','jaarlijkse besparing'],'Overnemen uit bronrapport')
+    actie: (d.bes_jaar>0||d.opbrengst_opwek_jaar>0)?(heeftFacturen?'Bevestigd met facturen/meterdata.':'Gebaseerd op bronrapport; meterdata na uitvoering gewenst.'):'Opbrengst niet uit bron vastgesteld.',
+    z: heeftFacturen?'Laag':'Middel'
   });
   rows.push({
     ond:'CO₂-reductie',
     w:(d._co2_betrouwbaar && d.co2_reductie_pct!=null && d.co2_reductie_ton!=null)?(pctC(d.co2_reductie_pct)+' · ca. '+tonC(d.co2_reductie_ton)+'/jaar'):'Niet uit bron vastgesteld',
-    ...pick(['CO₂-reductie','co2','co₂'],'Rekenkundig gecontroleerd, niet extern geverifieerd')
+    actie: d._co2_betrouwbaar?'Rekenkundig bepaald, technisch te controleren.':'CO₂-reductie kan nog niet betrouwbaar worden vastgesteld.',
+    z:'Middel'
   });
   rows.push({
     ond:'Subsidies/regelingen',
     w:arr(d.subsidies).length?(arr(d.subsidies).length+' mogelijk relevante regeling(en)'):'Geen regelingen bepaald',
-    ...pick(['Subsidies/regelingen','subsidies'],'Status en bedrag controleren bij bevoegde instantie')
+    actie:'Status en bedrag bevestigen bij de bevoegde instantie vóór opdrachtverlening.', z:'Middel'
   });
   rows.push({
     ond:"DNSH-thema's",
     w:'Niet afzonderlijk onderzocht',
-    ...pick(["DNSH-thema's",'dnsh'],'Bewijsstukken per thema verzamelen')
+    actie:'Bewijsstukken per thema verzamelen.', z:'Laag'
   });
   return rows.slice(0,7);
 }
@@ -3509,11 +3602,16 @@ function fitAllPagesToA4(){
   const TOP=58, FOOT=62, BODY_TOP_PAD=26, TOTAL=1123;
   const available=TOTAL-TOP-FOOT-BODY_TOP_PAD;
   const overflowPages=[];
+  // Vaste volgorde, nooit CSS-transform/scale (dat maakt tekst wazig):
+  // 1) padding/marges verkleinen, 2) regelafstand iets kleiner,
+  // 3) niet-essentiële tekst inkorten, 4) lettertype heel beperkt verkleinen
+  // (nooit onder ~8,5pt). Elke stap wordt pas gezet als de vorige nog niet
+  // genoeg was.
+  const classes=['compact-1','compact-2','compact-3','compact-4'];
   [...stage.querySelectorAll('.a4.content')].forEach((page,i)=>{
-    page.classList.remove('compact-1','compact-2','compact-3');
+    page.classList.remove(...classes);
     const body=page.querySelector('.page-body');
     if(!body) return;
-    const classes=['compact-1','compact-2','compact-3'];
     let ci=0;
     let required=body.scrollHeight;
     while(required>available && ci<classes.length){
@@ -3549,9 +3647,20 @@ function pageFinancieel(d){
   const fasesMap={1:'Fase 1',2:'Fase 1',3:'Fase 2',4:'Fase 2',5:'Fase 3'};
   const scenCFases={};
   ms.forEach(m=>{ const f=fasesMap[m.priority_tier]||'Fase 2'; (scenCFases[f]=scenCFases[f]||[]).push(m); });
+  // Zelfde definitie als de headline-kerncijfers hierboven: totaal
+  // financieel effect = energiebesparing + financieel voordeel uit opwek,
+  // en TVT wordt overal op precies dezelfde manier berekend (capex / totaal
+  // financieel effect) — nooit alleen op "besparing" zoals voorheen, anders
+  // wijkt scenario A (= het volledige pakket) af van de kerncijfers erboven.
   const sumOf=(list,k)=>list.reduce((a,m)=>a+(Number(m[k])||0),0);
-  const scenarioCard=(title,list,note)=>{
-    const c=sumOf(list,'capex'), b=sumOf(list,'bes'), t=b>0?jrC(c/b):'n.v.t.';
+  // Referentie (scenario A = volledig pakket) voor de compacte vergelijking
+  // op de kaarten van B en C — zelfde getallen als hierboven, geen nieuwe berekening.
+  const refA={c:sumOf(scenA,'capex'), tot:sumOf(scenA,'bes')+sumOf(scenA,'opwek')};
+  const scenarioCard=(title,list,note,isReference)=>{
+    const c=sumOf(list,'capex'), b=sumOf(list,'bes'), o=sumOf(list,'opwek'), tot=b+o;
+    const t=tot>0?jrC(c/tot):'n.v.t.';
+    const deltaC=refA.c-c, deltaT=refA.c>0?(c/refA.c*100):0;
+    const vergelijking=(!isReference && refA.c>0)?`<div style="display:flex;justify-content:space-between;font-size:8px;color:var(--ink-4);margin-top:5px;padding-top:5px;border-top:1px dashed var(--blue-faint);"><span>T.o.v. volledig pakket</span><span>${Math.round(deltaT)}% van de investering</span></div>`:'';
     return `<div style="background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
       <div style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">${esc(title)}</div>
       <div style="font-size:8.5px;color:var(--ink-3);margin-bottom:8px;line-height:1.4;">${esc(note)}</div>
@@ -3559,16 +3668,17 @@ function pageFinancieel(d){
         <span>${list.length} maatregel${list.length===1?'':'en'}</span><span style="font-weight:700;color:var(--blue-deep);">${eurC(c)}</span>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink-2);margin-top:3px;">
-        <span>Besparing/jr</span><span style="font-weight:700;color:var(--green);">${eurC(b)}</span>
+        <span>Totaal financieel effect/jr</span><span style="font-weight:700;color:var(--green);">${tot>0?eurC(tot):'niet uit bron vastgesteld'}</span>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink-2);margin-top:3px;">
         <span>Eenvoudige TVT</span><span style="font-weight:700;color:var(--blue-deep);">${t}</span>
       </div>
+      ${vergelijking}
     </div>`;
   };
   const fasesHtml=Object.keys(scenCFases).sort().map(f=>{
-    const list=scenCFases[f]; const c=sumOf(list,'capex'), b=sumOf(list,'bes');
-    return `<div style="font-size:8.5px;color:var(--ink-2);padding:3px 0;border-bottom:1px dashed var(--blue-faint);"><b style="color:var(--blue-deep);">${esc(f)}</b> — ${list.length} maatregel${list.length===1?'':'en'} · ${eurC(c)} · ${eurC(b)}/jr besparing</div>`;
+    const list=scenCFases[f]; const c=sumOf(list,'capex'), b=sumOf(list,'bes'), o=sumOf(list,'opwek');
+    return `<div style="font-size:8.5px;color:var(--ink-2);padding:3px 0;border-bottom:1px dashed var(--blue-faint);"><b style="color:var(--blue-deep);">${esc(f)}</b> — ${list.length} maatregel${list.length===1?'':'en'} · ${eurC(c)} · ${eurC(b+o)}/jr financieel effect</div>`;
   }).join('');
 
   const kpis=[
@@ -3597,12 +3707,12 @@ function pageFinancieel(d){
         ${kpis.map(k=>`<div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:10px 13px;">
           <div style="font-size:7px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);margin-bottom:5px;">${esc(k.l)}</div>
           <div style="font-size:14px;font-weight:800;color:var(--blue-deep);line-height:1.1;"${k.id?` id="${k.id}"`:''}>${esc(k.v)}</div>
-          <div style="font-size:7.5px;color:var(--ink-3);margin-top:3px;">${esc(k.s)}</div>
+          <div class="optional-detail" style="font-size:7.5px;color:var(--ink-3);margin-top:3px;">${esc(k.s)}</div>
         </div>`).join('')}
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;">
-        ${scenarioCard('Scenario A — volledig pakket',scenA,'Alle geadviseerde maatregelen samen.')}
+        ${scenarioCard('Scenario A — volledig pakket',scenA,'Alle geadviseerde maatregelen samen.',true)}
         ${scenarioCard('Scenario B — rendementspakket',scenB,'Maatregelen met een redelijke terugverdientijd (≤15 jr) en beperkte technische onzekerheid.')}
         <div style="background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
           <div style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">Scenario C — gefaseerde uitvoering</div>
@@ -3611,7 +3721,7 @@ function pageFinancieel(d){
         </div>
       </div>
 
-      <div style="font-size:8px;color:var(--ink-3);line-height:1.4;background:var(--page);border-radius:8px;padding:8px 12px;">Onderhouds- of vervangingskosten na afloop van de technische levensduur zijn niet uit de bron vastgesteld en daarom niet in deze berekening meegenomen. Alle terugverdientijden zijn eenvoudige (statische) berekeningen, zonder rekening te houden met toekomstige energieprijsontwikkeling.</div>
+      <div class="optional-detail" style="font-size:8px;color:var(--ink-3);line-height:1.4;background:var(--page);border-radius:8px;padding:8px 12px;">Onderhouds- of vervangingskosten na afloop van de technische levensduur zijn niet uit de bron vastgesteld en daarom niet in deze berekening meegenomen. Alle terugverdientijden zijn eenvoudige (statische) berekeningen, zonder rekening te houden met toekomstige energieprijsontwikkeling.</div>
 
     </div>
     ${pageFoot()}
@@ -3710,9 +3820,10 @@ function chartLabelLadder(labels,huidig,streef){
 }
 
 function chartScopeBars(voor,na){
-  const w=540,h=130,pl=80,pr=80,pt=20,pb=24,iw=w-pl-pr,bh=18;
+  const w=540,h=112,pl=80,pr=80,pt=16,pb=20,iw=w-pl-pr,bh=17;
   const max=Math.max(voor.tot,na.tot)*1.15;
   const xAt=v=>pl+(v/max)*iw;
+  const nl1=v=>num1(v); // Nederlandse komma-notatie i.p.v. toFixed() met punt
   const rows=[
     {y:pt,lbl:'Voor',s1:voor.s1,s2:voor.s2,tot:voor.tot,muted:false},
     {y:pt+50,lbl:'Na',s1:na.s1,s2:na.s2,tot:na.tot,muted:false}
@@ -3722,13 +3833,13 @@ function chartScopeBars(voor,na){
     return `<text x="${pl-10}" y="${r.y+bh/2+4}" font-size="9.5" font-weight="700" fill="#021e2e" text-anchor="end" font-family="'DM Sans',sans-serif">${r.lbl}</text>
       <rect x="${pl}" y="${r.y}" width="${(r.s1/max)*iw}" height="${bh}" fill="#c45c2e"/>
       <rect x="${x1}" y="${r.y}" width="${x2w}" height="${bh}" fill="#021e2e"/>
-      <text x="${pl+(r.tot/max)*iw+8}" y="${r.y+bh/2+4}" font-size="10" font-weight="700" fill="#021e2e" font-family="'DM Sans',sans-serif">${r.tot.toFixed(1)} t</text>
-      ${(r.s1/max)*iw>24?`<text x="${pl+(r.s1/max)*iw/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${r.s1.toFixed(1)}</text>`:''}
-      ${x2w>24?`<text x="${x1+x2w/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${r.s2.toFixed(1)}</text>`:''}`;
+      <text x="${pl+(r.tot/max)*iw+8}" y="${r.y+bh/2+4}" font-size="10" font-weight="700" fill="#021e2e" font-family="'DM Sans',sans-serif">${nl1(r.tot)} t</text>
+      ${(r.s1/max)*iw>24?`<text x="${pl+(r.s1/max)*iw/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${nl1(r.s1)}</text>`:''}
+      ${x2w>24?`<text x="${x1+x2w/2}" y="${r.y+bh/2+3.5}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" font-family="'DM Sans',sans-serif">${nl1(r.s2)}</text>`:''}`;
   }).join('');
   const legend=`<rect x="${pl}" y="${h-14}" width="10" height="8" fill="#c45c2e"/><text x="${pl+14}" y="${h-7}" font-size="8" fill="#021e2e" font-family="'DM Sans',sans-serif" font-weight="600">Scope 1 · directe uitstoot (gas)</text>
     <rect x="${pl+200}" y="${h-14}" width="10" height="8" fill="#021e2e"/><text x="${pl+214}" y="${h-7}" font-size="8" fill="#021e2e" font-family="'DM Sans',sans-serif" font-weight="600">Scope 2 · indirecte uitstoot (elektra)</text>`;
-  const arrow=`<text x="${w-6}" y="${pt+50+bh/2+4}" font-size="9" font-weight="800" fill="#0d8a4f" text-anchor="end" font-family="'DM Sans',sans-serif">−${(((voor.tot-na.tot)/voor.tot)*100).toFixed(0)}%</text>`;
+  const arrow=`<text x="${w-6}" y="${pt+50+bh/2+4}" font-size="9" font-weight="800" fill="#0d8a4f" text-anchor="end" font-family="'DM Sans',sans-serif">−${Math.round(((voor.tot-na.tot)/voor.tot)*100)}%</text>`;
   return `<svg viewBox="0 0 ${w} ${h}" width="100%" style="display:block;">${out}${arrow}${legend}</svg>`;
 }
 
@@ -3848,7 +3959,7 @@ function pageBanksamenvatting(d){
           ${heeftLabels?`<div style="padding:14px 0 4px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>`:''}
           <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink-3);margin-top:8px;flex-wrap:wrap;gap:6px;">
             <span><b style="color:var(--blue-deep);">Primaire-energie</b> ${d.primaire_energie_reductie_pct!=null?'−'+esc(d.primaire_energie_reductie_pct)+'% (ind.)':'niet uit bron vastgesteld'}</span>
-            <span><b style="color:var(--blue-deep);">CO₂</b> ${d._co2_betrouwbaar?'−'+esc(d.co2_reductie_pct)+'% · '+esc(d.co2_reductie_ton)+' t/jr':'nog niet betrouwbaar vast te stellen'}</span>
+            <span><b style="color:var(--blue-deep);">CO₂</b> ${d._co2_betrouwbaar?'−'+esc(d.co2_reductie_pct)+'% · '+esc(num1(d.co2_reductie_ton))+' t/jr':'nog niet betrouwbaar vast te stellen'}</span>
             <span><b style="color:var(--blue-deep);">Besparing</b> ${fmtEurOrNA(d.bes_jaar)}/jr${d.opbrengst_opwek_jaar?' + '+fmtEurOrNA(d.opbrengst_opwek_jaar)+' opwek':''}</span>
           </div>
         </div>
@@ -3904,12 +4015,12 @@ function pageRisico(d){
         <div class="chart-card">
           <div class="chart-card-h">CO₂-emissiepad · scope 1+2</div>
           <div class="chart-card-t">${d._co2_betrouwbaar?'Indicatief reductiepad over 15 jaar (ton CO₂-eq / jr)':'Onvoldoende brondata voor een betrouwbaar reductiepad'}</div>
-          ${(arr(d.co2_pad).length)?chartLine(d.co2_pad,{w:540,h:108,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#0d8a4f'}):'<div style="font-size:9px;color:var(--ink-3);padding:20px 0;text-align:center;">Niet uit bron vastgesteld</div>'}
+          ${(arr(d.co2_pad).length)?chartLine(d.co2_pad,{w:540,h:96,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#0d8a4f'}):'<div style="font-size:9px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet uit bron vastgesteld</div>'}
         </div>
         <div class="chart-card">
           <div class="chart-card-h">Scope 1 / Scope 2 · ton CO₂-eq / jaar</div>
           <div class="chart-card-t">Voor en na uitvoering maatregelenpakket</div>
-          ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:9px;color:var(--ink-3);padding:20px 0;text-align:center;">Niet uit bron vastgesteld</div>'}
+          ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:9px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet uit bron vastgesteld</div>'}
         </div>
       </div>
 
@@ -4588,7 +4699,7 @@ function pageBewijsVervolg(d){
             <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:9px;padding:11px 13px;">
               <div style="font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:4px;">${k.l}</div>
               <div style="font-size:15px;font-weight:800;color:#fff;line-height:1;">${k.v}</div>
-              <div style="font-size:7.5px;color:rgba(255,255,255,.62);margin-top:4px;line-height:1.3;">${k.s}</div>
+              <div class="optional-detail" style="font-size:7.5px;color:rgba(255,255,255,.62);margin-top:4px;line-height:1.3;">${k.s}</div>
             </div>
           `).join('')}
         </div>
