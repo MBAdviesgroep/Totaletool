@@ -2272,17 +2272,7 @@ function pageMaatregelenAdvies(d){
       </div>`;
       })()}
 
-      <div class="col-h" style="margin-bottom:6px;">Toelichting per maatregel</div>
-      <div style="display:grid;grid-template-columns:repeat(${ms.length>4?3:2},1fr);gap:6px;align-items:stretch;">
-        ${ms.map((m,i)=>`<div style="background:#fff;border-radius:9px;box-shadow:0 2px 7px rgba(0,0,0,.05);padding:8px 12px;height:100%;display:flex;flex-direction:column;gap:2px;">
-          <div style="display:flex;gap:8px;align-items:baseline;">
-            <span style="font-size:9.5px;font-weight:800;color:var(--orange);flex-shrink:0;">${String(i+1).padStart(2,'0')}</span>
-            <span style="font-size:10px;font-weight:700;color:var(--blue-deep);line-height:1.2;overflow-wrap:anywhere;hyphens:auto;">${esc(m.naam||'')}</span>
-          </div>
-          <div class="optional-note" style="font-size:9px;color:var(--ink-2);line-height:1.42;">${toel(m)}${m.technische_aannames?' <i style="color:var(--ink-3);">Aanname: '+esc(m.technische_aannames)+'</i>':''}</div>
-        </div>`).join('')}
-      </div>
-      ${msExtra.length?`<div style="font-size:8px;color:var(--ink-3);margin-top:6px;">+ ${msExtra.length} aanvullende maatregel${msExtra.length===1?'':'en'} uit het bronrapport (samengevat in het pakkettotaal): ${msExtra.map(m=>esc(m.naam||'')).join(', ')}.</div>`:''}
+      ${msExtra.length?`<div style="font-size:8px;color:var(--ink-3);margin-top:2px;">+ ${msExtra.length} aanvullende maatregel${msExtra.length===1?'':'en'} uit het bronrapport (samengevat in het pakkettotaal): ${msExtra.map(m=>esc(m.naam||'')).join(', ')}.</div>`:''}
 
     </div>
     ${pageFoot()}
@@ -2329,26 +2319,19 @@ function pageSubsidies(d){
         </div>`;}).join('')}
       </div>`:`<div style="background:var(--amber-bg);border-radius:10px;padding:14px 16px;font-size:9.5pt;color:var(--amber);margin-bottom:9px;">Geen subsidies of regelingen konden worden bepaald op basis van de aangeleverde gegevens.</div>`}
 
-      ${(d.subsidies_extra&&d.subsidies_extra.length)?`<div style="background:var(--blue-faint);border:1px solid var(--blue-faint2);border-radius:12px;padding:9px 14px;margin-bottom:9px;">
-        <div style="font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--blue-deep);margin-bottom:6px;">Aanvullende regelingen — afhankelijk van uw situatie</div>
-        <div style="display:flex;flex-direction:column;gap:5px;">
-          ${d.subsidies_extra.map(x=>`<div style="display:flex;gap:9px;align-items:flex-start;"><span style="flex-shrink:0;margin-top:5px;width:5px;height:5px;border-radius:50%;background:var(--orange);"></span><div style="font-size:8.5px;color:var(--ink-3);line-height:1.35;"><b style="color:var(--blue-deep);font-weight:750;">${esc(x.naam)}</b> — ${esc(x.note)}</div></div>`).join('')}
-        </div>
-      </div>`:''}
-
-      ${evidence.length?`<div class="col-card" style="margin-bottom:0;">
+      ${evidence.length?`<div class="col-card" style="margin-bottom:0;padding:20px 22px;">
         <div class="col-h">Bewijsstukken — status per onderdeel</div>
-        <table style="width:100%;border-collapse:collapse;margin-top:6px;">
+        <table style="width:100%;border-collapse:collapse;margin-top:10px;">
           <thead><tr style="border-bottom:1.5px solid var(--blue-faint);">
-            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;width:26%;">Onderdeel</th>
-            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;width:32%;">Waarde</th>
-            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 0 6px 0;">Bewijsstatus</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 9px 0;width:26%;">Onderdeel</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 9px 0;width:32%;">Waarde</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 0 9px 0;">Bewijsstatus</th>
           </tr></thead>
           <tbody>
             ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="padding:8px 10px 8px 0;font-size:8.7px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
-              <td style="padding:8px 10px 8px 0;font-size:8.7px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
-              <td style="padding:8px 0;font-size:8.3px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
+              <td style="padding:11px 10px 11px 0;font-size:8.7px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
+              <td style="padding:11px 10px 11px 0;font-size:8.7px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
+              <td style="padding:11px 0;font-size:8.3px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
             </tr>`).join('')}
           </tbody>
         </table>
@@ -2378,13 +2361,11 @@ function pageGroeneParagraaf(d){
   const lvl=d.assurance_niveau||3;
   const ms=arr(d.maatregelen);
   const samenvatting=esc(g.conclusie||buildFinancingConclusion(d));
-  // 6 KPI-tegels
+  // 2 KPI-tegels — bewust beperkt: labeltraject, CO2, besparing en
+  // investering staan al uitgebreid op pagina 2, 3 en 5; hier alleen wat
+  // uniek is voor deze ESG-duiding (dossierscore + bewijsniveau).
   const kpi=[
     {l:'Interne dossierscore',v:(score!=null&&!isNaN(Number(score)))?esc(String(score))+'/100':'—',s:esc(oordeel)},
-    {l:'Labeltraject',v:lab,s:'Na uitvoering te bevestigen'},
-    {l:'CO₂-reductie',v:pctC(co2pct),s:'≈ '+tonC(co2t)+'/jr · scope 1+2'},
-    {l:'Jaarlijkse besparing',v:eurC(bes),s:d._bes_gecapt?'Indicatief · begrensd op energiekosten':(maand?'≈ '+eurC(maand)+' per maand':'Per jaar')},
-    {l:'Investering',v:eurC(capex),s:'Incl. btw · som maatregelen'},
     {l:'Bewijsniveau',v:'Niveau '+lvl,s:'van 4 · zie leeswijzer bewijsniveau'}
   ];
   const bewijs=arr((g.benodigde_bewijsstukken&&g.benodigde_bewijsstukken.length)?g.benodigde_bewijsstukken:[
@@ -2419,35 +2400,23 @@ function pageGroeneParagraaf(d){
         <div style="position:relative;font-size:9pt;color:rgba(255,255,255,.93);line-height:1.45;max-width:98%;">${samenvatting}</div>
       </div>
 
-      <!-- 6 KPI-TEGELS -->
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-bottom:10px;">
-        ${kpi.map((k,i)=>`<div style="background:#fff;border-radius:11px;box-shadow:var(--mb-card-shadow);padding:12px 12px 11px;border-top:3px solid ${i===0?'var(--green)':i===5?'var(--blue)':'var(--blue-mid)'};">
-          <div style="font-size:6.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;line-height:1.2;min-height:16px;">${k.l}</div>
-          <div style="font-size:15px;font-weight:800;color:var(--blue-deep);line-height:1;margin-bottom:5px;letter-spacing:-.3px;">${k.v}</div>
-          <div class="optional-detail" style="font-size:7px;color:var(--ink-3);line-height:1.3;">${k.s}</div>
+      <!-- KPI-TEGELS (bewust beperkt tot 2, zie toelichting hierboven) -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px;">
+        ${kpi.map((k,i)=>`<div style="background:#fff;border-radius:11px;box-shadow:var(--mb-card-shadow);padding:13px 16px 12px;border-top:3px solid ${i===0?'var(--green)':'var(--blue)'};">
+          <div style="font-size:7px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;line-height:1.2;">${k.l}</div>
+          <div style="font-size:18px;font-weight:800;color:var(--blue-deep);line-height:1;margin-bottom:5px;letter-spacing:-.3px;">${k.v}</div>
+          <div class="optional-detail" style="font-size:7.5px;color:var(--ink-3);line-height:1.3;">${k.s}</div>
         </div>`).join('')}
       </div>
 
       <!-- METHODIEK ESG-SCORE -->
-      <div style="font-size:7.4px;color:var(--ink-3);line-height:1.38;margin:-1px 0 8px;padding:6px 11px;background:var(--blue-faint);border-radius:8px;"><b style="color:var(--blue-deep);">Methodiek interne dossierscore ·</b> interne, indicatieve MB&nbsp;Adviesgroep-score (0–100) uit transitierisico, datakwaliteit, bewijsniveau, klimaatrisico en rapportagegereedheid. Dit is <b>geen</b> externe ESG-rating, taxonomieverklaring, assurance of certificering.</div>
+      <div style="font-size:7.4px;color:var(--ink-3);line-height:1.38;margin:-1px 0 8px;padding:6px 11px;background:var(--blue-faint);border-radius:8px;"><b style="color:var(--blue-deep);">Methodiek interne dossierscore ·</b> interne, indicatieve score (0–100) uit transitierisico, datakwaliteit, bewijsniveau, klimaatrisico en rapportagegereedheid. Dit is <b>geen</b> externe ESG-rating, taxonomieverklaring, assurance of certificering.</div>
 
-      <!-- ANALYSE: RADAR + LABELTRAJECT -->
-      <div class="chart-grid-2" style="margin-bottom:9px;">
-        <div class="chart-card">
-          <div class="chart-card-h">Interne dossierscore radar &middot; score-onderbouwing</div>
-          <div class="chart-card-t">Vijf dimensies &middot; gewogen gemiddelde = ${esc(String(score))}/100</div>
-          <div style="max-width:220px;margin:2px auto 0;">${chartRadar(d.radar,168)}</div>
-        </div>
-        <div class="chart-card">
-          <div class="chart-card-h">Energielabel-traject</div>
-          <div class="chart-card-t">${heeftLabelsGp?esc(d.huidig_label)+' &rarr; '+esc(d.streef_label)+' &middot; '+esc((d.label_streef_idx||0)-(d.label_huidig_idx||0))+' labelstappen na uitvoering te bevestigen':'Niet uit bron vastgesteld'}</div>
-          ${heeftLabelsGp?`<div style="padding:6px 0 2px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>`:''}
-          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink-3);margin-top:8px;gap:6px;flex-wrap:wrap;">
-            <span><b style="color:var(--blue-deep);">Primaire-energie</b> ${hasVal(d.primaire_energie_reductie_pct)?'&minus;'+esc(d.primaire_energie_reductie_pct)+'%':'niet uit bron vastgesteld'} <span style="color:var(--ink-4);">(ind.)</span></span>
-            <span><b style="color:var(--blue-deep);">CO&#8322;</b> ${hasVal(d.co2_reductie_pct)?'&minus;'+esc(d.co2_reductie_pct)+'%':'—'} ${hasVal(d.co2_reductie_ton)?'&middot; '+esc(num1(d.co2_reductie_ton))+' t/jr':''}</span>
-            <span><b style="color:var(--blue-deep);">Besparing</b> ${eurC(bes)}/jr</span>
-          </div>
-        </div>
+      <!-- ANALYSE: RADAR (labeltraject/CO2/besparing staan al op pagina 2) -->
+      <div class="chart-card" style="margin-bottom:9px;max-width:340px;margin-left:auto;margin-right:auto;">
+        <div class="chart-card-h">Interne dossierscore radar &middot; score-onderbouwing</div>
+        <div class="chart-card-t">Vijf dimensies &middot; gewogen gemiddelde = ${esc(String(score))}/100 &middot; labeltraject ${heeftLabelsGp?esc(d.huidig_label)+'&nbsp;&rarr;&nbsp;'+esc(d.streef_label):'n.v.t.'}</div>
+        <div style="max-width:220px;margin:2px auto 0;">${chartRadar(d.radar,168)}</div>
       </div>
 
       <!-- SCORE-OPBOUW (transparant: gewogen berekening) -->
@@ -2963,7 +2932,15 @@ function reconcileNumbers(d){
 
   // ── DATUM dynamisch ──
   d.datum_rapport=formatDutchDate(d.datum_rapport);
+  // ── POSTCODE-notatie: altijd "1234 AB" met exact één spatie, nooit aan elkaar. ──
+  if(d.object_adres) d.object_adres=formatDutchPostcode(d.object_adres);
   return d;
+}
+/* Nederlandse postcode altijd met precies één spatie tussen cijfers en
+   letters ("1791 GG"), ook als de bron "1791GG" (geen spatie) of
+   "1791  GG" (dubbele spatie) aanlevert. */
+function formatDutchPostcode(s){
+  return String(s||'').replace(/\b(\d{4})\s*([A-Za-z]{2})\b/g,'$1 $2');
 }
 /* ═══════════════════════════════════════════════════════════════════
    NULL-VEILIGE FORMATTERS — nooit €0 / 0% tonen wanneer "onbekend"
@@ -4017,7 +3994,10 @@ function pageRisico(d){
     const score=kans*impact;
     return {...r, kansN:kans, impactN:impact, risk_score:score, risk_label:scaleLabel(Math.min(3,Math.round(score/3)))};
   });
-  const conclusieTekst=buildFinancingConclusion(d);
+  // Korte, aan deze pagina specifieke conclusie i.p.v. de volledige
+  // financieringsconclusie (die staat al op de ESG-duidingspagina hiervoor
+  // en in het eindadvies) — voorkomt dat dezelfde alinea drie keer voorkomt.
+  const conclusieTekst=`Deze risico's en voorwaarden zijn onderdeel van de financieringsbeoordeling, aanvullend op de ESG-duiding en conclusie op de vorige pagina.`;
   return `
   <article class="a4 content page-risk">
     ${pageTop(d)}
@@ -4806,22 +4786,13 @@ function pageBewijsVervolg(d){
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 22px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 50%,#16774a 100%);border-radius:14px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 26px rgba(11,61,40,.22);">
+      <div style="display:flex;align-items:center;gap:16px;padding:14px 22px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 50%,#16774a 100%);border-radius:14px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 26px rgba(11,61,40,.22);">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
         <div style="position:absolute;right:-30px;bottom:-50px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
-        <div style="position:relative;display:flex;align-items:center;gap:14px;">
-          <div style="width:46px;height:46px;border-radius:11px;overflow:hidden;flex-shrink:0;background:#fff;display:flex;align-items:center;justify-content:center;padding:5px;box-shadow:0 4px 12px rgba(0,0,0,.25);">
-            <img src="${document.querySelector('.hdr-logo img')?.src||''}" style="max-width:100%;max-height:100%;object-fit:contain;" alt="MB Adviesgroep">
-          </div>
-          <div>
-            <div style="font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Volgende stap</div>
-            <div style="font-size:14px;font-weight:800;line-height:1.2;letter-spacing:-.2px;">Input voor de interne beoordeling van de financier.</div>
-            <div style="font-size:8.5px;color:rgba(255,255,255,.78);margin-top:3px;">MB Adviesgroep begeleidt de aanvraag, bewijsvoering en het nieuwe energielabel.</div>
-          </div>
-        </div>
-        <div style="position:relative;text-align:right;flex-shrink:0;">
-          <div style="font-size:10px;font-weight:800;">info@mbadviesgroep.nl</div>
-          <div style="font-size:8px;color:rgba(255,255,255,.72);margin-top:1px;">mbadviesgroep.nl &middot; opgesteld ${esc(d.datum_rapport||'')}</div>
+        <div style="position:relative;">
+          <div style="font-size:8px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Volgende stap</div>
+          <div style="font-size:14px;font-weight:800;line-height:1.2;letter-spacing:-.2px;margin-bottom:4px;">Input voor de interne beoordeling van de financier.</div>
+          <div style="font-size:8.5px;color:rgba(255,255,255,.78);">Dit dossier vormt een indicatieve duurzaamheidsbijlage voor de interne beoordeling van de financier. Aanvullende bewijsstukken verhogen de betrouwbaarheid van de beoordeling.</div>
         </div>
       </div>
 
