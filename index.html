@@ -1912,14 +1912,15 @@ function pageEnergie(d){
   const heeftLabels=!!(d.huidig_label&&d.streef_label);
   const stappen=heeftLabels?Math.max(0,(d.label_streef_idx||0)-(d.label_huidig_idx||0)):null;
   const besSub=d._bes_gecapt?'Per jaar · indicatief, begrensd op de energiekosten':(d.bes_maand?'Per jaar · ≈ '+eurC(d.bes_maand)+'/maand':'Per jaar na uitvoering');
-  const kpis=[
-    {l:'Huidig energielabel',v:esc(d.huidig_label||'—'),s:heeftLabels?'Conform bronrapport / energielabel':'Niet uit bron vastgesteld',c:'var(--orange)'},
-    {l:'Doellabel na uitvoering',v:esc(d.streef_label||'—'),s:heeftLabels?(stappen+' labelstap'+(stappen===1?'':'pen')+' · indicatief, te bevestigen na uitvoering'):'Niet uit bron vastgesteld',c:'var(--green)'},
-    {l:'Energiekosten huidig',v:fmtEurOrNA(d.energiekosten_huidig),s:d._kosten_indicatief?'Per jaar · indicatief berekend uit verbruik, te controleren met jaarafrekening':(d._kosten_onbekend?'Niet uit bron vastgesteld':'Per jaar · conform bronrapport'),c:'var(--blue-deep)'},
-    {l:'Jaarlijkse besparing',v:fmtEurOrNA(d.bes_jaar),s:besSub,c:'var(--green)'},
-    {l:'CO₂-reductie',v:d._co2_betrouwbaar?tonC(d.co2_reductie_ton):'Nog niet vast te stellen',s:d._co2_betrouwbaar?'Per jaar · scope 1+2 · intern gecontroleerd':'Onvoldoende brongegevens',c:'var(--blue-deep)'},
-    {l:'Terugverdientijd',v:fmtJrOrNA(d.tvt_jaar),s:'Gemiddeld over het pakket',c:'var(--orange)'}
+  const kpisAll=[
+    {l:'Huidig energielabel',v:esc(d.huidig_label||''),s:'Conform bronrapport / energielabel',c:'var(--orange)',ok:heeftLabels},
+    {l:'Doellabel na uitvoering',v:esc(d.streef_label||''),s:(stappen+' labelstap'+(stappen===1?'':'pen')+' · indicatief, te bevestigen na uitvoering'),c:'var(--green)',ok:heeftLabels},
+    {l:'Energiekosten huidig',v:fmtEurOrNA(d.energiekosten_huidig),s:d._kosten_indicatief?'Per jaar · indicatief berekend uit verbruik, te controleren met jaarafrekening':'Per jaar · conform bronrapport',c:'var(--blue-deep)',ok:!d._kosten_onbekend&&hasVal(d.energiekosten_huidig)},
+    {l:'Jaarlijkse besparing',v:fmtEurOrNA(d.bes_jaar),s:besSub,c:'var(--green)',ok:hasVal(d.bes_jaar)},
+    {l:'CO₂-reductie',v:tonC(d.co2_reductie_ton),s:'Per jaar · scope 1+2 · intern gecontroleerd',c:'var(--blue-deep)',ok:d._co2_betrouwbaar},
+    {l:'Terugverdientijd',v:fmtJrOrNA(d.tvt_jaar),s:'Gemiddeld over het pakket',c:'var(--orange)',ok:hasVal(d.tvt_jaar)&&Number(d.tvt_jaar)>0}
   ];
+  const kpis=kpisAll.filter(k=>k.ok);
   const objStats=[
     {l:'Bouwjaar',v:esc(d.bouwjaar||'—')},
     {l:'Oppervlakte',v:esc(d.oppervlakte||'—')},
@@ -1941,8 +1942,8 @@ function pageEnergie(d){
         <div class="col-h">Energielabel-traject ${heeftLabels?'· '+esc(d.huidig_label)+' → '+esc(d.streef_label):''}</div>
         ${heeftLabels?`<div style="padding:12px 0 4px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>
         <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink-3);margin-top:10px;">
-          <span>Minst zuinig (G)</span><span style="font-weight:600;color:var(--blue-deep);">${d.primaire_energie_reductie_pct!=null?'−'+esc(String(d.primaire_energie_reductie_pct))+'% primaire energie (indicatief, nader te bevestigen)':'Primaire-energiereductie niet uit bron vastgesteld'}</span><span>Meest zuinig (A++++)</span>
-        </div>`:`<div style="font-size:9.5px;color:var(--ink-3);padding:8px 0;">Niet uit bron vastgesteld.</div>`}
+          <span>Minst zuinig (G)</span><span style="font-weight:600;color:var(--blue-deep);">${d.primaire_energie_reductie_pct!=null?'−'+esc(String(d.primaire_energie_reductie_pct))+'% primaire energie (indicatief, nader te bevestigen)':'Primaire-energiereductie niet meegenomen in deze indicatieve berekening'}</span><span>Meest zuinig (A++++)</span>
+        </div>`:`<div style="font-size:9.5px;color:var(--ink-3);padding:8px 0;">Het labeltraject is niet meegenomen in deze indicatieve berekening.</div>`}
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;">
@@ -1983,7 +1984,7 @@ function pageMaatregelenAdvies(d){
   const cell='padding:5px 8px 5px 0;font-size:8.5pt;';
   const head='text-align:right;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;';
   const toel=m=>esc(truncateWords(m.toelichting||('Verlaagt het energieverbruik van het pand.'),28));
-  const capexTxt=m=>(m.capex>0)?eur(m.capex):(hasVal(m.investering_min)&&hasVal(m.investering_max)?eur(m.investering_min)+' – '+eur(m.investering_max):'niet uit bron vastgesteld');
+  const capexTxt=m=>(m.capex>0)?eur(m.capex):(hasVal(m.investering_min)&&hasVal(m.investering_max)?eur(m.investering_min)+' – '+eur(m.investering_max):'niet meegenomen');
   // Voor maatregelen zonder harde besparing (vaak op verzoek van de adviseur
   // toegevoegd, niet uit het bronrapport): toon een indicatieve bandbreedte
   // i.p.v. "niet uit bron vastgesteld" — consistent met de investeringskolom.
@@ -1991,7 +1992,7 @@ function pageMaatregelenAdvies(d){
     if(m.bes_afgeleid_van_bandbreedte && hasVal(m.bes_min) && hasVal(m.bes_max)) return eur(m.bes_min)+' – '+eur(m.bes_max)+' <span style="font-size:6.3px;color:var(--ink-4);font-weight:600;">(indicatief)</span>';
     if(m.total_financial_benefit_year>0) return eur(m.total_financial_benefit_year)+(m.opwek>0&&m.bes<=0?' <span style="font-size:6.3px;color:var(--ink-4);font-weight:600;">(opwek)</span>':'');
     if(hasVal(m.bes_min)&&hasVal(m.bes_max)) return eur(m.bes_min)+' – '+eur(m.bes_max)+' <span style="font-size:6.3px;color:var(--ink-4);font-weight:600;">(indicatief)</span>';
-    return 'niet uit bron vastgesteld';
+    return 'niet meegenomen';
   };
   const volgLabel={1:'Eerst uitvoeren',2:'Eerst uitvoeren',3:'Daarna uitvoeren',4:'Optioneel',5:'Alleen na nader onderzoek'};
   const volgColor={1:'p-good',2:'p-good',3:'p-info',4:'p-warn',5:'p-bad'};
@@ -2117,7 +2118,6 @@ function pageSubsidies(d){
             </div>
             ${s.bedrag?`<div style="font-size:12.5px;font-weight:800;color:var(--blue-deep);letter-spacing:-.2px;">${esc(s.bedrag)}</div>`:''}
             <div style="display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--mb-card-border-soft);padding-top:8px;">
-              ${s.voor?`<div style="font-size:8.3px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:6.5px;">Maatregel&nbsp;</b>${esc(truncateWords(s.voor,8))}</div>`:''}
               <div style="font-size:8.3px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:6.5px;">Voorwaarden&nbsp;</b>${esc(truncateWords(s.voorwaarden||'Te bevestigen bij aanvraag.',10))}</div>
               <div style="font-size:8.3px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:6.5px;">Bron&nbsp;</b>${esc(s.bron||'Algemene kennis')}${s.bron_datum?' · '+esc(s.bron_datum):''}</div>
             </div>
@@ -2126,17 +2126,17 @@ function pageSubsidies(d){
 
       ${evidence.length?`<div class="col-card" style="margin-bottom:0;padding:22px 24px;">
         <div class="col-h">Bewijsstukken — status per onderdeel</div>
-        <table style="width:100%;border-collapse:collapse;margin-top:13px;">
+        <table style="width:100%;border-collapse:collapse;margin-top:10px;">
           <thead><tr style="border-bottom:1.5px solid var(--blue-faint);">
-            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 11px 0;width:24%;">Onderdeel</th>
-            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 11px 0;width:34%;">Waarde</th>
-            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 0 11px 0;">Status</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;width:24%;">Onderdeel</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;width:34%;">Waarde</th>
+            <th style="text-align:left;font-size:6.8px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 0 8px 0;">Status</th>
           </tr></thead>
           <tbody>
             ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="padding:14px 10px 14px 0;font-size:8.7px;font-weight:700;color:var(--blue-deep);vertical-align:top;line-height:1.5;">${esc(e.ond||'')}</td>
-              <td style="padding:14px 10px 14px 0;font-size:8.7px;color:var(--ink);vertical-align:top;line-height:1.5;">${esc(e.w||'')}</td>
-              <td style="padding:14px 0;font-size:8.3px;color:var(--ink-3);vertical-align:top;line-height:1.5;">${esc(e.actie||'')}</td>
+              <td style="padding:9px 10px 9px 0;font-size:8.7px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
+              <td style="padding:9px 10px 9px 0;font-size:8.7px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
+              <td style="padding:9px 0;font-size:8.3px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
             </tr>`).join('')}
           </tbody>
         </table>
@@ -2511,8 +2511,8 @@ function computeEsgScore(d, context){
   d.bankscore_componenten=[
     {l:'Interne dossierscore (gewogen)',v:d.bankscore+' / 100'},
     {l:'Bewijsniveau',v:'Niveau '+lvl+' / 4'},
-    {l:'Datakwaliteit',v:heeftVerbruik?'Werkelijk verbruik verwerkt':'Verbruik niet uit bron vastgesteld'},
-    {l:'Labeltraject',v:heeftLabels?'Bekend uit bronrapport':'Niet uit bron vastgesteld'},
+    {l:'Datakwaliteit',v:heeftVerbruik?'Werkelijk verbruik verwerkt':'Niet meegenomen in deze indicatieve berekening'},
+    {l:'Labeltraject',v:heeftLabels?'Bekend uit bronrapport':'Niet meegenomen in deze indicatieve berekening'},
     {l:'Klimaatindicatie',v:heeftCo2?'CO₂-cijfers rekenkundig gecontroleerd':'Niet beoordeeld — onvoldoende brongegevens'},
     {l:'Rapportagegereedheid',v:lvl>=3?'Voorwaardelijk — bewijsstukken nog aan te leveren':'Aanvullende onderbouwing nodig'}
   ];
@@ -2834,10 +2834,10 @@ function sanitizeText(value){
     .trim();
 }
 
-function fmtEurOrNA(v){ return (v===null||v===undefined||isNaN(Number(v))||Number(v)===0&&v!=='0'&&false)?'niet uit bron vastgesteld':(v?eurC(v):'niet uit bron vastgesteld'); }
-function fmtPctOrNA(v){ return (v===null||v===undefined||isNaN(Number(v)))?'niet uit bron vastgesteld':pctC(v); }
-function fmtJrOrNA(v){ return (v===null||v===undefined||isNaN(Number(v))||Number(v)<=0)?'niet uit bron vastgesteld':jrC(v); }
-function fmtTonOrNA(v){ return (v===null||v===undefined||isNaN(Number(v)))?'niet uit bron vastgesteld':tonC(v); }
+function fmtEurOrNA(v){ return (v===null||v===undefined||isNaN(Number(v))||Number(v)===0&&v!=='0'&&false)?'niet meegenomen in deze berekening':(v?eurC(v):'niet meegenomen in deze berekening'); }
+function fmtPctOrNA(v){ return (v===null||v===undefined||isNaN(Number(v)))?'niet meegenomen in deze berekening':pctC(v); }
+function fmtJrOrNA(v){ return (v===null||v===undefined||isNaN(Number(v))||Number(v)<=0)?'niet meegenomen in deze berekening':jrC(v); }
+function fmtTonOrNA(v){ return (v===null||v===undefined||isNaN(Number(v)))?'niet meegenomen in deze berekening':tonC(v); }
 
 /* ═══════════════════════════════════════════════════════════════════
    buildCo2Sentence — DE ENIGE plek die CO₂-teksten formuleert. Voorkomt
@@ -2863,8 +2863,8 @@ function buildManagementSummary(d){
   const besTxt=fmtEurOrNA(d.bes_jaar);
   const tvtTxt=fmtJrOrNA(d.tvt_jaar);
   const heeftLabels=!!(d.huidig_label&&d.streef_label);
-  const labelTxt=heeftLabels?`${esc(d.huidig_label)} → ${esc(d.streef_label)}`:'niet uit bron vastgesteld';
-  const beTxt=d.break_even_jaar?('rond jaar '+d.break_even_jaar):'nog niet vast te stellen';
+  const labelTxt=heeftLabels?`${esc(d.huidig_label)} → ${esc(d.streef_label)}`:'niet meegenomen in deze indicatieve berekening';
+  const beTxt=d.break_even_jaar?('rond jaar '+d.break_even_jaar):'niet meegenomen in deze indicatieve berekening';
   const tekst=`De verduurzaming van ${esc(obj)} omvat ${n||'geen'} maatregel${n===1?'':'en'} met een bruto investering van ${capexTxt} en een jaarlijkse besparing van ${besTxt}. Terugverdientijd ${tvtTxt}; break-even ${beTxt}. Labeltraject ${labelTxt}. ${buildCo2Sentence(d)} Dit dossier is indicatief bruikbaar als duurzaamheidsbijlage; een definitieve beoordeling vraagt aanvullende technische en financiële bewijsstukken.`;
   return truncateWords(tekst,110);
 }
@@ -2878,7 +2878,7 @@ function buildFinancingConclusion(d){
 /* SFDR / Pillar 3 / Taxonomie-uitleg — terughoudend en consistent, gebouwd
    uit dezelfde canonieke cijfers als de rest van het dossier. */
 function buildRegulatoryExplanation(d){
-  const labelTxt=(d.huidig_label&&d.streef_label)?`${esc(d.huidig_label)} → ${esc(d.streef_label)}`:'niet uit bron vastgesteld';
+  const labelTxt=(d.huidig_label&&d.streef_label)?`${esc(d.huidig_label)} → ${esc(d.streef_label)}`:'niet meegenomen in deze indicatieve berekening';
   const co2Sentence=buildCo2Sentence(d);
   const sfdr=truncateWords(`Input voor de eigen SFDR-rapportage: ${co2Sentence} Labeltraject ${labelTxt}. Geen automatische classificatie.`,42);
   const pillar3=truncateWords(`Input voor de eigen Pillar 3-rapportage: bruto investering ${fmtEurOrNA(d.capex_totaal)}, jaarlijkse besparing ${fmtEurOrNA(d.bes_jaar)}, labeltraject ${labelTxt}.`,35);
@@ -2914,30 +2914,30 @@ function buildEvidenceRows(d){
   const rows=[];
   rows.push({
     ond:'Objectgegevens',
-    w:d.object_adres||d.object_naam||'Niet uit bron vastgesteld',
-    actie: (d.object_adres||d.object_naam)? 'Overgenomen uit bronrapport':'Niet uit bron vastgesteld — aanleveren', z:'Laag'
+    w:d.object_adres||d.object_naam||'Aan te leveren',
+    actie: (d.object_adres||d.object_naam)? 'Overgenomen uit bronrapport':'Aanleveren voor volledig dossier', z:'Laag'
   });
   rows.push({
     ond:'Energielabel',
-    w:heeftLabels?(esc(d.huidig_label)+' → '+esc(d.streef_label)):'Niet uit bron vastgesteld',
+    w:heeftLabels?(esc(d.huidig_label)+' → '+esc(d.streef_label)):'Aan te leveren',
     actie: heeftLabels?'Bronrapport, nieuw label na uitvoering':'Energielabel aanleveren', z:'Middel'
   });
   rows.push({
     ond:'Investering',
-    w:fmtEurOrNA(d.capex_totaal),
-    actie: d.capex_totaal>0?(heeftOffertes?'Bevestigd met offerte(s)':'Offertes ontbreken'):'Niet uit bron vastgesteld',
+    w:(hasVal(d.capex_totaal)&&Number(d.capex_totaal)>0)?eurC(d.capex_totaal):'Aan te leveren',
+    actie: d.capex_totaal>0?(heeftOffertes?'Bevestigd met offerte(s)':'Offertes ontbreken'):'Nog te ramen',
     z: heeftOffertes?'Laag':'Middel'
   });
   rows.push({
     ond:'Jaarlijkse opbrengst',
-    w:fmtEurOrNA(d.totale_financiele_opbrengst_jaar!=null?d.totale_financiele_opbrengst_jaar:d.bes_jaar)+'/jaar',
-    actie: (d.bes_jaar>0||d.opbrengst_opwek_jaar>0)?(heeftFacturen?'Bevestigd met facturen':'Meterdata na uitvoering gewenst'):'Niet uit bron vastgesteld',
+    w:(()=>{const o=(d.totale_financiele_opbrengst_jaar!=null?d.totale_financiele_opbrengst_jaar:d.bes_jaar); return (hasVal(o)&&Number(o)>0)?eurC(o)+'/jaar':'Aan te leveren';})(),
+    actie: (d.bes_jaar>0||d.opbrengst_opwek_jaar>0)?(heeftFacturen?'Bevestigd met facturen':'Meterdata na uitvoering gewenst'):'Nog te ramen',
     z: heeftFacturen?'Laag':'Middel'
   });
   rows.push({
     ond:'CO₂-reductie',
-    w:(d._co2_betrouwbaar && d.co2_reductie_pct!=null && d.co2_reductie_ton!=null)?(pctC(d.co2_reductie_pct)+' · ca. '+tonC(d.co2_reductie_ton)+'/jaar'):'Niet uit bron vastgesteld',
-    actie: d._co2_betrouwbaar?'Rekenkundig bepaald':'Niet betrouwbaar vast te stellen',
+    w:(d._co2_betrouwbaar && d.co2_reductie_pct!=null && d.co2_reductie_ton!=null)?(pctC(d.co2_reductie_pct)+' · ca. '+tonC(d.co2_reductie_ton)+'/jaar'):'Aan te leveren',
+    actie: d._co2_betrouwbaar?'Rekenkundig bepaald':'Niet meegenomen in deze berekening',
     z:'Middel'
   });
   rows.push({
@@ -2956,9 +2956,14 @@ function buildEvidenceRows(d){
 function generateFallbackRisks(d){
   const names=arr(d.maatregelen).map(m=>_norm(m.naam||m.name||''));
   const has=re=>names.some(n=>re.test(n));
+  const bouwjaar=Number(d.bouwjaar)||null;
+  const functie=_norm(d.functie||'');
+  const verhuurd=!!(d.aanvrager_context&&d.aanvrager_context.verhuurd);
   const out=[];
+  // Basisrisico's — altijd van toepassing op een verduurzamingstraject.
   out.push({risk:'Werkelijke besparing kan afwijken van de geraamde besparing (gebruikersgedrag, energieprijzen).',kans:'Middel',impact:'Middel',ernst:'Middel',horizon:'Middel',action:'Meterdata monitoren tijdens en na uitvoering.'});
   out.push({risk:'Investeringskosten kunnen hoger uitvallen dan geraamd.',kans:'Middel',impact:'Middel',ernst:'Middel',horizon:'Kort',action:'Vaste-prijsofferte per maatregel vastleggen vóór opdracht.'});
+  // Maatregelspecifiek.
   if(has(/zonnepaneel|zonnepanelen|pv[- ]?paneel/)){
     out.push({risk:'Rendement zonnepanelen valt lager uit door lage eigen consumptie of terugleverbeperkingen.',kans:'Middel',impact:'Laag',ernst:'Laag-Middel',horizon:'Middel',action:'Eigen verbruik en terugleverregeling vooraf doorrekenen.'});
   }
@@ -2968,11 +2973,29 @@ function generateFallbackRisks(d){
   if(has(/isolatie|dak|gevel|vloer|spouw/)){
     out.push({risk:'Onvoldoende ventilatie of vochtophoping na isolatie.',kans:'Laag',impact:'Middel',ernst:'Laag-Middel',horizon:'Middel',action:'Ventilatie laten beoordelen als onderdeel van de uitvoering.'});
   }
+  if(has(/kozijn|glas|beglazing/)){
+    out.push({risk:'Vervanging van kozijnen/beglazing kan leiden tot vertraging bij monumentale of beeldbepalende gevels.',kans:'Laag',impact:'Middel',ernst:'Laag-Middel',horizon:'Middel',action:'Vergunningsplicht vooraf toetsen bij de gemeente.'});
+  }
+  // Bouwjaar-gerelateerd.
+  if(bouwjaar && bouwjaar<1994){
+    out.push({risk:'Bij panden van vóór 1994 kan asbest aanwezig zijn; dit is niet separaat onderzocht.',kans:'Middel',impact:'Middel',ernst:'Middel',horizon:'Kort',action:'Asbestinventarisatie laten uitvoeren vóór aanvang van de werkzaamheden.'});
+  } else if(bouwjaar && bouwjaar>=2015){
+    out.push({risk:'Recent gebouwde panden hebben doorgaans een beperkter besparingspotentieel; de terugverdientijd is gevoeliger voor afwijkingen.',kans:'Laag',impact:'Laag',ernst:'Laag',horizon:'Middel',action:'Besparingsraming laten toetsen aan de actuele isolatiewaarden.'});
+  }
+  // Object-/gebruikstype-gerelateerd.
+  if(verhuurd){
+    out.push({risk:'Bij verhuur kan de verdeling van kosten en baten tussen eigenaar en huurder(s) de uitvoering vertragen.',kans:'Middel',impact:'Middel',ernst:'Middel',horizon:'Kort',action:'Afspraken met huurder(s) vastleggen vóór opdrachtverlening.'});
+  }
+  if(/kantoor|bedrijf|winkel|bedrijfspand|utiliteit/.test(functie)){
+    out.push({risk:'Uitvoering tijdens bedrijfsvoering kan tot bedrijfsonderbreking of overlast leiden.',kans:'Laag',impact:'Middel',ernst:'Laag-Middel',horizon:'Kort',action:'Uitvoeringsplanning afstemmen met de bedrijfsactiviteiten.'});
+  }
+  // Regelgeving — algemeen, altijd relevant.
+  out.push({risk:'Wijzigingen in wet- en regelgeving (bijvoorbeeld energielabelverplichtingen) kunnen de businesscase beïnvloeden.',kans:'Laag',impact:'Middel',ernst:'Laag-Middel',horizon:'Lang',action:'Ontwikkelingen in regelgeving volgen tot aan uitvoering.'});
   if(arr(d.subsidies).some(s=>/te controleren|mogelijk relevant/i.test(String(s.status||'')))){
     out.push({risk:'Subsidie of regeling valt lager uit of is niet (meer) beschikbaar.',kans:'Middel',impact:'Middel',ernst:'Middel',horizon:'Kort',action:'Actuele voorwaarden en bedragen controleren bij de bevoegde instantie vóór opdrachtverlening.'});
   }
   out.push({risk:'Bewijsstukken (offertes, facturen, oplevering) ontbreken nog voor een hoger bewijsniveau.',kans:'Hoog',impact:'Laag',ernst:'Laag-Middel',horizon:'Kort',action:'Bewijsstukken verzamelen conform het bewijsniveaupad.'});
-  return out.slice(0,6);
+  return out;
 }
 
 function buildEvidenceConclusion(d){
@@ -3061,7 +3084,7 @@ function sanitizeNarratives(d){
   d.samenvatting_punten=[
     `${arr(d.maatregelen).length} maatregel(en) · ${fmtEurOrNA(d.capex_totaal)} investering · ${fmtEurOrNA(d.bes_jaar)} besparing per jaar.`,
     `Eenvoudige terugverdientijd ${fmtJrOrNA(d.tvt_jaar)}${d.break_even_jaar?' · break-even rond jaar '+d.break_even_jaar:''}.`,
-    `Labeltraject ${heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label):'niet uit bron vastgesteld'}.`
+    `Labeltraject ${heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label):'niet meegenomen in deze indicatieve berekening'}.`
   ];
 
   d.groene_paragraaf=d.groene_paragraaf||{};
@@ -3074,8 +3097,8 @@ function sanitizeNarratives(d){
   d.sfdr=reg.sfdr;
   d.pillar3=reg.pillar3;
   d.pai=[
-    `PAI 1 — CO₂-uitstoot scope 1+2: ${d._co2_betrouwbaar?fmtPctOrNA(d.co2_reductie_pct)+' indicatieve reductie':'nog niet betrouwbaar vast te stellen'}.`,
-    `PAI 17 — Energieprestatie: ${heeftLabels?'labeltraject '+esc(d.huidig_label)+' → '+esc(d.streef_label):'niet uit bron vastgesteld'}.`,
+    `PAI 1 — CO₂-uitstoot scope 1+2: ${d._co2_betrouwbaar?fmtPctOrNA(d.co2_reductie_pct)+' indicatieve reductie':'niet meegenomen in deze indicatieve berekening'}.`,
+    `PAI 17 — Energieprestatie: ${heeftLabels?'labeltraject '+esc(d.huidig_label)+' → '+esc(d.streef_label):'niet meegenomen in deze indicatieve berekening'}.`,
     'PAI 18 — Fossiel-afhankelijk vastgoed: beoordeling onder voorbehoud van uitvoering en nieuw energielabel.'
   ];
   d.taxonomie=d.taxonomie||{};
@@ -3257,7 +3280,14 @@ function normalizeAndValidateReportData(rawData, context){
   d=alignReportConsistency(d);
   d=reconcileNumbers(d);
   d=dedupeAndPrioritizeMeasures(d);
-  if(!Array.isArray(d.risicos) || d.risicos.length===0){ d.risicos=generateFallbackRisks(d); d._risicos_fallback=true; }
+  if(!Array.isArray(d.risicos)) d.risicos=[];
+  if(d.risicos.length<4){
+    const bestaandeNorm=d.risicos.map(r=>_norm(r.risk||r.risico||''));
+    const aanvullend=generateFallbackRisks(d).filter(fr=>!bestaandeNorm.includes(_norm(fr.risk||'')));
+    const need=4-d.risicos.length;
+    d.risicos=d.risicos.concat(aanvullend.slice(0,Math.max(need,0)));
+    d._risicos_fallback=true;
+  }
   d=computeEsgScore(d, context);
   d=sanitizeNarratives(d);
   d=applyExclusions(d, context.notes||'');
@@ -3447,10 +3477,10 @@ function pageFinancieel(d){
   const opwek=Number(d.opbrengst_opwek_jaar)||0;
   const totJaar=bes+opwek;
   const tvtBruto=fmtJrOrNA(d.tvt_jaar);
-  const tvtNetto=totJaar>0?jrC(netto/totJaar):'niet uit bron vastgesteld';
-  const maandBes=bes>0?eurC(Math.round(bes/12)):'niet uit bron vastgesteld';
+  const tvtNetto=totJaar>0?jrC(netto/totJaar):null;
+  const maandBes=bes>0?eurC(Math.round(bes/12)):null;
   const gevoelBes=totJaar>0?Math.round(totJaar*0.75):0;
-  const tvtGevoelig=gevoelBes>0?jrC(capex/gevoelBes):'niet uit bron vastgesteld';
+  const tvtGevoelig=gevoelBes>0?jrC(capex/gevoelBes):null;
 
   // Scenario's — alleen berekend als er voldoende brondata is (capex/bes bekend).
   const scenA=ms; // volledig pakket
@@ -3479,7 +3509,7 @@ function pageFinancieel(d){
         <span>${list.length} maatregel${list.length===1?'':'en'}</span><span style="font-weight:700;color:var(--blue-deep);">${eurC(c)}</span>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink-2);margin-top:3px;">
-        <span>Totaal financieel effect/jr</span><span style="font-weight:700;color:var(--green);">${tot>0?eurC(tot):'niet uit bron vastgesteld'}</span>
+        <span>Totaal financieel effect/jr</span><span style="font-weight:700;color:var(--green);">${tot>0?eurC(tot):'Niet meegenomen'}</span>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink-2);margin-top:3px;">
         <span>Eenvoudige TVT</span><span style="font-weight:700;color:var(--blue-deep);">${t}</span>
@@ -3492,17 +3522,18 @@ function pageFinancieel(d){
     return `<div style="font-size:8.5px;color:var(--ink-2);padding:3px 0;border-bottom:1px dashed var(--blue-faint);"><b style="color:var(--blue-deep);">${esc(f)}</b> — ${list.length} maatregel${list.length===1?'':'en'} · ${eurC(c)} · ${eurC(b+o)}/jr financieel effect</div>`;
   }).join('');
 
-  const kpis=[
+  const kpisAll=[
     {l:'Bruto investering',v:eurC(capex),s:'Som van de geadviseerde maatregelen'},
-    {l:'Indicatieve subsidie',v:subsidie>0?eurC(subsidie):'niet uit bron vastgesteld',s:subsidie>0?'Zie pagina 6 · niet gegarandeerd':'Geen eurobedrag vastgesteld — regelingen kunnen wél van toepassing zijn, zie pagina 6'},
-    {l:'Netto investering',v:eurC(netto),s:subsidie>0?'Bruto investering minus subsidie':'Gelijk aan bruto: nog geen subsidiebedrag vastgesteld'},
-    {l:'Jaarlijkse energiebesparing',v:eurC(bes),s:maandBes+' /maand'},
-    {l:'Opbrengst uit opwek',v:opwek>0?eurC(opwek):'n.v.t. / niet uit bron vastgesteld',s:'Apart van de energiebesparing'},
-    {l:'Eenvoudige terugverdientijd',v:tvtBruto,s:'Bruto investering / totaal jaareffect'},
-    {l:'Netto terugverdientijd na subsidie',v:tvtNetto,s:subsidie>0?'Netto investering / totaal jaareffect':'Gelijk aan de bruto TVT: nog geen subsidiebedrag vastgesteld'},
-    {l:'Break-even',v:d.break_even_jaar?('jaar '+d.break_even_jaar):'niet uit bron vastgesteld',s:'Cumulatief omslagpunt'},
-    {l:'Gevoeligheid (−25% besparing)',v:tvtGevoelig,s:'Terugverdientijd bij tegenvallende besparing'}
+    {l:'Indicatieve subsidie',v:subsidie>0?eurC(subsidie):'',s:'Zie pagina 6 · niet gegarandeerd',ok:subsidie>0},
+    {l:'Netto investering',v:eurC(netto),s:subsidie>0?'Bruto investering minus subsidie':'Gelijk aan de bruto investering'},
+    {l:'Jaarlijkse energiebesparing',v:eurC(bes),s:(maandBes?maandBes+' /maand':'Per jaar')},
+    {l:'Opbrengst uit opwek',v:opwek>0?eurC(opwek):'',s:'Apart van de energiebesparing',ok:opwek>0},
+    {l:'Eenvoudige terugverdientijd',v:tvtBruto,s:'Bruto investering / totaal jaareffect',ok:hasVal(d.tvt_jaar)&&Number(d.tvt_jaar)>0},
+    {l:'Netto terugverdientijd na subsidie',v:tvtNetto||'',s:'Netto investering / totaal jaareffect',ok:!!tvtNetto},
+    {l:'Break-even',v:d.break_even_jaar?('jaar '+d.break_even_jaar):'',s:'Cumulatief omslagpunt',ok:!!d.break_even_jaar},
+    {l:'Gevoeligheid (−25% besparing)',v:tvtGevoelig||'',s:'Terugverdientijd bij tegenvallende besparing',ok:!!tvtGevoelig}
   ];
+  const kpis=kpisAll.filter(k=>k.ok!==false);
 
   return `
   <article class="a4 content">
@@ -3651,7 +3682,7 @@ function chartLine(values,opts){
 
 function chartLabelLadder(labels,huidig,streef){
   if(!Array.isArray(labels)||labels.length===0||!Number.isFinite(Number(huidig))||!Number.isFinite(Number(streef))){
-    return '<div style="font-size:9px;color:var(--ink-4);padding:10px 0;">Labeltraject niet uit bron vastgesteld.</div>';
+    return '<div style="font-size:9px;color:var(--ink-4);padding:10px 0;">Labeltraject niet meegenomen in deze indicatieve berekening.</div>';
   }
   const w=540,h=80,n=labels.length,bw=w/n;
   const colors={'G':'#a02121','F':'#b84a1f','E':'#c97211','D':'#d99a18','C':'#c9bb1d','B':'#7ea61a','A':'#3d9a26','A+':'#2d8a3a','A++':'#1d8546','A+++':'#0e7d52','A++++':'#00735c'};
@@ -3807,11 +3838,11 @@ function pageBanksamenvatting(d){
         </div>
         <div class="chart-card">
           <div class="chart-card-h">Energielabel-traject</div>
-          <div class="chart-card-t">${heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label)+' · '+stappen+' labelstap'+(stappen===1?'':'pen')+', te bevestigen na uitvoering':'Niet uit bron vastgesteld'}</div>
+          <div class="chart-card-t">${heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label)+' · '+stappen+' labelstap'+(stappen===1?'':'pen')+', te bevestigen na uitvoering':'Labeltraject niet meegenomen in deze indicatieve berekening'}</div>
           ${heeftLabels?`<div style="padding:14px 0 4px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>`:''}
           <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink-3);margin-top:8px;flex-wrap:wrap;gap:6px;">
-            <span><b style="color:var(--blue-deep);">Primaire-energie</b> ${d.primaire_energie_reductie_pct!=null?'−'+esc(d.primaire_energie_reductie_pct)+'% (ind.)':'niet uit bron vastgesteld'}</span>
-            <span><b style="color:var(--blue-deep);">CO₂</b> ${d._co2_betrouwbaar?'−'+esc(d.co2_reductie_pct)+'% · '+esc(num1(d.co2_reductie_ton))+' t/jr':'nog niet betrouwbaar vast te stellen'}</span>
+            <span><b style="color:var(--blue-deep);">Primaire-energie</b> ${d.primaire_energie_reductie_pct!=null?'−'+esc(d.primaire_energie_reductie_pct)+'% (ind.)':'niet meegenomen in deze berekening'}</span>
+            <span><b style="color:var(--blue-deep);">CO₂</b> ${d._co2_betrouwbaar?'−'+esc(d.co2_reductie_pct)+'% · '+esc(num1(d.co2_reductie_ton))+' t/jr':'niet meegenomen in deze berekening'}</span>
             <span><b style="color:var(--blue-deep);">Besparing</b> ${fmtEurOrNA(d.bes_jaar)}/jr${d.opbrengst_opwek_jaar?' + '+fmtEurOrNA(d.opbrengst_opwek_jaar)+' opwek':''}</span>
           </div>
         </div>
@@ -3870,12 +3901,12 @@ function pageRisico(d){
         <div class="chart-card">
           <div class="chart-card-h">CO₂-emissiepad · scope 1+2</div>
           <div class="chart-card-t">${d._co2_betrouwbaar?'Indicatief reductiepad over 15 jaar (ton CO₂-eq / jr)':'Onvoldoende brondata voor een betrouwbaar reductiepad'}</div>
-          ${(arr(d.co2_pad).length)?chartLine(d.co2_pad,{w:540,h:96,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#2A7A50'}):'<div style="font-size:9px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet uit bron vastgesteld</div>'}
+          ${(arr(d.co2_pad).length)?chartLine(d.co2_pad,{w:540,h:96,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#2A7A50'}):'<div style="font-size:9px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
         </div>
         <div class="chart-card">
           <div class="chart-card-h">Scope 1 / Scope 2 · ton CO₂-eq / jaar</div>
           <div class="chart-card-t">Voor en na uitvoering maatregelenpakket</div>
-          ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:9px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet uit bron vastgesteld</div>'}
+          ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:9px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
         </div>
       </div>
 
@@ -4437,9 +4468,9 @@ function pageSfdrTax(d){
   const dnshObj=(tax.dnsh&&typeof tax.dnsh==='object'&&!Array.isArray(tax.dnsh))?tax.dnsh:{};
   const statusPill=s=>{ s=String(s||'niet beoordeeld'); const c=s==='bewijs aanwezig'?{bg:'var(--green-bg)',fg:'var(--green)'}:s==='aandachtspunt'?{bg:'var(--amber-bg)',fg:'var(--amber)'}:{bg:'var(--page)',fg:'var(--ink-3)'}; return `<span class="pill" style="background:${c.bg};color:${c.fg};font-size:6.8px;">${esc(s)}</span>`; };
   const heeftLabels=!!(d.huidig_label&&d.streef_label);
-  const labelTxt=heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label):'niet uit bron vastgesteld';
-  const co2Txt=d._co2_betrouwbaar?pctC(d.co2_reductie_pct):'nog niet betrouwbaar vast te stellen';
-  const energiePctTxt=(d.primaire_energie_reductie_pct!=null)?pctC(d.primaire_energie_reductie_pct):'niet uit bron vastgesteld';
+  const labelTxt=heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label):'niet meegenomen in deze indicatieve berekening';
+  const co2Txt=d._co2_betrouwbaar?pctC(d.co2_reductie_pct):'niet meegenomen in deze berekening';
+  const energiePctTxt=(d.primaire_energie_reductie_pct!=null)?pctC(d.primaire_energie_reductie_pct):'niet meegenomen in deze berekening';
 
   const ms=arr(d.maatregelen).filter(m=>m.sdg_koppelingen&&arr(m.sdg_koppelingen).length>0);
   const touched=[...new Set(ms.flatMap(m=>arr(m.sdg_koppelingen).map(k=>String(k.sdg_nr))))].sort((a,b)=>Number(a)-Number(b)).slice(0,6);
@@ -4541,7 +4572,7 @@ function pageBewijsVervolg(d){
   const lvl=d.assurance_niveau||1;
   const renteTile=(d.rentekorting_bps && d.rentekorting_bron)
     ? {l:'Rentevoordeel (bron)',v:'−'+esc(String(d.rentekorting_bps))+' bps',s:esc(d.rentekorting_bron)}
-    : {l:'Rentevoordeel',v:'Niet uit bron vastgesteld',s:'Alleen tonen bij een concrete regeling van de financier of gebruikersinvoer'};
+    : null;
   const levels=[
     {nr:1,l:'Ruwe scan / beperkte bron',sub:'Alleen een ruwe scan of beperkte bron'},
     {nr:2,l:'Bronrapport + afgeleid',sub:'Leesbaar bronrapport en afgeleide berekeningen'},
@@ -4564,19 +4595,22 @@ function pageBewijsVervolg(d){
         <div style="position:relative;font-size:8px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);margin-bottom:7px;">Eindadvies</div>
         <div style="position:relative;font-size:17px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:9px;letter-spacing:-.3px;">${esc(d.object_naam||'Dit dossier')} is indicatief bruikbaar als duurzaamheidsbijlage bij een financieringsaanvraag. Definitieve beoordeling vraagt offertes, uitvoering en het nieuwe energielabel.</div>
         <div style="position:relative;font-size:9.5pt;color:rgba(255,255,255,.9);line-height:1.6;margin-bottom:12px;max-width:97%;">${esc(d.assurance_tekst||buildEvidenceConclusion(d))}</div>
-        <div style="position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
-          ${[
+        ${(function(){
+          const tiles=[
             {l:'Interne dossierscore',v:(Number.isFinite(Number(d.bankscore))?esc(String(d.bankscore)):'—')+' / 100',s:esc(d.bankscore_oordeel||'Onvoldoende gegevens')},
-            {l:'Bewijsniveau',v:'Niveau '+esc(String(lvl))+' / 4',s:'Zie assurance-pad hieronder'},
-            renteTile
-          ].map(k=>`
+            {l:'Bewijsniveau',v:'Niveau '+esc(String(lvl))+' / 4',s:'Zie assurance-pad hieronder'}
+          ];
+          if(renteTile) tiles.push(renteTile);
+          return `<div style="position:relative;display:grid;grid-template-columns:repeat(${tiles.length},1fr);gap:10px;">
+          ${tiles.map(k=>`
             <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:9px;padding:11px 13px;">
               <div style="font-size:7px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.58);margin-bottom:4px;">${k.l}</div>
               <div style="font-size:15px;font-weight:800;color:#fff;line-height:1;">${k.v}</div>
               <div class="optional-detail" style="font-size:7.5px;color:rgba(255,255,255,.62);margin-top:4px;line-height:1.3;">${k.s}</div>
             </div>
           `).join('')}
-        </div>
+        </div>`;
+        })()}
       </div>
 
       ${(function(){const w=buildAttention(d);return w.length?`
