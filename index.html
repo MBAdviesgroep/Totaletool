@@ -472,10 +472,10 @@ body.report-mode .rpt-mode{display:block;}
   font-family:var(--f-serif);font-size:28px;font-weight:600;color:var(--blue-deep);
   letter-spacing:-.4px;line-height:1.1;margin-bottom:6px;
 }
-.page-title-sub{font-size:11.9px;color:var(--ink-3);margin-bottom:24px;line-height:1.55;}
+.page-title-sub{font-size:13.5px;color:var(--ink-3);margin-bottom:26px;line-height:1.6;}
 .page-divider{height:1px;background:var(--rule);margin:14px 0 22px;}
 .page-thin-rule{height:2px;background:var(--blue-deep);width:48px;margin:8px 0 18px;}
-.sec-bar{display:block;background:linear-gradient(135deg,var(--blue-deep) 0%,#1a5e85 100%);color:#fff;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:9px 16px;border-radius:8px;border-left:4px solid var(--orange);margin-bottom:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.sec-bar{display:block;background:none;color:var(--ink-3);font-size:10.5px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;padding:0 0 0 13px;border-radius:0;border-left:3px solid var(--orange);margin-bottom:20px;}
 
 /* KPI strip — luxe rapport stijl */
 .kpi-rapport{
@@ -511,12 +511,12 @@ body.report-mode .rpt-mode{display:block;}
   font-family:var(--f-serif);font-size:18px;font-weight:600;color:var(--blue-deep);
   margin-bottom:8px;line-height:1.3;
 }
-.verdict-text{font-size:11.9px;color:var(--ink-2);line-height:1.65;}
+.verdict-text{font-size:13px;color:var(--ink-2);line-height:1.65;}
 .verdict-text b{color:var(--blue-deep);}
 
 /* Bullets management summary */
 .mgt-bullets{display:flex;flex-direction:column;gap:7px;margin-top:12px;}
-.mgt-bullets div{display:flex;gap:10px;align-items:flex-start;font-size:11.9px;color:var(--ink-2);line-height:1.55;}
+.mgt-bullets div{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-2);line-height:1.6;}
 .mgt-bullets div::before{
   content:'';width:5px;height:5px;border-radius:50%;background:var(--orange);
   flex-shrink:0;margin-top:7px;
@@ -525,9 +525,9 @@ body.report-mode .rpt-mode{display:block;}
 /* Tabel — luxe rapportstijl */
 .rpt-table{width:100%;border-collapse:collapse;font-size:11pt;margin:8px 0;}
 .rpt-table thead th{
-  font-size:11.2px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;
+  font-size:11.2px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
   color:var(--ink-3);text-align:left;padding:0 10px 10px 0;
-  border-bottom:2px solid var(--blue-faint2);
+  border-bottom:1px solid var(--rule);
 }
 .rpt-table tbody td{
   padding:11px 10px 11px 0;vertical-align:top;line-height:1.5;
@@ -539,18 +539,20 @@ body.report-mode .rpt-mode{display:block;}
 
 /* Status pills */
 .pill{
-  display:inline-block;padding:3px 10px;border-radius:99px;
-  font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;padding:0;border-radius:0;
+  font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;
 }
-.p-good{background:var(--green-bg);color:var(--green);}
-.p-warn{background:var(--amber-bg);color:var(--amber);}
-.p-bad{background:var(--red-bg);color:var(--red);}
-.p-info{background:var(--blue-faint);color:var(--blue);}
-.p-mute{background:var(--page-2);color:var(--ink-3);}
+.pill::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.p-good{color:var(--green);}
+.p-warn{color:var(--amber);}
+.p-bad{color:var(--red);}
+.p-info{color:var(--blue);}
+.p-mute{color:var(--ink-3);}
 
 /* Score visual */
 .score-row{
-  display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:18px;
+  display:grid;grid-template-columns:1.4fr 1fr;gap:26px;margin-bottom:26px;
 }
 .score-card{
   background:linear-gradient(145deg,var(--blue-deep) 0%,var(--blue-mid) 100%);
@@ -566,7 +568,7 @@ body.report-mode .rpt-mode{display:block;}
 .sc-bar{height:5px;background:rgba(255,255,255,.12);border-radius:99px;margin:14px 0 10px;overflow:hidden;}
 .sc-bar-fill{height:100%;background:linear-gradient(90deg,var(--orange),#f09060);border-radius:99px;}
 .sc-verdict{font-size:14px;font-weight:600;color:#fff;}
-.sc-text{font-size:11.9px;color:rgba(255,255,255,.7);margin-top:5px;line-height:1.45;}
+.sc-text{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:5px;line-height:1.5;}
 
 .score-side{
   background:#fff;border:none;border-radius:14px;padding:16px 18px;box-shadow:0 2px 12px rgba(0,0,0,.06);
@@ -592,12 +594,12 @@ body.report-mode .rpt-mode{display:block;}
 .matrix .ml{font-weight:600;color:var(--ink);}
 
 /* Two col */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;}
 .col-card{
   background:#fff;border:none;border-radius:14px;padding:22px;box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
 .col-h{
-  font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
   color:var(--orange);margin-bottom:10px;
   padding-bottom:8px;border-bottom:1px solid var(--rule);
 }
@@ -609,7 +611,7 @@ body.report-mode .rpt-mode{display:block;}
 }
 
 /* SDG icons */
-.sdg-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.sdg-list{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 26px;}
 .sdg-card{
   display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:flex-start;
   background:#fff;border:none;border-radius:14px;padding:13px 15px;box-shadow:0 2px 10px rgba(0,0,0,.05);
@@ -628,7 +630,7 @@ body.report-mode .rpt-mode{display:block;}
 .sdg-13{background:#3F7E44;}
 .sdg-15{background:#56C02B;}
 .sdg-cnt-name{font-family:var(--f-serif);font-size:12px;font-weight:700;color:var(--blue-deep);line-height:1.2;margin-bottom:3px;}
-.sdg-cnt-text{font-size:10.4px;color:var(--ink-2);line-height:1.45;}
+.sdg-cnt-text{font-size:11.5px;color:var(--ink-2);line-height:1.5;}
 .sdg-cnt-text small{display:block;color:var(--ink-3);font-size:10.4px;margin-top:3px;font-weight:600;}
 
 /* Closing block */
@@ -643,7 +645,7 @@ body.report-mode .rpt-mode{display:block;}
 }
 .close-eyebrow{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;}
 .close-title{font-family:var(--f-serif);font-size:18px;font-weight:600;line-height:1.25;margin-bottom:10px;}
-.close-text{font-size:11.9px;color:rgba(255,255,255,.8);line-height:1.65;}
+.close-text{font-size:13px;color:rgba(255,255,255,.85);line-height:1.65;}
 
 /* CHART blocks */
 .chart-card{
@@ -658,8 +660,8 @@ body.report-mode .rpt-mode{display:block;}
   font-family:var(--f-serif);font-size:13px;font-weight:600;color:var(--blue-deep);
   margin-bottom:10px;line-height:1.3;
 }
-.chart-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
-.chart-grid-3{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+.chart-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-bottom:22px;}
+.chart-grid-3{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:26px;margin-bottom:22px;}
 
 /* Maatregelen totaalbalk */
 .fin-strip{
@@ -669,10 +671,10 @@ body.report-mode .rpt-mode{display:block;}
 }
 .fin-cell{padding:14px 16px;border-right:1px solid var(--blue-faint);}
 .fin-cell:last-child{border-right:0;}
-.fin-l{font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;}
+.fin-l{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;}
 .fin-v{font-family:var(--f-serif);font-size:22px;font-weight:600;color:var(--blue-deep);line-height:1.1;font-variant-numeric:tabular-nums;}
 .fin-v small{font-size:14px;color:var(--ink-3);font-weight:500;}
-.fin-s{font-size:10.4px;color:var(--ink-3);margin-top:4px;}
+.fin-s{font-size:11.5px;color:var(--ink-3);margin-top:4px;}
 
 /* Sign-off block */
 .signoff{
@@ -682,7 +684,7 @@ body.report-mode .rpt-mode{display:block;}
 }
 .sign-cell{padding:14px 16px;border-right:1px solid var(--rule);}
 .sign-cell:last-child{border-right:0;}
-.sign-l{font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:8px;}
+.sign-l{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-4);margin-bottom:8px;}
 .sign-line{height:24px;border-bottom:1px solid var(--ink-2);margin-bottom:6px;}
 .sign-name{font-size:10px;font-weight:700;color:var(--blue-deep);}
 .sign-role{font-size:10.4px;color:var(--ink-3);margin-top:2px;}
@@ -2006,9 +2008,15 @@ function pageMaatregelenAdvies(d){
   const ms=msAll.slice(0,10);
   const msExtra=msAll.length>10?msAll.slice(10):[];
   const bestaand=arr(d.reeds_aanwezig_voorzieningen);
-  const cell='padding:5px 8px 5px 0;font-size:8.5pt;';
-  const head='text-align:right;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;';
+  const cell='padding:8px 8px 8px 0;font-size:9pt;';
+  const head='text-align:right;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;';
   const toel=m=>esc(truncateWords(m.toelichting||('Verlaagt het energieverbruik van het pand.'),28));
+  const naamHtml=m=>{
+    const raw=String(m.naam||'');
+    const mm=raw.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+    if(mm) return `${esc(mm[1])}<br><span style="font-size:9.5px;font-weight:400;color:var(--ink-3);">(${esc(mm[2])})</span>`;
+    return esc(raw);
+  };
   const capexTxt=m=>(m.capex>0)?eur(m.capex):(hasVal(m.investering_min)&&hasVal(m.investering_max)?eur(m.investering_min)+' – '+eur(m.investering_max):'niet meegenomen');
   // Voor maatregelen zonder harde besparing (vaak op verzoek van de adviseur
   // toegevoegd, niet uit het bronrapport): toon een indicatieve bandbreedte
@@ -2034,19 +2042,19 @@ function pageMaatregelenAdvies(d){
       <div class="page-title-sub">Maatregelen met investering, besparing, terugverdientijd en CO₂-effect, geprioriteerd op rendement, technische volgorde, risico en comfort.</div>
       <div class="page-thin-rule"></div>
 
-      <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:11px 15px;margin-bottom:7px;">
+      <div style="background:transparent;padding:2px 0 4px;margin-bottom:22px;">
         <table style="width:100%;border-collapse:collapse;font-size:8.5pt;">
-          <thead><tr style="border-bottom:1.5px solid var(--blue-faint);">
-            <th style="text-align:left;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 6px 0;width:32%;">Maatregel</th>
+          <thead><tr style="border-bottom:1px solid var(--rule);">
+            <th style="text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;width:30%;">Maatregel</th>
             <th style="${head}">Investering</th>
             <th style="${head}">Opbrengst/jr</th>
             <th style="${head}">TVT</th>
-            <th style="${head}">CO₂ t/jr (ind.)</th>
+            <th style="${head}width:9%;">CO₂ t/jr</th>
             <th style="${head}padding-right:0;">Volgorde</th>
           </tr></thead>
           <tbody>
-            ${ms.map(m=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="${cell}font-weight:600;color:var(--ink);">${esc(m.naam||'')}${(m.eigen_advies&&!m.op_verzoek_adviseur)?' <span style="font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--orange);color:#fff;border-radius:4px;padding:1px 5px;">Aanvullend</span>':''}</td>
+            ${ms.map(m=>`<tr style="border-bottom:1px solid var(--rule);">
+              <td style="${cell}font-weight:600;color:var(--ink);line-height:1.35;">${naamHtml(m)}${(m.eigen_advies&&!m.op_verzoek_adviseur)?' <span style="font-size:9px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;color:var(--orange);">&middot; aanvullend</span>':''}</td>
               <td style="${cell}text-align:right;color:var(--ink-2);">${capexTxt(m)}</td>
               <td style="${cell}text-align:right;color:var(--green);font-weight:600;">${opbrengstTxt(m)}</td>
               <td style="${cell}text-align:right;color:var(--ink-3);">${m.tvt>0?num1(m.tvt)+' jr':'n.v.t.'}</td>
@@ -2065,15 +2073,20 @@ function pageMaatregelenAdvies(d){
         <div style="font-size:11.2px;color:var(--ink-2);line-height:1.45;margin-top:7px;border-top:1px solid var(--blue-faint);padding-top:6px;">Opbrengst/jr = energiebesparing (${fmtEurOrNA(d.bes_jaar)}) + apart voordeel uit opwek (${d.opbrengst_opwek_jaar>0?eur(d.opbrengst_opwek_jaar):'n.v.t.'}).<br>CO₂ per maatregel is indicatief; de scope 1+2-reductie is leidend.<br>${buildCo2Sentence(d)}</div>
       </div>
 
-      <div class="col-card" style="margin-bottom:7px;">
-        <div class="col-h">Aanbevolen volgorde</div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;">
-          ${[[1,'Eerst uitvoeren'],[3,'Daarna uitvoeren'],[4,'Optioneel'],[5,'Alleen na nader onderzoek']].map(([tier,lbl])=>{
+      <div style="border-top:1px solid var(--rule);padding-top:14px;margin-bottom:22px;">
+        <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--orange);margin-bottom:12px;">Aanbevolen volgorde</div>
+        <div style="display:flex;align-items:flex-start;">
+          ${[[1,'Eerst uitvoeren'],[3,'Daarna uitvoeren'],[4,'Optioneel'],[5,'Alleen na nader onderzoek']].map(([tier,lbl],i,arr4)=>{
             const list=(tier===1?groups[1].concat(groups[2]):groups[tier])||[];
-            return `<div style="background:var(--page);border-radius:8px;padding:8px 10px;">
-              <div style="font-size:10.4px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--blue-deep);margin-bottom:5px;">${esc(lbl)}</div>
-              ${list.length?list.map(m=>`<div style="font-size:10.4px;color:var(--ink-2);padding:2px 0;">${esc(m.naam||'')}</div>`).join(''):'<div style="font-size:10.4px;color:var(--ink-4);">—</div>'}
+            const step=`<div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;">
+                <span style="width:19px;height:19px;border-radius:50%;background:var(--blue-deep);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i+1}</span>
+                <span style="font-size:10.8px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--blue-deep);line-height:1.25;">${esc(lbl)}</span>
+              </div>
+              <div style="font-size:10.6px;color:var(--ink-3);line-height:1.5;padding-left:26px;">${list.length?list.map(m=>esc(m.naam||'')).join(', '):'&mdash;'}</div>
             </div>`;
+            const arrow=i<arr4.length-1?'<div style="flex:0 0 20px;text-align:center;color:var(--ink-4);font-size:13px;padding-top:1px;">&rarr;</div>':'';
+            return step+arrow;
           }).join('')}
         </div>
       </div>
@@ -2089,7 +2102,7 @@ function pageMaatregelenAdvies(d){
         if(!ex.length) return '';
         const capexTxtEx=m=>(m.capex>0)?eur(m.capex):(hasVal(m.investering_min)&&hasVal(m.investering_max)?eur(m.investering_min)+' – '+eur(m.investering_max):'bandbreedte niet bekend');
         return `
-      <div style="margin-top:2px;margin-bottom:7px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 100%);border-radius:11px;padding:10px 14px 11px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 8px 22px rgba(11,61,40,.22);">
+      <div style="margin-top:2px;margin-bottom:20px;background:linear-gradient(135deg,var(--blue-deep) 0%,var(--blue-mid) 100%);border-radius:4px;padding:14px 18px 15px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
         <div style="font-size:10.4px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);margin-bottom:2px;">Aanvullende maatregelen (niet in bronrapport)</div>
         <div style="font-size:10.4px;color:rgba(255,255,255,.78);line-height:1.35;margin-bottom:6px;">Maatregelen aanvullend op het bronrapport — indicatieve cijfers of een bandbreedte, niet meegerekend in het pakkettotaal hierboven.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -2131,37 +2144,36 @@ function pageSubsidies(d){
       <div class="page-title-sub">Deze regelingen zijn gebaseerd op algemene kennis van bestaande kaders, niet op een geverifieerde actuele bron.</div>
       <div class="page-thin-rule"></div>
 
-      ${subs.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;align-items:start;">
+      ${subs.length?`<table class="rpt-table" style="margin-bottom:20px;">
+        <thead><tr><th style="width:26%;">Regeling</th><th style="width:16%;">Bedrag</th><th>Belangrijkste voorwaarde</th><th style="text-align:right;padding-right:0;width:17%;">Status</th></tr></thead>
+        <tbody>
         ${subs.map(s=>{
           const st=String(s.status||'te controleren');
           const stl=st.toLowerCase();
-          const sc=stl.includes('mogelijk relevant')?{bg:'var(--green-bg)',fg:'var(--green)'}:stl.includes('niet van toepassing')?{bg:'var(--red-bg)',fg:'var(--red)'}:{bg:'var(--amber-bg)',fg:'var(--amber)'};
-          return `<div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:14px 16px;overflow:hidden;display:flex;flex-direction:column;gap:9px;border-top:3px solid ${sc.fg};">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-              <div style="font-size:14px;font-weight:750;color:var(--blue-deep);line-height:1.3;">${esc(s.naam||'')}</div>
-              <span style="flex-shrink:0;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;background:${sc.bg};color:${sc.fg};border-radius:999px;padding:3px 9px;white-space:nowrap;">${esc(st)}</span>
-            </div>
-            ${(s.bedrag&&/\d/.test(String(s.bedrag)))?`<div style="font-size:16px;font-weight:800;color:var(--blue-deep);letter-spacing:-.2px;">${esc(s.bedrag)}</div>`:''}
-            <div style="display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--mb-card-border-soft);padding-top:8px;">
-              <div style="font-size:11.2px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:10px;">Voorwaarden&nbsp;</b>${esc(truncateWords(s.voorwaarden||'Te bevestigen bij aanvraag.',10))}</div>
-              <div style="font-size:11.2px;color:var(--ink-3);line-height:1.5;"><b style="color:var(--ink-4);text-transform:uppercase;letter-spacing:.4px;font-size:10px;">Bron&nbsp;</b>${esc(s.bron||'Algemene kennis')}${s.bron_datum?' · '+esc(s.bron_datum):''}</div>
-            </div>
-        </div>`;}).join('')}
-      </div>`:`<div style="background:var(--amber-bg);border-radius:10px;padding:14px 16px;font-size:8.9pt;color:var(--amber);margin-bottom:13px;">Geen subsidies of regelingen konden worden bepaald op basis van de aangeleverde gegevens.</div>`}
+          const pc=stl.includes('mogelijk relevant')?'p-good':stl.includes('niet van toepassing')?'p-bad':'p-warn';
+          const bedragTxt=(s.bedrag&&/\d/.test(String(s.bedrag)))?esc(s.bedrag):'&mdash;';
+          return `<tr>
+            <td class="nm">${esc(s.naam||'')}<div style="font-size:10px;color:var(--ink-4);font-weight:400;margin-top:2px;">${esc(s.bron||'Algemene kennis')}${s.bron_datum?' · '+esc(s.bron_datum):''}</div></td>
+            <td class="num">${bedragTxt}</td>
+            <td style="color:var(--ink-2);">${esc(truncateWords(s.voorwaarden||'Te bevestigen bij aanvraag.',12))}</td>
+            <td style="text-align:right;padding-right:0;"><span class="pill ${pc}">${esc(st)}</span></td>
+          </tr>`;}).join('')}
+        </tbody>
+      </table>`:`<div style="border-top:2px solid var(--amber);padding:10px 0;font-size:8.9pt;color:var(--amber);margin-bottom:20px;">Geen subsidies of regelingen konden worden bepaald op basis van de aangeleverde gegevens.</div>`}
 
-      ${evidence.length?`<div class="col-card" style="margin-bottom:0;padding:16px 18px;">
-        <div class="col-h">Bewijsstukken — status per onderdeel</div>
-        <table style="width:100%;border-collapse:collapse;margin-top:8px;">
-          <thead><tr style="border-bottom:1.5px solid var(--blue-faint);">
-            <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;width:24%;">Onderdeel</th>
-            <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 8px 0;width:34%;">Waarde</th>
-            <th style="text-align:left;font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);padding:0 0 8px 0;">Status</th>
+      ${evidence.length?`<div style="margin-bottom:0;padding:16px 0 0;border-top:1px solid var(--rule);">
+        <div class="col-h" style="border-bottom:none;padding-bottom:0;">Bewijsstukken — status per onderdeel</div>
+        <table style="width:100%;border-collapse:collapse;margin-top:10px;">
+          <thead><tr style="border-bottom:1px solid var(--rule);">
+            <th style="text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 10px 0;width:24%;">Onderdeel</th>
+            <th style="text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);padding:0 8px 10px 0;width:34%;">Waarde</th>
+            <th style="text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);padding:0 0 10px 0;">Status</th>
           </tr></thead>
           <tbody>
-            ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--blue-faint);">
-              <td style="padding:7px 10px 7px 0;font-size:11.2px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
-              <td style="padding:7px 10px 7px 0;font-size:11.2px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
-              <td style="padding:7px 0;font-size:11.2px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
+            ${evidence.map(e=>`<tr style="border-bottom:1px solid var(--rule);">
+              <td style="padding:10px 10px 10px 0;font-size:11.2px;font-weight:700;color:var(--blue-deep);vertical-align:top;">${esc(e.ond||'')}</td>
+              <td style="padding:10px 10px 10px 0;font-size:11.2px;color:var(--ink);vertical-align:top;">${esc(e.w||'')}</td>
+              <td style="padding:10px 0;font-size:11.2px;color:var(--ink-3);vertical-align:top;">${esc(e.actie||'')}</td>
             </tr>`).join('')}
           </tbody>
         </table>
@@ -2217,9 +2229,9 @@ function pageGroeneParagraaf(d){
     <div class="page-body" style="padding-bottom:0;">
 
       <!-- PREMIUM GROENE HERO -->
-      <div style="background:linear-gradient(150deg,#0b3d28 0%,#0f5132 42%,#16774a 100%);border-radius:16px;padding:14px 22px 13px;color:#fff;position:relative;overflow:hidden;margin-bottom:14px;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 14px 36px rgba(11,61,40,.28);">
+      <div style="background:linear-gradient(150deg,var(--blue-darkest) 0%,var(--blue-deep) 42%,var(--blue-mid) 100%);border-radius:4px;padding:14px 22px 13px;color:#fff;position:relative;overflow:hidden;margin-bottom:14px;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
         <div style="position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.10),rgba(255,255,255,0) 70%);"></div>
-        <div style="position:absolute;left:-40px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(31,146,89,.45),rgba(255,255,255,0) 70%);"></div>
+        <div style="position:absolute;left:-40px;bottom:-90px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(37,119,160,.45),rgba(255,255,255,0) 70%);"></div>
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
         <div style="position:relative;display:flex;align-items:center;gap:11px;margin-bottom:8px;">
           <div style="width:40px;height:40px;border-radius:10px;flex-shrink:0;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.30);display:flex;align-items:center;justify-content:center;padding:5px;">${logo?`<img src="${logo}" style="max-width:100%;max-height:100%;object-fit:contain;display:block;" alt="MB Adviesgroep">`:''}</div>
@@ -2232,7 +2244,7 @@ function pageGroeneParagraaf(d){
 
       <!-- KPI-TEGELS (bewust beperkt tot 2, zie toelichting hierboven) -->
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px;">
-        ${kpi.map((k,i)=>`<div style="background:#fff;border-radius:11px;box-shadow:var(--mb-card-shadow);padding:13px 16px 12px;border-top:3px solid ${i===0?'var(--green)':'var(--blue)'};">
+        ${kpi.map((k,i)=>`<div style="background:transparent;padding:13px 0 12px;border-top:2px solid ${i===0?'var(--blue-deep)':'var(--orange)'};">
           <div style="font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-4);margin-bottom:6px;line-height:1.2;">${k.l}</div>
           <div style="font-size:18px;font-weight:800;color:var(--blue-deep);line-height:1;margin-bottom:5px;letter-spacing:-.3px;">${k.v}</div>
           <div class="optional-detail" style="font-size:10.4px;color:var(--ink-3);line-height:1.3;">${k.s}</div>
@@ -2241,13 +2253,6 @@ function pageGroeneParagraaf(d){
 
       <!-- METHODIEK ESG-SCORE -->
       <div style="font-size:10.4px;color:var(--ink-3);line-height:1.4;margin:0 0 13px;padding:7px 12px;background:var(--blue-faint);border-radius:8px;"><b style="color:var(--blue-deep);">Methodiek interne dossierbeoordeling ·</b> interne, indicatieve score (0–100) uit transitierisico, datakwaliteit, bewijsniveau, klimaatprestatie en rapportagegereedheid. Dit is <b>geen</b> externe ESG-rating, taxonomieverklaring, assurance of certificering.</div>
-
-      <!-- ANALYSE: RADAR (labeltraject/CO2/besparing staan al op pagina 2) -->
-      <div class="chart-card" style="margin-bottom:14px;max-width:380px;margin-left:auto;margin-right:auto;padding-bottom:12px;">
-        <div class="chart-card-h">Interne dossierbeoordeling — radar</div>
-        <div class="chart-card-t">Vijf dimensies &middot; gewogen gemiddelde = ${esc(String(score))}/100 &middot; labeltraject ${heeftLabelsGp?esc(d.huidig_label)+'&nbsp;&rarr;&nbsp;'+esc(d.streef_label):'n.v.t.'}</div>
-        <div style="max-width:260px;margin:6px auto 0;">${chartRadar(d.radar,195)}</div>
-      </div>
 
       <!-- SCORE-OPBOUW (transparant: gewogen berekening) -->
       ${(function(){
@@ -2262,7 +2267,7 @@ function pageGroeneParagraaf(d){
         const sum=dims.reduce((a,x)=>a+contrib(x),0);
         const total=Math.round(Number(d.bankscore)||sum);
         const sc=v=>v>=75?'var(--green)':v>=60?'var(--orange)':'var(--red)';
-        return `<div style="background:#fff;border-radius:13px;box-shadow:var(--mb-card-shadow);padding:14px 18px 15px;margin-bottom:14px;">
+        return `<div style="background:transparent;border-top:1px solid var(--rule);padding:16px 0 4px;margin-bottom:14px;">
           <div style="display:flex;align-items:center;gap:9px;margin-bottom:11px;">
             <span style="font-size:10.4px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);">Score-opbouw</span>
             <span style="flex:1;height:1px;background:var(--blue-faint);"></span>
@@ -2276,7 +2281,7 @@ function pageGroeneParagraaf(d){
               <div style="font-size:10.4px;color:var(--ink-3);">weging <b style="color:var(--ink-2);">${Math.round(x.w/totW*100)}%</b></div>
               <div style="font-size:11.2px;font-weight:700;color:var(--orange);">= ${num1(contrib(x))} pt</div>
             </div>`).join('')}
-            <div style="display:flex;flex-direction:column;justify-content:center;gap:3px;background:linear-gradient(150deg,#0d3348,#11684a);border-radius:10px;padding:12px 15px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
+            <div style="display:flex;flex-direction:column;justify-content:center;gap:3px;background:linear-gradient(150deg,var(--blue-deep),var(--blue-mid));border-radius:4px;padding:12px 15px;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
               <div style="font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);">Dossierbeoordeling</div>
               <div style="font-size:21px;font-weight:800;line-height:1;">${total}<span style="font-size:11.2px;font-weight:600;color:rgba(255,255,255,.7);">/100</span></div>
               <div style="font-size:10px;color:rgba(255,255,255,.7);line-height:1.25;">som van de bijdragen</div>
@@ -2286,7 +2291,7 @@ function pageGroeneParagraaf(d){
       })()}
 
       <!-- STERKE SLOTCONCLUSIE -->
-      <div style="background:linear-gradient(135deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:14px;padding:12px 20px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 28px rgba(13,51,72,.22);">
+      <div style="background:linear-gradient(135deg,var(--blue-darkest) 0%,var(--blue-deep) 60%,var(--blue-mid) 100%);border-radius:4px;padding:14px 22px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
         <div style="position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--orange);"></div>
         <div style="position:absolute;right:-30px;bottom:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
         <div style="position:relative;display:flex;align-items:center;gap:16px;">
@@ -3815,22 +3820,48 @@ function pageFinancieel(d){
       <div class="page-thin-rule"></div>
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:12px;">
-        ${kpis.map(k=>`<div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:10px 13px;">
+        ${kpis.map(k=>`<div style="background:transparent;border-top:2px solid var(--blue-faint2);padding:10px 0 0;">
           <div style="font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-4);margin-bottom:5px;">${esc(k.l)}</div>
           <div style="font-size:16px;font-weight:800;color:var(--blue-deep);line-height:1.1;"${k.id?` id="${k.id}"`:''}>${esc(k.v)}</div>
           <div class="optional-detail" style="font-size:10.4px;color:var(--ink-3);margin-top:3px;">${esc(k.s)}</div>
         </div>`).join('')}
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px;align-items:start;">
-        ${scenarioCard('Scenario A — volledig pakket',scenA,'Alle geadviseerde maatregelen samen.',true)}
-        ${scenarioCard('Scenario B — rendementspakket',scenB,'Maatregelen met een redelijke terugverdientijd (≤15 jr) en beperkte technische onzekerheid.',false,nearMissNote)}
-        <div style="background:#fff;border-radius:11px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
-          <div style="font-size:10.4px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">Scenario C — gefaseerde uitvoering</div>
-          <div style="font-size:11.2px;color:var(--ink-3);margin-bottom:6px;line-height:1.4;">Logische uitvoering in fasen op basis van de prioritering.</div>
-          ${fasesHtml||'<div style="font-size:11.2px;color:var(--ink-3);">Onvoldoende gegevens voor fasering.</div>'}
-        </div>
-      </div>
+      ${(function(){
+        const cA={c:sumOf(scenA,'capex'),tot:sumOf(scenA,'bes')+sumOf(scenA,'opwek')};
+        const cB={c:sumOf(scenB,'capex'),tot:sumOf(scenB,'bes')+sumOf(scenB,'opwek')};
+        const cC={c:sumOf(ms,'capex'),tot:sumOf(ms,'bes')+sumOf(ms,'opwek')};
+        const tvtA=cA.tot>0?cA.c/cA.tot:0, tvtB=cB.tot>0?cB.c/cB.tot:0;
+        const rows=[
+          {naam:'Volledig pakket',inv:eurC(cA.c),eff:cA.tot>0?eurC(cA.tot):'—',tvt:tvtA>0?jrC(tvtA):'n.v.t.',advies:'Compleet'},
+          {naam:'Rendementspakket',inv:eurC(cB.c),eff:cB.tot>0?eurC(cB.tot):'—',tvt:tvtB>0?jrC(tvtB):'n.v.t.',advies:'Voorkeur'},
+          {naam:'Gefaseerde uitvoering',inv:'in fasen',eff:'per fase',tvt:'variabel',advies:'Praktisch'}
+        ];
+        return `<table class="rpt-table" style="margin-bottom:18px;">
+          <thead><tr><th>Scenario</th><th style="text-align:right;">Investering</th><th style="text-align:right;">Jaareffect</th><th style="text-align:right;">TVT</th><th style="text-align:right;padding-right:0;">Advies</th></tr></thead>
+          <tbody>${rows.map(r=>`<tr>
+            <td class="nm">${r.naam}</td>
+            <td class="num" style="text-align:right;">${r.inv}</td>
+            <td style="text-align:right;color:var(--green);font-weight:600;">${r.eff}</td>
+            <td class="num" style="text-align:right;">${r.tvt}</td>
+            <td style="text-align:right;padding-right:0;font-weight:600;color:${r.advies==='Voorkeur'?'var(--orange)':'var(--ink-3)'};">${r.advies}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+        ${fasesHtml?`<div style="font-size:10.6px;color:var(--ink-3);line-height:1.5;margin:-8px 0 18px;">${fasesHtml}</div>`:''}
+        ${(tvtA>0||tvtB>0)?(function(){
+          const maxT=Math.max(tvtA,tvtB)*1.12;
+          const bar=(lbl,v,best)=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px;">
+            <div style="width:118px;flex-shrink:0;font-size:10.8px;color:var(--ink-2);">${lbl}</div>
+            <div style="flex:1;height:16px;background:var(--page-2);border-radius:2px;overflow:hidden;"><div style="height:100%;width:${maxT>0?Math.max(2,v/maxT*100):0}%;background:${best?'var(--orange)':'var(--blue)'};"></div></div>
+            <div style="width:52px;flex-shrink:0;text-align:right;font-size:10.8px;font-weight:700;color:var(--blue-deep);">${v>0?jrC(v):'—'}</div>
+          </div>`;
+          return `<div style="border-top:1px solid var(--rule);padding-top:14px;">
+            <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--orange);margin-bottom:12px;">Terugverdientijd — volledig pakket vs. rendementspakket <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-4);">(korter = aantrekkelijker)</span></div>
+            ${bar('Volledig pakket',tvtA,tvtB>0&&tvtB<tvtA?false:true)}
+            ${bar('Rendementspakket',tvtB,tvtB>0&&tvtB<=tvtA)}
+          </div>`;
+        })():''}`;
+      })()}
 
       <div class="optional-detail" style="font-size:10.4px;color:var(--ink-3);line-height:1.4;background:var(--page);border-radius:8px;padding:8px 12px;">Onderhouds- of vervangingskosten na afloop van de technische levensduur zijn niet meegenomen in deze berekening. Alle terugverdientijden zijn eenvoudige (statische) berekeningen, zonder rekening te houden met toekomstige energieprijsontwikkeling.${subsidie<=0?' Eventuele subsidies zijn nog niet in de financiële berekening verwerkt.':''}</div>
 
@@ -4108,31 +4139,37 @@ function pageBanksamenvatting(d){
         </div>
       </div>
 
-      <div class="chart-grid-2">
-        <div class="chart-card">
-          <div class="chart-card-h">Interne dossierbeoordeling — radar</div>
-          <div class="chart-card-t">Vijf gewogen dimensies</div>
-          ${chartRadar(d.radar,220)}
-        </div>
-        <div class="chart-card">
+      <div class="two-col" style="grid-template-columns:1fr 1.15fr;margin-bottom:8px;">
+        <div class="chart-card" style="padding-left:0;padding-right:0;">
           <div class="chart-card-h">Energielabel-traject</div>
           <div class="chart-card-t">${heeftLabels?esc(d.huidig_label)+' → '+esc(d.streef_label)+' · '+stappen+' labelstap'+(stappen===1?'':'pen')+', te bevestigen na uitvoering':'Labeltraject niet meegenomen in deze indicatieve berekening'}</div>
           ${heeftLabels?`<div style="padding:14px 0 4px;">${chartLabelLadder(d.label_pad,d.label_huidig_idx,d.label_streef_idx)}</div>`:''}
-          <div style="display:flex;justify-content:space-between;font-size:11.2px;color:var(--ink-3);margin-top:8px;flex-wrap:wrap;gap:6px;">
-            <span><b style="color:var(--blue-deep);">Primaire-energie</b> ${d.primaire_energie_reductie_pct!=null?'−'+esc(d.primaire_energie_reductie_pct)+'% (ind.)':'niet meegenomen in deze berekening'}</span>
-            <span><b style="color:var(--blue-deep);">CO₂</b> ${d._co2_betrouwbaar?'−'+esc(d.co2_reductie_pct)+'% · '+esc(num1(d.co2_reductie_ton))+' t/jr':'niet meegenomen in deze berekening'}</span>
-            <span><b style="color:var(--blue-deep);">Besparing</b> ${fmtEurOrNA(d.bes_jaar)}/jr${d.opbrengst_opwek_jaar?' + '+fmtEurOrNA(d.opbrengst_opwek_jaar)+' opwek':''}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 16px;align-content:start;padding-top:6px;">
+          <div>
+            <div class="fin-l">Investering</div>
+            <div class="fin-v">${fmtEurOrNA(d.capex_totaal)}</div>
+          </div>
+          <div>
+            <div class="fin-l">Jaareffect</div>
+            <div class="fin-v" style="color:var(--green);">${fmtEurOrNA((Number(d.bes_jaar)||0)+(Number(d.opbrengst_opwek_jaar)||0))}</div>
+          </div>
+          <div>
+            <div class="fin-l">Terugverdientijd</div>
+            <div class="fin-v">${fmtJrOrNA(d.tvt_jaar)}</div>
+          </div>
+          <div>
+            <div class="fin-l">CO₂-reductie</div>
+            <div class="fin-v">${d._co2_betrouwbaar?'−'+esc(d.co2_reductie_pct)+'%':'n.v.t.'}</div>
           </div>
         </div>
       </div>
 
-      <div class="verdict">
-        <div class="verdict-eyebrow">Managementsamenvatting</div>
-        <div class="verdict-title">In gewone taal: ${esc(d.bankscore_oordeel||'')}</div>
-        <div class="verdict-text">${esc(summaryText)}</div>
-        <div class="mgt-bullets">
-          ${summaryPunten.map(p=>`<div>${esc(p)}</div>`).join('')}
-        </div>
+      <div style="border-top:1px solid var(--rule);padding-top:16px;">
+        <div class="page-eyebrow" style="margin-bottom:6px;">Managementsamenvatting</div>
+        <div style="font-family:var(--f-serif);font-size:15px;font-weight:600;color:var(--blue-deep);margin-bottom:8px;line-height:1.3;">In gewone taal: ${esc(d.bankscore_oordeel||'')}</div>
+        <div style="font-size:13px;color:var(--ink-2);line-height:1.65;max-width:640px;">${esc(summaryText)}</div>
+        ${summaryPunten.length?`<div style="display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--rule);">${summaryPunten.map(p=>`<div style="font-size:11.5px;color:var(--ink-3);">${esc(p)}</div>`).join('')}</div>`:''}
       </div>
 
     </div>
@@ -4178,17 +4215,10 @@ function pageRisico(d){
       </div>
       <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:10px;">Risicoscore = kans × impact op een schaal van 1 (laag) tot 3 (hoog); een score ≥6 vraagt directe aandacht.</div>
 
-      <div class="chart-grid-2">
-        <div class="chart-card">
-          <div class="chart-card-h">CO₂-emissiepad · scope 1+2</div>
-          <div class="chart-card-t">${d._co2_betrouwbaar?'Indicatief reductiepad over 15 jaar (ton CO₂-eq / jr)':'Onvoldoende brondata voor een betrouwbaar reductiepad'}</div>
-          ${(arr(d.co2_pad).length)?chartLine(d.co2_pad,{w:540,h:96,xstep:3,xlabels:['Y0','Y1','Y2','Y3','Y4','Y5','Y6','Y7','Y8','Y9','Y10','Y11','Y12','Y13','Y14','Y15'],fmt:v=>v.toFixed(0)+'t',color:'#2A7A50'}):'<div style="font-size:11.2px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
-        </div>
-        <div class="chart-card">
-          <div class="chart-card-h">Scope 1 / Scope 2 · ton CO₂-eq / jaar</div>
-          <div class="chart-card-t">Voor en na uitvoering maatregelenpakket</div>
-          ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:11.2px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
-        </div>
+      <div class="chart-card" style="max-width:600px;margin:0 auto 26px;">
+        <div class="chart-card-h">CO₂-uitstoot · scope 1+2 · voor en na uitvoering</div>
+        <div class="chart-card-t">${(d.scope_voor&&d.scope_voor.tot>0)?'Voor uitvoering '+num1(d.scope_voor.tot)+' t &middot; na uitvoering '+num1((d.scope_na||{tot:0}).tot)+' t &middot; reductie '+(d.scope_voor.tot>0?Math.round(((d.scope_voor.tot-(d.scope_na||{tot:0}).tot)/d.scope_voor.tot)*100):0)+'%':'Voor en na uitvoering maatregelenpakket'}</div>
+        ${(d.scope_voor&&d.scope_voor.tot>0)?chartScopeBars(d.scope_voor,d.scope_na||{s1:0,s2:0,tot:0}):'<div style="font-size:11.2px;color:var(--ink-3);padding:14px 0;text-align:center;">Niet meegenomen in deze indicatieve berekening</div>'}
       </div>
 
       <div class="two-col">
@@ -4773,30 +4803,30 @@ function pageSfdrTax(d){
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 13px;">
-          <div style="font-size:10.4px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">SFDR</div>
-          <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:5px;font-style:italic;">Ziet op financiële producten, niet op dit object zelf.</div>
-          <div style="font-size:8.5pt;color:var(--ink-2);line-height:1.55;">${esc(d.sfdr||'Onvoldoende gegevens.')}</div>
+      <div class="two-col" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:22px;">
+        <div style="border-top:2px solid var(--blue-faint2);padding-top:10px;">
+          <div class="col-h" style="border-bottom:none;padding-bottom:0;margin-bottom:5px;">SFDR</div>
+          <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:6px;font-style:italic;">Ziet op financiële producten, niet op dit object zelf.</div>
+          <div style="font-size:11px;color:var(--ink-2);line-height:1.55;">${esc(d.sfdr||'Onvoldoende gegevens.')}</div>
         </div>
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 13px;">
-          <div style="font-size:10.4px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">Pillar 3</div>
-          <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:5px;font-style:italic;">Rapportageplicht voor banken, niet voor dit object zelf.</div>
-          <div style="font-size:8.5pt;color:var(--ink-2);line-height:1.55;">${esc(d.pillar3||'Onvoldoende gegevens.')}</div>
+        <div style="border-top:2px solid var(--blue-faint2);padding-top:10px;">
+          <div class="col-h" style="border-bottom:none;padding-bottom:0;margin-bottom:5px;">Pillar 3</div>
+          <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:6px;font-style:italic;">Rapportageplicht voor banken, niet voor dit object zelf.</div>
+          <div style="font-size:11px;color:var(--ink-2);line-height:1.55;">${esc(d.pillar3||'Onvoldoende gegevens.')}</div>
         </div>
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 13px;">
-          <div style="font-size:10.4px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:5px;">EU Taxonomie</div>
-          <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:5px;font-style:italic;">${esc(tax.activiteit||'7.2 Renovatie van bestaande gebouwen')}</div>
-          <div style="font-size:8.5pt;color:var(--ink-2);line-height:1.55;margin-bottom:8px;">${esc(tax.contribution||'Onvoldoende gegevens.')}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;">
-            <span class="pill p-info" style="font-size:10px;">Eligibility: ${esc(tax.eligibility_status||'onvoldoende informatie')}</span>
-            <span class="pill p-mute" style="font-size:10px;">Alignment: niet vastgesteld</span>
+        <div style="border-top:2px solid var(--blue-faint2);padding-top:10px;">
+          <div class="col-h" style="border-bottom:none;padding-bottom:0;margin-bottom:5px;">EU Taxonomie</div>
+          <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:6px;font-style:italic;">${esc(tax.activiteit||'7.2 Renovatie van bestaande gebouwen')}</div>
+          <div style="font-size:11px;color:var(--ink-2);line-height:1.55;margin-bottom:8px;">${esc(tax.contribution||'Onvoldoende gegevens.')}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px 14px;font-size:10px;color:var(--ink-3);">
+            <span>Eligibility: <b style="color:var(--ink-2);">${esc(tax.eligibility_status||'onvoldoende informatie')}</b></span>
+            <span>Alignment: <b style="color:var(--ink-2);">niet vastgesteld</b></span>
           </div>
         </div>
       </div>
 
-      <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:11px 13px;margin-bottom:10px;">
-        <div style="font-size:10.4px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:2px;">DNSH (Do No Significant Harm)</div>
+      <div style="border-top:1px solid var(--rule);padding:14px 0 2px;margin-bottom:22px;">
+        <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">DNSH (Do No Significant Harm)</div>
         <div style="font-size:10.4px;color:var(--ink-3);margin-bottom:7px;font-style:italic;">Per thema: niet beoordeeld, aandachtspunt, of bewijs aanwezig. "Niet beoordeeld" betekent: niet afzonderlijk onderzocht binnen dit dossier — geen aanname van "geen impact".</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
           ${dnshThemes.map(([key,label])=>{
@@ -4812,10 +4842,10 @@ function pageSfdrTax(d){
         </div>
       </div>
 
-      ${touched.length?`<div style="background:linear-gradient(180deg,#fbfaf7,#fff);border:1px solid #ece6dd;border-radius:11px;padding:9px 13px;margin-bottom:10px;">
-        <div style="font-size:10.4px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:6px;">SDG's — direct aantoonbaar geraakt (max. 4 per maatregel)</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          ${touched.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};return `<span title="SDG ${nr} · ${esc(sg.label)}" style="display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #ece6dd;border-radius:999px;padding:3px 9px 3px 4px;"><span style="width:16px;height:16px;border-radius:4px;background:${sg.kleur};color:#fff;font-size:10.4px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;">${nr}</span><span style="font-size:10.4px;color:var(--ink-2);">${esc(sg.label)}</span></span>`;}).join('')}
+      ${touched.length?`<div style="border-top:1px solid var(--rule);padding:14px 0 4px;margin-bottom:22px;">
+        <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ink-4);margin-bottom:8px;">SDG's geraakt door dit pakket</div>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;">
+          ${touched.map(nr=>{const sg=SDG_DB[nr]||{kleur:'#888',label:'SDG '+nr};return `<span title="SDG ${nr} · ${esc(sg.label)}" style="display:inline-flex;align-items:center;gap:6px;"><span style="width:13px;height:13px;border-radius:3px;background:${sg.kleur};color:#fff;font-size:8.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">${nr}</span><span style="font-size:10.4px;color:var(--ink-3);">${esc(sg.label)}</span></span>`;}).join('')}
         </div>
       </div>`:''}
 
@@ -4870,9 +4900,9 @@ function pageBewijsVervolg(d){
       <div class="page-title">Wat zijn de volgende stappen?</div>
       <div class="page-thin-rule"></div>
 
-      <div style="background:linear-gradient(150deg,#0d3348 0%,#134460 45%,#11684a 100%);border-radius:15px;padding:15px 20px;color:#fff;margin-bottom:9px;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 12px 32px rgba(13,51,72,.24);">
+      <div style="background:linear-gradient(150deg,var(--blue-darkest) 0%,var(--blue-deep) 45%,var(--blue-mid) 100%);border-radius:4px;padding:16px 22px;color:#fff;margin-bottom:11px;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
-        <div style="position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(31,146,89,.4),rgba(255,255,255,0) 70%);"></div>
+        <div style="position:absolute;right:-50px;top:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(37,119,160,.4),rgba(255,255,255,0) 70%);"></div>
         <div style="position:relative;font-size:10.4px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--orange);margin-bottom:7px;">Eindadvies</div>
         <div style="position:relative;font-size:17px;font-weight:800;color:#fff;line-height:1.4;margin-bottom:9px;letter-spacing:-.3px;">${esc(d.executive_conclusie||d.object_naam||'Dit dossier')}</div>
         <div style="position:relative;font-size:8.9pt;color:rgba(255,255,255,.9);line-height:1.6;margin-bottom:12px;max-width:97%;">${esc(d.assurance_tekst||buildEvidenceConclusion(d))}</div>
@@ -4902,9 +4932,9 @@ function pageBewijsVervolg(d){
         </div>
       </div>`:'';})()}
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:9px;align-items:start;">
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
-          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">Nog aan te leveren</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:20px;align-items:start;">
+        <div style="background:transparent;border-top:1px solid var(--rule);padding:14px 0 0;">
+          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Nog aan te leveren</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             ${arr(d.missing).slice(0,4).map(m=>`
               <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:flex-start;padding-bottom:7px;border-bottom:1px solid var(--blue-faint);">
@@ -4918,8 +4948,8 @@ function pageBewijsVervolg(d){
           </div>
         </div>
 
-        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:12px 14px;">
-          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:6px;">Aanbevolen vervolgstappen</div>
+        <div style="background:transparent;border-top:1px solid var(--rule);padding:14px 0 0;">
+          <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Aanbevolen vervolgstappen</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             ${arr(d.vervolg).slice(0,4).map((v,i)=>`
               <div style="display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:flex-start;padding-bottom:7px;border-bottom:1px solid var(--blue-faint);">
@@ -4931,7 +4961,7 @@ function pageBewijsVervolg(d){
         </div>
       </div>
 
-      <div style="background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.05);padding:11px 14px;margin-bottom:9px;">
+      <div style="background:transparent;border-top:1px solid var(--rule);padding:14px 0 4px;margin-bottom:20px;">
         <div style="font-size:10.4px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Bewijsniveau-pad — huidig niveau: ${lvl} van 4</div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
           ${levels.map(lv=>`
@@ -4945,7 +4975,7 @@ function pageBewijsVervolg(d){
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;gap:16px;padding:12px 20px;background:linear-gradient(135deg,#0b3d28 0%,#11684a 50%,#16774a 100%);border-radius:14px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;box-shadow:0 10px 26px rgba(11,61,40,.22);">
+      <div style="display:flex;align-items:center;gap:16px;padding:16px 22px;background:linear-gradient(135deg,var(--blue-darkest) 0%,var(--blue-deep) 55%,var(--blue-mid) 100%);border-radius:4px;color:#fff;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;">
         <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#f0a464);"></div>
         <div style="position:absolute;right:-30px;bottom:-50px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
         <div style="position:relative;">
@@ -5180,14 +5210,18 @@ if(/[?&]demo\b/.test(location.search)){ window.addEventListener('DOMContentLoade
 <!-- Extra subtle card tint override: nog minder blauw, wel zichtbaar door rand + schaduw -->
 <style id="mb-extra-subtle-card-tint">
 :root{
-  --mb-card-subtle:#FDFEFE;
-  --mb-card-subtle-2:#FBFDFF;
-  --mb-card-border:#E4EDF3;
-  --mb-card-border-soft:#EEF3F6;
-  --mb-card-shadow:0 1px 2px rgba(17,68,96,.045),0 10px 28px rgba(17,68,96,.075),0 0 0 1px rgba(27,89,123,.05);
-  --mb-card-shadow-print:0 1px 2px rgba(17,68,96,.05),0 5px 16px rgba(17,68,96,.09),0 0 0 1px rgba(27,89,123,.09);
+  --mb-card-subtle:#FFFFFF;
+  --mb-card-subtle-2:#FFFFFF;
+  --mb-card-border:transparent;
+  --mb-card-border-soft:transparent;
+  --mb-card-shadow:none;
+  --mb-card-shadow-print:none;
 }
 
+/* Editorial i.p.v. dashboard: geen schaduw/rand/afronding meer op
+   ondersteunende blokken. Inhoud staat rechtstreeks op de witte pagina;
+   waar nodig geven interne celranden (kpi-rapport, score-side, fin-strip,
+   matrix) al voldoende, rustige scheiding. */
 .a4.content .page-body [style*="background:#fff"],
 .a4.content .page-body [style*="background: #fff"],
 .a4.content .page-body [style*="background:white"],
@@ -5195,21 +5229,30 @@ if(/[?&]demo\b/.test(location.search)){ window.addEventListener('DOMContentLoade
 .a4.content .chart-card,
 .a4.content .col-card,
 .a4.content .sdg-card,
-.a4.content .verdict,
 .a4.content .kpi-rapport,
 .a4.content .score-side,
-.a4.content .matrix,
 .a4.content .fin-strip,
 .a4.content .rpt-table-card{
-  background:var(--mb-card-subtle)!important;
-  border:1px solid var(--mb-card-border)!important;
-  box-shadow:var(--mb-card-shadow)!important;
+  background:transparent!important;
+  border:none!important;
+  box-shadow:none!important;
 }
 
-.a4.content .verdict,
-.a4.content .page-body [style*="background:var(--blue-faint)"]{
-  background:var(--mb-card-subtle-2)!important;
-  border-color:var(--mb-card-border)!important;
+.a4.content .matrix{
+  background:transparent!important;
+  border:none!important;
+  border-top:1px solid var(--rule)!important;
+  box-shadow:none!important;
+}
+
+/* De conclusie/kernscore blijft het ENE opvallende kader per pagina:
+   rustige linkeraccent i.p.v. schaduw + volle rand + sterke afronding. */
+.a4.content .verdict{
+  background:var(--blue-faint)!important;
+  border:none!important;
+  border-left:3px solid var(--orange)!important;
+  border-radius:2px!important;
+  box-shadow:none!important;
 }
 
 .a4.content .page-body [style*="background:var(--page)"],
@@ -5218,8 +5261,8 @@ if(/[?&]demo\b/.test(location.search)){ window.addEventListener('DOMContentLoade
 .a4.content .page-body [style*="background:#E4F1F8"],
 .a4.content .page-body [style*="background:#F7FCFE"],
 .a4.content .page-body [style*="background:#F7F9FB"]{
-  background:#FCFCFD!important;
-  border-color:var(--mb-card-border-soft)!important;
+  background:transparent!important;
+  border-color:transparent!important;
 }
 
 .a4.content .score-card,
@@ -5237,31 +5280,41 @@ if(/[?&]demo\b/.test(location.search)){ window.addEventListener('DOMContentLoade
   .a4.content .chart-card,
   .a4.content .col-card,
   .a4.content .sdg-card,
-  .a4.content .verdict,
   .a4.content .kpi-rapport,
   .a4.content .score-side,
-  .a4.content .matrix,
   .a4.content .fin-strip,
   .a4.content .rpt-table-card{
-    background:#FDFEFE!important;
-    border:1px solid #E4EDF3!important;
-    box-shadow:var(--mb-card-shadow-print)!important;
+    background:transparent!important;
+    border:none!important;
+    box-shadow:none!important;
     -webkit-print-color-adjust:exact!important;
     print-color-adjust:exact!important;
   }
-
-  .a4.content .verdict,
-  .a4.content .page-body [style*="background:var(--blue-faint)"]{
-    background:#FBFDFF!important;
+  .a4.content .matrix{
+    background:transparent!important;
+    border:none!important;
+    border-top:1px solid var(--rule)!important;
+    box-shadow:none!important;
   }
-
+  .a4.content .verdict{
+    background:var(--blue-faint)!important;
+    border:none!important;
+    border-left:3px solid var(--orange)!important;
+    box-shadow:none!important;
+  }
   .a4.content .page-body [style*="background:var(--page)"],
   .a4.content .page-body [style*="background:#f8f6f2"],
   .a4.content .page-body [style*="background:#F1F9FD"],
   .a4.content .page-body [style*="background:#E4F1F8"],
   .a4.content .page-body [style*="background:#F7FCFE"],
   .a4.content .page-body [style*="background:#F7F9FB"]{
-    background:#FCFCFD!important;
+    background:transparent!important;
+  }
+  .a4.content .score-card,
+  .a4.content .close-card,
+  .a4.content .page-body [style*="linear-gradient(135deg,var(--blue-deep)"],
+  .a4.content .page-body [style*="linear-gradient(160deg"]{
+    border:none!important;
   }
 }
 </style>
