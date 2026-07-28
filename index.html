@@ -1342,6 +1342,38 @@ body.mb-edit-on .edit-toolbar{display:flex;}
   [contenteditable]{outline:none!important;background:transparent!important;}
 }
 </style>
+<style id="mb-saved-reports-css">
+.saved-reports{margin-bottom:6px;}
+.saved-list{display:flex;flex-direction:column;gap:10px;}
+.saved-item{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border:1.5px solid var(--rule);border-radius:13px;background:#fff;
+  padding:13px 16px;transition:border-color .18s ease,background .18s ease;
+}
+.saved-item:hover{border-color:var(--blue);background:var(--blue-faint);}
+.saved-item-info{min-width:0;}
+.saved-item-name{font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.saved-item-meta{font-size:11px;color:var(--ink-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.saved-item-actions{display:flex;gap:8px;flex-shrink:0;}
+.saved-item-btn{
+  height:32px;padding:0 13px;border-radius:8px;font-size:11.5px;font-weight:600;
+  font-family:var(--f-sans);cursor:pointer;transition:all .15s ease;white-space:nowrap;border:1px solid transparent;
+}
+.saved-item-open{background:var(--blue-deep);color:#fff;border-color:var(--blue-deep);}
+.saved-item-open:hover{background:#0d3354;}
+.saved-item-delete{background:transparent;color:var(--ink-4);border-color:var(--rule-2);}
+.saved-item-delete:hover{background:var(--red-bg);color:var(--red);border-color:rgba(138,39,39,.2);}
+
+.mb-toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);
+  background:var(--blue-deep);color:#fff;font-size:12.5px;font-weight:600;
+  padding:12px 20px;border-radius:11px;box-shadow:0 10px 30px rgba(14,42,61,.28);
+  z-index:9999;opacity:0;pointer-events:none;transition:opacity .22s ease,transform .22s ease;
+  max-width:min(420px,86vw);text-align:center;
+}
+.mb-toast.show{opacity:1;transform:translate(-50%,0);}
+.mb-toast.err{background:#8A2727;}
+</style>
 </head>
 <body>
 
@@ -1382,6 +1414,14 @@ body.mb-edit-on .edit-toolbar{display:flex;}
       <div class="eyebrow">Duurzaamheids- &amp; ESG-dossier</div>
       <h1 class="h1">Van verduurzamings­rapport naar één <em>onderbouwend</em> ESG-dossier.</h1>
       <p class="lead">Upload het verduurzamingsrapport (en optioneel een pandsfoto en brochures). De tool stelt één professioneel A4-dossier op: energieprestatie en maatregelen uit de duurzaamheidstool, gevolgd door de groene paragraaf en de volledige ESG-/SDG-/SFDR-/Taxonomie-analyse — geschikt voor de green-loan toets.</p>
+
+      <div class="saved-reports" id="savedReports" style="display:none;">
+        <div class="sec-head" style="margin-top:0;">
+          <div class="sec-label">Opgeslagen rapporten</div>
+          <div class="sec-line"></div>
+        </div>
+        <div class="saved-list" id="savedList"></div>
+      </div>
 
       <div class="sec-head">
         <div class="sec-label">Stap 1 · Bestanden</div>
@@ -1529,6 +1569,10 @@ body.mb-edit-on .edit-toolbar{display:flex;}
       <button class="btn-orange" onclick="printReport()">
         <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4V1h8v3"/><path d="M4 7h10a1 1 0 011 1v5H3V8a1 1 0 011-1z"/><path d="M5 13v4h8v-4"/></svg>
         Opslaan als PDF
+      </button>
+      <button class="btn-ghost" type="button" id="saveReportBtn" title="Dossier bewaren op het beginscherm, inclusief eventuele bewerkingen">
+        <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h9l3 3v9a1 1 0 01-1 1H3a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M6 3v4h6V3"/><path d="M5 10h8v5H5z"/></svg>
+        Dossier opslaan
       </button>
       <button class="btn-ghost" type="button" id="toggleEdit" title="Tekst, opmaak en groottes in dit dossier bewerken">
         <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l3.5 3.5-9 9-4.5 1 1-4.5z"/></svg>
@@ -5526,7 +5570,187 @@ if(/[?&]demo\b/.test(location.search)){ window.addEventListener('DOMContentLoade
     console.warn('[MBEdit] renderReport() niet gevonden bij het laden van de bewerkmodus — de koppeling na render is niet actief. De rest van de pagina blijft normaal werken.');
   }
 
-  window.MBEdit={ setEditMode:setEditMode, undo:undo, redo:redo };
+  window.MBEdit={
+    setEditMode:setEditMode, undo:undo, redo:redo, deselect:deselect,
+    /* Wordt aangeroepen nadat externe code (bijv. het openen van een
+       opgeslagen rapport) #rptStage.innerHTML rechtstreeks heeft vervangen
+       zonder via renderReport() te gaan. Verwijdert eventuele verouderde
+       bewerkmarkeringen en brengt de bewerkstatus/geschiedenis in lijn met
+       de huidige editOn-status, exact zoals na een normale (her)render. */
+    refresh:function(){
+      var s=stageEl();
+      deselect();
+      if(s){ removeText(s); removeBlocks(s); if(editOn){ annotateAll(s); } }
+      history=[]; histIdx=-1; pushHistory(true);
+    }
+  };
+})();
+</script>
+<script>
+/* ============================================================================
+ * MB Opgeslagen rapporten — dossiers bewaren op het beginscherm en terughalen
+ * ============================================================================
+ * Slaat het canonieke datamodel (currentData) én een volledige HTML-snapshot
+ * van #rptStage (dus inclusief eventuele handmatige bewerkingen uit de
+ * bewerkmodus hierboven) op in localStorage. Werkt volledig lokaal in de
+ * browser — rapporten zijn dus per browser/computer, niet gedeeld.
+ * ============================================================================ */
+(function(){
+  'use strict';
+  var STORAGE_KEY='mb_esg_saved_reports_v1';
+
+  function loadAll(){
+    try{
+      var raw=localStorage.getItem(STORAGE_KEY);
+      var arr=raw?JSON.parse(raw):[];
+      return Array.isArray(arr)?arr:[];
+    }catch(e){
+      console.warn('[MBSavedReports] kon opgeslagen rapporten niet lezen:',e);
+      return [];
+    }
+  }
+  function saveAll(list){ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+
+  function esc(s){
+    return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function fmtDate(iso){
+    try{
+      var d=new Date(iso);
+      return d.toLocaleDateString('nl-NL',{day:'numeric',month:'long',year:'numeric'})+
+        ', '+d.toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'});
+    }catch(e){ return String(iso||''); }
+  }
+
+  var toastTimer=null;
+  function showToast(msg,isError){
+    var t=document.getElementById('mbToast');
+    if(!t){
+      t=document.createElement('div');
+      t.id='mbToast';
+      t.className='mb-toast';
+      document.body.appendChild(t);
+    }
+    t.textContent=msg;
+    t.classList.toggle('err',!!isError);
+    t.classList.remove('show');
+    void t.offsetWidth; // forceer reflow zodat de fade-in opnieuw start
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){ t.classList.remove('show'); },3200);
+  }
+
+  function renderList(){
+    var wrap=document.getElementById('savedReports');
+    var list=document.getElementById('savedList');
+    if(!wrap||!list) return;
+    var items=loadAll().slice().sort(function(a,b){
+      return String(b.savedAt||'').localeCompare(String(a.savedAt||''));
+    });
+    if(!items.length){ wrap.style.display='none'; list.innerHTML=''; return; }
+    wrap.style.display='block';
+    list.innerHTML=items.map(function(it){
+      var naam=it.objectNaam||'Naamloos dossier';
+      var adres=it.objectAdres||'';
+      var metaBits=[];
+      if(adres && adres!==naam) metaBits.push(adres);
+      metaBits.push('Opgeslagen '+fmtDate(it.savedAt));
+      return '<div class="saved-item" data-id="'+esc(it.id)+'">'+
+          '<div class="saved-item-info">'+
+            '<div class="saved-item-name">'+esc(naam)+'</div>'+
+            '<div class="saved-item-meta">'+esc(metaBits.join(' · '))+'</div>'+
+          '</div>'+
+          '<div class="saved-item-actions">'+
+            '<button type="button" class="saved-item-btn saved-item-open">Openen</button>'+
+            '<button type="button" class="saved-item-btn saved-item-delete">Verwijderen</button>'+
+          '</div>'+
+        '</div>';
+    }).join('');
+  }
+
+  function saveCurrentReport(){
+    if(typeof currentData==='undefined' || !currentData){
+      showToast('Er is nog geen dossier om op te slaan.',true);
+      return;
+    }
+    var stage=document.getElementById('rptStage');
+    if(!stage || !stage.innerHTML.trim()){
+      showToast('Er is nog geen dossier om op te slaan.',true);
+      return;
+    }
+    if(window.MBEdit && typeof window.MBEdit.deselect==='function'){ window.MBEdit.deselect(); }
+    var items=loadAll();
+    var entry={
+      id:'sr'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),
+      savedAt:new Date().toISOString(),
+      objectNaam: currentData.object_naam || null,
+      objectAdres: currentData.object_adres || null,
+      data: currentData,
+      html: stage.innerHTML
+    };
+    items.push(entry);
+    try{
+      saveAll(items);
+    }catch(e){
+      console.error('[MBSavedReports] opslaan mislukt:',e);
+      showToast('Opslaan mislukt: de browseropslag zit vol. Verwijder een ouder opgeslagen rapport en probeer het opnieuw.',true);
+      return;
+    }
+    renderList();
+    showToast('Dossier opgeslagen — terug te vinden op het beginscherm bij "Opgeslagen rapporten".');
+  }
+
+  function openSavedReport(id){
+    var items=loadAll();
+    var entry=null;
+    for(var i=0;i<items.length;i++){ if(items[i].id===id){ entry=items[i]; break; } }
+    if(!entry){
+      showToast('Dit opgeslagen rapport is niet meer beschikbaar.',true);
+      renderList();
+      return;
+    }
+    currentData=entry.data;
+    var stage=document.getElementById('rptStage');
+    if(stage) stage.innerHTML=entry.html;
+    if(window.MBEdit && typeof window.MBEdit.refresh==='function'){ window.MBEdit.refresh(); }
+    document.getElementById('appPage').style.display='none';
+    document.body.classList.add('report-mode');
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+
+  function deleteSavedReport(id){
+    if(!window.confirm('Dit opgeslagen rapport definitief verwijderen? Dit kan niet ongedaan worden gemaakt.')) return;
+    var items=loadAll().filter(function(it){ return it.id!==id; });
+    saveAll(items);
+    renderList();
+    showToast('Opgeslagen rapport verwijderd.');
+  }
+
+  document.addEventListener('click',function(e){
+    var openBtn=e.target && e.target.closest ? e.target.closest('.saved-item-open') : null;
+    var delBtn=e.target && e.target.closest ? e.target.closest('.saved-item-delete') : null;
+    if(openBtn){
+      var row=openBtn.closest('.saved-item');
+      if(row) openSavedReport(row.getAttribute('data-id'));
+    } else if(delBtn){
+      var row2=delBtn.closest('.saved-item');
+      if(row2) deleteSavedReport(row2.getAttribute('data-id'));
+    }
+  });
+
+  function wire(){
+    var btn=document.getElementById('saveReportBtn');
+    if(btn) btn.addEventListener('click', saveCurrentReport);
+    renderList();
+  }
+  if(document.readyState==='loading'){ window.addEventListener('DOMContentLoaded', wire); }
+  else { wire(); }
+
+  window.MBSavedReports={
+    save:saveCurrentReport, open:openSavedReport, remove:deleteSavedReport, renderList:renderList
+  };
 })();
 </script>
 </body>
