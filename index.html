@@ -1307,7 +1307,41 @@ body.report-mode .rpt-mode{display:block;}
 }
 
 </style>
-<link rel="stylesheet" href="js/report-editor.css">
+<style id="mb-edit-mode-css">
+#toggleEdit.active{background:var(--orange)!important;border-color:var(--orange)!important;color:#fff!important;}
+body.mb-edit-on [contenteditable="true"]{cursor:text;border-radius:2px;outline:1px dashed rgba(27,89,123,.4);outline-offset:1px;}
+body.mb-edit-on [contenteditable="true"]:hover{background:rgba(27,89,123,.07);}
+body.mb-edit-on [contenteditable="true"]:focus{outline:1.5px solid var(--blue);background:rgba(27,89,123,.1);}
+body.mb-edit-on .mb-ed-block,body.mb-edit-on .mb-ed-img{cursor:pointer;}
+body.mb-edit-on .mb-ed-block:hover,body.mb-edit-on .mb-ed-img:hover{outline:1.5px dashed rgba(217,98,47,.55);outline-offset:2px;}
+body.mb-edit-on .mb-ed-selected{outline:1.5px solid var(--orange)!important;outline-offset:2px;}
+.edit-toolbar{display:none;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 28px;background:linear-gradient(180deg,#FFFFFF 0%,#F4F8FA 100%);border-bottom:2px solid var(--blue-faint2);box-shadow:0 2px 10px rgba(19,68,96,.08);font-size:12px;position:relative;z-index:5;}
+body.mb-edit-on .edit-toolbar{display:flex;}
+.et-label{color:var(--ink-3);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;}
+.et-hint{color:var(--ink-4);font-size:11px;}
+.et-sep{width:1px;height:20px;background:var(--rule-2);}
+.et-history{display:flex;align-items:center;gap:6px;background:var(--blue-faint);border:1px solid var(--blue-faint2);border-radius:99px;padding:4px 6px;}
+.et-tool{padding:5px 12px;border:1px solid transparent;border-radius:99px;background:transparent;color:var(--blue-deep);cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:600;transition:background .12s ease,color .12s ease;}
+.et-tool:hover:not(:disabled){background:#fff;box-shadow:0 1px 4px rgba(19,68,96,.15);}
+.et-tool:disabled{opacity:.35;cursor:not-allowed;}
+.et-status{font-size:10.5px;color:var(--ink-3);padding:4px 10px;border-radius:99px;background:rgba(110,110,110,.12);font-weight:600;white-space:nowrap;}
+.et-status.dirty{color:#9A6500;background:#FFF4DF;}
+.et-danger{color:#B4432F!important;}
+.et-danger:hover{background:#FDEFEA!important;}
+.mb-ed-frame{position:fixed;z-index:9000;border:1.5px solid var(--orange);background:rgba(217,98,47,.05);pointer-events:none;display:none;}
+.mb-ed-handle{position:absolute;right:-6px;bottom:-6px;width:12px;height:12px;border-radius:3px;background:var(--orange);border:1.5px solid #fff;cursor:nwse-resize;pointer-events:auto;box-shadow:0 1px 4px rgba(19,68,96,.35);}
+.mb-ed-drag{position:absolute;top:-11px;left:-11px;width:18px;height:18px;border-radius:50%;background:var(--blue-deep);color:#fff;font-size:10px;line-height:18px;text-align:center;pointer-events:auto;cursor:move;box-shadow:0 1px 4px rgba(19,68,96,.35);}
+.mb-ed-toolbar{position:fixed;z-index:9001;display:none;gap:2px;align-items:center;background:#10233F;border-radius:8px;padding:4px;box-shadow:0 6px 20px rgba(8,18,36,.35);}
+.mb-ed-toolbar button{background:transparent;border:none;color:#fff;font-size:11.5px;padding:6px 9px;border-radius:5px;cursor:pointer;font-family:inherit;white-space:nowrap;}
+.mb-ed-toolbar button:hover{background:rgba(255,255,255,.16);}
+.mb-ed-toolbar button.mb-active{background:rgba(255,255,255,.24);}
+.mb-ed-toolbar button.et-danger{color:#FF9E8A!important;}
+.mb-ed-toolbar .mb-sep{width:1px;align-self:stretch;background:rgba(255,255,255,.2);margin:2px 2px;}
+@media print{
+  .rpt-toolbar,.edit-toolbar,.mb-ed-frame,.mb-ed-toolbar,.no-print{display:none!important;}
+  [contenteditable]{outline:none!important;background:transparent!important;}
+}
+</style>
 </head>
 <body>
 
@@ -1496,11 +1530,27 @@ body.report-mode .rpt-mode{display:block;}
         <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4V1h8v3"/><path d="M4 7h10a1 1 0 011 1v5H3V8a1 1 0 011-1z"/><path d="M5 13v4h8v-4"/></svg>
         Opslaan als PDF
       </button>
+      <button class="btn-ghost" type="button" id="toggleEdit" title="Tekst, opmaak en groottes in dit dossier bewerken">
+        <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l3.5 3.5-9 9-4.5 1 1-4.5z"/></svg>
+        <span>Bewerken</span>
+      </button>
       <button class="btn-ghost" onclick="resetTool()">
         <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a6 6 0 1 0 .5-2.5"/><path d="M3 3v4h4"/></svg>
         Nieuw rapport
       </button>
     </div>
+  </div>
+  <div class="edit-toolbar no-print" id="editToolbar">
+    <span class="et-label">Bewerkmodus</span>
+    <div class="et-history">
+      <button type="button" class="et-tool" id="etUndo" title="Ongedaan maken (Ctrl+Z)" disabled>↺ Ongedaan maken</button>
+      <button type="button" class="et-tool" id="etRedo" title="Opnieuw (Ctrl+Y)" disabled>↻ Opnieuw</button>
+    </div>
+    <span class="et-status" id="etStatus">Geen wijzigingen</span>
+    <span class="et-sep"></span>
+    <span class="et-hint">Klik op tekst om te typen. Klik op een kaart, tabel of afbeelding om te verplaatsen, te schalen of te verwijderen.</span>
+    <span class="et-sep"></span>
+    <button type="button" class="et-tool et-danger" id="etReset" title="Alle bewerkingen in dit dossier ongedaan maken">Alles herstellen</button>
   </div>
   <div class="rpt-stage" id="rptStage"></div>
 </div>
@@ -5075,312 +5125,409 @@ function runDemo(){
 }
 if(/[?&]demo\b/.test(location.search)){ window.addEventListener('DOMContentLoaded',runDemo); }
 </script>
-<script src="js/report-editor-core.js"></script>
-<script src="js/report-editor-ui.js"></script>
-<script src="js/template-manager.js"></script>
 <script>
 /* ============================================================================
- * MB Report Editor — INTEGRATIE (nieuw, eigen script-blok)
+ * MB Bewerkmodus — volledig zelfstandige "alles bewerkbaar"-editor
  * ============================================================================
- * Dit blok koppelt de kant-en-klare editor (report-editor-core.js /
- * report-editor-ui.js / template-manager.js) aan de bestaande
- * rapportgenerator zonder de bestaande generatiecode te wijzigen.
- *
- * Aanpak (laagst-risico, zie taakomschrijving):
- *  1. mbAnnotateEditableFields(d) loopt NA het renderen over de resulterende
- *     DOM in #rptStage en kent data-field-attributen toe op basis van
- *     CSS-selectors/tekstlabels/structuur — puur post-render DOM-manipulatie,
- *     geen wijziging van de pageXxx()-template-string-functies zelf.
- *  2. renderReport wordt via monkey-patch (herwijzen van de globale
- *     functieverwijzing) uitgebreid met annotatie + overrides-toepassing +
- *     paginanav-verversing, zodat ELKE bestaande aanroep van renderReport(d)
- *     in de rest van de code dit automatisch meekrijgt.
- *  3. MBEditorUI.mount() wordt éénmalig aangeroepen zodra de pagina geladen
- *     is; dit hoeft niet te wachten op een eerste renderReport()-aanroep.
- *
- * Alle aanroepen naar window.MBEditor/window.MBEditorUI zijn defensief
- * (typeof/window-checks): als deze bestanden om wat voor reden dan ook niet
- * laden, blijft de rest van de pagina (renderReport, printReport, het hele
- * generatieproces) gewoon werken zoals voorheen.
+ * Vervangt de eerdere externe editor-koppeling (report-editor-core.js /
+ * report-editor-ui.js / template-manager.js — deze bestanden bestonden niet
+ * op de server en werden dus nooit geladen, waardoor er in de praktijk geen
+ * enkele bewerkfunctie actief was). Deze versie werkt volledig inline, zonder
+ * externe bestanden, en dekt alle tekst, opmaak (lettergrootte/vet/cursief/
+ * onderstreping/uitlijning) en groottes (afbeeldingen, kaarten, tabellen) in
+ * het gegenereerde rapport binnen #rptStage — naar het voorbeeld van de
+ * bewerkmodus uit de Credion-financieringsrapportgenerator (contenteditable
+ * per tekstblad + een generiek selectie-/resize-/verplaatskader met undo/redo).
  * ============================================================================ */
+(function(){
+  'use strict';
 
-/* ── Kleine, defensieve DOM-hulpfuncties voor de annotatie ── */
+  var editOn=false;
+  var seq=1;
+  var history=[];
+  var histIdx=-1;
+  var suspend=false;
+  var selectedId=null;
+  var frameEl,dragHandleEl,resizeHandleEl,toolbarEl;
 
-/** Kent data-field (en optioneel type/lockable-default) toe aan een element. Crasht nooit op een ontbrekend element. */
-function mbSetField(el, fieldId, type, lockDefault) {
-  if (!el) return null;
-  el.setAttribute('data-field', fieldId);
-  if (type) el.setAttribute('data-mb-type', type);
-  if (lockDefault) el.setAttribute('data-mb-lockable-default', 'true');
-  return el;
-}
+  function stageEl(){ return document.getElementById('rptStage'); }
+  function $id(id){ return document.getElementById(id); }
 
-/** Zoekt binnen root een element (standaard <div>) waarvan de eigen tekst exact overeenkomt met labelText. */
-function mbFindLabelEl(root, labelText, tagSelector) {
-  if (!root) return null;
-  var nodes = root.querySelectorAll(tagSelector || 'div');
-  for (var i = 0; i < nodes.length; i++) {
-    var n = nodes[i];
-    if (n.children.length === 0 && n.textContent.trim() === labelText) return n;
+  var SKIP_TAGS={SCRIPT:1,STYLE:1,INPUT:1,TEXTAREA:1,SELECT:1,OPTION:1,BUTTON:1,IFRAME:1,CANVAS:1};
+  var BLOCK_RE=/\b(panel|card|kpi|box|tile|matrix|chart|table|verdict|stat|badge|pill|grid|summary|hero|banner|score|docrow|two-col)\b/i;
+
+  function isSvg(el){ return el.namespaceURI==='http://www.w3.org/2000/svg'; }
+  function hasDirectText(el){
+    var nodes=el.childNodes;
+    for(var i=0;i<nodes.length;i++){
+      if(nodes[i].nodeType===3 && nodes[i].textContent.trim().length>0) return true;
+    }
+    return false;
   }
-  return null;
-}
+  function newId(){ return 'ed'+Date.now().toString(36)+(seq++).toString(36); }
+  function ensureId(el){ if(!el.dataset.edId) el.dataset.edId=newId(); return el.dataset.edId; }
+  function byId(id){ var s=stageEl(); return s?s.querySelector('[data-ed-id="'+id+'"]'):null; }
 
-/**
- * Zoekt een label-element op exacte tekst en kent data-field toe aan de
- * sibling die `offset` posities verderop staat (standaard de eerstvolgende
- * sibling — dit is het gangbare patroon in deze rapportgenerator: een
- * labeldiv gevolgd door een waardediv).
- */
-function mbTagByLabelText(root, labelText, fieldId, type, offset) {
-  var label = mbFindLabelEl(root, labelText);
-  if (!label) return null;
-  var el = label;
-  var steps = offset == null ? 1 : offset;
-  for (var i = 0; i < steps && el; i++) { el = el.nextElementSibling; }
-  return mbSetField(el, fieldId, type);
-}
-
-/** Zoekt het eerste element binnen root waarvan het style-attribuut de gegeven substring bevat. */
-function mbTagByStyleContains(root, styleSubstr, fieldId, type) {
-  if (!root) return null;
-  var all = root.querySelectorAll('[style]');
-  for (var i = 0; i < all.length; i++) {
-    var st = all[i].getAttribute('style') || '';
-    if (st.indexOf(styleSubstr) !== -1) return mbSetField(all[i], fieldId, type);
-  }
-  return null;
-}
-
-/**
- * Kent data-field-attributen toe over de DOM die renderReport(d) zojuist in
- * #rptStage heeft opgebouwd. Fase 1 MVP: dekt alle gevraagde categorieën
- * minstens één keer per pagina waar ze voorkomen, niet elk denkbaar
- * tekstfragment. Elk element wordt defensief opgehaald (if-checks); een
- * ontbrekend element in een rapportvariant crasht nooit.
- *
- * Belangrijk: elk data-field-id wordt hier maar op ÉÉN DOM-element gezet.
- * applyOverridesToDom() (report-editor-core.js) gebruikt
- * stage.querySelector('[data-field="…"]') — dat matcht alleen het EERSTE
- * element met die waarde. Eenzelfde datapad (bijv. bes_jaar) komt op
- * meerdere pagina's tekstueel voor, maar wordt hier bewust maar op één
- * — de duidelijkste — plek als editable veld aangemerkt, zodat een
- * override nooit stilzwijgend op de verkeerde (of maar één van twee)
- * plek(ken) terechtkomt.
- */
-function mbAnnotateEditableFields(d) {
-  try {
-    var stage = document.getElementById('rptStage');
-    if (!stage) return;
-    var pages = stage.querySelectorAll('article.a4');
-    if (!pages || !pages.length) return;
-
-    // Vaste volgorde zoals opgebouwd in renderReport(d) (stage.innerHTML = … concatenatie):
-    // cover, banksamenvatting, energie, maatregelenAdvies, financieel,
-    // subsidies, groeneParagraaf, risico, sfdrTax, bewijsVervolg.
-    var pageNames = [
-      'pageCover', 'pageBanksamenvatting', 'pageEnergie', 'pageMaatregelenAdvies',
-      'pageFinancieel', 'pageSubsidies', 'pageGroeneParagraaf', 'pageRisico',
-      'pageSfdrTax', 'pageBewijsVervolg'
-    ];
-
-    // ── Generieke pass: titel/eyebrow/subtitel, afbeeldingen, footer, disclaimers ──
-    // Geldt voor elke pagina die de betreffende class gebruikt; ontbrekende
-    // elementen worden overgeslagen (bijv. cover heeft geen .page-title).
-    pages.forEach(function (pageEl, idx) {
-      var pageName = pageNames[idx] || ('page' + idx);
-      pageEl.setAttribute('data-mb-page', pageName);
-      pageEl.setAttribute('data-mb-page-index', String(idx + 1));
-
-      mbSetField(pageEl.querySelector('.page-eyebrow'), 'block:' + pageName + ':eyebrow', 'text');
-      mbSetField(pageEl.querySelector('.page-title'), 'block:' + pageName + ':title', 'text');
-      mbSetField(pageEl.querySelector('.page-title-sub'), 'block:' + pageName + ':subtitle', 'text');
-
-      // Logo's / pandsfoto's — altijd standaard vergrendelbaar.
-      var imgs = pageEl.querySelectorAll('img');
-      imgs.forEach(function (img, i) {
-        mbSetField(img, 'block:' + pageName + ':image:' + i, 'image', true);
-      });
-
-      // Vaste footer (pageFoot()) — standaard vergrendelbaar.
-      var foot = pageEl.querySelector('.page-foot');
-      if (foot) mbSetField(foot, 'block:' + pageName + ':footer', 'block', true);
-      // Cover heeft een eigen voettekst-structuur i.p.v. .page-foot.
-      var coverFoot = pageEl.querySelector('.cover-foot');
-      if (coverFoot) mbSetField(coverFoot, 'block:' + pageName + ':footer', 'block', true);
-
-      // Disclaimers — standaard vergrendelbaar.
-      var disclaimers = pageEl.querySelectorAll('.disclaimer-note');
-      disclaimers.forEach(function (dn, i) {
-        mbSetField(dn, 'block:' + pageName + ':disclaimer:' + i, 'block', true);
-      });
-    });
-
-    // ── PAGINA 1 — COVER (pageCover) ──
-    var pCover = pages[0];
-    if (pCover) {
-      mbSetField(pCover.querySelector('.cover-title'), 'block:pageCover:title', 'text');
-      mbSetField(pCover.querySelector('.cover-sub'), 'block:pageCover:subtitle', 'text');
-      mbSetField(pCover.querySelector('.cover-eyebrow'), 'block:pageCover:eyebrow', 'text');
-    }
-
-    // ── PAGINA 2 — MANAGEMENTSAMENVATTING & KERNCIJFERS (pageBanksamenvatting) ──
-    var pBank = pages[1];
-    if (pBank) {
-      mbSetField(pBank.querySelector('.sc-num'), 'bankscore', 'amount');
-      mbSetField(pBank.querySelector('.verdict-text'), 'content:managementSummary', 'text');
-    }
-
-    // ── PAGINA 3 — ENERGIEPRESTATIE (pageEnergie) ──
-    var pEnergie = pages[2];
-    if (pEnergie) {
-      mbTagByLabelText(pEnergie, 'Huidig energielabel', 'huidig_label', 'text');
-      mbTagByLabelText(pEnergie, 'Doellabel na uitvoering', 'streef_label', 'text');
-      mbTagByLabelText(pEnergie, 'Energiekosten huidig', 'energiekosten_huidig', 'amount');
-      mbTagByLabelText(pEnergie, 'Jaarlijkse besparing', 'bes_jaar', 'amount');
-      mbTagByLabelText(pEnergie, 'CO₂-reductie', 'co2_reductie_ton', 'amount');
-      mbTagByLabelText(pEnergie, 'Terugverdientijd', 'tvt_jaar', 'amount');
-      // "Korte diagnose" col-card: label -> volgende sibling-div is de tekst.
-      mbTagByLabelText(pEnergie, 'Korte diagnose', 'content:diagnosis', 'text', 1);
-    }
-
-    // ── PAGINA 4 — MAATREGELEN & PRIORITERING (pageMaatregelenAdvies) ──
-    var pMaatregelen = pages[3];
-    if (pMaatregelen) {
-      var msTable = pMaatregelen.querySelector('table');
-      if (msTable) {
-        var msRows = msTable.querySelectorAll('tbody > tr');
-        var msIdx = 0;
-        msRows.forEach(function (tr) {
-          var tds = tr.querySelectorAll('td');
-          // Datarijen hebben altijd exact 6 cellen (naam/investering/opbrengst/tvt/co2/volgorde).
-          // De totaalrij (colspan) en de "geen maatregelen"-fallback (colspan=6, 1 cel) vallen hierdoor vanzelf af.
-          if (tds.length !== 6) return;
-          var i = msIdx++;
-          mbSetField(tr, 'maatregelen[' + i + ']', 'table');
-          mbSetField(tds[0], 'maatregelen[' + i + '].naam', 'text');
-          mbSetField(tds[1], 'maatregelen[' + i + '].capex', 'amount');
-          mbSetField(tds[2], 'maatregelen[' + i + '].bes', 'amount');
-          mbSetField(tds[3], 'maatregelen[' + i + '].tvt', 'amount');
-          mbSetField(tds[4], 'maatregelen[' + i + '].co2', 'amount');
-          mbSetField(tds[5], 'maatregelen[' + i + '].priority_tier', 'text');
-        });
-      }
-      // CO2-slotzin + opbrengst/jr-toelichting (buildCo2Sentence(d) is hier het laatste onderdeel van deze alinea).
-      mbTagByStyleContains(pMaatregelen, 'margin-top:7px;border-top:1px solid var(--blue-faint);padding-top:6px;', 'content:co2Sentence', 'text');
-    }
-
-    // ── PAGINA 5 — FINANCIËLE ANALYSE & SCENARIO'S (pageFinancieel) ──
-    var pFin = pages[4];
-    if (pFin) {
-      // bes_jaar/tvt_jaar/huidig_label/streef_label/co2_reductie_ton staan al
-      // op pagina 3 (pageEnergie) gebonden — hier alleen velden die daar niet
-      // al als losstaande tegel voorkomen, om dubbele data-field-ids te vermijden.
-      mbTagByLabelText(pFin, 'Bruto investering', 'capex_totaal', 'amount');
-      mbTagByLabelText(pFin, 'Break-even', 'break_even_jaar', 'amount');
-    }
-
-    // ── PAGINA 6 — SUBSIDIES & BEWIJSSTUKKEN (pageSubsidies) ──
-    var pSubs = pages[5];
-    if (pSubs) {
-      var subsGrid = pSubs.querySelector('div[style*="grid-template-columns:1fr 1fr"]');
-      if (subsGrid) {
-        Array.prototype.forEach.call(subsGrid.children, function (card, i) {
-          mbSetField(card, 'subsidies[' + i + ']', 'block');
-        });
-      }
-      var evTable = pSubs.querySelector('.col-card table');
-      if (evTable) {
-        var evRows = evTable.querySelectorAll('tbody > tr');
-        evRows.forEach(function (tr, i) {
-          var tds = tr.querySelectorAll('td');
-          if (tds.length !== 3) return;
-          mbSetField(tr, 'evidence[' + i + ']', 'table');
-          mbSetField(tds[0], 'evidence[' + i + '].ond', 'text');
-          mbSetField(tds[1], 'evidence[' + i + '].w', 'text');
-          mbSetField(tds[2], 'evidence[' + i + '].actie', 'text');
-        });
-      }
-      // .disclaimer-note is al gedekt in de generieke pass hierboven.
-    }
-
-    // ── PAGINA 7 — ESG-DUIDING & FINANCIERINGSADVIES (pageGroeneParagraaf) ──
-    // Deze pagina gebruikt een eigen hero i.p.v. .page-title/.page-eyebrow.
-    var pGroen = pages[6];
-    if (pGroen) {
-      mbTagByStyleContains(pGroen, 'font-size:23px;font-weight:800;line-height:1.04', 'block:pageGroeneParagraaf:title', 'text');
-      mbTagByStyleContains(pGroen, 'position:relative;font-size:8.9pt;color:rgba(255,255,255,.93);', 'content:financingConclusion', 'text');
-    }
-
-    // ── PAGINA 8 — RISICOMATRIX & FINANCIERINGSVOORWAARDEN (pageRisico) ──
-    var pRisico = pages[7];
-    if (pRisico) {
-      var matrix = pRisico.querySelector('.matrix');
-      if (matrix) {
-        var cells = Array.prototype.filter.call(matrix.children, function (c) {
-          return !c.classList.contains('mh'); // headers (Risico/Kans/Impact/Score/Beheersmaatregel) overslaan
-        });
-        // Iedere risicorij bestaat uit 5 opeenvolgende cellen: risiconaam, kans, impact, score, beheersmaatregel.
-        for (var ri = 0; (ri * 5 + 4) < cells.length; ri++) {
-          var base = ri * 5;
-          mbSetField(cells[base], 'risicos[' + ri + ']', 'block'); // risiconaam = rij-anker
-          mbSetField(cells[base + 4], 'risicos[' + ri + '].action', 'text'); // beheersmaatregel
+  /* ── Stap 1: contenteditable toekennen aan élk tekstblad, tot op het
+     diepste niveau (labels, waardes, tabelcellen, alinea's, koppen, …) —
+     geen geneste contenteditable-elementen, dus geen dubbele cursors. ── */
+  function annotateText(root){
+    (function walk(node){
+      var kids=node.children; if(!kids) return;
+      for(var i=0;i<kids.length;i++){
+        var el=kids[i];
+        if(!el || el.nodeType!==1) continue;
+        if(SKIP_TAGS[el.tagName]) continue;
+        if(isSvg(el)) continue;
+        if(el.classList && (el.classList.contains('no-print')||el.id==='editToolbar'||el.id==='rpt-toolbar')) continue;
+        if(hasDirectText(el)){
+          el.setAttribute('contenteditable','true');
+          el.classList.add('mb-ed-text');
+          continue; // niet verder afdalen: voorkomt geneste contenteditable
         }
+        walk(el);
       }
-    }
-
-    // ── PAGINA 9 — SFDR / PILLAR 3 / EU TAXONOMIE / DNSH (pageSfdrTax) ──
-    var pSfdr = pages[8];
-    if (pSfdr) {
-      // "In gewone taal"-toelichtingsblok bovenaan = de regulatoire duiding in lopende tekst.
-      mbTagByLabelText(pSfdr, 'In gewone taal', 'content:regulatoryExplanation', 'text', 1);
-      // SFDR/Pillar 3-kaartjes: label -> (italic subtekst) -> waarde, dus offset 2.
-      mbTagByLabelText(pSfdr, 'SFDR', 'sfdr', 'text', 2);
-      mbTagByLabelText(pSfdr, 'Pillar 3', 'pillar3', 'text', 2);
-    }
-
-    // ── PAGINA 10 — EINDADVIES & VERVOLGSTAPPEN (pageBewijsVervolg) ──
-    var pEind = pages[9];
-    if (pEind) {
-      mbTagByStyleContains(pEind, 'font-size:17px;font-weight:800;color:#fff;line-height:1.4;', 'content:executiveConclusion', 'text');
-      mbTagByStyleContains(pEind, 'font-size:8.9pt;color:rgba(255,255,255,.9);line-height:1.6;', 'content:evidenceConclusion', 'text');
-    }
-  } catch (e) {
-    console.error('[MBEditor] mbAnnotateEditableFields: onverwachte fout, rapport blijft zichtbaar zonder (volledige) annotatie', e);
+    })(root);
   }
-}
-
-/* ── Render-hook: monkey-patch op ÉÉN plek, niet verspreid door de bestaande code ── */
-if (typeof renderReport === 'function') {
-  var __mbOrigRenderReport = renderReport;
-  renderReport = function (d) {
-    __mbOrigRenderReport(d);
-    try { mbAnnotateEditableFields(d); } catch (e) { console.error('[MBEditor] annotatie mislukt', e); }
-    try { if (window.MBEditor) window.MBEditor.applyOverridesToDom(); } catch (e) { console.error('[MBEditor] overrides toepassen mislukt', e); }
-    try { if (window.MBEditorUI) window.MBEditorUI.refreshPageNav(); } catch (e) { console.error('[MBEditor] paginanav vernieuwen mislukt', e); }
-  };
-} else {
-  console.warn('[MBEditor] renderReport() niet gevonden bij het laden van de editor-integratie — de editor-koppeling na render is niet actief. De rest van de pagina blijft normaal werken.');
-}
-
-/* ── Eenmalige mount van de editor-chrome zodra de pagina geladen is ── */
-function mbInitEditorUi() {
-  try {
-    var stage = document.getElementById('rptStage');
-    if (stage && window.MBEditorUI && typeof window.MBEditorUI.mount === 'function') {
-      window.MBEditorUI.mount(stage);
-    }
-  } catch (e) {
-    console.error('[MBEditor] initialisatie van de editor-UI mislukt — het bestaande rapportgeneratieproces blijft ongewijzigd werken', e);
+  function removeText(root){
+    root.querySelectorAll('[contenteditable="true"]').forEach(function(el){
+      el.removeAttribute('contenteditable'); el.classList.remove('mb-ed-text');
+    });
   }
-}
-if (document.readyState === 'loading') {
-  window.addEventListener('DOMContentLoaded', mbInitEditorUi);
-} else {
-  // DOM is al klaar (script staat aan het einde van <body>) — direct mounten.
-  mbInitEditorUi();
-}
 
+  /* ── Stap 2: selecteerbare "objecten" (kaarten, tabellen, afbeeldingen) —
+     te verplaatsen, te schalen, te dupliceren of te verwijderen. ── */
+  function annotateBlocks(root){
+    root.querySelectorAll('img').forEach(function(img){
+      img.classList.add('mb-ed-img'); ensureId(img);
+    });
+    root.querySelectorAll('[class]').forEach(function(el){
+      if(SKIP_TAGS[el.tagName]) return;
+      if(isSvg(el)) return;
+      if(!BLOCK_RE.test(el.className)) return;
+      if(el.offsetWidth<40 || el.offsetHeight<16) return;
+      el.classList.add('mb-ed-block'); ensureId(el);
+    });
+    root.querySelectorAll('table').forEach(function(t){ t.classList.add('mb-ed-block'); ensureId(t); });
+  }
+  function removeBlocks(root){
+    root.querySelectorAll('.mb-ed-block,.mb-ed-img').forEach(function(el){
+      el.classList.remove('mb-ed-block','mb-ed-img','mb-ed-selected');
+    });
+  }
+  function annotateAll(root){ if(root) { annotateText(root); annotateBlocks(root); } }
+
+  /* ── Bewerkmodus aan/uit ── */
+  function setEditMode(on){
+    editOn=on;
+    document.body.classList.toggle('mb-edit-on',on);
+    var s=stageEl();
+    if(s){
+      if(on){ annotateAll(s); history=[]; histIdx=-1; pushHistory(true); }
+      else { deselect(); removeText(s); removeBlocks(s); }
+    }
+    updateToggleLabel();
+    updateHistButtons();
+  }
+  function updateToggleLabel(){
+    var btn=$id('toggleEdit'); if(!btn) return;
+    btn.classList.toggle('active', editOn);
+    var span=btn.querySelector('span');
+    var txt = editOn ? 'Klaar met bewerken' : 'Bewerken';
+    if(span) span.textContent=txt; else btn.textContent=txt;
+  }
+
+  /* ── Geschiedenis (undo/redo) — DOM-snapshots van #rptStage ── */
+  function pushHistory(isBaseline){
+    if(suspend) return;
+    var s=stageEl(); if(!s) return;
+    var html=s.innerHTML;
+    if(!isBaseline && history[histIdx]===html) return;
+    history=history.slice(0,histIdx+1);
+    history.push(html);
+    if(history.length>60) history.shift();
+    histIdx=history.length-1;
+    setDirty(!isBaseline && histIdx>0);
+    updateHistButtons();
+  }
+  function restoreHistory(idx){
+    var s=stageEl(); if(!s || idx<0 || idx>=history.length) return;
+    suspend=true;
+    deselect();
+    s.innerHTML=history[idx];
+    annotateAll(s);
+    suspend=false;
+    histIdx=idx;
+    updateHistButtons();
+    setDirty(idx>0);
+  }
+  function undo(){ if(histIdx>0) restoreHistory(histIdx-1); }
+  function redo(){ if(histIdx<history.length-1) restoreHistory(histIdx+1); }
+  function updateHistButtons(){
+    var u=$id('etUndo'), r=$id('etRedo');
+    if(u) u.disabled = histIdx<=0;
+    if(r) r.disabled = histIdx>=history.length-1;
+  }
+  function setDirty(on){
+    var st=$id('etStatus'); if(!st) return;
+    st.textContent = on ? 'Niet-opgeslagen wijzigingen' : 'Geen wijzigingen';
+    st.classList.toggle('dirty',!!on);
+  }
+
+  /* ── Tekstwijzigingen loggen bij verlaten van een veld ── */
+  document.addEventListener('focusout',function(e){
+    if(!editOn) return;
+    var el=e.target;
+    if(el && el.getAttribute && el.getAttribute('contenteditable')==='true'){ pushHistory(false); }
+  },true);
+
+  /* ── Selectiekader + zwevende mini-werkbalk ── */
+  function ensureFrame(){
+    if(frameEl) return;
+    frameEl=document.createElement('div'); frameEl.className='mb-ed-frame no-print';
+    dragHandleEl=document.createElement('div'); dragHandleEl.className='mb-ed-drag'; dragHandleEl.textContent='⠿'; dragHandleEl.title='Slepen om te verplaatsen';
+    resizeHandleEl=document.createElement('div'); resizeHandleEl.className='mb-ed-handle'; resizeHandleEl.title='Slepen om te schalen';
+    frameEl.appendChild(dragHandleEl); frameEl.appendChild(resizeHandleEl);
+    document.body.appendChild(frameEl);
+    toolbarEl=document.createElement('div'); toolbarEl.className='mb-ed-toolbar no-print';
+    document.body.appendChild(toolbarEl);
+    resizeHandleEl.addEventListener('pointerdown',function(e){ e.preventDefault(); e.stopPropagation(); var el=byId(selectedId); if(el) beginResize(el,e); });
+    dragHandleEl.addEventListener('pointerdown',function(e){ e.preventDefault(); e.stopPropagation(); var el=byId(selectedId); if(el) beginMove(el,e); });
+  }
+  function select(el){
+    if(!el) return;
+    ensureId(el);
+    var s=stageEl(); if(s) s.querySelectorAll('.mb-ed-selected').forEach(function(x){x.classList.remove('mb-ed-selected');});
+    selectedId=el.dataset.edId;
+    el.classList.add('mb-ed-selected');
+    reposition();
+  }
+  function deselect(){
+    selectedId=null;
+    var s=stageEl(); if(s) s.querySelectorAll('.mb-ed-selected').forEach(function(x){x.classList.remove('mb-ed-selected');});
+    if(frameEl) frameEl.style.display='none';
+    if(toolbarEl) toolbarEl.style.display='none';
+  }
+  function reposition(){
+    var el=byId(selectedId);
+    if(!el){ if(frameEl) frameEl.style.display='none'; if(toolbarEl) toolbarEl.style.display='none'; return; }
+    ensureFrame();
+    var r=el.getBoundingClientRect();
+    frameEl.style.display='block';
+    frameEl.style.left=(r.left-2)+'px'; frameEl.style.top=(r.top-2)+'px';
+    frameEl.style.width=(r.width+4)+'px'; frameEl.style.height=(r.height+4)+'px';
+    var isTextOnly = el.classList.contains('mb-ed-text') && !el.classList.contains('mb-ed-block') && !el.classList.contains('mb-ed-img');
+    dragHandleEl.style.display = isTextOnly ? 'none' : 'flex';
+    dragHandleEl.style.alignItems='center'; dragHandleEl.style.justifyContent='center';
+    resizeHandleEl.style.display = isTextOnly ? 'none' : 'block';
+    buildToolbar(el,r);
+  }
+  window.addEventListener('scroll',function(){ if(selectedId) reposition(); },{passive:true});
+  window.addEventListener('resize',function(){ if(selectedId) reposition(); });
+
+  function currentScale(el){ var m=/scale\(([\d.]+)\)/.exec(el.style.transform||''); return m?parseFloat(m[1]):1; }
+  function setScale(el,v){
+    v=Math.max(.4,Math.min(3,v));
+    el.style.transformOrigin='top left';
+    var t=(el.style.transform||'').replace(/\s*scale\([^)]*\)/,'');
+    el.style.transform=(t+' scale('+v.toFixed(2)+')').trim();
+  }
+  function currentFontPx(el){
+    var v=parseFloat(el.style.fontSize); if(v) return v;
+    return parseFloat(window.getComputedStyle(el).fontSize)||13;
+  }
+  function setFontPx(el,v){ el.style.fontSize=Math.max(6,Math.min(72,v))+'px'; }
+
+  function buildToolbar(el,rect){
+    ensureFrame();
+    var isText=el.classList.contains('mb-ed-text');
+    var isImg=el.tagName==='IMG';
+    var html='';
+    if(isText){
+      var isBold=el.style.fontWeight==='700', isItalic=el.style.fontStyle==='italic', isUnderline=el.style.textDecoration==='underline';
+      var align=el.style.textAlign||'';
+      html += '<button type="button" data-a="fdec" title="Tekst kleiner">A−</button>'
+            + '<button type="button" data-a="finc" title="Tekst groter">A+</button>'
+            + '<span class="mb-sep"></span>'
+            + '<button type="button" class="'+(isBold?'mb-active':'')+'" data-a="b" title="Vet"><b>V</b></button>'
+            + '<button type="button" class="'+(isItalic?'mb-active':'')+'" data-a="i" title="Cursief"><i>C</i></button>'
+            + '<button type="button" class="'+(isUnderline?'mb-active':'')+'" data-a="u" title="Onderstrepen"><u>O</u></button>'
+            + '<span class="mb-sep"></span>'
+            + '<button type="button" class="'+(align==='left'?'mb-active':'')+'" data-a="al" title="Links uitlijnen">L</button>'
+            + '<button type="button" class="'+(align==='center'?'mb-active':'')+'" data-a="ac" title="Centreren">M</button>'
+            + '<button type="button" class="'+(align==='right'?'mb-active':'')+'" data-a="ar" title="Rechts uitlijnen">R</button>';
+    } else if(isImg){
+      html += '<button type="button" data-a="wdec" title="Kleiner">⤡−</button>'
+            + '<button type="button" data-a="winc" title="Groter">⤡+</button>'
+            + '<span class="mb-sep"></span>'
+            + '<button type="button" data-a="replace" title="Andere afbeelding kiezen">Vervangen</button>';
+    } else {
+      html += '<button type="button" data-a="sdec" title="Kleiner">⤡−</button>'
+            + '<button type="button" data-a="sinc" title="Groter">⤡+</button>';
+    }
+    html += '<span class="mb-sep"></span>'
+          + '<button type="button" data-a="dup" title="Dupliceren">Dupliceren</button>'
+          + '<button type="button" class="et-danger" data-a="del" title="Verwijderen">Verwijderen</button>';
+    toolbarEl.innerHTML=html;
+    toolbarEl.style.display='flex';
+    var top=Math.max(6, rect.top-40);
+    toolbarEl.style.left=rect.left+'px'; toolbarEl.style.top=top+'px';
+    toolbarEl.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('pointerdown',function(e){e.stopPropagation();});
+      btn.addEventListener('click',function(e){ e.stopPropagation(); runAction(btn.dataset.a, el); });
+    });
+  }
+
+  function runAction(a, el){
+    switch(a){
+      case 'fdec': setFontPx(el, currentFontPx(el)-1); break;
+      case 'finc': setFontPx(el, currentFontPx(el)+1); break;
+      case 'b': el.style.fontWeight = el.style.fontWeight==='700' ? '' : '700'; break;
+      case 'i': el.style.fontStyle = el.style.fontStyle==='italic' ? '' : 'italic'; break;
+      case 'u': el.style.textDecoration = el.style.textDecoration==='underline' ? '' : 'underline'; break;
+      case 'al': el.style.textAlign='left'; break;
+      case 'ac': el.style.textAlign='center'; break;
+      case 'ar': el.style.textAlign='right'; break;
+      case 'wdec': resizeImgBy(el,-24); break;
+      case 'winc': resizeImgBy(el, 24); break;
+      case 'sdec': setScale(el, currentScale(el)-.1); break;
+      case 'sinc': setScale(el, currentScale(el)+.1); break;
+      case 'replace': replaceImage(el); return; // asynchroon, pushHistory gebeurt in de callback
+      case 'dup': duplicateEl(el); return;
+      case 'del': deleteEl(el); return;
+    }
+    reposition();
+    pushHistory(false);
+  }
+
+  function resizeImgBy(img,delta){
+    var w=img.getBoundingClientRect().width + delta;
+    w=Math.max(40,w);
+    img.style.width=w+'px'; img.style.height='auto'; img.style.maxWidth='none';
+  }
+  function replaceImage(img){
+    var inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+    inp.addEventListener('change',function(){
+      var f=inp.files && inp.files[0]; if(!f) return;
+      var reader=new FileReader();
+      reader.onload=function(){ img.src=reader.result; pushHistory(false); };
+      reader.readAsDataURL(f);
+    });
+    inp.click();
+  }
+  function duplicateEl(el){
+    var clone=el.cloneNode(true);
+    clone.removeAttribute('data-ed-id');
+    clone.querySelectorAll('[data-ed-id]').forEach(function(x){x.removeAttribute('data-ed-id');});
+    el.parentNode.insertBefore(clone, el.nextSibling);
+    ensureId(clone);
+    annotateBlocks(clone); annotateText(clone);
+    select(clone);
+    pushHistory(false);
+  }
+  function deleteEl(el){
+    if(!window.confirm('Dit onderdeel verwijderen?')) return;
+    el.remove();
+    deselect();
+    pushHistory(false);
+  }
+
+  /* ── Klik-om-te-selecteren via event delegation ── */
+  document.addEventListener('pointerdown',function(e){
+    if(!editOn) return;
+    if(e.target.closest('.mb-ed-frame,.mb-ed-toolbar,.edit-toolbar,.rpt-toolbar')) return;
+    var textHit=e.target.closest('[contenteditable="true"]');
+    if(textHit){ select(textHit); return; }
+    var hit=e.target.closest('.mb-ed-block,.mb-ed-img');
+    if(hit){ select(hit); }
+    else if(e.target.closest('#rptStage')){ deselect(); }
+  });
+
+  function beginMove(el,e){
+    // Het rapport gebruikt een vaste A4-gridopbouw, dus "verplaatsen" werkt
+    // via een translate-verschuiving (geen vrije positionering) — dit is
+    // met undo/redo terug te draaien en houdt de paginaflow intact.
+    var startX=e.clientX,startY=e.clientY;
+    var startT=el.style.transform||'';
+    var baseX=0, baseY=0;
+    var m=/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(startT);
+    if(m){ baseX=parseFloat(m[1]); baseY=parseFloat(m[2]); }
+    var scalePart = startT.replace(/translate\([^)]*\)\s*/,'');
+    function move(ev){
+      var dx=ev.clientX-startX, dy=ev.clientY-startY;
+      el.style.transform='translate('+(baseX+dx)+'px,'+(baseY+dy)+'px) '+scalePart;
+      reposition();
+    }
+    function up(){
+      document.removeEventListener('pointermove',move);
+      document.removeEventListener('pointerup',up);
+      pushHistory(false);
+    }
+    document.addEventListener('pointermove',move);
+    document.addEventListener('pointerup',up);
+  }
+  function beginResize(el,e){
+    var startX=e.clientX,startY=e.clientY;
+    if(el.tagName==='IMG'){
+      function movei(ev){ resizeImgBy(el, (ev.clientX-startX)); startX=ev.clientX; reposition(); }
+      function upi(){ document.removeEventListener('pointermove',movei); document.removeEventListener('pointerup',upi); pushHistory(false); }
+      document.addEventListener('pointermove',movei);
+      document.addEventListener('pointerup',upi);
+    } else {
+      var startScale=currentScale(el);
+      function move(ev){
+        var d=(ev.clientX-startX)+(ev.clientY-startY);
+        setScale(el, startScale + d/220);
+        reposition();
+      }
+      function up(){ document.removeEventListener('pointermove',move); document.removeEventListener('pointerup',up); pushHistory(false); }
+      document.addEventListener('pointermove',move);
+      document.addEventListener('pointerup',up);
+    }
+  }
+
+  /* ── Toetsenbord ── */
+  document.addEventListener('keydown',function(e){
+    if(!editOn) return;
+    var mod=e.ctrlKey||e.metaKey;
+    var inText = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('contenteditable')==='true';
+    if(mod && e.key.toLowerCase()==='z' && !e.shiftKey){ e.preventDefault(); undo(); return; }
+    if(mod && (e.key.toLowerCase()==='y' || (e.shiftKey && e.key.toLowerCase()==='z'))){ e.preventDefault(); redo(); return; }
+    if(e.key==='Delete' && selectedId && !inText){ var el=byId(selectedId); if(el) deleteEl(el); }
+    if(e.key==='Escape'){ deselect(); }
+  });
+
+  /* ── Toggle-knop + toolbarknoppen wiren ── */
+  function mbWireUi(){
+    var t=$id('toggleEdit'); if(t) t.addEventListener('click',function(){ setEditMode(!editOn); });
+    var u=$id('etUndo'); if(u) u.addEventListener('click',undo);
+    var r=$id('etRedo'); if(r) r.addEventListener('click',redo);
+    var reset=$id('etReset'); if(reset) reset.addEventListener('click',function(){
+      if(history.length && window.confirm('Alle bewerkingen in dit dossier ongedaan maken en teruggaan naar de oorspronkelijke versie?')) restoreHistory(0);
+    });
+  }
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', mbWireUi);
+  } else {
+    // DOM is al klaar (script staat aan het einde van <body>) — direct wiren.
+    mbWireUi();
+  }
+
+  /* ── Meeliften op elke (her)render: bewerkmodus blijft actief na
+     "Genereer ESG-dossier" — nieuwe data reset uiteraard de geschiedenis. ── */
+  if (typeof renderReport === 'function') {
+    var __mbOrigRenderReport = renderReport;
+    renderReport = function (d) {
+      __mbOrigRenderReport(d);
+      deselect();
+      if (editOn) { annotateAll(stageEl()); history=[]; histIdx=-1; pushHistory(true); }
+    };
+  } else {
+    console.warn('[MBEdit] renderReport() niet gevonden bij het laden van de bewerkmodus — de koppeling na render is niet actief. De rest van de pagina blijft normaal werken.');
+  }
+
+  window.MBEdit={ setEditMode:setEditMode, undo:undo, redo:redo };
+})();
 </script>
 </body>
 </html>
@@ -5572,3 +5719,4 @@ if (document.readyState === 'loading') {
   }
 }
 </style>
+
